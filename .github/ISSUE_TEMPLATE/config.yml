@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/bounswe/bounswe2024group10/issues/new?template=error_issue_template.md
     about: An issue for fixing an unexpected behaviour.
   - name: Issue for actions
-    url: https://github.com/bounswe/bounswe2024group11/issues/new?template=action_issue_template.md
+    url: https://github.com/bounswe/bounswe2024group10/issues/new?template=action_issue_template.md
     about: An issue for getting a certain task done.
