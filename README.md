@@ -23,6 +23,6 @@ Animal Trove is an application in which people can share animals they see all ar
 
 ### You can access the project-related documents below.
 * [Mockups](https://github.com/bounswe/bounswe2024group10/wiki/mockups)
-* [Scenerio-1](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-1), [Scenerio-2](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-2), [Scenerio-3](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-3), [Scenerio-4](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-4), [Scenerio-5](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-5)
+* [Scenario-1](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-1), [Scenario-2](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-2), [Scenario-3](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-3), [Scenario-4](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-4), [Scenario-5](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-5), [Scenario 6](https://github.com/bounswe/bounswe2024group10/wiki/Scenario-6)
 * [Elicitation Questions](https://github.com/bounswe/bounswe2024group10/wiki/Elicitation-Questions)
 * [Requirements](https://github.com/bounswe/bounswe2024group10/wiki/Requirements)
