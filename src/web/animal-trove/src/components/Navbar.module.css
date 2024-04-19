@@ -1,0 +1,23 @@
+.container{
+    height: 100vh;
+    background-color: beige;
+    padding: 14;
+    width: 100%;
+}
+
+.navList{
+    display: flex;
+    flex-direction: column;
+    background-color: aqua;
+    gap: 24px;
+}
+.navElement{
+    padding:4;
+    background-color: #ffffff;
+    
+}
+
+.navLink{
+    text-decoration: none;
+   
+}

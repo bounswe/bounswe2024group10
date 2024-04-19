@@ -1,0 +1,19 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap:32px;
+    height: 100vh;
+    justify-content: space-between;
+    background-color: aqua;
+    width: 100vw;
+    background-color: #f00
+}
+.sideBarContainer{
+    flex-basis: 20%;
+    min-width: 300px;
+}
+.pageContainer{
+    flex-basis: 100%;
+    background-color: blue;
+}
