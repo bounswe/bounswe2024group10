@@ -1,28 +1,27 @@
 import { Link } from "react-router-dom";
-import MainLayout from "../MainLayout";
-import styles from './Navbar.module.css';
-
+import styles from "./Navbar.module.css";
+import { IconHome, IconUser } from "@tabler/icons-react";
 const navBarOptions = [
-  { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Contact', path: '/contact' }
-]
+  { name: "Home", path: "/", Icon: IconHome },
+
+  { name: "Profile", path: "/me", Icon: IconUser },
+];
 
 const Navbar = () => {
   return (
     <nav className={styles.container}>
       <ul className={styles.navList}>
-        {
-          navBarOptions.map(({ name, path }) => (
-            <li key={name} className={styles.navElement}>
-              <Link className={styles.navLink} to={path}>{name}</Link>
-            </li>
-          ))
-        }
-       
+        {navBarOptions.map(({ name, path, Icon }) => (
+          <li key={name} className={styles.navElement}>
+            <Link className={styles.navLink} to={path}>
+              {Icon && <Icon size={24} />}
+              {name}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
-}
+};
 
-export default Navbar
+export default Navbar;

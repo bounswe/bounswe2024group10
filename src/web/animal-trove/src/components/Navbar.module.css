@@ -1,23 +1,29 @@
-.container{
-    height: 100vh;
-    background-color: beige;
-    padding: 14;
-    width: 100%;
+.container {
+  height: 100vh;
+  padding: 14;
+  width: 100%;
 }
 
-.navList{
-    display: flex;
-    flex-direction: column;
-    background-color: aqua;
-    gap: 24px;
+.navList {
+  display: flex;
+  flex-direction: column;
 }
-.navElement{
-    padding:4;
-    background-color: #ffffff;
-    
+.navElement {
+  cursor: pointer;
+  transition: all 0.1s;
+
+  background-color: #ffffff;
+  border-bottom: #c5d6c4 solid 1px;
+}
+.navElement:hover {
+  background-color: #c5d6c4;
 }
 
-.navLink{
-    text-decoration: none;
-   
+.navLink {
+  padding: 12px 24px;
+  color: #274608;
+  text-decoration: none;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
