@@ -15,7 +15,7 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "region", nullable = false)
+    @Column(name = "region")
     private String region;
 
     @Column(name = "eating_type")
@@ -24,7 +24,7 @@ public class Animal {
     @Column(name = "latin_name")
     private String latinName;
 
-    @Column(name = "common_name", nullable = false)
+    @Column(name = "common_name")
     private String commonName;
 
     @Column(name = "average_life")
