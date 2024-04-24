@@ -14,10 +14,12 @@ CREATE TABLE GuestUser (
 );
 
 CREATE TABLE Comment (
-	UserID int,
-	postID int,
-	commentID int,
-  description varChar(100)
+  userID int,
+  postID int,
+  commentID int,
+  description varChar(100),
+  FOREIGN KEY (userID) REFERENCES User,
+  PRIMARY KEY (commentID)
 );
 
 CREATE TABLE Dislike (
@@ -61,7 +63,9 @@ CREATE TABLE Posts (
   date Date,
   location POINT,
   postID int,
-  userID int
+  userID int,
+  FOREIGN KEY (userID) REFERENCES User,
+  PRIMARY KEY (postID)
 );
 
 CREATE TABLE Liked (
