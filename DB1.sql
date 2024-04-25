@@ -1,4 +1,4 @@
-CREATE TABLE Animal (
+/*CREATE TABLE Animal (
   region varChar(50),
   eatingType varChar(20),
   latinName varChar(50),
@@ -6,10 +6,11 @@ CREATE TABLE Animal (
   averageLife int,
   picture BLOB,
   description varChar(100)
-);
+);*/
 
 CREATE TABLE GuestUser (
   userID int,
+  FOREIGN KEY (userID) REFERENCES User(userID),
   PRIMARY KEY (userID)
 );
 
@@ -18,38 +19,47 @@ CREATE TABLE Comment (
   postID int,
   commentID int,
   description varChar(100),
-  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
+  FOREIGN KEY (postID) REFERENCES Posts(postID),
   PRIMARY KEY (commentID)
 );
 
 CREATE TABLE Dislike (
-  userName varChar(25),
-  numOfDislikes int
+  userID int,
+  postID int,
+  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
+  FOREIGN KEY (postID) REFERENCES Posts(postID),
+  PRIMARY KEY (userID, postID)
 );
 
 CREATE TABLE RegisteredUser (
   userID int,
-  name varChar(20),
+  name varChar(20) NOT NULL,
   birthday Date,
-  userName varChar(20),
+  userName varChar(20) NOT NULL UNIQUE,
   bio varChar(300),
-  email varChar(30),
-  password varChar(30),
+  email varChar(30) NOT NULL UNIQUE,
+  password varChar(30) NOT NULL,
   profilePicture BLOB,
-  userName varChar(25),
-  PRIMARY KEY (userID)
+  karma int,
+  PRIMARY KEY (userID),
+  FOREIGN KEY (userID) REFERENCES User(userID)
 );
 
 CREATE TABLE BlockedUsers (
-  userID int,
-  numOfBlocked int,
-  PRIMARY KEY (userID)
+  blockingUserID int,
+  blockedUserID int,
+  FOREIGN KEY (blockingUserID) REFERENCES RegisteredUser(blockingUserID),
+  FOREIGN KEY (blockedUserID) REFERENCES RegisteredUser(blockedUserID),
+  PRIMARY KEY (blockingUserID, blockedUserID)
 );
 
 CREATE TABLE Following (
-  userID int,
-  numOfFollowing int,
-  PRIMARY KEY (userID)
+  followingUserID int,
+  followedUserID int,
+  FOREIGN KEY (followingUserID) REFERENCES RegisteredUser(followingUserID),
+  FOREIGN KEY (followedUserID) REFERENCES RegisteredUser(followedUserID),
+  PRIMARY KEY (followingUserID, followedUserID)
 );
 
 CREATE TABLE User (
@@ -58,27 +68,33 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Posts (
-  media BLOB,
+  media BLOB NOT NULL,
   caption varChar(256),
-  date Date,
+  photoDate Date,
+  postDate Date NOT NULL, 
   location POINT,
   postID int,
-  userID int,
-  FOREIGN KEY (userID) REFERENCES User,
+  userID int NOT NULL,
+  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
   PRIMARY KEY (postID)
 );
 
 CREATE TABLE Liked (
-  userName varChar(25),
-  numOfLikes int
+  userID int,
+  postID int,
+  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
+  FOREIGN KEY (postID) REFERENCES Posts(postID),
+  PRIMARY KEY (userID, postID)
 );
 
 CREATE TABLE Tag (
-  nameOfTag varChar(20),
-  postID int
+  postID int,
+  tag varChar(20),
+  FOREIGN KEY (postID) REFERENCES Posts(postID),
+  PRIMARY KEY (postID, tag)
 );
 
-CREATE TABLE Follower (
+/*CREATE TABLE Follower (
   userID int,
   numOfFollowers int,
   PRIMARY KEY (userID)
@@ -96,4 +112,4 @@ CREATE TABLE FollowNum (
 	userID int,
     PRIMARY KEY (userID),
     FOREIGN KEY (userID) REFERENCES User
-);
+);*/
