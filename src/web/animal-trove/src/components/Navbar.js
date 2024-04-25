@@ -5,6 +5,7 @@ const navBarOptions = [
   { name: "Home", path: "/", Icon: IconHome },
 
   { name: "Profile", path: "/me", Icon: IconUser },
+  { name: "Post", path: "/post", Icon: IconUser },
 ];
 
 const Navbar = () => {

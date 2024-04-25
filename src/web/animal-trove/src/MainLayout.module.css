@@ -1,3 +1,22 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  background-color: #D9D9D9;
+  color: #000000;
+  position: relative; 
+}
+
+.logo {
+  width: 50px;
+  margin-right: 10px;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: bold;
+}
 .container {
   width: 100%;
   display: flex;
