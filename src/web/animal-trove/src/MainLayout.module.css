@@ -1,0 +1,36 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  background-color: #D9D9D9;
+  color: #000000;
+  position: relative; 
+}
+
+.logo {
+  width: 50px;
+  margin-right: 10px;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: bold;
+}
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  justify-content: space-between;
+  width: 100vw;
+}
+.sideBarContainer {
+  flex-basis: 20%;
+  min-width: 300px;
+  border-right: 1px solid #c5d6c4;
+}
+.pageContainer {
+  flex-basis: 100%;
+  padding: 8px 24px;
+}
