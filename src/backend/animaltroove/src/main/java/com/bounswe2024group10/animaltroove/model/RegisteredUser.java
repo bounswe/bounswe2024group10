@@ -6,6 +6,9 @@ import javax.persistence.ForeignKey;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "registered_user")
@@ -30,8 +33,12 @@ public class RegisteredUser extends User {
     @Column(name = "password", nullable = false, length = 30)
     private String password;
 
+    @Lob
     @Column(name = "profile_picture")
     private byte[] profilePicture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 
     public RegisteredUser() {
         super();
@@ -91,6 +98,14 @@ public class RegisteredUser extends User {
 
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }
 
