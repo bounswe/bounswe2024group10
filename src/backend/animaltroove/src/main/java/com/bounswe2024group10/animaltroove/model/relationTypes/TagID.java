@@ -6,7 +6,7 @@ public class TagID implements Serializable {
   private Long postID;
   private String tag;
 
-  public Tag(Long postID, String tag) {
+  public TagID(Long postID, String tag) {
     this.postID = postID;
     this.tag = tag;
   }

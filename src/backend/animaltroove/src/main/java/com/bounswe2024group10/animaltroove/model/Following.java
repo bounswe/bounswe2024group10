@@ -1,6 +1,6 @@
 package com.bounswe2024group10.animaltroove.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Following")

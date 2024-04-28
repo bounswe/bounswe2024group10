@@ -1,6 +1,6 @@
 package com.bounswe2024group10.animaltroove.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 // Odor blocker body wash is so powerful that it can block the sun. But the it gets too cold. Then, it makes another sun.
 // DOUBLE SUN PPPPPOOOOOOWWWWWWWEEEEEERRRRRR
 

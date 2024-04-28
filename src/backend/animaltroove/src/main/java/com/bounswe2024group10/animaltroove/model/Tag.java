@@ -1,10 +1,10 @@
 package com.bounswe2024group10.animaltroove.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Tag")
-@IdClass(TagId.class)
+@IdClass(TagID.class)
 public class Tag {
 
     @Id
