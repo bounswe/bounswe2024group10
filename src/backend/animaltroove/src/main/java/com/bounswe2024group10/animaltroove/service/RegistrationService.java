@@ -1,7 +1,7 @@
 package com.bounswe2024group10.animaltroove.service;
 
-import com.bounswe2024group10.animaltroove.model.User;
-import com.bounswe2024group10.animaltroove.repository.UserRepository;
+import com.bounswe2024group10.animaltroove.model.RegisteredUser;
+import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 public class RegistrationService {
 
     @Autowired
-    private UserRepository userRepository;
+    private RegisteredUserRepository userRepository;
 
-    public User registerNewUser(User newUser) {
+    public RegisteredUser registerNewUser(RegisteredUser newUser) {
         // TODO: Check if the username is already taken
         // TODO: Check if the email is already taken
         // TODO: Validate all fields (e.g. email format, username length, etc.)
