@@ -1,17 +1,45 @@
-/*CREATE TABLE Animal (
-  region varChar(50),
-  eatingType varChar(20),
-  latinName varChar(50),
-  commonName varChar(50),
-  averageLife int,
-  picture BLOB,
-  description varChar(100)
-);*/
+DROP DATABASE IF EXISTS AnimalTroove;
+CREATE DATABASE AnimalTroove;
+USE AnimalTroove;
+
+CREATE TABLE User (
+  userID int,
+  PRIMARY KEY (userID)
+);
 
 CREATE TABLE GuestUser (
   userID int,
   FOREIGN KEY (userID) REFERENCES User(userID),
   PRIMARY KEY (userID)
+);
+
+CREATE TABLE RegisteredUser (
+  userID int,
+  name varChar(20) NOT NULL,
+  birthday Date,
+  userName varChar(20) NOT NULL UNIQUE,
+  bio varChar(300),
+  email varChar(30) NOT NULL UNIQUE,
+  password varChar(30) NOT NULL,
+  profilePicture BLOB,
+  karma int,
+  numOfBlocked int,
+  numOfFollowers int,
+  numOfFollowed int,
+  PRIMARY KEY (userID),
+  FOREIGN KEY (userID) REFERENCES User(userID)
+);
+
+CREATE TABLE Posts (
+  media BLOB NOT NULL,
+  caption varChar(256),
+  photoDate Date,
+  postDate Date NOT NULL, 
+  location POINT,
+  postID int,
+  userID int NOT NULL,
+  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
+  PRIMARY KEY (postID)
 );
 
 CREATE TABLE Comment (
@@ -32,20 +60,6 @@ CREATE TABLE Dislike (
   PRIMARY KEY (userID, postID)
 );
 
-CREATE TABLE RegisteredUser (
-  userID int,
-  name varChar(20) NOT NULL,
-  birthday Date,
-  userName varChar(20) NOT NULL UNIQUE,
-  bio varChar(300),
-  email varChar(30) NOT NULL UNIQUE,
-  password varChar(30) NOT NULL,
-  profilePicture BLOB,
-  karma int,
-  PRIMARY KEY (userID),
-  FOREIGN KEY (userID) REFERENCES User(userID)
-);
-
 CREATE TABLE BlockedUsers (
   blockingUserID int,
   blockedUserID int,
@@ -60,23 +74,6 @@ CREATE TABLE Following (
   FOREIGN KEY (followingUserID) REFERENCES RegisteredUser(followingUserID),
   FOREIGN KEY (followedUserID) REFERENCES RegisteredUser(followedUserID),
   PRIMARY KEY (followingUserID, followedUserID)
-);
-
-CREATE TABLE User (
-  userID int,
-  PRIMARY KEY (userID)
-);
-
-CREATE TABLE Posts (
-  media BLOB NOT NULL,
-  caption varChar(256),
-  photoDate Date,
-  postDate Date NOT NULL, 
-  location POINT,
-  postID int,
-  userID int NOT NULL,
-  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
-  PRIMARY KEY (postID)
 );
 
 CREATE TABLE Liked (
@@ -94,22 +91,3 @@ CREATE TABLE Tag (
   PRIMARY KEY (postID, tag)
 );
 
-/*CREATE TABLE Follower (
-  userID int,
-  numOfFollowers int,
-  PRIMARY KEY (userID)
-);
-
-# represented the relation between follower and registeredUseer
-CREATE TABLE Followee (
-	userID int,
-    PRIMARY KEY (userID),
-    FOREIGN KEY (userID) REFERENCES User
-);
-
-# represented the relation between following and registeredUseer
-CREATE TABLE FollowNum (
-	userID int,
-    PRIMARY KEY (userID),
-    FOREIGN KEY (userID) REFERENCES User
-);*/
