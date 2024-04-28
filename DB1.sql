@@ -22,12 +22,8 @@ CREATE TABLE RegisteredUser (
   email varChar(30) NOT NULL UNIQUE,
   password varChar(30) NOT NULL,
   profilePicture BLOB,
-  karma int,
-  numOfBlocked int,
-  numOfFollowers int,
-  numOfFollowed int,
-  PRIMARY KEY (userID),
-  FOREIGN KEY (userID) REFERENCES User(userID)
+  FOREIGN KEY (userID) REFERENCES User(userID),
+  PRIMARY KEY (userID)
 );
 
 CREATE TABLE Posts (
