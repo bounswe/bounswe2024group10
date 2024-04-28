@@ -3,7 +3,7 @@ package com.bounswe2024group10.animaltroove.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "dislike")
+@Table(name = "Dislike")
 @IdClass(UserPost.class)
 public class Dislike {
 

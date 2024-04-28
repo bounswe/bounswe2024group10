@@ -3,8 +3,8 @@ package com.bounswe2024group10.animaltroove.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "following")
-@IdClass(UserUser.class)
+@Table(name = "Following")
+@IdClass(FollowID.class)
 public class Following {
 
     @Id

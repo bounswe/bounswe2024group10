@@ -5,8 +5,8 @@ import javax.persistence.*;
 // DOUBLE SUN PPPPPOOOOOOWWWWWWWEEEEEERRRRRR
 
 @Entity
-@Table(name = "blocked_users")
-@IdClass(UserUser.class)
+@Table(name = "BlockedUsers")
+@IdClass(BlockedID.class)
 public class BlockedUsers {
 
     @Id
