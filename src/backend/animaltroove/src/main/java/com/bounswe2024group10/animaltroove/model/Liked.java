@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Liked")
-@IdClass(UserPost.class)
 public class Liked {
 
     @Id

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Following")
-@IdClass(FollowID.class)
 public class Following {
 
     @Id

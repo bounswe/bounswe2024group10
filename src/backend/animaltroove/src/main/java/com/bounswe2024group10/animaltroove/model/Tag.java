@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Tag")
-@IdClass(TagID.class)
 public class Tag {
 
     @Id
