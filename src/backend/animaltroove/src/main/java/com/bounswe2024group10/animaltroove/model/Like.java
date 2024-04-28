@@ -3,20 +3,18 @@ package com.bounswe2024group10.animaltroove.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "liked", uniqueConstraints = @UniqueConstraint(columnNames = {"userID", "postID"}))
+@Table(name = "liked")
+@IdClass(UserPost.class)
 public class Liked {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "likeID")
-    private Long likeID;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userID", referencedColumnName = "userID")
+    @ManyToOne
+    @JoinColumn(name = "userID")
     private RegisteredUser user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "postID", referencedColumnName = "postID")
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "postID")
     private Post post;
 
     public Liked() {
@@ -26,14 +24,6 @@ public class Liked {
     public Liked(RegisteredUser user, Post post) {
         this.user = user;
         this.post = post;
-    }
-
-    public Long getLikeID() {
-        return likeID;
-    }
-
-    public void setLikeID(Long likeID) {
-        this.likeID = likeID;
     }
 
     public RegisteredUser getUser() {
