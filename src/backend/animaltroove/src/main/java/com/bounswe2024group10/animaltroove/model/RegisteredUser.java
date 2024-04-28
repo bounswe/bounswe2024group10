@@ -42,6 +42,13 @@ public class RegisteredUser extends User {
 
     public RegisteredUser() {
         super();
+        this.name = name;
+        this.birthday = birthday;
+        this.userName = userName;
+        this.bio = bio;
+        this.email = email;
+        this.password = password;
+        this.profilePicture = profilePicture;
     }
 
     public String getName() {
