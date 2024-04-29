@@ -11,7 +11,7 @@ function TriplePage({ navigation }) {
         <Button
           title="POST"
           // connect with user page
-          onPress={() => navigation.navigate('Details')}
+          onPress={() => navigation.navigate('Post')}
           color="green" // Change button color to green
         />
       </View>
@@ -19,7 +19,7 @@ function TriplePage({ navigation }) {
         <Button
           title="DELETE ACCOUNT"
           // connect with sign up page
-          onPress={() => navigation.navigate('Details')}
+          onPress={() => navigation.navigate('MyProfile')}
           color="green" // Change button color to green
         />
       </View>

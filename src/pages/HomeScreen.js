@@ -42,6 +42,15 @@ function HomeScreen({ navigation }) {
     }));
   };
 
+  // Function to toggle bookmark status for a post
+const toggleBookmark = (postId) => {
+  setBookmarkedPosts((prevBookmarks) => ({
+    ...prevBookmarks,
+    [postId]: !prevBookmarks[postId],
+  }));
+};
+
+
   // Function to handle flagging a post
   const flagPost = (postId) => {
     setFlaggedPosts((prevFlags) => {
@@ -78,8 +87,8 @@ function HomeScreen({ navigation }) {
           <Icon name="comment" size={30} color="blue" />
         </TouchableOpacity>
         <Text style={styles.iconText}>{commentCounts[item.id] || 0}</Text>
-        <TouchableOpacity onPress={() => console.log("bookmarked")}>
-          <Icon name="bookmark" size={30} color="pink" />
+        <TouchableOpacity onPress={() => toggleBookmark(item.id)}>
+          <Icon name={bookmarkedPosts[item.id] ? "bookmark" : "bookmark-o"} size={30} color="pink" />
         </TouchableOpacity>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => flagPost(item.id)}>
@@ -89,6 +98,7 @@ function HomeScreen({ navigation }) {
       </View>
     </View>
   );
+  
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
