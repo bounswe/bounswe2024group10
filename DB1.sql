@@ -22,8 +22,8 @@ CREATE TABLE RegisteredUser (
   email varChar(30) NOT NULL UNIQUE,
   password varChar(30) NOT NULL,
   profilePicture BLOB,
-  FOREIGN KEY (userID) REFERENCES User(userID)
-  PRIMARY KEY (userID),
+  FOREIGN KEY (userID) REFERENCES User(userID),
+  PRIMARY KEY (userID)
 );
 
 CREATE TABLE Posts (
