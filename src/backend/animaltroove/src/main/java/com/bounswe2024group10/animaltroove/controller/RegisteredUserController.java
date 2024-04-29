@@ -20,12 +20,14 @@ public class RegisteredUserController {
     @Autowired
     private LoginService loginService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
     public ResponseEntity<RegisteredUser> registerUser(@RequestBody RegisteredUser newUser) {
         RegisteredUser registeredUser = registrationService.registerNewUser(newUser);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest user) {
         LoginResponse loggedInUser = loginService.loginUser(user.getUserName(), user.getPassword());
