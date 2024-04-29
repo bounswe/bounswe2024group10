@@ -15,6 +15,7 @@ import GuestUserHome from './pages/GuestUserHome';
 import Post from './pages/Post';
 import MyProfile from './pages/MyProfile';
 
+
 const Stack = createStackNavigator();
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Stack.Screen name = "Search" component={SearchB}  options={{ headerLeft: null }} />   
         <Stack.Screen name="Post" component={Post} />
         <Stack.Screen name="MyProfile" component={MyProfile} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
