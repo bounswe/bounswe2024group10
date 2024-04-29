@@ -5,10 +5,10 @@ import pandaImage from '../components/images/pandaa.png';
 import { useNavigation } from '@react-navigation/native';
 
 const SignupScreen = () => {
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   // Handle signup logic here (e.g., API call, validation)
   const navigation = useNavigation();
@@ -21,7 +21,7 @@ const SignupScreen = () => {
   const handleContinueAsGuest = () => {
     // Misafir olarak devam et işlemi burada gerçekleştirilebilir
     console.log("Continue as a guest user clicked");
-    navigation.navigate('Home');
+    navigation.navigate('Guest');
   };
 
   return (
@@ -31,6 +31,12 @@ const SignupScreen = () => {
         <Text style={styles.headerText}>Animal Trove</Text>
       </View>
       <Image source={pandaImage} style={styles.image} />
+      <TextInput
+        style={styles.input}
+        value={name}
+        onChangeText={setName}
+        placeholder="Name"
+      />
       <TextInput
         style={styles.input}
         value={username}
@@ -50,13 +56,7 @@ const SignupScreen = () => {
         placeholder="Password"
         secureTextEntry
       />
-      <TextInput
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        placeholder="Confirm Password"
-        secureTextEntry
-      />
+      
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupButtonText}>Signup</Text>
       </TouchableOpacity>
