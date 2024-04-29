@@ -22,8 +22,8 @@ CREATE TABLE RegisteredUser (
   email varChar(30) NOT NULL UNIQUE,
   password varChar(30) NOT NULL,
   profilePicture BLOB,
-  FOREIGN KEY (userID) REFERENCES User(userID),
-  PRIMARY KEY (userID)
+  FOREIGN KEY (userID) REFERENCES User(userID)
+  PRIMARY KEY (userID),
 );
 
 CREATE TABLE Posts (
@@ -59,16 +59,16 @@ CREATE TABLE Dislike (
 CREATE TABLE BlockedUsers (
   blockingUserID int,
   blockedUserID int,
-  FOREIGN KEY (blockingUserID) REFERENCES RegisteredUser(blockingUserID),
-  FOREIGN KEY (blockedUserID) REFERENCES RegisteredUser(blockedUserID),
+  FOREIGN KEY (blockingUserID) REFERENCES RegisteredUser(userID),
+  FOREIGN KEY (blockedUserID) REFERENCES RegisteredUser(userID),
   PRIMARY KEY (blockingUserID, blockedUserID)
 );
 
 CREATE TABLE Following (
   followingUserID int,
   followedUserID int,
-  FOREIGN KEY (followingUserID) REFERENCES RegisteredUser(followingUserID),
-  FOREIGN KEY (followedUserID) REFERENCES RegisteredUser(followedUserID),
+  FOREIGN KEY (followingUserID) REFERENCES RegisteredUser(userID),
+  FOREIGN KEY (followedUserID) REFERENCES RegisteredUser(userID),
   PRIMARY KEY (followingUserID, followedUserID)
 );
 
