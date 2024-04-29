@@ -12,8 +12,12 @@ public class RegistrationService {
     private RegisteredUserRepository userRepository;
 
     public RegisteredUser registerNewUser(RegisteredUser newUser) {
-        // TODO: Check if the username is already taken
-        // TODO: Check if the email is already taken
+        if (userRepository.findByUserName(newUser.getUserName()) != null) {
+            return null;
+        }
+        if (userRepository.findByEmail(newUser.getEmail()) != null) {
+            return null;
+        }
         // TODO: Validate all fields (e.g. email format, username length, etc.)
         // TODO: Store password securely in the database
         return userRepository.save(newUser);
