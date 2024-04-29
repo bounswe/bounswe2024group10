@@ -1,5 +1,6 @@
 package com.bounswe2024group10.animaltroove.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import com.bounswe2024group10.animaltroove.model.RegisteredUser;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

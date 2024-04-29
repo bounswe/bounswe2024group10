@@ -5,6 +5,8 @@ import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+
 @Service
 public class RegistrationService {
 
