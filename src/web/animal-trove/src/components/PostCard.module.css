@@ -1,0 +1,101 @@
+.postCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #274608;
+  border-radius: 15px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.username {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.image {
+  width: 20vw;
+  height: auto;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.postInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.postDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+  align-content: stretch;
+}
+
+.postActions {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+.action {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.blurLine {
+  height: 1px;
+  width: 90%;
+  background-color: #dedede;
+  margin-bottom: 10px;
+  align-self: center;
+  -webkit-box-shadow: 0 0 4px 0 #666;
+  -moz-box-shadow: 0 0 4px 0 #666;
+  box-shadow: 0 0 4px 0 #666;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.location {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 16px;
+  margin: 10px;
+  margin-top: auto;
+  text-align: center;
+}
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: auto;
+}
+
+.date {
+  font-size: 16px;
+  color: gray;
+  margin-top: auto;
+  margin-left: auto;
+}

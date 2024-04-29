@@ -1,0 +1,196 @@
+.postUserInfo {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-right: 10px;
+  }
+  
+  .userName {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+.postContainer {
+    margin: 20px;
+    padding: 20px;
+    background-color: #75d67e; /* Siyah arka plan rengi */
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .ImageContainer {
+    margin: 20px;
+    padding: 20px;
+    background-color: #75d67e; /* Siyah arka plan rengi */
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .postImage {
+    
+    max-width: 500px;
+    max-height: 500px; /* Maksimum yüksekliği 300px olarak ayarla */
+    object-fit: cover; /* Görseli tam olarak kapla ve orantıları koru */
+    margin-bottom: 20px; /* Görselin altına boşluk ekle */
+    display: block;
+    margin: 0 auto;
+    flex: 1;
+  }
+  .buttonContainer {
+    display: flex; /* Activate Flexbox layout */
+    /*justify-content: space-between; /* Distribute buttons evenly */
+    align-items: center;  /* Align buttons vertically */
+    margin-top: 20px; /* Add margin above the buttons */
+    justify-content: flex-end;
+  }
+
+  .button img {
+    appearance: none; /* Remove default button styles */
+    background: none; /* Remove default button background */
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Maintain pointer cursor */
+    width: 20px; /* Adjust width as needed */
+    height: 20px; /* Adjust height as needed */
+    margin-right: 5px; /* Add spacing between icon and text (optional) */
+    
+    
+  }
+  .buttonText{
+    text-align: left;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-right: 20px;
+    
+  }
+  
+  
+  .postContent {
+    border-top: 1px solid #fff; /* Siyah çizgi */
+    padding: 20px;
+  }
+  
+  .postTitle {
+    margin-top: 0; /* Üst boşluk sıfırla */
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* Beyaz metin rengi */
+    text-align: center;
+  }
+  
+  .postLocation,
+  .postDate {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #000000; /* Gri metin rengi */
+    text-align: right;
+  }
+  
+  .postDescription {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #fff; /* Beyaz metin rengi */
+    margin-bottom: 20px ;
+  }
+  
+  .commentContainer {
+    flex: 1; /* Occupy 50% of the available space */
+    padding: 20px;
+    border-top: 1px solid #fff; /* Ayrıştırma çizgisi */
+    background-color: #fff; /* Beyaz arka plan */
+  }
+  
+  .commentHeader {
+    margin-bottom: 10px;
+  }
+  
+  .commentHeader h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .commentList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .commentItem {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .commentAvatar {
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .reportImage{
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    margin-right: 10px;
+    float: right;
+    vertical-align: middle;
+  }
+  
+  .commentName {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .commentText {
+    font-size: 14px;
+  }
+  .newCommentBox {
+    display: flex; /* Arrange form elements horizontally */
+    margin-top: 20px; /* Add space above the box */
+    border-top: 1px solid #ddd; /* Add a subtle border */
+    padding: 10px;
+  }
+  
+  .newCommentInput {
+    flex: 1; /* Make the input field occupy most of the space */
+    border: none; /* Remove default border */
+    outline: none; /* Remove default outline */
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 15px;
+    resize: none; /* Disable resizing of the input field */
+  }
+  
+  .newCommentButton {
+    background-color: #2f7736; /* Same color as post background */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+
+
+
+
+
+
+  @media (max-width: 768px) {
+    .postImage {
+      max-width: 100%; /* Küçük ekranlarda görseli tam genişliğe ayarla */
+    }
+  
+    .postContent {
+      padding: 10px; /* Küçük ekranlarda iç dolguyu azalt */
+    }
+  }
+    

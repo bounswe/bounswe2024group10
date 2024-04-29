@@ -1,0 +1,29 @@
+.container {
+  height: 100vh;
+  padding: 14;
+  width: 100%;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+}
+.navElement {
+  cursor: pointer;
+  transition: all 0.1s;
+
+  background-color: #ffffff;
+  border-bottom: #c5d6c4 solid 1px;
+}
+.navElement:hover {
+  background-color: #c5d6c4;
+}
+
+.navLink {
+  padding: 12px 24px;
+  color: #274608;
+  text-decoration: none;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
