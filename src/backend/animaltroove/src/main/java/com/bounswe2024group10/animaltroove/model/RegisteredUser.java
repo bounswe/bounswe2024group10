@@ -12,8 +12,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "RegisteredUser")
-@PrimaryKeyJoinColumn(name = "userID")
-public class RegisteredUser extends User {
+public class RegisteredUser {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userID")
+    private Integer userID;
 
     @Column(name = "name", nullable = false, length = 20)
     private String name;
@@ -42,13 +46,6 @@ public class RegisteredUser extends User {
 
     public RegisteredUser() {
         super();
-        this.name = name;
-        this.birthday = birthday;
-        this.userName = userName;
-        this.bio = bio;
-        this.email = email;
-        this.password = password;
-        this.profilePicture = profilePicture;
     }
 
     public String getName() {
