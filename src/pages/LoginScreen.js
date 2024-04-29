@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import pandaImage from '../components/images/pandaa.png';
 import logo from '../components/images/logo.png';
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   // Giriş işlemi burada gerçekleştirilecek
@@ -33,9 +34,9 @@ const LoginScreen = () => {
       />
       <TextInput
         style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
+        value={username}
+        onChangeText={setUsername}
+        placeholder="Username"
       />
       <TextInput
         style={styles.input}
