@@ -24,14 +24,24 @@ public class SearchService {
 
     public String getEntityURI(String searchTerm) {
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
-        String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+        String queryString = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
                 "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "SELECT ?entity\n" +
                 "WHERE {\n" +
-                "?entity rdfs:label \"" + searchTerm + "\"@en.\n" +
-                "?entity wdt:P31 wd:Q16521\n" +
-                "}";
+                "  ?entity skos:altLabel ?alias .\n" +
+                "  FILTER(CONTAINS(LCASE(?alias), \"" + searchTerm.toLowerCase() + "\"@en)).\n" +
+                "  {\n" +
+                "    ?entity wdt:P31 wd:Q16521 .\n" +
+                "  }\n" +
+                "  UNION\n" +
+                "  {\n" +
+                "    ?entity wdt:P279* wd:Q729 .\n" +
+                "  }\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                "}\n" +
+                "LIMIT 1";
 
         QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint, queryString);
         ResultSet resultSet = queryExec.execSelect();
@@ -98,6 +108,8 @@ public class SearchService {
                 if (conservationStatLabel.contains("@en")) {
                     conservationStatLabel = conservationStatLabel.substring(0, conservationStatLabel.indexOf("@en"));
                 }
+                searchResponse.setConservationStatus(conservationStatLabel);
+
             }
             return searchResponse;
         }
