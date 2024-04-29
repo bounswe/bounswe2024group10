@@ -18,8 +18,18 @@ public class RegistrationService {
         if (userRepository.findByEmail(newUser.getEmail()) != null) {
             return null;
         }
-        // TODO: Validate all fields (e.g. email format, username length, etc.)
-        // TODO: Store password securely in the database
+        if (!isValidEmail(newUser.getEmail())) {
+            return null; // Invalid email format
+        }
+        
+    // TODO: Store password securely in the database
         return userRepository.save(newUser);
+    }
+
+    private boolean isValidEmail(String email) {
+        // Email validation regex pattern
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
     }
 }
