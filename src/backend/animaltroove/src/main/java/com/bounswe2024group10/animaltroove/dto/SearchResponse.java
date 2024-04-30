@@ -8,8 +8,10 @@ public class SearchResponse {
     private String heartRate;
     private String speed;
     private String numberOfBirths;
+    private String pic;
     private String wingSpan;
     private String conservationStatus;
+    private String mainLabel;
 
     public SearchResponse() {
         // Default constructor
@@ -28,10 +30,19 @@ public class SearchResponse {
         return cycle;
     }
 
+    public void setMainLabel(String mainLabel) {
+        this.mainLabel = mainLabel;
+    }
+    public String getMainLabel() {
+        return this.mainLabel;
+    }
+
     public void setCycle(String cycle) {
         this.cycle = cycle;
     }
+    public void setPic(String pic){this.pic = pic;}
 
+    public String getPic(){return this.pic;}
     public String getPregnancy() {
         return pregnancy;
     }
