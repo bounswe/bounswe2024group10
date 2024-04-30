@@ -8,6 +8,7 @@ import Login from "./pages/LoginSignUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "./context/AuthContext";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Login />} />
           <Route path="/me" element={<MyProfile />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/me/settings" element={<Settings />} />
         </Routes>
       </AuthContext>

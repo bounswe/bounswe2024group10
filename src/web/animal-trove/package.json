@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@encode42/tabler-icons-types": "^1.119.0",
+    "@tabler/icons": "^3.2.0",
     "@tabler/icons-react": "^3.2.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

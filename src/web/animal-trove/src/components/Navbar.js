@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import { IconHome, IconUser } from "@tabler/icons-react";
+import Icons, { IconHome, IconSearch, IconUser } from "@tabler/icons-react";
 import { useContext } from "react";
 import { authContext } from "../context/AuthContext";
 const navBarOptions = {
   authenticated: [{ name: "Profile", path: "/me", Icon: IconUser }],
-  unauthenticated: [{ name: "Home", path: "/", Icon: IconHome }],
+  unauthenticated: [
+    { name: "Home", path: "/", Icon: IconHome },
+    { name: "Search", path: "/search", Icon: IconSearch },
+  ],
 };
 
 const Navbar = () => {
