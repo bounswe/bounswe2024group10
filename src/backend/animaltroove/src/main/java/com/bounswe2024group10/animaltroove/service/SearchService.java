@@ -4,50 +4,67 @@ import com.bounswe2024group10.animaltroove.dto.SearchResponse;
 
 import java.util.List;
 
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
 import org.springframework.stereotype.Service;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.util.FileManager;
 
 @Service
 public class SearchService {
 
     public SearchResponse search(String searchTerm) {
         String entityURI = getEntityURI(searchTerm);
+        System.out.println("Entity URI" +entityURI);
         if (entityURI == null) {
             return null;
         }
         SearchResponse searchResponse = getAnimalDetails(entityURI);
+        System.out.println(searchResponse.toString());
         return searchResponse;
     }
 
     public String getEntityURI(String searchTerm) {
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
-        String queryString = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+        String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
-                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "SELECT ?entity\n" +
                 "WHERE {\n" +
-                "  ?entity skos:altLabel ?alias .\n" +
-                "  FILTER(CONTAINS(LCASE(?alias), \"" + searchTerm.toLowerCase() + "\"@en)).\n" +
-                "  {\n" +
-                "    ?entity wdt:P31 wd:Q16521 .\n" +
-                "  }\n" +
-                "  UNION\n" +
+                "?entity rdfs:label \"" + searchTerm + "\"@en.\n" +
+
+                "?entity wdt:P31 wd:Q16521\n" +
+                "}";
+
+
+
+        String qStringTest = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "                PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                "                PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+                "SELECT ?entity\n" +
+                "WHERE {\n" +
+                "    ?entity skos:altLabel ?alias .\n" +
+                "  FILTER(CONTAINS(LCASE(?alias), \" "+searchTerm.toLowerCase() + "\"))\n" +
+//               "  {\n" +
+//               "    ?entity wdt:P31 wd:Q16521 .\n" +
+//               "  }\n" +
+//               "  UNION\n" +
                 "  {\n" +
                 "    ?entity wdt:P279* wd:Q729 .\n" +
                 "  }\n" +
-                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+//               "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "LIMIT 1";
-
-        QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint, queryString);
-        ResultSet resultSet = queryExec.execSelect();
+                "LIMIT 10";
+        Query query1 = QueryFactory.create(qStringTest);
+        QueryExecution qexec =  QueryExecutionFactory.sparqlService(sparqlEndpoint,query1);
+        ResultSet resultSet = qexec.execSelect();
+        System.out.println("REsult rows" + resultSet.getRowNumber());
         if (resultSet.hasNext()) {
             QuerySolution querySolution = resultSet.next();
             if (querySolution.get("entity") != null) {
+                System.out.println("WE HAVE ENTITY");
                 return querySolution.get("entity").toString().split("/")[4];
             }
         }
@@ -55,14 +72,18 @@ public class SearchService {
     }
 
     SearchResponse getAnimalDetails(String entityURI) {
+        System.out.println("Entitiy URI is : "+ entityURI);
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
-                "SELECT ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "SELECT ?itemLabel ?picLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "WHERE {\n" +
+                "  wd:" + entityURI + " rdfs:label ?itemLabel .\n" + // Fetch the label of the main item
+                "  FILTER(LANG(?itemLabel) = \"en\")\n" + // Ensure the label is in English
+                "  OPTIONAL {wd:" + entityURI + " wdt:P18 ?pic.}\n" +
                 "  OPTIONAL {wd:" + entityURI + " wdt:P225 ?name.}\n" +
                 "  OPTIONAL {wd:" + entityURI + " wdt:P9566 ?cycle.}\n" +
                 "  OPTIONAL {wd:" + entityURI + " wdt:P3063 ?preg.}\n" +
@@ -74,8 +95,10 @@ public class SearchService {
                 "  OPTIONAL {wd:" + entityURI + " wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}";
-        QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint, queryString);
+        Query query2 = QueryFactory.create(queryString);
+        QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query2);
         ResultSet resultSet = queryExec.execSelect();
+
         if (resultSet.hasNext()) {
             QuerySolution querySolution = resultSet.next();
             SearchResponse searchResponse = new SearchResponse();
@@ -83,7 +106,18 @@ public class SearchService {
                 searchResponse.setName(querySolution.get("nameLabel").toString());
             }
             if (querySolution.get("cycleLabel") != null) {
-                searchResponse.setCycle(querySolution.get("cycleLabel").toString());
+                String cycleLabel = querySolution.get("cycleLabel").toString();
+                if (cycleLabel.contains("@en")) {
+                    cycleLabel = cycleLabel.substring(0, cycleLabel.indexOf("@en"));
+                }
+                searchResponse.setCycle(cycleLabel);
+            }
+            if (querySolution.get("itemLabel") != null) {
+                String itemLabel = querySolution.get("itemLabel").toString();
+                if (itemLabel.contains("@en")) {
+                    itemLabel = itemLabel.substring(0, itemLabel.indexOf("@en"));
+                }
+                searchResponse.setMainLabel(itemLabel);
             }
             if (querySolution.get("pregLabel") != null) {
                 searchResponse.setPregnancy(querySolution.get("pregLabel").toString());
@@ -99,6 +133,9 @@ public class SearchService {
             }
             if (querySolution.get("numBirthLabel") != null) {
                 searchResponse.setNumberOfBirths(querySolution.get("numBirthLabel").toString());
+            }
+            if(querySolution.get("picLabel")!=null){
+                searchResponse.setPic(querySolution.get("picLabel").toString());
             }
             if (querySolution.get("wingSpanLabel") != null) {
                 searchResponse.setWingSpan(querySolution.get("wingSpanLabel").toString());
