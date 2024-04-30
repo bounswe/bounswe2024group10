@@ -1,25 +1,49 @@
-import React, { useState } from 'react';
-import axios from 'axios'
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import pandaImage from '../components/images/pandaa.png';
 import logo from '../components/images/logo.png';
+import {login} from '../services/auth.js';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const handleLogin = async (navigation, userName, password) => {
+    try {
+    const response = await login({ userName, password });
+
+    if (response.success) {
+            const { token, userName } = response;
+
+            await AsyncStorage.setItem('authToken', token);
+            await AsyncStorage.setItem('userName', userName);
+
+            navigation.navigate('Home');
+          } else {
+            console.error(response.message);
+          }
+
+    }
+    catch (error) {
+      console.error('Login error:', error);
+    }
+    // Giriş işlemi burada gerçekleştirilebilir
+    console.log("Login button clicked");
+    //navigation.navigate('Home');
+
+};
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Giriş işlemi burada gerçekleştirilecek
+  // Fill in this part
   const navigation = useNavigation();
   const handleForgotPassword = () => {
-    // Şifremi unuttum işlemi burada gerçekleştirilebilir
+    // Do not fill in this part
     console.log("Forgot Password");
-  };
-
-  const handleLogin = () => {
-    // Giriş işlemi burada gerçekleştirilebilir
-    console.log("Login button clicked");
-    navigation.navigate('Home');
   };
 
   return (
@@ -45,9 +69,11 @@ const LoginScreen = () => {
         placeholder="Password"
         secureTextEntry
       />
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => handleLogin(navigation, username, password)}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
+
+
       <TouchableOpacity onPress={handleForgotPassword}>
         <Text style={styles.forgotPassword}>I Forgot My Password</Text>
       </TouchableOpacity>

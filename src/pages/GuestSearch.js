@@ -6,14 +6,18 @@ function SearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = () => {
-    if (searchQuery.trim() === '') {
-      Alert.alert('Error', 'Please enter a search query.');
-      return;
-    }
-    // Implement your search logic here, such as fetching data from an API
-    console.log('Searching for:', searchQuery);
-    // Example: You can make an API call here with the searchQuery
-  };
+      if (searchQuery.trim() === '') {
+        Alert.alert('Error', 'Please enter a search query.');
+        return;
+      }
+      // Implement your search logic here, such as fetching data from an API
+      console.log('Searching for:', searchQuery);
+      // ----Example: You can make an API call here with the searchQuery
+      // I think we will do the API call from the SearchResults screen
+
+
+      navigation.navigate('SearchResults' , {searchQuery});
+    };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}>

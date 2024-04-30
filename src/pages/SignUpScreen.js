@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'reac
 import logo from '../components/images/logo.png';
 import pandaImage from '../components/images/pandaa.png';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const SignupScreen = () => {
   const [name, setName] = useState('');
@@ -13,10 +14,24 @@ const SignupScreen = () => {
   // Handle signup logic here (e.g., API call, validation)
   const navigation = useNavigation();
 
-  const handleSignup = () => {
-    // Signup işlemi burada gerçekleştirilebilir
-    console.log("Signup button clicked");
+  const handleSignup = async () => {
+      try {
+        const response = await axios.post('http://10.0.2.2:8080/api/users/register', {
+          "name": name,
+          "userName": username,
+          "email": email,
+          "password": password
+      });
+
+      console.log('Signup successful:', response.data);
+      navigation.navigate('Home');
+      }
+      catch (error) {
+        console.error('Signup error:', error);
+      }
+      console.log("Signup button clicked");
   };
+
 
   const handleContinueAsGuest = () => {
     // Misafir olarak devam et işlemi burada gerçekleştirilebilir
@@ -129,3 +144,33 @@ const styles = StyleSheet.create({
 });
 
 export default SignupScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -19,9 +19,17 @@ function TriplePage({ navigation }) {
         <Button
           title="DELETE ACCOUNT"
           // connect with sign up page
-          onPress={() => navigation.navigate('MyProfile')}
+          onPress={() => navigation.navigate('Main')}
           color="green" // Change button color to green
         />
+      </View>
+      <View style={{ width: width * 0.8, marginBottom: 20 }}>
+          <Button
+              title="MY PROFILE"
+              // connect with sign up page
+              onPress={() => navigation.navigate('MyProfile')}
+              color="green" // Change button color to green
+          />
       </View>
       {/* Bottom navigation bar */}
       <View style={styles.bottomNavBar}>
