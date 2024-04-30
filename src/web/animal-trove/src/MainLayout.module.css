@@ -8,7 +8,7 @@
   position: relative;
 }
 .brandContainer {
-  margin-left: 24px;
+  margin-right: 24px;
   display: flex;
   align-self: center;
   gap: 10px;
@@ -16,27 +16,29 @@
 
 .logo {
   width: 50px;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .userContainer {
   display: flex;
   align-items: center;
-  margin-right: 24px;
+  margin-left: 24px;
 }
 
 .loginButton {
-  background-color: #ffffff;
+  background-color: #000000;
   border: none;
-  color: black;
+  color: rgb(255, 255, 255);
   padding: 10px 32px;
   text-align: center;
+  font-size: 1.12rem;
+  font-weight: bold;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  margin-right: 24px;
+  margin-left: 24px;
   border-radius: 3px;
 }
 
