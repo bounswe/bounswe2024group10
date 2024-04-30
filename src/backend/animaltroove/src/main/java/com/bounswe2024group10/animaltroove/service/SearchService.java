@@ -2,6 +2,7 @@ package com.bounswe2024group10.animaltroove.service;
 
 import com.bounswe2024group10.animaltroove.dto.SearchResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.query.*;
@@ -13,13 +14,13 @@ import org.apache.jena.util.FileManager;
 @Service
 public class SearchService {
 
-    public SearchResponse search(String searchTerm) {
+    public List<SearchResponse> search(String searchTerm) {
         String entityURI = getEntityURI(searchTerm);
         System.out.println("Entity URI" +entityURI);
         if (entityURI == null) {
             return null;
         }
-        SearchResponse searchResponse = getAnimalDetails(entityURI);
+        List<SearchResponse> searchResponse = getAnimalDetails(entityURI);
         System.out.println(searchResponse.toString());
         return searchResponse;
     }
@@ -56,7 +57,7 @@ public class SearchService {
                 "  }\n" +
 //               "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "LIMIT 10";
+                "LIMIT 20";
         Query query1 = QueryFactory.create(qStringTest);
         QueryExecution qexec =  QueryExecutionFactory.sparqlService(sparqlEndpoint,query1);
         ResultSet resultSet = qexec.execSelect();
@@ -71,7 +72,7 @@ public class SearchService {
         return null;
     }
 
-    SearchResponse getAnimalDetails(String entityURI) {
+    List<SearchResponse> getAnimalDetails(String entityURI) {
         System.out.println("Entitiy URI is : "+ entityURI);
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
@@ -99,7 +100,8 @@ public class SearchService {
         QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query2);
         ResultSet resultSet = queryExec.execSelect();
 
-        if (resultSet.hasNext()) {
+        List<SearchResponse> results = new ArrayList<>();
+        while (resultSet.hasNext()) {
             QuerySolution querySolution = resultSet.next();
             SearchResponse searchResponse = new SearchResponse();
             if (querySolution.get("nameLabel") != null) {
@@ -148,8 +150,8 @@ public class SearchService {
                 searchResponse.setConservationStatus(conservationStatLabel);
 
             }
-            return searchResponse;
+            results.add(searchResponse);
         }
-        return null;
+        return results;
     }
 }
