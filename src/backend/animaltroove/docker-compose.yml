@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  database:
+    image: mysql:latest
+    command: --default-authentication-plugin=caching_sha2_password --bind-address=0.0.0.0
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: animaltroove
+      MYSQL_USER: animaltroove
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306"
+    volumes:
+      - ./DBSQL:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "animaltroove", "-padmin123"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  animaltroove:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8080"
+
