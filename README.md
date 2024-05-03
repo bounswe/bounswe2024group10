@@ -104,6 +104,6 @@ docker-compose up
 By default, started web application will be running on localhost:3000 and the spring application will be running of localhost:8080 if no other port will specified in the application.properties file.
 
 # Running the application online
-Use that url to access the application: animaltroove.com
+Use that url to access the application: 165.22.95.135:3000
 
 
