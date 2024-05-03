@@ -39,6 +39,9 @@ public class RegisteredUser {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
+    public RegisteredUser() {
+    }
+
     public RegisteredUser(String userName, String email, String password, String name, Date birthday, String bio, byte[] profilePicture) {
         this.userName = userName;
         this.email = email;

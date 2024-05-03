@@ -31,12 +31,8 @@ public class RegisteredUserController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest user) {
-        LoginResponse loggedInUser = loginService.loginUser(user.getUserName(), user.getPassword());
-        System.out.println(loggedInUser);
-        if (loggedInUser == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest request) {
+        LoginResponse response = loginService.loginUser(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
