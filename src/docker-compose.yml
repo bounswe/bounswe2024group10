@@ -21,11 +21,20 @@ services:
 
   animaltroove:
     build:
-      context: .
+      context: ./backend/animaltroove
       dockerfile: Dockerfile
     depends_on:
       database:
         condition: service_healthy
     ports:
       - "8080:8080"
+
+  frontend:
+    build:
+      context: ./web/animal-trove
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - animaltroove
 
