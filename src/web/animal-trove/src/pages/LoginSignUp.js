@@ -1,43 +1,58 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./LoginSignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { toast } from "react-toastify";
+import nookies from "nookies";
+import { login, register } from "../services/auth";
+import { authContext } from "../context/AuthContext";
 
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
+  const { setUser } = useContext(authContext);
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    if (!isRegister) {
-      navigate("/");
-    }
-    else {
-      try {
-        const response = axios.post("http://localhost:8080/users/register", {
-          name,
-          email,
-          username,
-          password,
+  const handleLogin = async () => {
+    try {
+      const response = await login({ userName, password });
+      console.log(response);
+      if (response.success) {
+        const { token, userName } = response;
+        nookies.set(null, "authToken", token, {
+          maxAge: 7 * 24 * 60 * 60,
+          path: "/",
+        });
+        nookies.set(null, "userName", userName, {
+          maxAge: 7 * 24 * 60 * 60,
+          path: "/",
         });
 
-        if (response.status === 201) {
-          navigate("/");
-        }
-        else {
-          alert("Error");
-        }
+        setUser({ userName });
+        navigate("/");
+      } else {
+        toast.error(response.message);
       }
-      catch (error) {
-        alert(error.message);
-      }
-
-
+    } catch (error) {
+      //
     }
+  };
+
+  const handleRegister = async () => {
+    try {
+      const response = await register({
+        name,
+        email,
+        userName,
+        password,
+      });
+      if (response.status === 201) {
+        toast.success("Register successful, please login");
+        navigate("/auth");
+      }
+    } catch (error) {}
   };
 
   return (
@@ -80,7 +95,7 @@ export default function Login() {
           <div>
             <input
               onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              value={userName}
               type="text"
               id="username"
               name="username"
@@ -99,7 +114,10 @@ export default function Login() {
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <button className={styles.button} onClick={handleButtonClick}>
+          <button
+            className={styles.button}
+            onClick={isRegister ? handleRegister : handleLogin}
+          >
             {isRegister ? "Register" : "Login"}
           </button>
         </div>

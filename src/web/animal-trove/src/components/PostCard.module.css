@@ -30,6 +30,7 @@
   height: auto;
   border-radius: 15px;
   margin: 10px;
+  object-fit: cover;
 }
 
 .postInfo {
