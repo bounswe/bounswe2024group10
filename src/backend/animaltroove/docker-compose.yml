@@ -1,4 +1,5 @@
 version: '3.8'
+<<<<<<< HEAD
 services:
   mysql_server:
     image: mysql:latest
@@ -23,3 +24,35 @@ services:
       target: java_app
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_server:3306/animaltroove?useSSL=false&serverTimezone=UTC
+=======
+
+services:
+  database:
+    image: mysql:latest
+    command: --default-authentication-plugin=caching_sha2_password --bind-address=0.0.0.0
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: animaltroove
+      MYSQL_USER: animaltroove
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306"
+    volumes:
+      - ./DBSQL:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "animaltroove", "-padmin123"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  animaltroove:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8080"
+
+>>>>>>> d6b569fc10d937493756258c04b89ddf3877eb55

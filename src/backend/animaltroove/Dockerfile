@@ -23,9 +23,14 @@ EXPOSE 3306
 FROM openjdk:21-jdk AS java_app
 # Set working directory
 WORKDIR /app
+<<<<<<< HEAD
 # Copy the JAR file
 COPY --from=build /app/target/animaltroove-0.0.1-SNAPSHOT.jar .
 # Expose the port for the Java application
 EXPOSE 8080
 # Command to run the Java application
 CMD ["java", "-jar", "animaltroove-0.0.1-SNAPSHOT.jar", "--spring.datasource.url=jdbc:mysql://mysql_server:3306/animaltroove", "--spring.datasource.username=root", "--spring.datasource.password=root"]
+=======
+COPY --from=0 /app/target/animaltroove-0.0.1-SNAPSHOT.jar .
+CMD ["java", "-jar", "animaltroove-0.0.1-SNAPSHOT.jar"]
+>>>>>>> d6b569fc10d937493756258c04b89ddf3877eb55
