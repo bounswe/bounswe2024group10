@@ -1,18 +1,22 @@
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import { IconHome, IconUser } from "@tabler/icons-react";
-const navBarOptions = [
-  { name: "Home", path: "/", Icon: IconHome },
-
-  { name: "Profile", path: "/me", Icon: IconUser },
-  { name: "Post", path: "/post", Icon: IconUser },
-];
+import Icons, { IconHome, IconSearch, IconUser } from "@tabler/icons-react";
+import { useContext } from "react";
+import { authContext } from "../context/AuthContext";
+const navBarOptions = {
+  authenticated: [{ name: "Profile", path: "/me", Icon: IconUser }],
+  unauthenticated: [
+    { name: "Home", path: "/", Icon: IconHome },
+    { name: "Search", path: "/search", Icon: IconSearch },
+  ],
+};
 
 const Navbar = () => {
+  const { user } = useContext(authContext);
   return (
     <nav className={styles.container}>
       <ul className={styles.navList}>
-        {navBarOptions.map(({ name, path, Icon }) => (
+        {navBarOptions.unauthenticated.map(({ name, path, Icon }) => (
           <li key={name} className={styles.navElement}>
             <Link className={styles.navLink} to={path}>
               {Icon && <Icon size={24} />}
@@ -20,6 +24,18 @@ const Navbar = () => {
             </Link>
           </li>
         ))}
+        {user ? (
+          navBarOptions.authenticated.map(({ name, path, Icon }) => (
+            <li key={name} className={styles.navElement}>
+              <Link className={styles.navLink} to={path}>
+                {Icon && <Icon size={24} />}
+                {name}
+              </Link>
+            </li>
+          ))
+        ) : (
+          <></>
+        )}
       </ul>
     </nav>
   );

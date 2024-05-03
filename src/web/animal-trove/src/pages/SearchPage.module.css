@@ -1,0 +1,52 @@
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 3rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  min-width: max-content;
+}
+.searchContainer {
+  flex-basis: 100%;
+}
+.searchBar {
+  margin-left: auto;
+  padding: 12px 8px;
+  flex-basis: 100%;
+  min-width: 100%;
+}
+
+.animalCard {
+  margin-top: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: start;
+  background-color: rgb(252, 252, 252);
+  padding: 12px;
+}
+
+.searchResults {
+  margin-top: 1rem;
+}
+
+.subInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+}
+
+.animalImage {
+  width: 100px;
+  height: 100px;
+  margin-right: 1rem;
+}
+.name {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  display: block;
+}
