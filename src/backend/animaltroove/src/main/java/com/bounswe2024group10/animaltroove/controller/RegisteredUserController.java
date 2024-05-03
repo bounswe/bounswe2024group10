@@ -1,6 +1,8 @@
 package com.bounswe2024group10.animaltroove.controller;
 
 import com.bounswe2024group10.animaltroove.model.RegisteredUser;
+import com.bounswe2024group10.animaltroove.dto.RegisterRequest;
+import com.bounswe2024group10.animaltroove.dto.RegisterResponse;
 import com.bounswe2024group10.animaltroove.dto.LoginRequest;
 import com.bounswe2024group10.animaltroove.dto.LoginResponse;
 import com.bounswe2024group10.animaltroove.service.LoginService;
@@ -22,9 +24,9 @@ public class RegisteredUserController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
-    public ResponseEntity<RegisteredUser> registerUser(@RequestBody RegisteredUser newUser) {
-        RegisteredUser registeredUser = registrationService.registerNewUser(newUser);
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+    public ResponseEntity<RegisterResponse> registerUser(@RequestBody RegisterRequest request) {
+        RegisterResponse response = registrationService.registerUser(request);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
