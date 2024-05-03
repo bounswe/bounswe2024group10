@@ -1,10 +1,5 @@
 package com.bounswe2024group10.animaltroove.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
 import java.util.Date;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -44,8 +39,14 @@ public class RegisteredUser {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
-    public RegisteredUser() {
-        super();
+    public RegisteredUser(String userName, String email, String password, String name, Date birthday, String bio, byte[] profilePicture) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birthday = birthday;
+        this.bio = bio;
+        this.profilePicture = profilePicture;
     }
 
     public String getName() {

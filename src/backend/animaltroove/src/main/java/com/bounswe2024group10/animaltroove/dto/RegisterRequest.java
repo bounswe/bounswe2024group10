@@ -1,5 +1,7 @@
 package com.bounswe2024group10.animaltroove.dto;
 
+import java.util.Date;
+
 public class RegisterRequest {
     private String userName;
     private String email;
