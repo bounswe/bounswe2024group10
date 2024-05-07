@@ -1,5 +1,7 @@
 package com.bounswe2024group10.animaltroove.service;
 
+import com.bounswe2024group10.animaltroove.dto.RegisterRequest;
+import com.bounswe2024group10.animaltroove.dto.RegisterResponse;
 import com.bounswe2024group10.animaltroove.model.RegisteredUser;
 import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +15,23 @@ public class RegistrationService {
     @Autowired
     private RegisteredUserRepository userRepository;
 
-    public RegisteredUser registerNewUser(RegisteredUser newUser) {
-        if (userRepository.findByUserName(newUser.getUserName()) != null) {
-            return null;
+    public RegisterResponse registerUser(RegisterRequest request) {
+        if (userRepository.findByUserName(request.getUserName()) != null) {
+            return new RegisterResponse(false, "Username is already in use.");
         }
-        if (userRepository.findByEmail(newUser.getEmail()) != null) {
-            return null;
+        if (userRepository.findByEmail(request.getEmail()) != null) {
+            return new RegisterResponse(false, "Email address is already in use.");
         }
-        if (!isValidEmail(newUser.getEmail())) {
-            return null; // Invalid email format
+        if (!isValidEmail(request.getEmail())) {
+            return new RegisterResponse(false, "Invalid email address.");
         }
-        
-    // TODO: Store password securely in the database
-        return userRepository.save(newUser);
+        RegisteredUser newUser = new RegisteredUser(request.getUserName(), request.getEmail(), request.getPassword(), request.getName(), request.getBirthday(), request.getBio(), request.getProfilePicture());
+        try {
+            userRepository.save(newUser);
+        } catch (IllegalArgumentException e) {
+            return new RegisterResponse(false, "Invalid user data.");
+        }
+        return new RegisterResponse(true, "User registered successfully.");
     }
 
     private boolean isValidEmail(String email) {

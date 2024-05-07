@@ -1,6 +1,8 @@
 package com.bounswe2024group10.animaltroove.controller;
 
 import com.bounswe2024group10.animaltroove.model.RegisteredUser;
+import com.bounswe2024group10.animaltroove.dto.RegisterRequest;
+import com.bounswe2024group10.animaltroove.dto.RegisterResponse;
 import com.bounswe2024group10.animaltroove.dto.LoginRequest;
 import com.bounswe2024group10.animaltroove.dto.LoginResponse;
 import com.bounswe2024group10.animaltroove.service.LoginService;
@@ -22,19 +24,15 @@ public class RegisteredUserController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
-    public ResponseEntity<RegisteredUser> registerUser(@RequestBody RegisteredUser newUser) {
-        RegisteredUser registeredUser = registrationService.registerNewUser(newUser);
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+    public ResponseEntity<RegisterResponse> registerUser(@RequestBody RegisterRequest request) {
+        RegisterResponse response = registrationService.registerUser(request);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest user) {
-        LoginResponse loggedInUser = loginService.loginUser(user.getUserName(), user.getPassword());
-        System.out.println(loggedInUser);
-        if (loggedInUser == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest request) {
+        LoginResponse response = loginService.loginUser(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
