@@ -8,13 +8,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
-
 public class JwtTokenProvider {
 
-    private String jwtSecret = "bounSwe2024Group10bounSwe2024Group10bounSwe2024Group10";
+    // This is a secret key that is used to sign the JWT token.
+    private String jwtSecret = "bounSwe2024Group10ay123ca456nk789ocbounSwe2024Group10ay123ca456nk789oc";
     private Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
+    // 1 day as milliseconds
     private int jwtExpirationInMs = 86400000;
 
     public String generateToken(String username) {
