@@ -3,8 +3,8 @@ package com.bounswe2024group10.animaltroove.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Liked")
-public class Liked {
+@Table(name = "Bookmarked")
+public class Bookmarked {
 
     @Id
     @JoinColumn(name = "userID")
@@ -14,11 +14,11 @@ public class Liked {
     @JoinColumn(name = "postID")
     private Long postID;
 
-    public Liked() {
+    public Bookmarked() {
         // Default constructor
     }
 
-    public Liked(int userID, Long postID) {
+    public Bookmarked(int userID, Long postID) {
         this.userID = userID;
         this.postID = postID;
     }
@@ -39,4 +39,3 @@ public class Liked {
         this.postID = postID;
     }
 }
-

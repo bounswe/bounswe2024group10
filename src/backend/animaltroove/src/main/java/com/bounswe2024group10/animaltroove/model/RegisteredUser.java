@@ -29,7 +29,7 @@ public class RegisteredUser {
     @Column(name = "email", unique = true, nullable = false, length = 30)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 80)
+    @Column(name = "password", nullable = false, length = 30)
     private String password;
 
     @Lob

@@ -5,7 +5,6 @@ import com.bounswe2024group10.animaltroove.dto.RegisterResponse;
 import com.bounswe2024group10.animaltroove.model.RegisteredUser;
 import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
@@ -15,8 +14,6 @@ public class RegistrationService {
 
     @Autowired
     private RegisteredUserRepository userRepository;
-
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public RegisterResponse registerUser(RegisterRequest request) {
         if (userRepository.findByUserName(request.getUserName()) != null) {
@@ -28,8 +25,7 @@ public class RegistrationService {
         if (!isValidEmail(request.getEmail())) {
             return new RegisterResponse(false, "Invalid email address.");
         }
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-        RegisteredUser newUser = new RegisteredUser(request.getUserName(), request.getEmail(), encodedPassword, request.getName(), request.getBirthday(), request.getBio(), request.getProfilePicture());
+        RegisteredUser newUser = new RegisteredUser(request.getUserName(), request.getEmail(), request.getPassword(), request.getName(), request.getBirthday(), request.getBio(), request.getProfilePicture());
         try {
             userRepository.save(newUser);
         } catch (IllegalArgumentException e) {

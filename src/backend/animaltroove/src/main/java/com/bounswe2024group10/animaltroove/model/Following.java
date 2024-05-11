@@ -7,38 +7,36 @@ import jakarta.persistence.*;
 public class Following {
 
     @Id
-    @ManyToOne
     @JoinColumn(name = "followingUserID")
-    private RegisteredUser followingUser;
+    private int followingUserID;
 
     @Id
-    @ManyToOne
     @JoinColumn(name = "followedUserID")
-    private RegisteredUser followedUser;
+    private int followedUserID;
 
     public Following() {
         // Default constructor
     }
 
-    public Following(RegisteredUser followingUser, RegisteredUser followedUser) {
-        this.followingUser = followingUser;
-        this.followedUser = followedUser;
+    public Following (int followingUserID, int followedUserID) {
+        this.followingUserID = followingUserID;
+        this.followedUserID = followedUserID;
     }
 
-    public RegisteredUser getFollowingUser() {
-        return followingUser;
+    public int getFollowingUserID() {
+        return followingUserID;
     }
 
-    public void setFollowingUser(RegisteredUser followingUser) {
-        this.followingUser = followingUser;
+    public void setFollowingUserID (int followingUserID) {
+        this.followingUserID = followingUserID;
     }
 
-    public RegisteredUser getFollowedUser() {
-        return followedUser;
+    public int getFollowedUserID() {
+        return followedUserID;
     }
 
-    public void setFollowedUser(RegisteredUser followedUser) {
-        this.followedUser = followedUser;
+    public void setFollowedUserID (int followedUserID) {
+        this.followedUserID = followedUserID;
     }
 }
 
