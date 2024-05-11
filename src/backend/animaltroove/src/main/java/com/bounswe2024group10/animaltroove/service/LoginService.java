@@ -22,13 +22,13 @@ public class LoginService {
 
     public LoginResponse loginUser(LoginRequest request) {
         if (request.getUserName() == null || request.getPassword() == null) {
-            return new LoginResponse(false, "Username or password cannot be null", null, null);
+            return new LoginResponse(false, "Username or password cannot be null", null);
         }
         RegisteredUser user = userRepository.findByUserName(request.getUserName());
         if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return new LoginResponse(false, "Invalid username or password", null, null);
+            return new LoginResponse(false, "Invalid username or password", null);
         }
         String token = jwtTokenProvider.generateToken(user.getUserName());
-        return new LoginResponse(true, "Login successful", token, user.getUserName());
+        return new LoginResponse(true, "Login successful", token);
     }
 }
