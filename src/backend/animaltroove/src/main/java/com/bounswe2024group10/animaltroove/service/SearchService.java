@@ -237,7 +237,7 @@ public class SearchService {
                 "  OPTIONAL {wd:" + entityURI + " wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel" ;
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" ;
                 
         Query query2 = QueryFactory.create(queryString);
         QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query2);
@@ -326,7 +326,7 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel" +
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 1000";
         alternativeQueries.add(queryString1);
@@ -355,7 +355,7 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P2050 ?wingSpan.}\n" +
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel" +
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 1000";
         alternativeQueries.add(queryString2);
