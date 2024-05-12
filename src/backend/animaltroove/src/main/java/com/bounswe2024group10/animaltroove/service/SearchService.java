@@ -221,7 +221,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " rdfs:label ?itemLabel .\n" + // Fetch the label of the main item
                 "  FILTER(LANG(?itemLabel) = \"en\")\n" + // Ensure the label is in English
@@ -237,7 +237,7 @@ public class SearchService {
                 "  OPTIONAL {wd:" + entityURI + " wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" ;
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" ;
                 
         Query query2 = QueryFactory.create(queryString);
         QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query2);
@@ -308,7 +308,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  ?item wdt:P279+ wd:" + familyURI + ".\n" +                
                 "  ?item rdfs:label ?itemLabel.\n" +
@@ -326,7 +326,7 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 1000";
         alternativeQueries.add(queryString1);
@@ -337,7 +337,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  ?item wdt:P171* wd:" + familyURI + ".\n" +
                 "  ?item wdt:P31 wd:Q16521.\n" +
@@ -355,7 +355,7 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P2050 ?wingSpan.}\n" +
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 1000";
         alternativeQueries.add(queryString2);
