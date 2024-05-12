@@ -43,10 +43,11 @@ public class SearchService {
             List<SearchResponse> searchResponse = getWellKnowns(searchTerm);
             return searchResponse;
         }
+        return null;
     }
 
     public String getEntityURI(String searchTerm) {
-        ArrayList<String>() alternativeQueries = new ArrayList<>();
+        ArrayList<String> alternativeQueries = new ArrayList<>();
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
@@ -102,32 +103,37 @@ public class SearchService {
 
     public String getFamilyURI(String searchTerm) {
 
-        ArrayList<String>() alternativeQueries = new ArrayList<>();
+        ArrayList<String> alternativeQueries = new ArrayList<>();
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                             "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
-                             "SELECT ?entity\n" +
-                             "WHERE {\n" +
-                             "  ?entity rdfs:label \"" + searchTerm + "\"@en.\n" +
-                             "  ?entity wdt:P31 wd:Q16521.\n" +
-                             "  MINUS { ?entity wdt:P105 wd:Q7432 } \n" +
-                             "}";
+                                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
+                                "SELECT ?entity\n" +
+                                "WHERE {\n" +
+                                "  ?entity rdfs:label \"" + searchTerm + "\"@en.\n" +
+                                "  ?entity wdt:P31 wd:Q16521.\n" +
+                                "  MINUS { ?entity wdt:P105 wd:Q7432 } \n" +
+                                "}";
         alternativeQueries.add(queryString1);
 
         /*
         This query can return multiple results.
         User has to specify further which one they would like to see.
         */
-        String queryString2 = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
-                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
-                "SELECT ?item ?itemLabel\n" +
-                "WHERE {\n" +
-                "  ?item wdt:P31 wd:Q55983715.\n" +
-                "  ?item rdfs:label ?itemLabel.\n" +
-                "  FILTER(LANG(?itemLabel) = \"en\" && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', \"i\")).\n" +
-                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
-                "}\n" +
-                "LIMIT 1";
+        String queryString2 = "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +"PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                                "SELECT ?item ?itemLabel\n" +
+                                "WHERE {\n" +
+                                "  ?item wdt:P31 wd:Q55983715.\n" +
+                                "  ?item rdfs:label ?itemLabel.\n" +
+                                "  FILTER(LANG(?itemLabel) = \"en\" && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', \"i\")).\n" +
+                                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                                "}\n" +
+                                "LIMIT 1";
         
         alternativeQueries.add(queryString2);
 
@@ -162,23 +168,26 @@ public class SearchService {
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
 
         String queryString = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
-                             "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
-                             "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                             "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
-                             "SELECT ?nameLabel ?itemLabel (SAMPLE(?pic) AS ?samplePic)\n" +
-                             "WHERE {\n" +
-                             "  ?item wdt:P31 wd:Q55983715.\n" +
-                             "  FILTER(LANG(?itemLabel) = 'en' && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', 'i')).\n" +
-                             "  ?item rdfs:label ?itemLabel.\n" +
-                             "  OPTIONAL { ?item wdt:P18 ?pic. }\n" +
-                             "  OPTIONAL { ?item wdt:P225 ?name. }\n" +
-                             "  SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }\n" +
-                             "}\n" +
-                             "GROUP BY ?nameLabel ?itemLabel";
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "SELECT ?nameLabel ?itemLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "WHERE {\n" +
+                "  ?item wdt:P31 wd:Q55983715.\n" +
+                "  FILTER(LANG(?itemLabel) = 'en' && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', 'i')).\n" +
+                "  ?item rdfs:label ?itemLabel.\n" +
+                "  OPTIONAL { ?item wdt:P18 ?pic. }\n" +
+                "  OPTIONAL { ?item wdt:P225 ?name. }\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }\n" +
+                "}\n" +
+                "GROUP BY ?nameLabel ?itemLabel";
        
-        Query query1 = QueryFactory.create(alternativeQueries.get(i));
+        Query query1 = QueryFactory.create(queryString);
         QueryExecution qexec =  QueryExecutionFactory.sparqlService(sparqlEndpoint,query1);
         ResultSet resultSet = qexec.execSelect();
+        ArrayList<SearchResponse> results = new ArrayList<>();
+
 
         while (resultSet.hasNext()) {
             QuerySolution querySolution = resultSet.next();
@@ -226,7 +235,7 @@ public class SearchService {
                 "  OPTIONAL {wd:" + entityURI + " wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel"
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel" ;
                 
         Query query2 = QueryFactory.create(queryString);
         QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query2);
@@ -289,7 +298,7 @@ public class SearchService {
 
     List<SearchResponse> getSpeciesOfFamily(String familyURI) {
         
-        ArrayList<String>() alternativeQueries = new ArrayList<>();
+        ArrayList<String> alternativeQueries = new ArrayList<>();
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString1 = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
@@ -311,8 +320,8 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel"
-                "ORDER BY RAND()\n"
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel" +
+                "ORDER BY RAND()\n" +
                 "LIMIT 1000";
         alternativeQueries.add(queryString1);
         
@@ -336,18 +345,18 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P2050 ?wingSpan.}\n" +
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel"
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel" +
                 "ORDER BY RAND()\n" +
                 "LIMIT 1000";
         alternativeQueries.add(queryString2);
 
         for (int i = 0; i < alternativeQueries.size(); i++) {
-            Query query2 = QueryFactory.create(queryString);
+            Query query2 = QueryFactory.create(alternativeQueries.get(i));
             QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query2);
             ResultSet resultSet = queryExec.execSelect();
 
             List<SearchResponse> results = new ArrayList<>();
-            if (resultSet.hasNext) {
+            if (resultSet.hasNext()) {
                 while (resultSet.hasNext()) {
                     QuerySolution querySolution = resultSet.next();
                     SearchResponse searchResponse = new SearchResponse();
