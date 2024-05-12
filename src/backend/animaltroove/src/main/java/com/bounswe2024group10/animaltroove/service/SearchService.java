@@ -126,10 +126,10 @@ public class SearchService {
                                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +"PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
                                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
-                                "SELECT ?item ?itemLabel\n" +
+                                "SELECT ?entity\n" +
                                 "WHERE {\n" +
-                                "  ?item wdt:P31 wd:Q55983715.\n" +
-                                "  ?item rdfs:label ?itemLabel.\n" +
+                                "  ?entity wdt:P31 wd:Q55983715.\n" +
+                                "  ?entity rdfs:label ?itemLabel.\n" +
                                 "  FILTER(LANG(?itemLabel) = \"en\" && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', \"i\")).\n" +
                                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                                 "}\n" +
@@ -171,6 +171,7 @@ public class SearchService {
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "SELECT ?nameLabel ?itemLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
@@ -219,6 +220,7 @@ public class SearchService {
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
                 "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " rdfs:label ?itemLabel .\n" + // Fetch the label of the main item
@@ -302,6 +304,10 @@ public class SearchService {
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString1 = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
                 "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  ?item wdt:P279+ wd:" + familyURI + ".\n" +                
@@ -327,6 +333,10 @@ public class SearchService {
         
         String queryString2 = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
                 "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
                 "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?lifeLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  ?item wdt:P171* wd:" + familyURI + ".\n" +
