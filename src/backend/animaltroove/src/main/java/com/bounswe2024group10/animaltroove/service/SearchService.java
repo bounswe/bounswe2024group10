@@ -162,17 +162,19 @@ public class SearchService {
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
 
         String queryString = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
-                    "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
-                    "SELECT ?nameLabel ?itemLabel (SAMPLE(?pic) AS ?samplePic)\n" +
-                    "WHERE {\n" +
-                    "  ?item wdt:P31 wd:Q55983715.\n" +
-                    "  FILTER(LANG(?itemLabel) = \"en\" && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', \"i\")).\n" +
-                    "  ?item rdfs:label ?itemLabel.\n" +
-                    "  OPTIONAL { ?item wdt:P18 ?pic. }\n" +
-                    "  OPTIONAL { ?item wdt:P225 ?name. }\n" +
-                    "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
-                    "}\n" + 
-                    "GROUP BY ?nameLabel ?itemLabel";
+                             "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                             "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                             "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                             "SELECT ?nameLabel ?itemLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                             "WHERE {\n" +
+                             "  ?item wdt:P31 wd:Q55983715.\n" +
+                             "  FILTER(LANG(?itemLabel) = 'en' && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', 'i')).\n" +
+                             "  ?item rdfs:label ?itemLabel.\n" +
+                             "  OPTIONAL { ?item wdt:P18 ?pic. }\n" +
+                             "  OPTIONAL { ?item wdt:P225 ?name. }\n" +
+                             "  SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }\n" +
+                             "}\n" +
+                             "GROUP BY ?nameLabel ?itemLabel";
        
         Query query1 = QueryFactory.create(alternativeQueries.get(i));
         QueryExecution qexec =  QueryExecutionFactory.sparqlService(sparqlEndpoint,query1);
