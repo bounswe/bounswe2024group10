@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "./context/AuthContext";
 import SearchPage from "./pages/SearchPage";
+import NewPost from "./pages/NewPost";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/me" element={<MyProfile />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/me/settings" element={<Settings />} />
+          <Route path="/newpost" element={<NewPost />} />
         </Routes>
       </AuthContext>
     </div>
