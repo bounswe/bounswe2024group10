@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import styles from "./PostCard.module.css";
-import mockData from "../constants/mockData";
+import {
+  likePost,
+  unlikePost,
+  undislikePost,
+  dislikePost,
+  bookmarkPost
+} from "../services/postActions";
+import { toast } from "react-toastify";
 import {
   IconThumbUp,
   IconThumbUpFilled,
@@ -20,13 +27,13 @@ function PostCard(props) {
     owner,
     image,
     name,
-    likes,
+    likes: defaultLikes,
     isLiked: defaultIsLiked,
     comments,
-    dislikes,
+    dislikes: defaultDislikes,
     location,
     isDisliked: defaultIsDisliked,
-    isSaved: defaultIsSaved,
+    isBookmarked: defultIsBookmarked,
     isReported: defaultIsReported,
     date,
     description,
@@ -34,8 +41,10 @@ function PostCard(props) {
 
   const [isLiked, setIsLiked] = useState(defaultIsLiked);
   const [isDisliked, setIsDisliked] = useState(defaultIsDisliked);
-  const [isSaved, setIsSaved] = useState(defaultIsSaved);
+  const [isBookmarked, setIsBookmarked] = useState(defultIsBookmarked);
   const [isReported, setIsReported] = useState(defaultIsReported);
+  const [likes, setLikes] = useState(defaultDislikes);
+  const [dislikes, setDislikes] = useState(defaultLikes);
 
   function truncateText(text, maxLength) {
     const wordArray = text.split(" ");
@@ -45,22 +54,103 @@ function PostCard(props) {
     return text;
   }
 
-  function handleLike() {
-    if (isDisliked && !isLiked) {
-      setIsDisliked(false);
-    }
+  const handleLike = async () => {
+    const originallyLiked = isLiked;
+    const originallyDisliked = isDisliked;
+    const originallyLikes = likes;
+    const originallyDislikes = dislikes;
     setIsLiked(!isLiked);
-  }
-
-  function handleDislike() {
-    if (isLiked && !isDisliked) {
-      setIsLiked(false);
+    if (!isLiked) {
+      setLikes(likes + 1);
+    } else {
+      setLikes(likes - 1);
     }
+    if (isDisliked) {
+      setIsDisliked(false);
+      setDislikes(dislikes - 1);
+    }
+
+    try {
+      if (!originallyDisliked) {
+        const response = originallyLiked
+          ? await unlikePost({ postId: id })
+          : await likePost({ postId: id });
+        if (!response.success) throw new Error(response.message);
+      } else {
+        const [likeResponse, undislikeResponse] = await Promise.all([
+          likePost({ postId: id }),
+          undislikePost({ postId: id }),
+        ]);
+        if (!likeResponse.success || !undislikeResponse.success)
+          throw new Error(likeResponse.message || undislikeResponse.message);
+      }
+    } catch (error) {
+      setIsLiked(originallyLiked);
+      setIsDisliked(originallyDisliked);
+      setLikes(originallyLikes);
+      setDislikes(originallyDislikes);
+      toast.error(error.message);
+    }
+  };
+
+  const handleDislike = async () => {
+    const originallyDisliked = isDisliked;
+    const originallyLiked = isLiked;
+    const originallyLikes = likes;
+    const originallyDislikes = dislikes;
     setIsDisliked(!isDisliked);
-  }
-  function handleSave() {
-    setIsSaved(!isSaved);
-  }
+    if (!isDisliked) {
+      setDislikes(dislikes + 1);
+    } else {
+      setDislikes(dislikes - 1);
+    }
+    if (isLiked) {
+      setIsLiked(false);
+      setLikes(likes - 1);
+    }
+
+    try {
+      if (!originallyLiked) {
+        const response = originallyDisliked
+          ? await undislikePost({ postId: id })
+          : await dislikePost({ postId: id });
+        if (!response.success) throw new Error(response.message);
+      } else {
+        const [dislikeResponse, unlikeResponse] = await Promise.all([
+          dislikePost({ postId: id }),
+          unlikePost({ postId: id }),
+        ]);
+        if (!dislikeResponse.success || !unlikeResponse.success)
+          throw new Error(dislikeResponse.message || unlikeResponse.message);
+      }
+    } catch (error) {
+      setIsDisliked(originallyDisliked);
+      setIsLiked(originallyLiked);
+      setLikes(originallyLikes);
+      setDislikes(originallyDislikes);
+      toast.error(error.message);
+    }
+  };
+
+  const handleBookmark = async () => {
+    const originallyIsBookmarked = isBookmarked;
+    setIsBookmarked(!isBookmarked);
+    try {
+      if (!originallyIsBookmarked) {
+        const response = await bookmarkPost({ postId: id });
+        if (!response.success) throw new Error(response.message);
+      }
+      else {
+        const response = await bookmarkPost({ postId: id });
+        if (!response.success) throw new Error(response.message);
+      }
+      
+    } catch (error) {
+      setIsBookmarked(!isBookmarked);
+      toast.error(error.message);
+    }
+  };
+
   function handleReport() {
     setIsReported(!isReported);
   }
@@ -94,7 +184,7 @@ function PostCard(props) {
             ) : (
               <IconThumbUp size={24} />
             )}
-            <span>{likes + (isLiked ? 1 : 0)}</span>
+            <span>{likes}</span>
           </div>
           <div className={styles.action} onClick={handleDislike}>
             {isDisliked ? (
@@ -102,17 +192,17 @@ function PostCard(props) {
             ) : (
               <IconThumbDown size={24} />
             )}
-            <span>{dislikes + (isDisliked ? 1 : 0)}</span>
+            <span>{dislikes}</span>
           </div>
           <div className={styles.action}>
             <IconMessageCircle size={24} />
             <span>{comments}</span>
           </div>
           <div className={styles.action}>
-            {isSaved ? (
-              <IconBookmarkFilled size={24} onClick={handleSave} />
+            {isBookmarked ? (
+              <IconBookmarkFilled size={24} onClick={handleBookmark} />
             ) : (
-              <IconBookmark size={24} onClick={handleSave} />
+              <IconBookmark size={24} onClick={handleBookmark} />
             )}
           </div>
           <div className={styles.action} onClick={handleReport}>
