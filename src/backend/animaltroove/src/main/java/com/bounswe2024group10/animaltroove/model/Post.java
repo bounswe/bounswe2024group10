@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Posts")
+@Table(name = "Post")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "postID")
-    private Long postID;
+    private Integer postID;
 
     @Lob
     @Column(name = "media", nullable = false)
@@ -18,30 +18,32 @@ public class Post {
     @Column(name = "caption", length = 256)
     private String caption;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "photoDate")
     private Date photoDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "postDate", nullable = false)
     private Date postDate;
 
     @Column(name = "location")
     private String location;
 
-    @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
-    private RegisteredUser user;
-
     public Post() {
         // Default constructor
     }
 
-    public Long getPostID() {
+    public Post(byte[] media, String caption, Date photoDate, Date postDate, String location) {
+        this.media = media;
+        this.caption = caption;
+        this.photoDate = photoDate;
+        this.postDate = postDate;
+        this.location = location;
+    }
+
+    public Integer getPostID() {
         return postID;
     }
 
-    public void setPostID(Long postID) {
+    public void setPostID(Integer postID) {
         this.postID = postID;
     }
 
@@ -83,14 +85,6 @@ public class Post {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public RegisteredUser getUser() {
-        return user;
-    }
-
-    public void setUser(RegisteredUser user) {
-        this.user = user;
     }
 }
 
