@@ -1,9 +1,11 @@
 package com.bounswe2024group10.animaltroove.model;
 
 import jakarta.persistence.*;
+import com.bounswe2024group10.animaltroove.model.relationTypes.BookmarkedID;
 
 @Entity
 @Table(name = "Bookmarked")
+@IdClass(BookmarkedID.class)
 public class Bookmarked {
 
     @Id
