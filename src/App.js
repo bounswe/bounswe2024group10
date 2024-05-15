@@ -5,8 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './pages/HomeScreen';
 import DetailsScreen from './pages/DetailsScreen';
 import SettingsScreen from './pages/SettingsScreen';
-import SearchB from './pages/SearchB' ; 
-import GuestSearch from './pages/GuestSearch' ; 
+import SearchB from './pages/SearchB' ;
+import GuestSearch from './pages/GuestSearch' ;
 import MainScreen from './pages/MainScreen';
 import LoginScreen from './pages/LoginScreen';
 import SignupScreen from './pages/SignUpScreen';
@@ -33,7 +33,7 @@ function App() {
         <Stack.Screen name="GuestS" component={GuestSearch} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name = "Settings" component={SettingsScreen} options={{ headerLeft: null }} />
-        <Stack.Screen name = "Search" component={SearchB}  options={{ headerLeft: null }} />   
+        <Stack.Screen name = "Search" component={SearchB}  options={{ headerLeft: null }} />
         <Stack.Screen name="Post" component={Post} />
         <Stack.Screen name="MyProfile" component={MyProfile} />
         <Stack.Screen name="SearchResults" component={SearchResults} />

@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, SafeAreaVie
 import mockData from "../constants/mockData";
 import styles from "./MyProfile.styles.js";
 import Icon from "react-native-vector-icons/FontAwesome";
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 
 function MyProfile({ navigation }) {
@@ -19,24 +20,31 @@ function MyProfile({ navigation }) {
                     </View>
                     <View style={styles.infoContainer}>
                         <View className={styles.infoDivider}>
-                            <View style={{alignItems: 'center', width: 200,}}>
-                                <Text className={styles.username}>{username}</Text>
-                                <Text className={styles.email}>{email}</Text>
+                            <View style={{alignItems: 'center', width: 200, marginBottom: 5,}}>
+                                <Text style={styles.username}>{username}</Text>
+                                <Text style={styles.email}>{email}</Text>
                             </View>
                             <View style={styles.followerContainer}>
-                                <Text className={styles.followers}>
-                                    {followers} Followers
-                                </Text>
-                                <Text className={styles.followers}>
-                                    {following} Followings
-                                </Text>
+                                <View style={styles.followers}>
+                                    <Text>Followers</Text>
+                                    <Text>{followers}</Text>
+                                </View>
+                                <View style={styles.following}>
+                                    <Text>Followings</Text>
+                                    <Text>{following}</Text>
+                                </View>
                             </View>
-                            <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.settingsButtonContainer}>
-                                <Text>Settings </Text>
-                            </TouchableOpacity>
+                            <View style={{flexDirection: 'row',alignItems: 'center'}}>
+                                <Text style={{fontSize: 18,}}>For other options:</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Triple')}>
+                                    <MaterialIcon name="more-horiz" size={30} color="green" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <View style={{width: 200,}}>
-                            <Text className={styles.biography}>{personalInfo}</Text>
+                        <View style={{width: 200,flexDirection: 'column',}}>
+                            <Text style={styles.biography}>
+                                Description:{personalInfo}
+                            </Text>
                         </View>
                     </View>
                 </View>

@@ -32,9 +32,6 @@ function SettingsScreen({ navigation }) {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ justifyContent: 'center', alignItems: 'flex-start', paddingHorizontal: 20 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Triple')}>
-              <MaterialIcon name="more-horiz" size={30} color="green" />
-            </TouchableOpacity>
             <View style={{ width: 40 }} />
             <Text style={{ fontSize: 24 }}>ANIMAL TROVE</Text>
           </View>
@@ -106,8 +103,8 @@ function SettingsScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-          <Icon name="cog" size={30} color="green" />
+        <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
+            <Text style={{fontSize: 16, color: '#666666'}}> My Profile </Text>
         </TouchableOpacity>
       </View>
     </View>

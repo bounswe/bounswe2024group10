@@ -115,8 +115,8 @@ const toggleBookmark = (postId) => {
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-          <Icon name="cog" size={30} color="green" />
+        <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
+          <Text style={{fontSize: 16, color: '#666666'}}> My Profile </Text>
         </TouchableOpacity>
       </View>
     </View>
