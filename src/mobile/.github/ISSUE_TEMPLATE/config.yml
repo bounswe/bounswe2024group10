@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issue for errors
+    url: https://github.com/bounswe/bounswe2024group10/issues/new?template=error_issue_template.md
+    about: An issue for fixing an unexpected behaviour.
+  - name: Issue for actions
+    url: https://github.com/bounswe/bounswe2024group10/issues/new?template=action_issue_template.md
+    about: An issue for getting a certain task done.

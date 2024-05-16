@@ -7,38 +7,38 @@ import jakarta.persistence.*;
 public class Liked {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "userID")
-    private RegisteredUser user;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "likeID")
+    private Integer likeID;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "postID")
-    private Post post;
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "postID")
+    private Integer postID;
 
     public Liked() {
         // Default constructor
     }
 
-    public Liked(RegisteredUser user, Post post) {
-        this.user = user;
-        this.post = post;
+    public Liked(String username, Integer postID) {
+        this.username = username;
+        this.postID = postID;
     }
 
-    public RegisteredUser getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(RegisteredUser user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Post getPost() {
-        return post;
+    public Integer getPostID() {
+        return postID;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostID(Integer postID) {
+        this.postID = postID;
     }
 }
-

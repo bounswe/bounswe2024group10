@@ -20,8 +20,8 @@ public class SearchController {
     private SearchService searchService;
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/search")
-    public ResponseEntity<List<SearchResponse>> search(@RequestBody SearchRequest searchRequest) {
-        List<SearchResponse> searchResponse = searchService.search(searchRequest.getSearchTerm());
+    public ResponseEntity<SearchResponse> search(@RequestBody SearchRequest searchRequest) {
+        SearchResponse searchResponse = searchService.search(searchRequest.getSearchTerm());
         if (searchResponse == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
