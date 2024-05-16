@@ -28,7 +28,7 @@ public class PostService {
             return new CreatePostResponse(false, "Media is required");
         }
         Date postDate = new Date(System.currentTimeMillis());
-        Post newPost = new Post(request.getUsername(), request.getMedia(), request.getCaption(), request.getPhotoDate(), postDate, request.getLocation());
+        Post newPost = new Post(request.getUsername(), request.getAnimalName(), request.getMedia(), request.getCaption(), request.getPhotoDate(), postDate, request.getLocation());
         try {
             postRepository.save(newPost);
         } catch (IllegalArgumentException e) {
@@ -51,5 +51,17 @@ public class PostService {
         }
         List<Post> posts = postRepository.findByUsername(request.getUsername());
         return new GetPostsResponse(true, "Posts retrieved successfully", posts);
+    }
+
+    public GetPostsResponse getPostsByAnimalName(GetPostsRequest request) {
+        if (request.getAnimalName() == null || request.getAnimalName().isEmpty()) {
+            return new GetPostsResponse(false, "Animal name is required", null);
+        }
+        try {
+            List<Post> posts = postRepository.findByAnimalNameContaining(request.getAnimalName());
+            return new GetPostsResponse(true, "Posts retrieved successfully", posts);
+        } catch (IllegalArgumentException e) {
+            return new GetPostsResponse(false, "Invalid animal name", null);
+        }
     }
 }
