@@ -9,19 +9,24 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "./context/AuthContext";
 import SearchPage from "./pages/SearchPage";
+import NewPost from "./pages/NewPost";
+import ModalsContext from "./context/ModalsContext";
 
 function App() {
   return (
     <div className="App">
       <AuthContext>
-        <ToastContainer />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Login />} />
-          <Route path="/me" element={<MyProfile />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/me/settings" element={<Settings />} />
-        </Routes>
+        <ModalsContext>
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Login />} />
+            <Route path="/me" element={<MyProfile />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/me/settings" element={<Settings />} />
+            <Route path="/newpost" element={<NewPost />} />
+          </Routes>
+        </ModalsContext>
       </AuthContext>
     </div>
   );

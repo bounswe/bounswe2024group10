@@ -106,8 +106,9 @@ const mockData = {
     {
       id: 1,
       owner: {
-        avatar: "https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-        username: "admin_account",
+        avatar:
+          "https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+        username: "admin_acco",
       },
       image:
         "https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg",
@@ -125,7 +126,7 @@ const mockData = {
         "The loggerhead sea turtle, or Caretta caretta, is a species of oceanic turtle distributed throughout the world. It is a marine reptile, belonging to the family Cheloniidae. The average loggerhead measures around 90 cm in carapace length when fully grown. The adult loggerhead sea turtle weighs approximately 135 kg, with the largest specimens weighing in at more than 450 kg.",
     },
     {
-      id: 1,
+      id: 2,
       owner: {
         avatar: "https://static.vecteezy.com/system/resources/thumbnails",
         username: "admin_account",
@@ -146,7 +147,7 @@ const mockData = {
         "The loggerhead sea turtle, or Caretta caretta, is a species of oceanic turtle distributed throughout the world. It is a marine reptile, belonging to the family Cheloniidae. The average loggerhead measures around 90 cm in carapace length when fully grown. The adult loggerhead sea turtle weighs approximately 135 kg, with the largest specimens weighing in at more than 450 kg.",
     },
     {
-      id: 1,
+      id: 3,
       owner: {
         avatar: "https://static.vecteezy.com/system/resources/thumbnails",
         username: "admin_account",
@@ -167,7 +168,7 @@ const mockData = {
         "The loggerhead sea turtle, or Caretta caretta, is a species of oceanic turtle distributed throughout the world. It is a marine reptile, belonging to the family Cheloniidae. The average loggerhead measures around 90 cm in carapace length when fully grown. The adult loggerhead sea turtle weighs approximately 135 kg, with the largest specimens weighing in at more than 450 kg.",
     },
     {
-      id: 1,
+      id: 4,
       owner: {
         avatar: "https://static.vecteezy.com/system/resources/thumbnails",
         username: "admin_account",
@@ -188,7 +189,7 @@ const mockData = {
         "The loggerhead sea turtle, or Caretta caretta, is a species of oceanic turtle distributed throughout the world. It is a marine reptile, belonging to the family Cheloniidae. The average loggerhead measures around 90 cm in carapace length when fully grown. The adult loggerhead sea turtle weighs approximately 135 kg, with the largest specimens weighing in at more than 450 kg.",
     },
     {
-      id: 1,
+      id: 5,
       owner: {
         avatar: "https://static.vecteezy.com/system/resources/thumbnails",
         username: "admin_account",
@@ -251,7 +252,7 @@ const mockData = {
       location: "Turkey/Yozgat",
       description:
         "The loggerhead sea turtle, or Caretta caretta, is a species of oceanic turtle distributed throughout the world. It is a marine reptile, belonging to the family Cheloniidae. The average loggerhead measures around 90 cm in carapace length when fully grown. The adult loggerhead sea turtle weighs approximately 135 kg, with the largest specimens weighing in at more than 450 kg.",
-    }
+    },
   ],
 };
 

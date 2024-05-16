@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./PostCard.module.css";
 import mockData from "../constants/mockData";
 import {
@@ -12,8 +12,10 @@ import {
   IconFlag,
   IconFlagFilled,
 } from "@tabler/icons-react";
+import { modalsContext } from "../context/ModalsContext";
 
 function PostCard(props) {
+  const { openPostModal } = useContext(modalsContext);
   const maxDescriptionLength = 10;
   const {
     id,
@@ -76,7 +78,16 @@ function PostCard(props) {
         </div>
         <div className={styles.blurLine}></div>
         <div className={styles.postInfo}>
-          <img className={styles.image} src={image} alt="post" />
+          <img
+            onClick={() => {
+              openPostModal({
+                post: mockData.feed.find((post) => post.id == 1),
+              });
+            }}
+            className={styles.image}
+            src={image}
+            alt="post"
+          />
           <div className={styles.postDetails}>
             <div className={styles.name}>{name}</div>
             <div className={styles.location}>{"@" + location}</div>

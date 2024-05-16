@@ -11,7 +11,7 @@ export default function Home() {
     <AuthenticatedPage>
       <MainLayout>
         <div>
-          <h1>Homee</h1>
+          <h1>Home</h1>
           <div className={styles.feed}>
             {mockData.feed.map((post) => (
               <PostCard key={post.id} {...post} />
