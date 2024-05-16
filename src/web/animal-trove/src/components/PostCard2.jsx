@@ -17,6 +17,8 @@ import { modalsContext } from "../context/ModalsContext";
 function PostCard2({ post }) {
   const { openPostModal } = useContext(modalsContext);
 
+  console.log(post)
+
   function truncateText(text, maxLength) {
     const wordArray = text.split(" ");
     if (wordArray.length > maxLength) {
