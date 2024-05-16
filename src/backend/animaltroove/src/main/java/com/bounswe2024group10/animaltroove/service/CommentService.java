@@ -2,6 +2,8 @@ package com.bounswe2024group10.animaltroove.service;
 
 import com.bounswe2024group10.animaltroove.dto.CommentRequest;
 import com.bounswe2024group10.animaltroove.dto.CommentResponse;
+import com.bounswe2024group10.animaltroove.dto.DeleteCommentRequest;
+import com.bounswe2024group10.animaltroove.dto.DeleteCommentResponse;
 import com.bounswe2024group10.animaltroove.model.Comment;
 import com.bounswe2024group10.animaltroove.repository.CommentRepository;
 import com.bounswe2024group10.animaltroove.repository.PostRepository;
@@ -32,6 +34,19 @@ public class CommentService {
             return new CommentResponse(true, "Comment added");
         } catch (IllegalArgumentException e) {
             return new CommentResponse(false, "Invalid post data.");
+        }
+    }
+
+    public DeleteCommentResponse deleteComment(DeleteCommentRequest request) {
+        if (commentRepository.findByCommentID(request.getCommentID()) == null) {
+            return new DeleteCommentResponse(false, "Comment not found");
+        }
+        Comment deleted = commentRepository.findByCommentID(request.getCommentID());
+        try {
+            commentRepository.delete(deleted);
+            return new DeleteCommentResponse(true, "Comment deleted");
+        } catch (IllegalArgumentException e) {
+            return new DeleteCommentResponse(false, "Invalid post data.");
         }
     }
 }

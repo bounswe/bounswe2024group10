@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
     List<Comment> findByPostID(int postID);
+    Comment findByCommentID(int commentID);
 }
