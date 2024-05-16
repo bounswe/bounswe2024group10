@@ -14,7 +14,7 @@ public class Post {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "media", nullable = false)
+    @Column(name = "media", nullable = false, length = 200000)
     private byte[] media;
 
     @Column(name = "caption", length = 256)
