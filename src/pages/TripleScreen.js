@@ -40,7 +40,7 @@ function TriplePage({ navigation }) {
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
-            <Text style={{fontSize: 16, color: '#666666'}}> My Profile </Text>
+          <Icon name="user" size={30} color="green" />
         </TouchableOpacity>
       </View>
     </View>

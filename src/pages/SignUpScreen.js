@@ -3,7 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'reac
 import logo from '../components/images/logo.png';
 import pandaImage from '../components/images/pandaa.png';
 import { useNavigation } from '@react-navigation/native';
+import {register} from '../services/auth'
 import axios from 'axios';
+import ToastAndroid from 'react-native'
 
 const SignupScreen = () => {
   const [name, setName] = useState('');
@@ -16,18 +18,22 @@ const SignupScreen = () => {
 
   const handleSignup = async () => {
       try {
-        const response = await axios.post('http://10.0.2.2:8080/api/users/register', {
+        const response = await register({
           "name": name,
           "userName": username,
           "email": email,
           "password": password
       });
-
-      console.log('Signup successful:', response.data);
-      navigation.navigate('Home');
+        if (response.success) {
+          console.log('Signup  successful:', response.data);
+          navigation.navigate('Home');
+        }
+        if (!response.success) {
+          throw new Error(response.message)
+        }
       }
       catch (error) {
-        console.error('Signup error:', error);
+        ToastAndroid.show(error.message, ToastAndroid.SHORT);
       }
       console.log("Signup button clicked");
   };

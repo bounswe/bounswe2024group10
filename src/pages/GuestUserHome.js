@@ -134,7 +134,7 @@ function HomeScreen({ navigation }) {
       />
       {/* Bottom navigation bar */}
       <View style={styles.bottomNavBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Guest')}>
           <MaterialIcon name="home" size={30} color="green" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('GuestS')}>

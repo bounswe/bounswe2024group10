@@ -69,7 +69,7 @@ const toggleBookmark = (postId) => {
     <View style={{ marginBottom: 20, backgroundColor: postColors[item.id] || 'white' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
         <Text style={{ fontWeight: 'bold', marginRight: 10 }}>{item.username}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('UserProfile', { username: item.username })}>
+        <TouchableOpacity onPress={() => navigation.navigate('UserP', { username: item.username })}>
           <Text style={{ color: 'blue' }}>View Profile</Text>
         </TouchableOpacity>
       </View>
@@ -116,7 +116,7 @@ const toggleBookmark = (postId) => {
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
-          <Text style={{fontSize: 16, color: '#666666'}}> My Profile </Text>
+          <Icon name="user" size={30} color="green" />
         </TouchableOpacity>
       </View>
     </View>
