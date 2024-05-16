@@ -5,7 +5,8 @@ import com.bounswe2024group10.animaltroove.dto.CreatePostRequest;
 import com.bounswe2024group10.animaltroove.dto.CreatePostResponse;
 import com.bounswe2024group10.animaltroove.dto.GetPostsRequest;
 import com.bounswe2024group10.animaltroove.dto.GetPostsResponse;
-
+import com.bounswe2024group10.animaltroove.dto.GetUserPostInteractionsRequest;
+import com.bounswe2024group10.animaltroove.dto.GetUserPostInteractionsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,13 @@ public class PostController {
     @GetMapping("/getFeed")
     public ResponseEntity<GetPostsResponse> getPosts() {
         GetPostsResponse response = postService.getPosts();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getUserPostInteractions")
+    public ResponseEntity<GetUserPostInteractionsResponse> getUserPostInteractions(@RequestBody GetUserPostInteractionsRequest request) {
+        GetUserPostInteractionsResponse response = postService.getUserPostInteractions(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface BookmarkedRepository extends CrudRepository<Bookmarked, Integer> {
     Bookmarked findByUsernameAndPostID(String username, int postID);
     Bookmarked findByUsername(String username);
+    boolean existsByUsernameAndPostID(String username, int postID);
 }
