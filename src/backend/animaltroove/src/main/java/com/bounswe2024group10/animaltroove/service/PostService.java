@@ -28,7 +28,7 @@ public class PostService {
             return new CreatePostResponse(false, "Media is required");
         }
         Date postDate = new Date(System.currentTimeMillis());
-        Post newPost = new Post(request.getMedia(), request.getCaption(), request.getPhotoDate(), postDate, request.getLocation());
+        Post newPost = new Post(request.getUsername(), request.getMedia(), request.getCaption(), request.getPhotoDate(), postDate, request.getLocation());
         try {
             postRepository.save(newPost);
         } catch (IllegalArgumentException e) {
