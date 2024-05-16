@@ -18,9 +18,9 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await login({ userName, password });
-      console.log(response);
+
       if (response.success) {
-        const { token, userName } = response;
+        const { token } = response;
         nookies.set(null, "authToken", token, {
           maxAge: 7 * 24 * 60 * 60,
           path: "/",

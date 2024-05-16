@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./PostCard.module.css";
+import { authContext } from "../context/AuthContext";
+
 import {
   likePost,
   unlikePost,
   undislikePost,
   dislikePost,
-  bookmarkPost
+  bookmarkPost,
+  unbookmarkPost,
 } from "../services/postActions";
 import { toast } from "react-toastify";
 import {
@@ -45,6 +48,8 @@ function PostCard(props) {
   const [isReported, setIsReported] = useState(defaultIsReported);
   const [likes, setLikes] = useState(defaultDislikes);
   const [dislikes, setDislikes] = useState(defaultLikes);
+  const { user } = useContext(authContext);
+  const userName = user?.userName; // will be used in requests
 
   function truncateText(text, maxLength) {
     const wordArray = text.split(" ");
@@ -73,13 +78,13 @@ function PostCard(props) {
     try {
       if (!originallyDisliked) {
         const response = originallyLiked
-          ? await unlikePost({ postId: id })
-          : await likePost({ postId: id });
+          ? await unlikePost({ username: userName, postId: id })
+          : await likePost({ username: userName, postId: id });
         if (!response.success) throw new Error(response.message);
       } else {
         const [likeResponse, undislikeResponse] = await Promise.all([
-          likePost({ postId: id }),
-          undislikePost({ postId: id }),
+          likePost({ username: userName, postId: id }),
+          undislikePost({ username: userName, postId: id }),
         ]);
         if (!likeResponse.success || !undislikeResponse.success)
           throw new Error(likeResponse.message || undislikeResponse.message);
@@ -112,13 +117,13 @@ function PostCard(props) {
     try {
       if (!originallyLiked) {
         const response = originallyDisliked
-          ? await undislikePost({ postId: id })
-          : await dislikePost({ postId: id });
+          ? await undislikePost({ username: userName, postId: id })
+          : await dislikePost({ username: userName, postId: id });
         if (!response.success) throw new Error(response.message);
       } else {
         const [dislikeResponse, unlikeResponse] = await Promise.all([
-          dislikePost({ postId: id }),
-          unlikePost({ postId: id }),
+          dislikePost({ username: userName, postId: id }),
+          unlikePost({ username: userName, postId: id }),
         ]);
         if (!dislikeResponse.success || !unlikeResponse.success)
           throw new Error(dislikeResponse.message || unlikeResponse.message);
@@ -137,14 +142,15 @@ function PostCard(props) {
     setIsBookmarked(!isBookmarked);
     try {
       if (!originallyIsBookmarked) {
-        const response = await bookmarkPost({ postId: id });
+        const response = await bookmarkPost({ username: userName, postId: id });
+        if (!response.success) throw new Error(response.message);
+      } else {
+        const response = await unbookmarkPost({
+          username: userName,
+          postId: id,
+        });
         if (!response.success) throw new Error(response.message);
       }
-      else {
-        const response = await bookmarkPost({ postId: id });
-        if (!response.success) throw new Error(response.message);
-      }
-      
     } catch (error) {
       setIsBookmarked(!isBookmarked);
       toast.error(error.message);
