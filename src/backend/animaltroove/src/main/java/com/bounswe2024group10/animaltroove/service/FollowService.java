@@ -25,11 +25,11 @@ public class FollowService {
         if (registeredUserRepository.findByUserName(request.getFollowedUsername()) == null) {
             return new FollowResponse(false, "Followed user not found.");
         }
-        if (FollowRepository.existsByFollwerUsernameAndFollowedUsername(request.getFollowerUsername(), request.getFollowedUsername())) {
+        if (followRepository.existsByFollwerUsernameAndFollowedUsername(request.getFollowerUsername(), request.getFollowedUsername())) {
             return new FollowResponse(false, "This follow already exists.");
         }
         try {
-            FollowRepository.save(new Following(request.getFollowerUsername(), request.getFollowedUsername()));
+            followRepository.save(new Following(request.getFollowerUsername(), request.getFollowedUsername()));
         } catch (IllegalArgumentException e) {
             return new FollowResponse(false, "Invalid user data.");
         }

@@ -33,8 +33,7 @@ public class Post {
         // Default constructor
     }
 
-    public Post(String username, byte[] media, String caption, Date photoDate, Date postDate, String location) {
-        this.username = username;
+    public Post(byte[] media, String caption, Date photoDate, Date postDate, String location) {
         this.media = media;
         this.caption = caption;
         this.photoDate = photoDate;
