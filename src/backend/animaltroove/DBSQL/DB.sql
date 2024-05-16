@@ -80,6 +80,14 @@ CREATE TABLE Liked (
   PRIMARY KEY (userID, postID)
 );
 
+CREATE TABLE Bookmarked (
+  userID int,
+  postID int,
+  FOREIGN KEY (userID) REFERENCES RegisteredUser(userID),
+  FOREIGN KEY (postID) REFERENCES Posts(postID),
+  PRIMARY KEY (userID, postID)
+);
+
 CREATE TABLE Tag (
   postID int,
   tag varChar(20),
