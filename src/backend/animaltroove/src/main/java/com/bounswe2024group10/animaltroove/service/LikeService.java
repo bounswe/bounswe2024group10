@@ -2,6 +2,7 @@ package com.bounswe2024group10.animaltroove.service;
 
 import com.bounswe2024group10.animaltroove.dto.LikeRequest;
 import com.bounswe2024group10.animaltroove.dto.LikeResponse;
+import com.bounswe2024group10.animaltroove.model.Liked;
 import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import com.bounswe2024group10.animaltroove.repository.LikedRepository;
 
@@ -24,6 +25,7 @@ public class LikeService {
         if (likedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID())) {
             return new LikeResponse(false, "Post already liked");
         }
+        likedRepository.save(new Liked(request.getUsername(), request.getPostID()));
         return new LikeResponse(true, "Post liked");
     }
 }
