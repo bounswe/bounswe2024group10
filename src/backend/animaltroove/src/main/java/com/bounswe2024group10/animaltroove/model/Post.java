@@ -18,7 +18,7 @@ public class Post {
     private String animalName;
 
     @Lob
-    @Column(name = "media", nullable = false)
+    @Column(name = "media", nullable = false, length = 200000)
     private byte[] media;
 
     @Column(name = "caption", length = 256)
