@@ -9,35 +9,35 @@ public class Following {
     @Id
     @ManyToOne
     @JoinColumn(name = "followingUserID")
-    private RegisteredUser followingUser;
+    private String followingUser;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "followedUserID")
-    private RegisteredUser followedUser;
+    private String followedUser;
 
     public Following() {
         // Default constructor
     }
 
-    public Following(RegisteredUser followingUser, RegisteredUser followedUser) {
+    public Following(String followingUser, String followedUser) {
         this.followingUser = followingUser;
         this.followedUser = followedUser;
     }
 
-    public RegisteredUser getFollowingUser() {
+    public String getFollowingUser() {
         return followingUser;
     }
 
-    public void setFollowingUser(RegisteredUser followingUser) {
+    public void setFollowingUser(String followingUser) {
         this.followingUser = followingUser;
     }
 
-    public RegisteredUser getFollowedUser() {
+    public String getFollowedUser() {
         return followedUser;
     }
 
-    public void setFollowedUser(RegisteredUser followedUser) {
+    public void setFollowedUser(String followedUser) {
         this.followedUser = followedUser;
     }
 }
