@@ -4,6 +4,8 @@ import com.bounswe2024group10.animaltroove.dto.DislikeRequest;
 import com.bounswe2024group10.animaltroove.dto.DislikeResponse;
 import com.bounswe2024group10.animaltroove.dto.LikeRequest;
 import com.bounswe2024group10.animaltroove.dto.LikeResponse;
+import com.bounswe2024group10.animaltroove.dto.GetDislikeCountRequest;
+import com.bounswe2024group10.animaltroove.dto.GetDislikeCountResponse;
 import com.bounswe2024group10.animaltroove.model.Disliked;
 import com.bounswe2024group10.animaltroove.model.Liked;
 import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
@@ -35,6 +37,18 @@ public class DislikeService {
             return new DislikeResponse(false, "Invalid post data.");
         }
         return new DislikeResponse(true, "Post disliked");
+    }
+
+    public GetDislikeCountResponse getDislikeCount(GetDislikeCountRequest request) {
+        if (dislikedRepository.findByPostID(request.getPostID()) == null) {
+            return new GetDislikeCountResponse(false, "Post not found", 0);
+        }
+        try {
+            int dislikeCount = dislikedRepository.findByPostID(request.getPostID()).size();
+            return new GetDislikeCountResponse(true, "Dislike count retrieved successfully", dislikeCount);
+        } catch (IllegalArgumentException e) {
+            return new GetDislikeCountResponse(false, "Invalid post data.", 0);
+        }
     }
 
 }

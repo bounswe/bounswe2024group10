@@ -4,6 +4,8 @@ import com.bounswe2024group10.animaltroove.dto.DislikeRequest;
 import com.bounswe2024group10.animaltroove.dto.DislikeResponse;
 import com.bounswe2024group10.animaltroove.dto.UndislikeRequest;
 import com.bounswe2024group10.animaltroove.dto.UndislikeResponse;
+import com.bounswe2024group10.animaltroove.dto.GetDislikeCountRequest;
+import com.bounswe2024group10.animaltroove.dto.GetDislikeCountResponse;
 import com.bounswe2024group10.animaltroove.service.DislikeService;
 import com.bounswe2024group10.animaltroove.service.UndislikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +37,10 @@ public class DislikeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getDislikeCount")
+    public ResponseEntity<GetDislikeCountResponse> getDislikeCount(@RequestBody GetDislikeCountRequest request) {
+        GetDislikeCountResponse response = dislikeService.getDislikeCount(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

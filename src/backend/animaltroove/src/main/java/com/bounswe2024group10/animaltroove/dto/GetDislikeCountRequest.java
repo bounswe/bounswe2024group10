@@ -1,13 +1,13 @@
 package com.bounswe2024group10.animaltroove.dto;
 
-public class GetLikeCountRequest {
+public class GetDislikeCountRequest {
     private int postID;
 
-    public GetLikeCountRequest() {
+    public GetDislikeCountRequest() {
         // Default constructor
     }
 
-    public GetLikeCountRequest(int postID) {
+    public GetDislikeCountRequest(int postID) {
         this.postID = postID;
     }
 
