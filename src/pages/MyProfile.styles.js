@@ -42,74 +42,63 @@ const styles = StyleSheet.create({
         marginVertical: 12,
     },
     username: {
-        fontSize: 24,
-        fontWeight: 'bold'
+        fontSize: 27,
+        fontWeight: 'bold',
+        marginBottom: 5,
     },
     email: {
-        fontSize: 16,
+        fontSize: 21,
         fontWeight: 'normal',
         color: '#666666',
     },
     followerContainer: {
+        flexDirection: 'row',
+        flex: 1,
         //paddingLeft: 12,
         //marginLeft: 12,
         //borderLeftWidth: 1,
         borderLeftColor: '#dadada',
-        flexDirection: 'column',
         //justifyContent: 'center',
         alignItems: 'center',
         //marginRight: 20,
         //marginVertical: 0, // Remove margin for vertical spacing
         width: 200,
-        //backgroundColor: 'blue',
+        //backgroundColor: 'blue',  // For debugging purposes
     },
     followers: {
+        flex: 1,
         fontSize: 32,
         //fontWeight: 'normal',
-        flexDirection: 'column',
+        //flexDirection: 'column',
         alignItems: 'center',
         marginRight: 4,
     },
     following: {
+        flex: 1,
         fontSize: 32,
         //fontWeight: 'normal',
-        flexDirection: 'row',
+        //flexDirection: 'row',
         alignItems: 'center',
         marginRight: 4,
     },
     settingsButtonContainer: {
-        // React Native doesn't have cursor or text-decoration properties
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: '#f4fff3', // Background color not supported
         color: '#30542f',
         fontWeight: 'bold',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
+        paddingVertical: 8,
+        paddingHorizontal: 8,
         width: 200,
-        //backgroundColor: 'red',
-        //marginStart: 'auto', // Use marginStart instead of marginLeft for RTL support
-        //marginEnd: 0, // Remove margin for horizontal spacing
-        // borderWidth: 1, // Border not supported
-        // borderColor: '#cbdeca17', // Border color not supported
+        //backgroundColor: 'red',  // For debugging purposes
     },
     biography: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'normal',
         color: '#666666',
-        marginTop: 16,
-
     },
 
-
-
-
-
-
-
-
+    // Parts related to posts
     postPartContainer: {
-        marginTop: 48,
         flexDirection: "column",
     },
     myPostsContainer: {

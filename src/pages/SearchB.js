@@ -40,8 +40,8 @@ function SearchScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-          <Icon name="cog" size={30} color="green" />
+        <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
+          <Icon name="user" size={30} color="green" />
         </TouchableOpacity>
       </View>
     </View>
