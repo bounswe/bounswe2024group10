@@ -4,11 +4,15 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .animate-fade-in-up {
   animation: fade-in-up 0.3s ease-in-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
 }
 
 @keyframes fade-in-up {
@@ -19,5 +23,14 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframs fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

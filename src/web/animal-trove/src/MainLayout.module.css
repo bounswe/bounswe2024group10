@@ -63,8 +63,7 @@
   width: 100vw;
 }
 .sideBarContainer {
-  flex-basis: 20%;
-  min-width: 300px;
+  min-width: 240px;
   border-right: 1px solid #c5d6c4;
 }
 .pageContainer {

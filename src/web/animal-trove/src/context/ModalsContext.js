@@ -11,9 +11,14 @@ export default function ModalsContext({ children }) {
     setPostModal(true);
     setPost(post);
   };
+
   const closePostModal = () => {
     setPostModal(false);
   };
+
+  useEffect(() => {
+    console.log(`postModal: ${postModal}`);
+  }, [postModal]);
   return (
     <modalsContext.Provider
       value={{ postModal, openPostModal, closePostModal }}
