@@ -4,6 +4,10 @@ public class GetPostsRequest {
 
     private String username;
 
+    public GetPostsRequest() {
+        // Default constructor
+    }
+
     public GetPostsRequest(String username) {
         this.username = username;
     }
