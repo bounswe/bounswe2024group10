@@ -10,4 +10,5 @@ public interface RegisteredUserRepository extends CrudRepository<RegisteredUser,
     RegisteredUser findByUserNameAndPassword(String username, String password);
     RegisteredUser findByUserName(String username);
     RegisteredUser findByEmail(String email);
+    RegisteredUser findByUserID(long userID);
 }
