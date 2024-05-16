@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Disliked {
 
     @Id
-    @Column(name = "likeID")
+    @Column(name = "dislikeID")
     private Integer dislikeID;
 
     @Column(name = "username")
