@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Disliked {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dislikeID")
     private Integer dislikeID;
 

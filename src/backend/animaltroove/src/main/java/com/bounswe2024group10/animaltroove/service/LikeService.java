@@ -25,7 +25,11 @@ public class LikeService {
         if (likedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID())) {
             return new LikeResponse(false, "Post already liked");
         }
-        likedRepository.save(new Liked(request.getUsername(), request.getPostID()));
+        try {
+            likedRepository.save(new Liked(request.getUsername(), request.getPostID()));
+        } catch (IllegalArgumentException e) {
+            return new LikeResponse(false, "Invalid post data.");
+        }
         return new LikeResponse(true, "Post liked");
     }
 }

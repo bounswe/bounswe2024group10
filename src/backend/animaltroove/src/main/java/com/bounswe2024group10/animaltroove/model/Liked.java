@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Liked {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "likeID")
     private Integer likeID;
 

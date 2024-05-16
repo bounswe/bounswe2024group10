@@ -29,7 +29,11 @@ public class DislikeService {
         if (dislikedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID())) {
             return new DislikeResponse(false, "Post already disliked");
         }
-        dislikedRepository.save(new Disliked(request.getUsername(), request.getPostID()));
+        try {
+            dislikedRepository.save(new Disliked(request.getUsername(), request.getPostID()));
+        } catch (IllegalArgumentException e) {
+            return new DislikeResponse(false, "Invalid post data.");
+        }
         return new DislikeResponse(true, "Post disliked");
     }
 

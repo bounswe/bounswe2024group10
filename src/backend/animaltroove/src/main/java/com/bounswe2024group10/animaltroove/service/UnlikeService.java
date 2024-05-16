@@ -25,8 +25,12 @@ public class UnlikeService {
         if (!likedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID())) {
             return new UnlikeResponse(false, "Post not liked");
         }
-        Liked liked = likedRepository.findByUsernameAndPostID(request.getUsername(), request.getPostID());
-        likedRepository.delete(liked);
+        try {
+            Liked liked = likedRepository.findByUsernameAndPostID(request.getUsername(), request.getPostID());
+            likedRepository.delete(liked);
+        } catch (IllegalArgumentException e) {
+            return new UnlikeResponse(false, "Invalid post data.");
+        }
         return new UnlikeResponse(true, "Post unliked");
     }
 }
