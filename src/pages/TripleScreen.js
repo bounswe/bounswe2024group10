@@ -39,6 +39,9 @@ function TriplePage({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>
+          <Icon name="plus" size={30} color="green" />
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
           <Icon name="user" size={30} color="green" />
         </TouchableOpacity>

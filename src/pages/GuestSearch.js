@@ -1,39 +1,72 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-
+import { View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'; // Renamed import
 function SearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedButton, setSelectedButton] = useState(null);
 
-  const handleSearch = () => {
-      if (searchQuery.trim() === '') {
-        Alert.alert('Error', 'Please enter a search query.');
-        return;
-      }
-      // Implement your search logic here, such as fetching data from an API
-      console.log('Searching for:', searchQuery);
-      // ----Example: You can make an API call here with the searchQuery
-      // I think we will do the API call from the SearchResults screen
+  const handleSearch = (prefix) => {
+    if (searchQuery.trim() === '') {
+      Alert.alert('Error', 'Please enter a search query.');
+      return;
+    }
+    // Concatenate the selected prefix with the search input
+    const prefixedSearchQuery = prefix + searchQuery;
+    console.log('Searching for:', prefixedSearchQuery);
+    // Navigate to the search results screen with the prefixed search query
+    navigation.navigate('SearchResults', { searchQuery: prefixedSearchQuery });
+  };
 
-
-      navigation.navigate('SearchResults' , {searchQuery});
-    };
+  const handleButtonClick = (prefix) => {
+    // Toggle the selected button
+    setSelectedButton(prefix);
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+        {/* Button for family search */}
+        <TouchableOpacity
+          style={{ backgroundColor: selectedButton === 'f@' ? 'lightblue' : 'lightgray', padding: 10, borderRadius: 5 }}
+          onPress={() => handleButtonClick('f@')}
+          disabled={selectedButton === 'f@'}
+        >
+          <Text>Family</Text>
+        </TouchableOpacity>
+        {/* Button for work search */}
+        <TouchableOpacity
+          style={{ backgroundColor: selectedButton === 's@' ? 'lightgreen' : 'lightgray', padding: 10, borderRadius: 5 }}
+          onPress={() => handleButtonClick('s@')}
+          disabled={selectedButton === 's@'}
+        >
+          <Text>Species</Text>
+        </TouchableOpacity>
+        {/* Button for hobbies search */}
+        <TouchableOpacity
+          style={{ backgroundColor: selectedButton === 'u@' ? 'lightpink' : 'lightgray', padding: 10, borderRadius: 5 }}
+          onPress={() => handleButtonClick('u@')}
+          disabled={selectedButton === 'u@'}
+        >
+          <Text>User</Text>
+        </TouchableOpacity>
+      </View>
       <TextInput
         placeholder="Enter search query"
         value={searchQuery}
         onChangeText={text => setSearchQuery(text)}
-        style={{ width: '100%', marginBottom: 20, borderWidth: 1, borderColor: 'black', padding: 10}}
+        style={{ width: '100%', marginBottom: 20, borderWidth: 1, borderColor: 'black', padding: 10 }}
       />
-      <Button
-        title="Search"
-        onPress={handleSearch}
-        color="green" // Change button color to green
-      />
+      
+      <TouchableOpacity
+        onPress={() => handleSearch(selectedButton)}
+        style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}
+        disabled={!searchQuery.trim() || selectedButton==null }
+      >
+        <Text style={{ color: 'white' }}>Search</Text>
+      </TouchableOpacity>
       {/* Bottom navigation bar */}
-      <View style={styles.bottomNavBar}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', height: 50, backgroundColor: '#f0f0f0', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
         <TouchableOpacity onPress={() => navigation.navigate('Guest')}>
           <MaterialIcon name="home" size={30} color="green" />
         </TouchableOpacity>
@@ -47,22 +80,5 @@ function SearchScreen({ navigation }) {
     </View>
   );
 }
-const styles = StyleSheet.create({
-    bottomNavBar: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      height: 50,
-      width: '100%', // Ensure the bottom navigation bar spans the full width of the screen
-      position: 'absolute', // Position the bottom navigation bar at the bottom of the screen
-      bottom: 0, // Align the bottom of the navigation bar with the bottom of the screen
-      backgroundColor: '#f0f0f0',
-      borderTopWidth: 1, // Add a border at the top of the navigation bar for separation
-      borderTopColor: 'gray', // Set the border color
-    },
-    iconText: {
-      marginLeft: 3,
-    },
-  });
 
 export default SearchScreen;
