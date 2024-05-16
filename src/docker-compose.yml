@@ -3,6 +3,8 @@ services:
     image: mysql:latest
     ports:
       - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root123456
       MYSQL_DATABASE: AnimalTroove
@@ -32,3 +34,6 @@ services:
       - "3000:3000"
     depends_on:
       - app
+
+volumes:
+  db-data:

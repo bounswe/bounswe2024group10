@@ -6,7 +6,6 @@ import com.bounswe2024group10.animaltroove.dto.BookmarkResponse;
 import com.bounswe2024group10.animaltroove.dto.UnbookmarkRequest;
 import com.bounswe2024group10.animaltroove.dto.UnbookmarkResponse;
 import com.bounswe2024group10.animaltroove.service.BookmarkService;
-import com.bounswe2024group10.animaltroove.service.UnbookmarkService;
 
 // Imports from the spring-boot
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ public class BookmarkController {
 
     @Autowired
     private BookmarkService bookmarkService;
-    
-    @Autowired
-    private UnbookmarkService unbookmarkService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/bookmark")
@@ -35,7 +31,7 @@ public class BookmarkController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/unbookmark")
     public ResponseEntity<UnbookmarkResponse> unbookmarkPost(@RequestBody UnbookmarkRequest request) {
-        UnbookmarkResponse response = unbookmarkService.unbookmarkPost(request);
+        UnbookmarkResponse response = bookmarkService.unbookmarkPost(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
