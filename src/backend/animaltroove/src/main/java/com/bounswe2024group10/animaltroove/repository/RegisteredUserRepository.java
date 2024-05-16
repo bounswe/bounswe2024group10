@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface RegisteredUserRepository extends CrudRepository<RegisteredUser, Integer> {
     RegisteredUser findByUserNameAndPassword(String username, String password);
     RegisteredUser findByUserName(String username);
-    @Query("SELECT u FROM RegisteredUser u WHERE u.userName LIKE %?1%")
     List<RegisteredUser> findByUserNameContaining(String keyword);
     RegisteredUser findByEmail(String email);
 }
