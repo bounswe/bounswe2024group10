@@ -6,13 +6,19 @@ public class CreatePostRequest {
 
     private String username;
     private byte[] media;
+    private String animalName;
     private String caption;
     private String location;
     private Date photoDate;
 
-    public CreatePostRequest(String username, byte[] media, String caption, String location, Date photoDate) {
+    public CreatePostRequest() {
+        // Default constructor
+    }
+
+    public CreatePostRequest(String username, byte[] media, String animalName, String caption, String location, Date photoDate) {
         this.username = username;
         this.media = media;
+        this.animalName = animalName;
         this.caption = caption;
         this.location = location;
         this.photoDate = photoDate;
@@ -24,6 +30,10 @@ public class CreatePostRequest {
 
     public byte[] getMedia() {
         return media;
+    }
+
+    public String getAnimalName() {
+        return animalName;
     }
 
     public String getCaption() {

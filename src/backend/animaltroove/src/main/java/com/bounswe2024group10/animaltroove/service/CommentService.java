@@ -31,6 +31,9 @@ public class CommentService {
         if (postRepository.findByPostID(request.getPostID()) == null) {
             return new CommentResponse(false, "Post not found");
         }
+        if (request.getDescription().length() == 0) {
+            return new CommentResponse(false, "Comment can't be empty.");
+        }
         try {
             commentRepository.save(new Comment(request.getUsername(), request.getPostID(), request.getDescription()));
             return new CommentResponse(true, "Comment added");

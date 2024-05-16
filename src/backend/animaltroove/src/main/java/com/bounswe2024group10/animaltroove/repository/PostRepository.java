@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends CrudRepository<Post, Integer> {
     Post findByPostID(Integer postID);
     List<Post> findByUsername(String username);
+    List<Post> findByAnimalNameContaining(String animalName);
     List<Post> findByLocation(String location);
     List<Post> findTop10ByOrderByPostIDDesc();
 }

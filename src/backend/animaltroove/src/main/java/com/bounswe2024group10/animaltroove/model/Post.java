@@ -14,6 +14,10 @@ public class Post {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "animalName", length = 256)
+    private String animalName;
+
+    @Lob
     @Column(name = "media", nullable = false, length = 200000)
     private byte[] media;
 
@@ -33,8 +37,9 @@ public class Post {
         // Default constructor
     }
 
-    public Post(String username, byte[] media, String caption, Date photoDate, Date postDate, String location) {
+    public Post(String username, String animalName, byte[] media, String caption, Date photoDate, Date postDate, String location) {
         this.username = username;
+        this.animalName = animalName;
         this.media = media;
         this.caption = caption;
         this.photoDate = photoDate;
@@ -48,6 +53,22 @@ public class Post {
 
     public void setPostID(Integer postID) {
         this.postID = postID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getAnimalName() {
+        return animalName;
+    }
+
+    public void setAnimalName(String animalName) {
+        this.animalName = animalName;
     }
 
     public byte[] getMedia() {

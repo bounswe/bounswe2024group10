@@ -27,8 +27,15 @@ public class PostController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/getByUser")
-    public ResponseEntity<GetPostsResponse> getPosts(@RequestBody GetPostsRequest request) {
+    public ResponseEntity<GetPostsResponse> getPostsByUser(@RequestBody GetPostsRequest request) {
         GetPostsResponse response = postService.getPostsByUser(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getByAnimalName")
+    public ResponseEntity<GetPostsResponse> getPostsByAnimalName(@RequestBody GetPostsRequest request) {
+        GetPostsResponse response = postService.getPostsByAnimalName(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
