@@ -2,6 +2,8 @@ package com.bounswe2024group10.animaltroove.service;
 
 import com.bounswe2024group10.animaltroove.dto.LikeRequest;
 import com.bounswe2024group10.animaltroove.dto.LikeResponse;
+import com.bounswe2024group10.animaltroove.dto.GetLikeCountRequest;
+import com.bounswe2024group10.animaltroove.dto.GetLikeCountResponse;
 import com.bounswe2024group10.animaltroove.model.Liked;
 import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import com.bounswe2024group10.animaltroove.repository.LikedRepository;
@@ -31,5 +33,12 @@ public class LikeService {
             return new LikeResponse(false, "Invalid post data.");
         }
         return new LikeResponse(true, "Post liked");
+    }
+
+    public GetLikeCountResponse getLikeCount(GetLikeCountRequest request) {
+        if (likedRepository.findByPostID(request.getPostID()) == null) {
+            return new GetLikeCountResponse(false, "Post not found", 0);
+        }
+        return new GetLikeCountResponse(true, "Like count retrieved successfully", likedRepository.findByPostID(request.getPostID()).size());
     }
 }

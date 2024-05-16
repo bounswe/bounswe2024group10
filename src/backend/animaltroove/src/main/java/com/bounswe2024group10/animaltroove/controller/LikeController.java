@@ -4,6 +4,8 @@ import com.bounswe2024group10.animaltroove.dto.LikeRequest;
 import com.bounswe2024group10.animaltroove.dto.LikeResponse;
 import com.bounswe2024group10.animaltroove.dto.UnlikeRequest;
 import com.bounswe2024group10.animaltroove.dto.UnlikeResponse;
+import com.bounswe2024group10.animaltroove.dto.GetLikeCountRequest;
+import com.bounswe2024group10.animaltroove.dto.GetLikeCountResponse;
 import com.bounswe2024group10.animaltroove.service.LikeService;
 import com.bounswe2024group10.animaltroove.service.UnlikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class LikeController {
     @PostMapping("/unlike")
     public ResponseEntity<UnlikeResponse> unlikePost(@RequestBody UnlikeRequest request) {
         UnlikeResponse response = unlikeService.unlikePost(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getLikeCount")
+    public ResponseEntity<GetLikeCountResponse> getLikeCount(@RequestBody GetLikeCountRequest request) {
+        GetLikeCountResponse response = likeService.getLikeCount(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

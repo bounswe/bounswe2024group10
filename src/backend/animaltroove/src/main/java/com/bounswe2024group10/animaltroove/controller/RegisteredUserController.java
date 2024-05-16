@@ -37,7 +37,7 @@ public class RegisteredUserController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/details")
+    @GetMapping("/details")
     public ResponseEntity<GetUserDetailsResponse> getUserDetails(@RequestBody GetUserDetailsRequest request) {
         GetUserDetailsResponse response = userService.getUserDetails(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
