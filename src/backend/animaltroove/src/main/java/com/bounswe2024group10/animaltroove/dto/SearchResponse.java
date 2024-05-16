@@ -1,101 +1,53 @@
 package com.bounswe2024group10.animaltroove.dto;
 
+import java.util.ArrayList;
+import com.bounswe2024group10.animaltroove.entity.AnimalInfoSearch;
+import com.bounswe2024group10.animaltroove.model.RegisteredUser;
+import com.bounswe2024group10.animaltroove.model.Post;
+
 public class SearchResponse {
-    private String name;
-    private String cycle;
-    private String pregnancy;
-    private String lifeExpectancy;
-    private String heartRate;
-    private String speed;
-    private String numberOfBirths;
-    private String pic;
-    private String wingSpan;
-    private String conservationStatus;
-    private String mainLabel;
+
+    private ArrayList<AnimalInfoSearch> animalInfoSearch;
+    private ArrayList<RegisteredUser> users;
+    private ArrayList<Post> posts;
+    private boolean userShouldClarify;
+
 
     public SearchResponse() {
-        // Default constructor
+        this.animalInfoSearch = new ArrayList<AnimalInfoSearch>();
+        this.users = new ArrayList<RegisteredUser>();
+        this.posts = new ArrayList<Post>();
+        this.userShouldClarify = false;
     }
 
     // Getters and setters for each field
-    public String getName() {
-        return name;
+
+    public ArrayList<AnimalInfoSearch> getAnimalInfoSearch() {
+        return animalInfoSearch;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAnimalInfoSearch(ArrayList<AnimalInfoSearch> animalInfoSearch) {
+        this.animalInfoSearch = animalInfoSearch;
     }
 
-    public String getCycle() {
-        return cycle;
+    public ArrayList<Post> getPosts() {
+        return posts;
     }
 
-    public void setMainLabel(String mainLabel) {
-        this.mainLabel = mainLabel;
-    }
-    public String getMainLabel() {
-        return this.mainLabel;
+    public void setPosts(ArrayList<Post> posts) {
+        this.posts = posts;
     }
 
-    public void setCycle(String cycle) {
-        this.cycle = cycle;
-    }
-    public void setPic(String pic){this.pic = pic;}
-
-    public String getPic(){return this.pic;}
-    public String getPregnancy() {
-        return pregnancy;
+    public void setUsers(ArrayList<RegisteredUser> users) {
+        this.users = users;
     }
 
-    public void setPregnancy(String pregnancy) {
-        this.pregnancy = pregnancy;
+    public ArrayList<RegisteredUser> getUsers() {
+        return users;
     }
 
-    public String getLifeExpectancy() {
-        return lifeExpectancy;
-    }
+    public boolean getUserShouldClarify(){return this.userShouldClarify;}
 
-    public void setLifeExpectancy(String lifeExpectancy) {
-        this.lifeExpectancy = lifeExpectancy;
-    }
+    public void setUserShouldClarify(boolean value){this.userShouldClarify = value;}
 
-    public String getHeartRate() {
-        return heartRate;
-    }
-
-    public void setHeartRate(String heartRate) {
-        this.heartRate = heartRate;
-    }
-
-    public String getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(String speed) {
-        this.speed = speed;
-    }
-
-    public String getNumberOfBirths() {
-        return numberOfBirths;
-    }
-
-    public void setNumberOfBirths(String numberOfBirths) {
-        this.numberOfBirths = numberOfBirths;
-    }
-
-    public String getWingSpan() {
-        return wingSpan;
-    }
-
-    public void setWingSpan(String wingSpan) {
-        this.wingSpan = wingSpan;
-    }
-
-    public String getConservationStatus() {
-        return conservationStatus;
-    }
-
-    public void setConservationStatus(String conservationStatus) {
-        this.conservationStatus = conservationStatus;
-    }
 }
