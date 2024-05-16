@@ -9,59 +9,48 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentID")
-    private Long commentID;
+    private int commentID;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userID")
-    private RegisteredUser user;
+    @Column(name = "username")
+    private String username;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "postID")
-    private Post post;
+    @Column(name = "postID")
+    private int postID;
 
-    @Column(name = "description", nullable = false, length = 100)
+    @Column(name = "description", nullable = false, length = 1000)
     private String description;
 
     public Comment() {
         // Default constructor
     }
 
-    public Comment(RegisteredUser user, Post post, String description) {
-        this.user = user;
-        this.post = post;
+    public Comment(String username, int postID, String description) {
+        this.username = username;
+        this.postID = postID;
         this.description = description;
     }
 
-    public Long getCommentID() {
+    public int getCommentID() {
         return commentID;
     }
 
-    public void setCommentID(Long commentID) {
+    public void setCommentID(int commentID) {
         this.commentID = commentID;
     }
 
-    public RegisteredUser getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(RegisteredUser user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Post getPost() {
-        return post;
+    public int getPostID() {
+        return postID;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPostID(int postID) {
+        this.postID = postID;
     }
 }
-
