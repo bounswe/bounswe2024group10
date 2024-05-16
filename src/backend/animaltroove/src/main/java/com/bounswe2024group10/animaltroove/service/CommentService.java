@@ -4,6 +4,8 @@ import com.bounswe2024group10.animaltroove.dto.CommentRequest;
 import com.bounswe2024group10.animaltroove.dto.CommentResponse;
 import com.bounswe2024group10.animaltroove.dto.DeleteCommentRequest;
 import com.bounswe2024group10.animaltroove.dto.DeleteCommentResponse;
+import com.bounswe2024group10.animaltroove.dto.GetCommentsRequest;
+import com.bounswe2024group10.animaltroove.dto.GetCommentsResponse;
 import com.bounswe2024group10.animaltroove.model.Comment;
 import com.bounswe2024group10.animaltroove.repository.CommentRepository;
 import com.bounswe2024group10.animaltroove.repository.PostRepository;
@@ -53,5 +55,19 @@ public class CommentService {
         } catch (IllegalArgumentException e) {
             return new DeleteCommentResponse(false, "Invalid post data.");
         }
+    }
+
+    public GetCommentsResponse getCommentsByPostID(GetCommentsRequest request) {
+        if (postRepository.findByPostID(request.getPostID()) == null) {
+            return new GetCommentsResponse(false, "Post not found", null);
+        }
+        return new GetCommentsResponse(true, "Comments retrieved successfully", commentRepository.findByPostID(request.getPostID()));
+    }
+
+    public GetCommentsResponse getCommentsByUsername(GetCommentsRequest request) {
+        if (registeredUserRepository.findByUserName(request.getUsername()) == null) {
+            return new GetCommentsResponse(false, "User not found", null);
+        }
+        return new GetCommentsResponse(true, "Comments retrieved successfully", commentRepository.findByUsername(request.getUsername()));
     }
 }

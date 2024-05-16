@@ -5,6 +5,8 @@ import com.bounswe2024group10.animaltroove.dto.CommentRequest;
 import com.bounswe2024group10.animaltroove.dto.CommentResponse;
 import com.bounswe2024group10.animaltroove.dto.DeleteCommentRequest;
 import com.bounswe2024group10.animaltroove.dto.DeleteCommentResponse;
+import com.bounswe2024group10.animaltroove.dto.GetCommentsRequest;
+import com.bounswe2024group10.animaltroove.dto.GetCommentsResponse;
 import com.bounswe2024group10.animaltroove.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,20 @@ public class CommentController {
     @PostMapping("/delete")
     public ResponseEntity<DeleteCommentResponse> deleteComment(@RequestBody DeleteCommentRequest request) {
         DeleteCommentResponse response = commentService.deleteComment(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getByPostID")
+    public ResponseEntity<GetCommentsResponse> getCommentsByPostID(@RequestBody GetCommentsRequest request) {
+        GetCommentsResponse response = commentService.getCommentsByPostID(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/getByUsername")
+    public ResponseEntity<GetCommentsResponse> getCommentsByUsername(@RequestBody GetCommentsRequest request) {
+        GetCommentsResponse response = commentService.getCommentsByUsername(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
