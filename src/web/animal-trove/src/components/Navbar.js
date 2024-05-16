@@ -6,7 +6,7 @@ import Icons, {
   IconSearch,
   IconUser,
 } from "@tabler/icons-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { authContext } from "../context/AuthContext";
 const navBarOptions = {
   authenticated: [
@@ -25,6 +25,7 @@ const navBarOptions = {
 
 const Navbar = () => {
   const { user } = useContext(authContext);
+  useEffect(() => {}, [user]);
   return (
     <nav className={styles.container}>
       <ul className={styles.navList}>

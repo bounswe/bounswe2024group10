@@ -1,5 +1,5 @@
 //Home.js
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MainLayout from "../MainLayout";
 import PostCard from "../components/PostCard";
 import mockData from "../constants/mockData";
@@ -8,6 +8,9 @@ import AuthenticatedPage from "../components/AuthenticatedPage";
 import { toast } from "react-toastify";
 import { IconLoader } from "@tabler/icons-react";
 import { mockRequest } from "../services/mockService";
+import { useNavigate } from "react-router-dom";
+import { createPost } from "../services/post";
+import { authContext } from "../context/AuthContext";
 
 const InputBox = ({ placeHolder, value, onChange, label }) => {
   return (
@@ -44,6 +47,7 @@ const TextArea = ({ placeHolder, value, onChange, label }) => {
 };
 
 export default function NewPost() {
+  const [media, setMedia] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState("");
   const [date, setDate] = useState("");
@@ -51,16 +55,25 @@ export default function NewPost() {
   const [caption, setCaption] = useState("");
   const [postLoading, setPostLoading] = useState(false);
   const [postError, setPostError] = useState(null);
-  const handlePost = async () => {
-    // if (!image || !type) {
-    //   toast.warning("Please fill all the fields");
-    //   return;
-    // }
+  const { user } = useContext(authContext);
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  const navigate = useNavigate();
+  const handlePost = async () => {
     try {
+      console.log("ASDLKJLASKDJALSKDJASJD");
       setPostError(null);
       setPostLoading(true);
-      const response = await mockRequest();
+      const response = await createPost({
+        username: user.userName,
+        media,
+        caption,
+        location,
+        photoDate: "",
+      });
       if (response.status === 200) {
         toast.success("Post Created Successfully");
         window.location = "/";
@@ -76,6 +89,7 @@ export default function NewPost() {
   function handleChange(e) {
     console.log(e.target.files);
     setImage(URL.createObjectURL(e.target.files[0]));
+    setMedia(e.target.files[0]);
   }
 
   return (
@@ -127,7 +141,12 @@ export default function NewPost() {
               value={caption}
             />
             <div className={styles.buttonsContainer}>
-              <div className={styles.button + " " + styles.cancelButton}>
+              <div
+                onClick={() => {
+                  navigate("/");
+                }}
+                className={styles.button + " " + styles.cancelButton}
+              >
                 Cancel
               </div>
               <div onClick={handlePost} className={styles.button}>

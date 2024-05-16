@@ -1,0 +1,128 @@
+.container {
+  position: relative;
+  box-shadow: 0 0.082rem 1.3rem 0.031rem rgba(0, 0, 0, 0.07);
+  max-width: 23.25rem;
+}
+
+.topContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 15.2rem;
+  position: relative;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  padding-bottom: 0.85rem;
+  padding-top: 1.2rem;
+}
+.topContainer > * {
+  color: white;
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.438rem;
+}
+.userAvatar {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 0.235rem;
+}
+.username {
+  font-size: 0.8rem;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  color: #1e1e1e;
+  font-weight: 600;
+}
+
+.bottomContainer {
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  padding-top: 1.35rem;
+  height: 15rem;
+  border: 0.4px solid #d7d7d7;
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  cursor: pointer;
+}
+
+.imageShadow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4.5rem;
+  background: linear-gradient(182deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0) 150%);
+}
+
+.imageBottomContainer {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.action span {
+  font-size: 0.8rem;
+}
+
+.descriptionContainer {
+  color: #484747;
+  font-size: 1rem;
+}
+
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.bookMarkContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.bookMark {
+  cursor: pointer;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.location {
+  color: #1f7727;
+  display: flex;
+  align-items: center;
+  border-radius: 24px;
+  line-height: none;
+  font-size: 0.6rem;
+  padding: 0.04rem 0.65rem;
+  background-color: rgba(227, 247, 225, 0.47);
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: end;
+  font-size: 0.8rem;
+  color: #acacac;
+}

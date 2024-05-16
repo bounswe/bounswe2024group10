@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./LoginSignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,13 +14,26 @@ export default function Login() {
   const [name, setName] = useState("");
   const { setUser } = useContext(authContext);
   const navigate = useNavigate();
+  const [passwordValid, setPasswordValid] = useState(true);
+
+  function validatePassword(password) {
+    // Regular expression to check for minimum 6 characters, at least one uppercase letter, and one special character
+    const regex = /^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$/;
+
+    // Test the password against the regular expression
+    if (regex.test(password)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const handleLogin = async () => {
     try {
       const response = await login({ userName, password });
       console.log(response);
       if (response.success) {
-        const { token, userName } = response;
+        const { token } = response;
         nookies.set(null, "authToken", token, {
           maxAge: 7 * 24 * 60 * 60,
           path: "/",
@@ -42,18 +55,34 @@ export default function Login() {
 
   const handleRegister = async () => {
     try {
+      if (!validatePassword(password)) {
+        toast.error(
+          "Password must contain at least 6 characters, one uppercase letter, and one special character."
+        );
+        return;
+      }
       const response = await register({
         name,
         email,
         userName,
         password,
       });
-      if (response.status === 201) {
-        toast.success("Register successful, please login");
-        navigate("/auth");
+      if (response.success) {
+        toast.success("User registered successfully, please login.");
+        window.setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+      } else {
+        toast.error(response.message);
       }
     } catch (error) {}
   };
+
+  useEffect(() => {
+    if (password.length > 0 && isRegister) {
+      setPasswordValid(validatePassword(password));
+    }
+  }, [password]);
 
   return (
     <div className={styles.background}>
@@ -104,6 +133,11 @@ export default function Login() {
           </div>
           <div>
             <input
+              style={{
+                transition: "all 0.7s",
+                outline: "none",
+                border: passwordValid ? "1px solid green" : "1px solid red",
+              }}
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               type="password"
