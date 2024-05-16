@@ -4,7 +4,7 @@ package com.bounswe2024group10.animaltroove.service;
 import com.bounswe2024group10.animaltroove.dto.UnbookmarkRequest;
 import com.bounswe2024group10.animaltroove.dto.UnbookmarkResponse;
 import com.bounswe2024group10.animaltroove.model.Bookmarked;
-import com.bounswe2024group10.animaltroove.repository.BookmarkRepository;
+import com.bounswe2024group10.animaltroove.repository.BookmarkedRepository;
 
 // Springboot imports
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +14,19 @@ import org.springframework.stereotype.Service;
 public class UnbookmarkService {
 
     @Autowired
-    private BookmarkRepository bookmarkRepository;
+    private BookmarkedRepository bookmarkedRepository;
 
     public UnbookmarkResponse unbookmarkPost(UnbookmarkRequest request) {
-
-        if (request.getRegisteredUserID() == 0 || request.getPostID() == null) {
-            return new UnbookmarkResponse(false, "Post or User does not exist");
-        }
-        if (bookmarkRepository.findByRegisteredUserIDandPostID(request.getRegisteredUserID(),  request.getPostID()) == null) {
-            return new UnbookmarkResponse(false, "This post has not been bookmarked!");
+        if (bookmarkedRepository.findByUsernameAndPostID(request.getUsername(), request.getPostID()) == null) {
+            return new UnbookmarkResponse(false, "Post not bookmarked");
         }
 
-        // This part will be changed
-        Bookmarked unbookmarkedPost = bookmarkRepository.findByRegisteredUserIDandPostID(request.getRegisteredUserID(), request.getPostID());
+        Bookmarked unbookmarked = bookmarkedRepository.findByUsernameAndPostID(request.getUsername(), request.getPostID());
         try {
-            bookmarkRepository.delete(unbookmarkedPost);
+            bookmarkedRepository.delete(unbookmarked);
         } catch (IllegalArgumentException e) {
             return new UnbookmarkResponse(false, "Invalid post data.");
         }
         return new UnbookmarkResponse(true, "Post unbookmarked");
-
     }
 }

@@ -3,12 +3,12 @@ package com.bounswe2024group10.animaltroove.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Liked")
-public class Liked {
+@Table(name = "Disliked")
+public class Disliked {
 
     @Id
     @Column(name = "likeID")
-    private Integer likeID;
+    private Integer dislikeID;
 
     @Column(name = "username")
     private String username;
@@ -16,11 +16,11 @@ public class Liked {
     @Column(name = "postID")
     private Integer postID;
 
-    public Liked() {
+    public Disliked() {
         // Default constructor
     }
 
-    public Liked(String username, Integer postID) {
+    public Disliked(String username, Integer postID) {
         this.username = username;
         this.postID = postID;
     }

@@ -2,8 +2,6 @@ package com.bounswe2024group10.animaltroove.model;
 
 import java.util.Date;
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "RegisteredUser")
@@ -29,15 +27,12 @@ public class RegisteredUser {
     @Column(name = "email", unique = true, nullable = false, length = 30)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 30)
+    @Column(name = "password", nullable = false, length = 80)
     private String password;
 
     @Lob
     @Column(name = "profile_picture")
     private byte[] profilePicture;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Post> posts = new ArrayList<>();
 
     public RegisteredUser() {
     }
@@ -107,13 +102,4 @@ public class RegisteredUser {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
 }
-

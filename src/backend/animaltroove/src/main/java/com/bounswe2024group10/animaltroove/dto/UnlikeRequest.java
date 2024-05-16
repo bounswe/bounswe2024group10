@@ -1,10 +1,10 @@
 package com.bounswe2024group10.animaltroove.dto;
 
-public class UnbookmarkRequest {
+public class UnlikeRequest {
     private String username;
     private int postID;
 
-    public UnbookmarkRequest(String username, int postID) {
+    public UnlikeRequest(String username, int postID) {
         this.username = username;
         this.postID = postID;
     }

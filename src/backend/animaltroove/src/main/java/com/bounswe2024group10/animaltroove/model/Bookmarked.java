@@ -1,43 +1,43 @@
 package com.bounswe2024group10.animaltroove.model;
 
 import jakarta.persistence.*;
-import com.bounswe2024group10.animaltroove.model.relationTypes.BookmarkedID;
 
 @Entity
 @Table(name = "Bookmarked")
-@IdClass(BookmarkedID.class)
 public class Bookmarked {
 
     @Id
-    @JoinColumn(name = "userID")
-    private int userID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int bookmarkID;
+    
+    @Column(name = "username")
+    private String username;
 
-    @Id
-    @JoinColumn(name = "postID")
-    private Long postID;
+    @Column(name = "postID")
+    private int postID;
 
     public Bookmarked() {
         // Default constructor
     }
 
-    public Bookmarked(int userID, Long postID) {
-        this.userID = userID;
+    public Bookmarked(String username, int postID) {
+        this.username = username;
         this.postID = postID;
     }
 
-    public int getUser() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(int userID) {
-        this.userID = userID;
-    }
-
-    public Long getPost() {
+    public int getPostID() {
         return postID;
     }
 
-    public void setPost(Long postID) {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPostID(int postID) {
         this.postID = postID;
     }
 }
