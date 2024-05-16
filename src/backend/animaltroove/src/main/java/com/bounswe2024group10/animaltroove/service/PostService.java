@@ -7,12 +7,13 @@ import com.bounswe2024group10.animaltroove.repository.PostRepository;
 
 import java.util.Date;
 
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PostService {
-    
+
     @Autowired
     private PostRepository postRepository;
     

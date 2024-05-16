@@ -11,7 +11,9 @@ public class Post {
     @Column(name = "postID")
     private Integer postID;
 
-    @Lob
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @Column(name = "media", nullable = false)
     private byte[] media;
 
