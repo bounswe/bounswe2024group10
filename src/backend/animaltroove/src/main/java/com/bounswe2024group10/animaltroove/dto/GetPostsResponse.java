@@ -21,4 +21,8 @@ public class GetPostsResponse {
     public String getMessage() {
         return message;
     }
+
+    public Iterable<Post> getPosts() {
+        return posts;
+    }
 }
