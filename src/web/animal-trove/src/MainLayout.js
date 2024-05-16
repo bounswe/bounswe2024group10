@@ -36,7 +36,9 @@ export default function MainLayout({ children }) {
         <div className={styles.sideBarContainer}>
           <Navbar />
         </div>
-        <div className={styles.pageContainer}>{children}</div>
+        <div className={"animate-fade-in-up " + styles.pageContainer}>
+          {children}
+        </div>
       </div>
     </div>
   );
