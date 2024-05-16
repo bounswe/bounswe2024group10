@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-
 @RestController
 @RequestMapping("/api/users")
 public class LikeController {
@@ -26,7 +24,6 @@ public class LikeController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/like")
     public ResponseEntity<LikeResponse> likePost(@RequestBody LikeRequest request) {
-
         LikeResponse response = likeService.likePost(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -37,7 +34,4 @@ public class LikeController {
         UnlikeResponse response = unlikeService.unlikePost(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
-
 }
-

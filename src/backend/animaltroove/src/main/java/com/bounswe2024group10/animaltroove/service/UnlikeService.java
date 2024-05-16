@@ -3,26 +3,30 @@ package com.bounswe2024group10.animaltroove.service;
 import com.bounswe2024group10.animaltroove.dto.UnlikeRequest;
 import com.bounswe2024group10.animaltroove.dto.UnlikeResponse;
 import com.bounswe2024group10.animaltroove.model.Liked;
-import com.bounswe2024group10.animaltroove.model.Dislike;
-// import com.bounswe2024group10.animaltroove.repository.BookmarkRepository;
+import com.bounswe2024group10.animaltroove.repository.LikedRepository;
+import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UnlikeService {
 
-    // TODO: add an autowired unlike repository 
+    @Autowired
+    private LikedRepository likedRepository;
+
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
     public UnlikeResponse unlikePost(UnlikeRequest request) {
 
-        if (request.getRegisteredUserID() == 0 || request.getPostID() == null) {
-            return new UnlikeResponse(false, "Post or User does not exist");
+        if (registeredUserRepository.findByUserName(request.getUsername()) == null) {
+            return new UnlikeResponse(false, "User not found");
         }
-
-        // TODO: return error for unlike when post is not already liked
-
-        // TODO: return the successful version of the function above
-
-        return null;
+        if (!likedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID())) {
+            return new UnlikeResponse(false, "Post not liked");
+        }
+        Liked liked = likedRepository.findByUsernameAndPostID(request.getUsername(), request.getPostID());
+        likedRepository.delete(liked);
+        return new UnlikeResponse(true, "Post unliked");
     }
 }

@@ -2,20 +2,19 @@ package com.bounswe2024group10.animaltroove.dto;
 
 public class UnlikeRequest {
     
-    private int registeredUserID;
-    private Long postID;
+    private String username;
+    private int postID;
 
-    public UnlikeRequest(int registeredUserID, Long postID) {
-        this.registeredUserID = registeredUserID;
+    public UnlikeRequest(String username, int postID) {
+        this.username = username;
         this.postID = postID;
     }
 
-    public int getRegisteredUserID() {
-        return registeredUserID;
+    public String getUsername() {
+        return username;
     }
 
-    public Long getPostID() {
+    public int getPostID() {
         return postID;
     }
-
 }
