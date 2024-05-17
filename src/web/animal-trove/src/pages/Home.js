@@ -1,5 +1,5 @@
 //Home.js
-import React from "react";
+import React, { useEffect } from "react";
 import MainLayout from "../MainLayout";
 import PostCard from "../components/PostCard";
 import mockData from "../constants/mockData";
