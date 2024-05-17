@@ -19,12 +19,14 @@ import UserProfileScreen from './pages/UserProfileScreen';
 import CreatePostScreen from './pages/CreatePostScreen';
 
 
+
 const Stack = createStackNavigator();
 
 function App() {
   return (
+    
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" >
+      <Stack.Navigator initialRouteName="Main" >
         <Stack.Screen name = "Main" component={MainScreen} />
         <Stack.Screen name = "Login" component={LoginScreen} />
         <Stack.Screen name = "Guest" component={GuestUserHome}  options={{ headerLeft: null }} />
@@ -40,7 +42,7 @@ function App() {
         <Stack.Screen name="SearchResults" component={SearchResults} />
         <Stack.Screen name="UserP" component={UserProfileScreen} />
         <Stack.Screen name="CreatePost" component={CreatePostScreen} />
-
+        
 
       </Stack.Navigator>
     </NavigationContainer>

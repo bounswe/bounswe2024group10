@@ -26,7 +26,7 @@ const SignupScreen = () => {
       });
         if (response.success) {
           console.log('Signup  successful:', response.data);
-          navigation.navigate('Home');
+          navigation.navigate('Login');
         }
         if (!response.success) {
           throw new Error(response.message)

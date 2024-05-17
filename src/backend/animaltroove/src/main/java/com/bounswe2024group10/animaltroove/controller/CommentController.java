@@ -35,14 +35,14 @@ public class CommentController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getByPostID")
+    @PostMapping("/getByPostID")
     public ResponseEntity<GetCommentsResponse> getCommentsByPostID(@RequestBody GetCommentsRequest request) {
         GetCommentsResponse response = commentService.getCommentsByPostID(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getByUsername")
+    @PostMapping("/getByUsername")
     public ResponseEntity<GetCommentsResponse> getCommentsByUsername(@RequestBody GetCommentsRequest request) {
         GetCommentsResponse response = commentService.getCommentsByUsername(request);
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -46,6 +46,8 @@ public class Comment {
         this.username = username;
     }
 
+    public String getDescription() {return description;}
+
     public int getPostID() {
         return postID;
     }

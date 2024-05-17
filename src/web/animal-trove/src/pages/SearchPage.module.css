@@ -12,22 +12,78 @@
   min-width: max-content;
 }
 .searchContainer {
-  flex-basis: 100%;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
+
+.searcForm {
+  flex-basis: 0.7;
+}
+
+.modeBtnsContainer {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.activeModeBtn {
+  display: flex;
+  align-items: center;
+  background-color: #5dda67;
+  border-radius: 2px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+.modeBtn:hover {
+  opacity: 0.6;
+}
+
+.modeBtn {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 2px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e1e1e;
+  border: none;
+  outline: none;
+}
+
+.searchForm {
+  flex-basis: 70%;
+}
+
 .searchBar {
   margin-left: auto;
   padding: 12px 8px;
   flex-basis: 100%;
-  min-width: 100%;
+  width: 100%;
 }
 
 .animalCard {
-  margin-top: 48px;
   display: flex;
   cursor: pointer;
   align-items: start;
   background-color: rgb(252, 252, 252);
   padding: 12px;
+  border: 0.4px solid #d7d7d7;
+  box-shadow: 0 0.082rem 1.3rem 0.031rem rgba(0, 0, 0, 0.07);
+}
+
+.resultsContainer {
+  /* 3 columned grid */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 
 .searchResults {

@@ -1,5 +1,5 @@
 {
-  "name": "mysecondreaction",
+  "name": "animalTrove",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -14,13 +14,14 @@
     "@react-navigation/stack": "^6.3.29",
     "axios": "^1.6.8",
     "expo": "~50.0.14",
+    "expo-image-picker": "~14.7.1",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-image-picker": "^7.1.2",
     "react-native-modal-datetime-picker": "^17.1.0",
-    "expo-image-picker": "~14.7.1"
+    "react-native-toast-message": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

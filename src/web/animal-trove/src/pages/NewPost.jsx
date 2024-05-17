@@ -49,7 +49,7 @@ const TextArea = ({ placeHolder, value, onChange, label }) => {
 export default function NewPost() {
   const [media, setMedia] = useState(null);
   const [image, setImage] = useState(null);
-  const [type, setType] = useState("");
+  const [animalName, setAnimalName] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [caption, setCaption] = useState("");
@@ -57,14 +57,13 @@ export default function NewPost() {
   const [postError, setPostError] = useState(null);
   const { user } = useContext(authContext);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   const navigate = useNavigate();
   const handlePost = async () => {
+    if (!media || !animalName) {
+      toast.error("Please upload an image and provide a name for the animal");
+      return;
+    }
     try {
-      console.log("ASDLKJLASKDJALSKDJASJD");
       setPostError(null);
       setPostLoading(true);
       const response = await createPost({
@@ -72,13 +71,13 @@ export default function NewPost() {
         media,
         caption,
         location,
-        photoDate: "",
       });
-      if (response.status === 200) {
+      if (response.success) {
         toast.success("Post Created Successfully");
-        window.location = "/";
+        window.setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
-      console.log(response);
     } catch (error) {
       setPostError(error.message);
     } finally {
@@ -87,9 +86,14 @@ export default function NewPost() {
   };
 
   function handleChange(e) {
-    console.log(e.target.files);
-    setImage(URL.createObjectURL(e.target.files[0]));
-    setMedia(e.target.files[0]);
+    const targetFile = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const base64String = e.target.result.split(",")[1];
+      setMedia(base64String);
+    };
+    reader.readAsDataURL(targetFile); // Read the file as a data URL (Base64)
+    setImage(URL.createObjectURL(targetFile));
   }
 
   return (
@@ -104,7 +108,7 @@ export default function NewPost() {
             />
             {!image ? (
               <div className={styles.imagePlaceholder}>
-                <h1 className={styles.imagePlaceholderText}>Upload An Image</h1>
+                <h1 className={styles.imagePlaceholderText}>Upload an Image</h1>
               </div>
             ) : (
               <></>
@@ -125,11 +129,11 @@ export default function NewPost() {
 
           <div className={styles.inputsContainer}>
             <InputBox
-              placeHolder={"Type of the Animal"}
-              onChange={setType}
-              value={type}
+              placeHolder={"Name"}
+              onChange={setAnimalName}
+              value={animalName}
             />
-            <InputBox placeHolder={"Date"} onChange={setDate} value={date} />
+            {/* <InputBox placeHolder={"Date"} onChange={setDate} value={date} /> */}
             <InputBox
               placeHolder={"Location"}
               onChange={setLocation}

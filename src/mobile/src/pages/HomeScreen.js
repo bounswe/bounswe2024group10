@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-// Dummy data for posts
-const posts = [
-  { id: 1, username: 'user1', imageUrl: 'https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg' },
-  { id: 2, username: 'user2', imageUrl: 'https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg' },
-  { id: 3, username: 'user3', imageUrl: 'https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg' },
-];
+import { getFeed } from '../services/feed.js';
 
 function HomeScreen({ navigation }) {
   // State variables for like, dislike, comment counts, and flag status
   const [likeCounts, setLikeCounts] = useState({});
   const [dislikeCounts, setDislikeCounts] = useState({});
   const [commentCounts, setCommentCounts] = useState({});
-  const [flaggedPosts, setFlaggedPosts] = useState({});
   const [bookmarkedPosts, setBookmarkedPosts] = useState({});
-  const [postColors, setPostColors] = useState({});
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await getFeed();
+        if (!response.success) {
+          throw new Error(response.message);
+        }
+        setPosts(response.posts);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   // Function to increment like count for a post
   const incrementLike = (postId) => {
@@ -43,69 +52,57 @@ function HomeScreen({ navigation }) {
   };
 
   // Function to toggle bookmark status for a post
-const toggleBookmark = (postId) => {
-  setBookmarkedPosts((prevBookmarks) => ({
-    ...prevBookmarks,
-    [postId]: !prevBookmarks[postId],
-  }));
-};
-
-
-  // Function to handle flagging a post
-  const flagPost = (postId) => {
-    setFlaggedPosts((prevFlags) => {
-      const isFlagged = prevFlags[postId];
-      const updatedFlags = { ...prevFlags, [postId]: !isFlagged };
-      const backgroundColor = isFlagged ? 'white' : 'lightgreen';
-      setPostColors((prevColors) => ({
-        ...prevColors,
-        [postId]: backgroundColor,
-      }));
-      return updatedFlags;
-    });
+  const toggleBookmark = (postId) => {
+    setBookmarkedPosts((prevBookmarks) => ({
+      ...prevBookmarks,
+      [postId]: !prevBookmarks[postId],
+    }));
   };
 
   const renderPost = ({ item }) => (
-    <View style={{ marginBottom: 20, backgroundColor: postColors[item.id] || 'white' }}>
+    <View style={{ marginBottom: 20, backgroundColor:  'white' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
         <Text style={{ fontWeight: 'bold', marginRight: 10 }}>{item.username}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('UserP', { username: item.username })}>
           <Text style={{ color: 'blue' }}>View Profile</Text>
         </TouchableOpacity>
       </View>
-      <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 300 }} />
+      {item.media && (
+        <Image
+          source={{ uri: `data:image/jpeg;base64,${item.media}` }}
+          style={{ width: '100%', height: 300 }}
+        />
+      )}
+      <Text style={{ marginVertical: 10 }}>{item.animalName || 'No Animal Name'}</Text>
+      <Text style={{ marginVertical: 10 }}>{item.caption}</Text>
+      <Text style={{ marginVertical: 10 }}>Posted on: {item.postDate}</Text>
+      <Text style={{ marginVertical: 10 }}>Location: {item.location}</Text>
       <View style={{ flexDirection: 'row', marginTop: 10 }}>
-        <TouchableOpacity onPress={() => incrementLike(item.id)}>
+        <TouchableOpacity onPress={() => incrementLike(item.postID)}>
           <Icon name="thumbs-up" size={30} color="green" />
         </TouchableOpacity>
-        <Text style={styles.iconText}>{likeCounts[item.id] || 0}</Text>
-        <TouchableOpacity onPress={() => incrementDislike(item.id)}>
+        <Text style={styles.iconText}>{likeCounts[item.postID] || 0}</Text>
+        <TouchableOpacity onPress={() => incrementDislike(item.postID)}>
           <Icon name="thumbs-down" size={30} color="red" />
         </TouchableOpacity>
-        <Text style={styles.iconText}>{dislikeCounts[item.id] || 0}</Text>
+        <Text style={styles.iconText}>{dislikeCounts[item.postID] || 0}</Text>
         <TouchableOpacity onPress={() => console.log("comment pressed")}>
           <Icon name="comment" size={30} color="blue" />
         </TouchableOpacity>
-        <Text style={styles.iconText}>{commentCounts[item.id] || 0}</Text>
-        <TouchableOpacity onPress={() => toggleBookmark(item.id)}>
-          <Icon name={bookmarkedPosts[item.id] ? "bookmark" : "bookmark-o"} size={30} color="pink" />
+        <Text style={styles.iconText}>{commentCounts[item.postID] || 0}</Text>
+        <TouchableOpacity onPress={() => toggleBookmark(item.postID)}>
+          <Icon name={bookmarkedPosts[item.postID] ? "bookmark" : "bookmark-o"} size={30} color="pink" />
         </TouchableOpacity>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={() => flagPost(item.id)}>
-            <Icon name="flag" size={30} color="red" />
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
-  
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
       <FlatList
         data={posts}
         renderItem={renderPost}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.postID.toString()} // Use postID instead of id
       />
       {/* Bottom navigation bar */}
       <View style={styles.bottomNavBar}>

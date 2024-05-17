@@ -27,6 +27,7 @@ import {
   IconFlagFilled,
 } from "@tabler/icons-react";
 import { modalsContext } from "../context/ModalsContext";
+import { formatDate } from "../utils";
 
 function PostCard2({ post }) {
   const { openPostModal } = useContext(modalsContext);
@@ -37,7 +38,7 @@ function PostCard2({ post }) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { user } = useContext(authContext);
   const username = user?.userName; // will be used in requests
-
+  const { postModal } = useContext(modalsContext);
   function truncateText(text, maxLength) {
     const wordArray = text.split(" ");
     if (wordArray.length > maxLength) {
@@ -68,7 +69,7 @@ function PostCard2({ post }) {
     }
 
     fetchData();
-  }, [post.postId, post.username]);
+  }, [post.postId, post.username, postModal]);
 
   const handleLike = async () => {
     if (!user) {
@@ -206,7 +207,7 @@ function PostCard2({ post }) {
           <div className={styles.userContainer}>
             <img
               className={styles.userAvatar}
-              src={post?.owner?.avatar}
+              src={post?.owner?.avatar ?? "/images/avatar.png"}
               alt=""
             />
             <span className={styles.username}>{post?.username}</span>
@@ -247,7 +248,9 @@ function PostCard2({ post }) {
           </div>
           <div className={styles.descriptionContainer}>{post?.caption}</div>
         </div>
-        <div className={styles.dateContainer}>{post?.photoDate}</div>
+        <div className={styles.dateContainer}>
+          {formatDate(post?.photoDate)}
+        </div>
       </div>
     </div>
   );
