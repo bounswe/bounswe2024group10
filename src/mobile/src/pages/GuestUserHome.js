@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React, {  useContext, useEffect, useState} from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Renamed import
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'; // Renamed import
-
+import { getFeed } from '../services/feed.js';
 // Dummy data for posts
-const posts = [
-  { id: 1, username: 'user1', imageUrl: 'https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg' },
-  { id: 2, username: 'user2', imageUrl: 'https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg' },
-  { id: 3, username: 'user3', imageUrl: 'https://media.wired.com/photos/593261cab8eb31692072f129/master/pass/85120553.jpg' },
-];
+
 
 function HomeScreen({ navigation }) {
   // State variables for like, dislike, comment counts, and flag status
@@ -16,6 +12,24 @@ function HomeScreen({ navigation }) {
   const [dislikeCounts, setDislikeCounts] = useState({});
   const [commentCounts, setCommentCounts] = useState({});
   const [bookmarkedPosts, setBookmarkedPosts] = useState({});
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await getFeed();
+        if (!response.success) {
+          throw new Error(response.message);
+        }
+        console.log("here");
+        setPosts(response.posts);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   // Function to increment like count for a post
   const incrementLike = (postId) => {
@@ -91,14 +105,23 @@ function HomeScreen({ navigation }) {
   };
 
   const renderPost = ({ item }) => (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{ marginBottom: 20, backgroundColor:  'white' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
         <Text style={{ fontWeight: 'bold', marginRight: 10 }}>{item.username}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('UserProfile', { username: item.username })}>
+        <TouchableOpacity onPress={() => navigation.navigate('UserP', { username: item.username })}>
           <Text style={{ color: 'blue' }}>View Profile</Text>
         </TouchableOpacity>
       </View>
-      <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 300 }} />
+      {item.media && (
+        <Image
+          source={{ uri: `data:image/jpeg;base64,${item.media}` }}
+          style={{ width: '100%', height: 300 }}
+        />
+      )}
+      <Text style={{ marginVertical: 10 }}>{item.animalName || 'No Animal Name'}</Text>
+      <Text style={{ marginVertical: 10 }}>{item.caption}</Text>
+      <Text style={{ marginVertical: 10 }}>Posted on: {item.postDate}</Text>
+      <Text style={{ marginVertical: 10 }}>Location: {item.location}</Text>
       <View style={{ flexDirection: 'row', marginTop: 10 }}>
         <TouchableOpacity onPress={() => incrementLike(item.id)}>
           <FontAwesomeIcon name="thumbs-up" size={30} color="green" />
@@ -116,9 +139,7 @@ function HomeScreen({ navigation }) {
           <FontAwesomeIcon name={bookmarkedPosts[item.id] ? "bookmark" : "bookmark-o"} size={30} color="pink" />
         </TouchableOpacity>
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={() => flagPost(item.id)}>
-            <FontAwesomeIcon name="flag" size={30} color="red" />
-          </TouchableOpacity>
+          
         </View>
       </View>
     </View>
@@ -130,7 +151,7 @@ function HomeScreen({ navigation }) {
       <FlatList
         data={posts}
         renderItem={renderPost}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.postID.toString()}
       />
       {/* Bottom navigation bar */}
       <View style={styles.bottomNavBar}>

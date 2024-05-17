@@ -42,14 +42,7 @@ function SearchScreen({ navigation }) {
         >
           <Text>Species</Text>
         </TouchableOpacity>
-        {/* Button for hobbies search */}
-        <TouchableOpacity
-          style={{ backgroundColor: selectedButton === 'u@' ? 'lightpink' : 'lightgray', padding: 10, borderRadius: 5 }}
-          onPress={() => handleButtonClick('u@')}
-          disabled={selectedButton === 'u@'}
-        >
-          <Text>User</Text>
-        </TouchableOpacity>
+        
       </View>
       <TextInput
         placeholder="Enter search query"

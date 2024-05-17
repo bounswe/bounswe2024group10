@@ -18,6 +18,7 @@ function HomeScreen({ navigation }) {
         if (!response.success) {
           throw new Error(response.message);
         }
+        console.log("here");
         setPosts(response.posts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
