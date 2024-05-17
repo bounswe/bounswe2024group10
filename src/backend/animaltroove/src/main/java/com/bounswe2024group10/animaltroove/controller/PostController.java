@@ -41,6 +41,13 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/getByFamily")
+    public ResponseEntity<GetPostsResponse> getPostsByFamily(@RequestBody GetPostsRequest request) {
+        GetPostsResponse response = postService.getPostsByFamily(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/getFeed")
     public ResponseEntity<GetPostsResponse> getPosts() {
         GetPostsResponse response = postService.getPosts();
