@@ -2,6 +2,8 @@ package com.bounswe2024group10.animaltroove.model;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import com.bounswe2024group10.animaltroove.service.SearchService;
+
 
 @Entity
 @Table(name = "Post")
@@ -32,6 +34,9 @@ public class Post {
 
     @Column(name = "location")
     private String location;
+
+    @Column(name = "family")
+    private String family;
 
     public Post() {
         // Default constructor
@@ -69,6 +74,8 @@ public class Post {
 
     public void setAnimalName(String animalName) {
         this.animalName = animalName;
+        String animalURI = SearchService.getEntityURI(animalName);
+        this.family = SearchService.findFamily(animalURI);
     }
 
     public byte[] getMedia() {
