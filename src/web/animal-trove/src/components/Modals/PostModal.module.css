@@ -43,12 +43,11 @@
   justify-content: center;
   width: 80vw;
   height: auto;
-  max-height: 80vh;
+  height: 80vh;
 }
 
 .postImage {
-  max-width: 100%;
-  height: auto;
+  max-width: 32rem;
 }
 
 .leftContainer {
@@ -73,19 +72,52 @@
   margin: 10px;
   cursor: pointer;
 }
+.avatarContainer {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+}
+
+.commentScrollContainer {
+  max-height: 18rem;
+  overflow: scroll;
+}
+
 .commentsContainer {
   display: flex;
   flex-direction: column;
   width: 50%;
   height: 100%;
   padding: 20px;
-  overflow: auto;
+  overflow: scroll;
 }
 .comments {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+}
+
+.addCommentContainer {
+  display: flex;
+  margin-top: 8px;
+}
+
+.plusBtn {
+  justify-content: centr;
+  width: 40px;
+  /* height: 40px; */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.plusBtn:hover {
+  opacity: 0.4;
+}
+
+.comment {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .caption {
   display: flex;
