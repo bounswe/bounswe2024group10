@@ -3,18 +3,20 @@ import api from "./api";
 export async function createPost({
   username,
   media,
-  caption,
-  location,
-  photoDate,
+  caption = "",
+  location = "",
+  photoDate = "",
+  animalName,
 }) {
   try {
-    const payload = new FormData();
-    payload.append("username", username);
-    payload.append("media", media);
-    payload.append("caption", caption);
-    payload.append("location", location);
-    payload.append("photoDate", photoDate);
-    const response = await api.post("/posts/create", payload);
+    const response = await api.post("/posts/create", {
+      username,
+      media,
+      caption,
+      location,
+      photoDate,
+      animalName,
+    });
     return response.data;
   } catch (error) {
     console.log(error);

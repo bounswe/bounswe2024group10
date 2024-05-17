@@ -38,7 +38,7 @@ public class LikeController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getLikeCount")
+    @PostMapping("/getLikeCount")
     public ResponseEntity<GetLikeCountResponse> getLikeCount(@RequestBody GetLikeCountRequest request) {
         GetLikeCountResponse response = likeService.getLikeCount(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
