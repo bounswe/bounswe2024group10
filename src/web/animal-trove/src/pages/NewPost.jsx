@@ -71,6 +71,7 @@ export default function NewPost() {
         media,
         caption,
         location,
+        animalName,
       });
       if (response.success) {
         toast.success("Post Created Successfully");
@@ -108,7 +109,7 @@ export default function NewPost() {
             />
             {!image ? (
               <div className={styles.imagePlaceholder}>
-                <h1 className={styles.imagePlaceholderText}>Upload An Image</h1>
+                <h1 className={styles.imagePlaceholderText}>Upload an Image</h1>
               </div>
             ) : (
               <></>

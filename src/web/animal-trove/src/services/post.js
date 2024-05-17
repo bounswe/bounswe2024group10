@@ -22,3 +22,14 @@ export async function createPost({
     console.log(error);
   }
 }
+
+export async function getPostsByUsername({ username }) {
+  try {
+    const response = await api.post(`/posts/getByUser`, {
+      username,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
