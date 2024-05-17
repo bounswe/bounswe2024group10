@@ -31,6 +31,7 @@ public class SearchService {
 
     public SearchResponse search(String searchTerm) {
         if (searchTerm.charAt(0) == 'u') {
+            searchTerm = searchTerm.substring(searchTerm.indexOf('@') + 1);
             ArrayList<RegisteredUser> users = (ArrayList<RegisteredUser>) registeredUserRepository.findByUserNameContaining(searchTerm);
             SearchResponse result = new SearchResponse();
             result.setUsers(users);
