@@ -93,7 +93,7 @@ public class PostService {
             boolean isBookmarked = bookmarkedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID());
             boolean isDisliked = dislikedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID());
             boolean isLiked = likedRepository.existsByUsernameAndPostID(request.getUsername(), request.getPostID());
-            return new GetUserPostInteractionsResponse(true, "Interactions retrieved successfully", isBookmarked, isDisliked, isLiked);
+            return new GetUserPostInteractionsResponse(true, "Interactions retrieved successfully", isLiked, isDisliked, isBookmarked);
         } catch (IllegalArgumentException e) {
             return new GetUserPostInteractionsResponse(false, "Invalid post data", false, false, false);
         }
