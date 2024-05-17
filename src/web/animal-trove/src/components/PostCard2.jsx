@@ -2,6 +2,20 @@ import React, { useContext, useState } from "react";
 import styles from "./PostCard2.module.css";
 import mockData from "../constants/mockData";
 import {
+  getLikeCount,
+  getDislikeCount,
+  getActionDetails,
+  likePost,
+  unlikePost,
+  dislikePost,
+  undislikePost,
+  bookmarkPost,
+  unbookmarkPost,
+} from "../services/postAction";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { authContext } from "../context/AuthContext";
+import {
   IconThumbUp,
   IconThumbUpFilled,
   IconThumbDownFilled,
@@ -16,8 +30,13 @@ import { modalsContext } from "../context/ModalsContext";
 
 function PostCard2({ post }) {
   const { openPostModal } = useContext(modalsContext);
-
-  console.log(post)
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isDisliked, setIsDisliked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const { user } = useContext(authContext);
+  const username = user?.userName; // will be used in requests
 
   function truncateText(text, maxLength) {
     const wordArray = text.split(" ");
@@ -27,20 +46,81 @@ function PostCard2({ post }) {
     return text;
   }
 
+
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const likeData = await getLikeCount({ postID: post.postID });
+        setLikeCount(likeData.likeCount);
+
+        const dislikeData = await getDislikeCount({ postID: post.postID });
+        setDislikeCount(dislikeData.likeCount);
+        const actionDetails = await getActionDetails({
+          username: post.username,
+          postID: post.postID,
+        });
+        console.log(actionDetails);
+        setIsLiked(actionDetails.isLiked);
+        setIsDisliked(actionDetails.isDisliked);
+        setIsBookmarked(actionDetails.isBookmarked);
+      } catch (error) {
+        console.error("Error fetching post data", error);
+      }
+    }
+
+    fetchData();
+  }, [post.postId, post.username]);
+
+  const handleLike = async () => {
+    try {
+      if (isLiked) {
+        setLikeCount((prev) => prev - 1);
+        const response = await unlikePost({ username, postId: post.postID });
+        if(!response.success) {
+          setLikeCount((prev) => prev + 1);
+        }
+        
+      }
+      if (!isLiked) {
+        setLikeCount((prev) => prev + 1);
+        const response = await likePost({ username, postId: post.postID });
+        if(!response.success) {
+          setLikeCount((prev) => prev - 1);
+        }
+      }
+      setIsLiked(!isLiked);
+    }
+    catch (error) {
+      console.error("Error liking post", error);
+      toast.error("Failed to like post");
+    }
+  }
+
+  const handleDislike = async () => {
+  }
+
+  const handleBookmark = async () => {
+  }
+
   return (
     <div className={styles.container}>
       <div
         className={styles.topContainer}
         style={{
-          backgroundImage: `url(${post?.image})`,
+          backgroundImage: `url(data:image/jpeg;base64,${post?.media})`,
           backgroundPosition: "center",
           objectFit: "cover",
           backgroundSize: "cover",
         }}
       >
         <div className={styles.imageShadow}></div>
-        <div className={styles.bookMarkContainer}>
-          <IconBookmark className={styles.bookMark} strokeWidth={1.5} />
+        <div className={styles.bookMarkContainer} onClick={handleBookmark}>
+          {isBookmarked ? (
+            <IconBookmarkFilled className={styles.bookMark} strokeWidth={1.5} />
+          ) : (
+            <IconBookmark className={styles.bookMark} strokeWidth={1.5} />
+          )}
         </div>
         <div className={styles.imageBottomContainer}>
           <div className={styles.userContainer}>
@@ -49,20 +129,27 @@ function PostCard2({ post }) {
               src={post?.owner?.avatar}
               alt=""
             />
-            <span className={styles.username}>{post?.owner?.username}</span>
+            <span className={styles.username}>{post?.username}</span>
           </div>
           <div className={styles.actionsContainer}>
-            <div className={styles.action}>
-              <IconThumbUp strokeWidth={1.5} color="white" size={20} />
-              <span>32</span>
+            <div className={styles.action} onClick={handleLike}>
+              {!isLiked ? (
+                <IconThumbUp strokeWidth={1.5} color="white" size={20} />
+              ) : (
+                <IconThumbUpFilled strokeWidth={1.5} size={20} />
+              )}
+              <span>{likeCount}</span>
+            </div>
+            <div className={styles.action} onClick={handleDislike}>
+              {isDisliked ? (
+                <IconThumbDownFilled strokeWidth={1.5} size={20} />
+              ) : (
+                <IconThumbDown strokeWidth={1.5} size={20} />
+              )}
+              <span>{dislikeCount}</span>
             </div>
             <div className={styles.action}>
-              <IconThumbUp strokeWidth={1.5} size={20} />
-              <span>32</span>
-            </div>
-            <div className={styles.action}>
-              <IconThumbUp strokeWidth={1.5} size={20} />
-              <span>32</span>
+              <IconMessageCircle strokeWidth={1.5} size={20} />
             </div>
           </div>
         </div>
@@ -75,12 +162,12 @@ function PostCard2({ post }) {
       >
         <div>
           <div className={styles.titleContainer}>
-            <h3 className={styles.title}>{post?.name}</h3>
+            <h3 className={styles.title}>{post?.animalName}</h3>
             <div className={styles.location}>{post?.location}</div>
           </div>
-          <div className={styles.descriptionContainer}>{post?.description}</div>
+          <div className={styles.descriptionContainer}>{post?.caption}</div>
         </div>
-        <div className={styles.dateContainer}>{post?.date}</div>
+        <div className={styles.dateContainer}>{post?.photoDate}</div>
       </div>
     </div>
   );

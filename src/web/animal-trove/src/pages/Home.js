@@ -35,7 +35,7 @@ export default function Home() {
           <h1>Home</h1>
           <div className={styles.feed}>
             {posts.map((post) => (
-              <PostCard2 key={post.id} post={post} />
+              <PostCard2 key={post.postID} post={post} />
             ))}
           </div>
         </div>
