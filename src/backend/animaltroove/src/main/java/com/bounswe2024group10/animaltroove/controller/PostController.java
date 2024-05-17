@@ -50,6 +50,7 @@ public class PostController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/getUserPostInteractions")
     public ResponseEntity<GetUserPostInteractionsResponse> getUserPostInteractions(@RequestBody GetUserPostInteractionsRequest request) {
+        System.out.println("PostID: " + request.getPostID() + " Username: " + request.getUsername());
         GetUserPostInteractionsResponse response = postService.getUserPostInteractions(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
