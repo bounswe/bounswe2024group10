@@ -15,9 +15,18 @@ export default function MainLayout({ children }) {
   return (
     <div>
       <div className={styles.headerContainer}>
+        <div className={styles.brandContainer}>
+          <img src="./images/logo.png" className={styles.logo} alt="Logo" />
+          <div className={styles.logoText}>Animal Trove</div>
+        </div>
+
         {user ? (
           <div className={styles.userContainer}>
-            <IconUser size={24} />
+            <img
+              src="/images/avatar.png"
+              className={styles.userAvatar}
+              alt=""
+            />
             <Link to="/me" className={styles.userNameLink}>
               {user?.userName ?? ""}
             </Link>
@@ -27,10 +36,6 @@ export default function MainLayout({ children }) {
             Login
           </Link>
         )}
-        <div className={styles.brandContainer}>
-          <img src="./images/logo.png" className={styles.logo} alt="Logo" />
-          <div className={styles.logoText}>Animal Trove</div>
-        </div>
       </div>
       <div className={styles.container}>
         <div className={styles.sideBarContainer}>

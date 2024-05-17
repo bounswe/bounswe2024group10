@@ -1,5 +1,5 @@
 //Home.js
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MainLayout from "../MainLayout";
 import PostCard from "../components/PostCard";
 import mockData from "../constants/mockData";
@@ -7,12 +7,16 @@ import styles from "./Home.module.css";
 import AuthenticatedPage from "../components/AuthenticatedPage";
 import PostCard2 from "../components/PostCard2";
 import { getFeed } from "../services/feed";
-import { useState, useEffect } from "react";
+import { modalsContext } from "../context/ModalsContext";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const { postModal } = useContext(modalsContext);
 
   useEffect(() => {
+    if (postModal) {
+      return;
+    }
     const fetchPosts = async () => {
       try {
         const response = await getFeed();
