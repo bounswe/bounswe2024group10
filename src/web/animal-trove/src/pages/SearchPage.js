@@ -6,11 +6,13 @@ import mockData from "../constants/mockData";
 import styles from "./SearchPage.module.css";
 import AuthenticatedPage from "../components/AuthenticatedPage";
 import { search } from "../services/search";
+import PostCard2 from "../components/PostCard2";
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [postsData, setPostsData] = useState([]);
   //f for familia, s for species and u for users
   const [mode, setMode] = useState("f");
 
@@ -18,13 +20,15 @@ export default function SearchPage() {
     try {
       setLoading(true);
       const response = await search({ searchTerm: mode + "@" + searchKey });
-
       if (mode === "f") {
         setData(response.animalInfoSearch);
       } else if (mode === "s") {
         setData(response.animalInfoSearch);
       } else if (mode === "u") {
         setData(response.users);
+      }
+      if (response.posts) {
+        setPostsData(response.posts);
       }
     } catch (error) {
       setData([]);
@@ -85,6 +89,13 @@ export default function SearchPage() {
           {!loading && data && data.length > 0 && (
             <p>Found {data.length} results</p>
           )}
+        </div>
+        <div className={styles.resultsContainer}>
+          {!loading &&
+            postsData &&
+            postsData.map((post) => (
+              <PostCard2 key={post.postID} post={post} />
+            ))}
         </div>
         <div className={styles.resultsContainer}>
           {!loading &&
