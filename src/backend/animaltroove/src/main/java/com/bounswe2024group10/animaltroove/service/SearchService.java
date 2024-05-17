@@ -625,15 +625,13 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?familyLabel\n" + 
+                "SELECT ?family\n" + 
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P171* ?family.\n" +
                 "  ?family wdt:P105 wd:Q35409.\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
-                "ORDER BY (xsd:integer(strafter(str(?other), \"Q\")))\n" +
-                "LIMIT 100\n";
+                "LIMIT 1\n";
 
         alternativeQueries.add(query2);
 
@@ -644,7 +642,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?familyLabel\n" +
+                "SELECT ?family\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P279* ?family.\n" +
                 "  ?family wdt:P105 wd:Q35409.\n" +
@@ -660,7 +658,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?familyLabel\n" +
+                "SELECT ?family\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P279 ?family.\n" +
                 "  ?family wdt:P105 wd:Q37517.\n" +
@@ -676,7 +674,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?familyLabel\n" +
+                "SELECT ?family\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P31 ?family.\n" +
                 "  ?family wdt:P279 wd:Q38829.\n" +
