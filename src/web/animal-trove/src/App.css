@@ -15,6 +15,14 @@
   animation: fade-in 0.3s ease-in-out;
 }
 
+.animate-clockwise-spin {
+  animation: clockwise-spin 1s linear infinite;
+}
+
+.animate-counter-clockwise-spin {
+  animation: counter-clockwise-spin 1s linear infinite;
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -32,5 +40,23 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes clockwise-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes couresultsContainernter-clockwise-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
   }
 }

@@ -108,7 +108,7 @@ export default function NewPost() {
             />
             {!image ? (
               <div className={styles.imagePlaceholder}>
-                <h1 className={styles.imagePlaceholderText}>Upload An Image</h1>
+                <h1 className={styles.imagePlaceholderText}>Upload an Image</h1>
               </div>
             ) : (
               <></>
