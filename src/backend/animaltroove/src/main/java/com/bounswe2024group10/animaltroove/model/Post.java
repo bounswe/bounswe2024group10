@@ -50,6 +50,7 @@ public class Post {
         this.photoDate = photoDate;
         this.postDate = postDate;
         this.location = location;
+        this.family = SearchService.findFamily(SearchService.getEntityURI(animalName));
     }
 
     public Integer getPostID() {
@@ -75,7 +76,7 @@ public class Post {
     public void setAnimalName(String animalName) {
         this.animalName = animalName;
         String animalURI = SearchService.getEntityURI(animalName);
-        this.family = SearchService.findFamily(animalURI);
+        this.setFamily(SearchService.findFamily(animalURI));
     }
 
     public byte[] getMedia() {
@@ -116,6 +117,12 @@ public class Post {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+    public void setFamily(String family) {
+        this.family = family;
+    }
+    public String getFamily(String family) {
+        return this.family;
     }
 }
 
