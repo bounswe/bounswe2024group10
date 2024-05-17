@@ -60,18 +60,10 @@ public class SearchService {
             SearchResponse searchResponse = getSpeciesOfFamily(familyURI);
             return searchResponse;
         }
-        /*
-        else if (searchTerm.charAt(0) == 'w') {
-            searchTerm = searchTerm.substring(searchTerm.indexOf('@') + 1);
-            List<SearchResponse> searchResponse = getWellKnowns(searchTerm);
-            return searchResponse;
-        }
-
-         */
         return null;
     }
 
-    public String getEntityURI(String searchTerm) {
+    public static String getEntityURI(String searchTerm) {
         ArrayList<String> alternativeQueries = new ArrayList<>();
         String sparqlEndpoint = "https://query.wikidata.org/sparql";
         String queryString1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
@@ -192,55 +184,7 @@ public class SearchService {
         }
         return null;
     }
-    /*
-    List<SearchResponse> getWellKnowns(String searchTerm) {
-        String sparqlEndpoint = "https://query.wikidata.org/sparql";
 
-        String queryString = "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
-                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
-                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
-                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
-                "SELECT ?nameLabel ?itemLabel (SAMPLE(?pic) AS ?samplePic)\n" +
-                "WHERE {\n" +
-                "  ?item wdt:P31 wd:Q55983715.\n" +
-                "  FILTER(LANG(?itemLabel) = 'en' && REGEX(CONCAT(' ', LCASE(?itemLabel), ' '), '" + searchTerm + "', 'i')).\n" +
-                "  ?item rdfs:label ?itemLabel.\n" +
-                "  OPTIONAL { ?item wdt:P18 ?pic. }\n" +
-                "  OPTIONAL { ?item wdt:P225 ?name. }\n" +
-                "  SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }\n" +
-                "}\n" +
-                "GROUP BY ?nameLabel ?itemLabel";
-       
-        Query query1 = QueryFactory.create(queryString);
-        QueryExecution qexec =  QueryExecutionFactory.sparqlService(sparqlEndpoint,query1);
-        ResultSet resultSet = qexec.execSelect();
-        ArrayList<SearchResponse> results = new ArrayList<>();
-
-
-        while (resultSet.hasNext()) {
-            QuerySolution querySolution = resultSet.next();
-            SearchResponse searchResponse = new SearchResponse();
-            if (querySolution.get("nameLabel") != null) {
-                searchResponse.setName(querySolution.get("nameLabel").toString());
-            }
-            
-            if (querySolution.get("itemLabel") != null) {
-                String itemLabel = querySolution.get("itemLabel").toString();
-                if (itemLabel.contains("@en")) {
-                    itemLabel = itemLabel.substring(0, itemLabel.indexOf("@en"));
-                }
-                searchResponse.setMainLabel(itemLabel);
-            }
-            if(querySolution.get("samplePic")!=null){
-                searchResponse.setPic(querySolution.get("samplePic").toString());
-            } 
-            results.add(searchResponse);
-        }
-        return results;
-    }
-     */
 
     SearchResponse getAnimalDetails(String entityURI) {
         ArrayList<String> alternativeQueries = new ArrayList<>();
@@ -468,18 +412,16 @@ public class SearchService {
                             animal.setCode(0);
                             
                     animalInfoSearch.add(animal);
-                    if (i == 0) {
-                        ArrayList<Post> posts = new ArrayList<>();
-                        posts = postRepository.findByAnimalNameContaining(animal.getMainLabel());
-                        result.setPosts(posts);
-                    }
-
                 }
                 if (i != 0) {
                     break;
                 }
             }
         }
+        String family = findFamily(entityURI);
+        ArrayList<Post> posts = new ArrayList<>();
+        posts = postRepository.findByFamilyContaining(family);
+        result.setPosts(posts);
         animalInfoSearch.sort(Comparator.comparing(AnimalInfoSearch::getCode));
         result.setAnimalInfoSearch(animalInfoSearch);
         return result;
@@ -670,5 +612,90 @@ public class SearchService {
         }
         result.setAnimalInfoSearch(animalInfoSearch);
         return result;
+    }
+
+    public static String findFamily(String entityURI) {
+        ArrayList<String> alternativeQueries = new ArrayList<>();
+        String sparqlEndpoint = "https://query.wikidata.org/sparql";
+
+        String query2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
+                "SELECT ?familyLabel\n" + 
+                "WHERE {\n" +
+                "  wd:" + entityURI + " wdt:P171* ?family.\n" +
+                "  ?family wdt:P105 wd:Q35409.\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                "}\n" +
+                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "ORDER BY (xsd:integer(strafter(str(?other), \"Q\")))\n" +
+                "LIMIT 100\n";
+
+        alternativeQueries.add(query2);
+
+        String query3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
+                "SELECT ?familyLabel\n" +
+                "WHERE {\n" +
+                "  wd:" + entityURI + " wdt:P279* ?family.\n" +
+                "  ?family wdt:P105 wd:Q35409.\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                "}\n" +
+                "LIMIT 1\n";
+        alternativeQueries.add(query3);
+
+        String query4 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
+                "SELECT ?familyLabel\n" +
+                "WHERE {\n" +
+                "  wd:" + entityURI + " wdt:P279 ?family.\n" +
+                "  ?family wdt:P105 wd:Q37517.\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                "}\n" +
+                "LIMIT 1\n";
+        alternativeQueries.add(query4);
+
+        String query5 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
+                "SELECT ?familyLabel\n" +
+                "WHERE {\n" +
+                "  wd:" + entityURI + " wdt:P31 ?family.\n" +
+                "  ?family wdt:P279 wd:Q38829.\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                "}\n" +
+                "LIMIT 1\n";
+        alternativeQueries.add(query5);
+
+        for (int i = 0; i < alternativeQueries.size();i++) {
+            Query query = QueryFactory.create(alternativeQueries.get(i));
+            QueryExecution queryExec = QueryExecutionFactory.sparqlService(sparqlEndpoint,query);
+            ResultSet resultSet = queryExec.execSelect();
+                while (resultSet.hasNext()) {
+                    AnimalInfoSearch animal = new AnimalInfoSearch();
+                    QuerySolution querySolution = resultSet.next();
+                    if (querySolution.get("family") != null)
+                        return querySolution.get("family").toString();                            
+                }
+        }
+        return null;
     }
 }
