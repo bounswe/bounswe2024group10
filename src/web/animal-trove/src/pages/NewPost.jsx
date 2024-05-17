@@ -71,6 +71,7 @@ export default function NewPost() {
         media,
         caption,
         location,
+        animalName,
       });
       if (response.success) {
         toast.success("Post Created Successfully");
