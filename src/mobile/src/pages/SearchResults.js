@@ -83,7 +83,7 @@ const SearchResults = () => {
       try {
           const data = await search({searchTerm:searchQuery})
           console.log(data)
-          setData(data)
+          setData(data.animalInfoSearch)
       }
       catch(error){
           console.log('catch')
