@@ -78,6 +78,17 @@ public class PostService {
             return new GetPostsResponse(false, "Invalid animal name", null);
         }
     }
+    public GetPostsResponse getPostsByFamily(GetPostsRequest request) {
+        if (request.getFamily() == null || request.getFamily().isEmpty()) {
+            return new GetPostsResponse(false, "Family is required", null);
+        }
+        try {
+            List<Post> posts = postRepository.findByFamilyContaining(request.getFamily());
+            return new GetPostsResponse(true, "Posts retrieved successfully", posts);
+        } catch (IllegalArgumentException e) {
+            return new GetPostsResponse(false, "Invalid family name", null);
+        }
+    }
 
     public GetUserPostInteractionsResponse getUserPostInteractions(GetUserPostInteractionsRequest request) {
         if (request.getUsername() == null || request.getUsername().isEmpty()) {
