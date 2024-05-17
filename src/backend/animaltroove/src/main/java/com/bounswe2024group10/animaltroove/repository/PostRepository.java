@@ -13,6 +13,7 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
     Post findByPostID(Integer postID);
     List<Post> findByUsername(String username);
     ArrayList<Post> findByAnimalNameContaining(String animalName);
+    ArrayList<Post> findByFamilyContaining(String family);
     List<Post> findByLocation(String location);
     List<Post> findTop10ByOrderByPostIDDesc();
 }

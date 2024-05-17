@@ -2,6 +2,8 @@ package com.bounswe2024group10.animaltroove.model;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import com.bounswe2024group10.animaltroove.service.SearchService;
+
 
 @Entity
 @Table(name = "Post")
@@ -33,6 +35,9 @@ public class Post {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "family")
+    private String family;
+
     public Post() {
         // Default constructor
     }
@@ -45,6 +50,7 @@ public class Post {
         this.photoDate = photoDate;
         this.postDate = postDate;
         this.location = location;
+        this.family = SearchService.findFamily(SearchService.getEntityURI(animalName));
     }
 
     public Integer getPostID() {
@@ -69,6 +75,8 @@ public class Post {
 
     public void setAnimalName(String animalName) {
         this.animalName = animalName;
+        String animalURI = SearchService.getEntityURI(animalName);
+        this.setFamily(SearchService.findFamily(animalURI));
     }
 
     public byte[] getMedia() {
@@ -109,6 +117,12 @@ public class Post {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+    public void setFamily(String family) {
+        this.family = family;
+    }
+    public String getFamily(String family) {
+        return this.family;
     }
 }
 
