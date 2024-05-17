@@ -70,12 +70,12 @@ export default function SearchPage() {
               >
                 Species
               </div>
-              <div
+              {/* <div
                 className={mode === "u" ? styles.activeModeBtn : styles.modeBtn}
                 onClick={() => setMode("u")}
               >
                 Users
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

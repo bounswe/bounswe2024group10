@@ -49,6 +49,7 @@ export default function PostModal({ post, isOpened, onClose }) {
 
   const fetchComments = async () => {
     // fetch comments from server
+
     const likeData = await getLikeCount({ postID: post?.postID });
     setLikeCount(likeData.likeCount);
 
