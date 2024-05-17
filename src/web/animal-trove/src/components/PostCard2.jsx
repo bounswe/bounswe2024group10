@@ -46,8 +46,6 @@ function PostCard2({ post }) {
     return text;
   }
 
-
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -57,7 +55,7 @@ function PostCard2({ post }) {
         const dislikeData = await getDislikeCount({ postID: post.postID });
         setDislikeCount(dislikeData.likeCount);
         const actionDetails = await getActionDetails({
-          username: post.username,
+          username: username,
           postID: post.postID,
         });
         console.log(actionDetails);
@@ -72,7 +70,11 @@ function PostCard2({ post }) {
     fetchData();
   }, [post.postId, post.username]);
 
- const handleLike = async () => {
+  const handleLike = async () => {
+    if (!user) {
+      toast.error("You need to log in to like posts.");
+      return;
+    }
     const originallyLiked = isLiked;
     const originallyDisliked = isDisliked;
     const originallyLikes = likeCount;
@@ -111,7 +113,11 @@ function PostCard2({ post }) {
     }
   };
 
-    const handleDislike = async () => {
+  const handleDislike = async () => {
+    if (!user) {
+      toast.error("You need to log in to dislike posts.");
+      return;
+    }
     const originallyDisliked = isDisliked;
     const originallyLiked = isLiked;
     const originallyLikes = likeCount;
@@ -151,11 +157,18 @@ function PostCard2({ post }) {
   };
 
   const handleBookmark = async () => {
+    if (!user) {
+      toast.error("You need to log in to bookmark posts.");
+      return;
+    }
     const originallyIsBookmarked = isBookmarked;
     setIsBookmarked(!isBookmarked);
     try {
       if (!originallyIsBookmarked) {
-        const response = await bookmarkPost({ username: username, postID: post.postID });
+        const response = await bookmarkPost({
+          username: username,
+          postID: post.postID,
+        });
         if (!response.success) throw new Error(response.message);
       } else {
         const response = await unbookmarkPost({
