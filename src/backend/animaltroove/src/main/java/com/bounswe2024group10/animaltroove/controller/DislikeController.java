@@ -38,7 +38,7 @@ public class DislikeController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getDislikeCount")
+    @PostMapping("/getDislikeCount")
     public ResponseEntity<GetDislikeCountResponse> getDislikeCount(@RequestBody GetDislikeCountRequest request) {
         GetDislikeCountResponse response = dislikeService.getDislikeCount(request);
         return new ResponseEntity<>(response, HttpStatus.OK);

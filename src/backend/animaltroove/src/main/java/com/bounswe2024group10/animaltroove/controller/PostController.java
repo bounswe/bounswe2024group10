@@ -27,28 +27,28 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getByUser")
+    @PostMapping("/getByUser")
     public ResponseEntity<GetPostsResponse> getPostsByUser(@RequestBody GetPostsRequest request) {
         GetPostsResponse response = postService.getPostsByUser(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getByAnimalName")
+    @PostMapping("/getByAnimalName")
     public ResponseEntity<GetPostsResponse> getPostsByAnimalName(@RequestBody GetPostsRequest request) {
         GetPostsResponse response = postService.getPostsByAnimalName(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getFeed")
+    @PostMapping("/getFeed")
     public ResponseEntity<GetPostsResponse> getPosts() {
         GetPostsResponse response = postService.getPosts();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/getUserPostInteractions")
+    @PostMapping("/getUserPostInteractions")
     public ResponseEntity<GetUserPostInteractionsResponse> getUserPostInteractions(@RequestBody GetUserPostInteractionsRequest request) {
         GetUserPostInteractionsResponse response = postService.getUserPostInteractions(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
