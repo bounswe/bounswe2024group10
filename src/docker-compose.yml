@@ -26,14 +26,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  # web:
-  #   build:
-  #     context: web/animal-trove
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - app
+  web:
+    build:
+      context: web/animal-trove
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
 
 volumes:
   db-data:
