@@ -13,7 +13,7 @@ const handleLogin = async (navigation, userName, password) => {
     const response = await login({ userName, password });
 
     if (response.success) {
-            const { token, userName } = response;
+            const { token } = response;
 
             await AsyncStorage.setItem('authToken', token);
             await AsyncStorage.setItem('userName', userName);
@@ -61,6 +61,7 @@ const LoginScreen = () => {
         value={username}
         onChangeText={setUsername}
         placeholder="Username"
+        autoCapatalize="none"
       />
       <TextInput
         style={styles.input}
@@ -68,6 +69,7 @@ const LoginScreen = () => {
         onChangeText={setPassword}
         placeholder="Password"
         secureTextEntry
+        autoCapatalize="none"
       />
       <TouchableOpacity style={styles.loginButton} onPress={() => handleLogin(navigation, username, password)}>
         <Text style={styles.loginButtonText}>Login</Text>
