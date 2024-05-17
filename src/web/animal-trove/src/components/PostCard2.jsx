@@ -61,9 +61,9 @@ function PostCard2({ post }) {
           postID: post.postID,
         });
         console.log(actionDetails);
-        setIsLiked(actionDetails.isLiked);
-        setIsDisliked(actionDetails.isDisliked);
-        setIsBookmarked(actionDetails.isBookmarked);
+        setIsLiked(actionDetails.liked);
+        setIsDisliked(actionDetails.disliked);
+        setIsBookmarked(actionDetails.bookmarked);
       } catch (error) {
         console.error("Error fetching post data", error);
       }
@@ -72,36 +72,103 @@ function PostCard2({ post }) {
     fetchData();
   }, [post.postId, post.username]);
 
-  const handleLike = async () => {
-    try {
-      if (isLiked) {
-        setLikeCount((prev) => prev - 1);
-        const response = await unlikePost({ username, postId: post.postID });
-        if(!response.success) {
-          setLikeCount((prev) => prev + 1);
-        }
-        
-      }
-      if (!isLiked) {
-        setLikeCount((prev) => prev + 1);
-        const response = await likePost({ username, postId: post.postID });
-        if(!response.success) {
-          setLikeCount((prev) => prev - 1);
-        }
-      }
-      setIsLiked(!isLiked);
+ const handleLike = async () => {
+    const originallyLiked = isLiked;
+    const originallyDisliked = isDisliked;
+    const originallyLikes = likeCount;
+    const originallyDislikes = dislikeCount;
+    setIsLiked(!isLiked);
+    if (!isLiked) {
+      setLikeCount(likeCount + 1);
+    } else {
+      setLikeCount(likeCount - 1);
     }
-    catch (error) {
-      console.error("Error liking post", error);
-      toast.error("Failed to like post");
+    if (isDisliked) {
+      setIsDisliked(false);
+      setDislikeCount(dislikeCount - 1);
     }
-  }
 
-  const handleDislike = async () => {
-  }
+    try {
+      if (!originallyDisliked) {
+        const response = originallyLiked
+          ? await unlikePost({ username: username, postID: post.postID })
+          : await likePost({ username: username, postID: post.postID });
+        if (!response.success) throw new Error(response.message);
+      } else {
+        const [likeResponse, undislikeResponse] = await Promise.all([
+          likePost({ username: username, postID: post.postID }),
+          undislikePost({ username: username, postID: post.postID }),
+        ]);
+        if (!likeResponse.success || !undislikeResponse.success)
+          throw new Error(likeResponse.message || undislikeResponse.message);
+      }
+    } catch (error) {
+      setIsLiked(originallyLiked);
+      setIsDisliked(originallyDisliked);
+      setLikeCount(originallyLikes);
+      setDislikeCount(originallyDislikes);
+      toast.error(error.message);
+    }
+  };
+
+    const handleDislike = async () => {
+    const originallyDisliked = isDisliked;
+    const originallyLiked = isLiked;
+    const originallyLikes = likeCount;
+    const originallyDislikes = dislikeCount;
+    setIsDisliked(!isDisliked);
+    if (!isDisliked) {
+      setDislikeCount(dislikeCount + 1);
+    } else {
+      setDislikeCount(dislikeCount - 1);
+    }
+    if (isLiked) {
+      setIsLiked(false);
+      setLikeCount(likeCount - 1);
+    }
+
+    try {
+      if (!originallyLiked) {
+        const response = originallyDisliked
+          ? await undislikePost({ username: username, postID: post.postID })
+          : await dislikePost({ username: username, postID: post.postID });
+        if (!response.success) throw new Error(response.message);
+      } else {
+        const [dislikeResponse, unlikeResponse] = await Promise.all([
+          dislikePost({ username: username, postID: post.postID }),
+          unlikePost({ username: username, postID: post.postID }),
+        ]);
+        if (!dislikeResponse.success || !unlikeResponse.success)
+          throw new Error(dislikeResponse.message || unlikeResponse.message);
+      }
+    } catch (error) {
+      setIsDisliked(originallyDisliked);
+      setIsLiked(originallyLiked);
+      setLikeCount(originallyLikes);
+      setDislikeCount(originallyDislikes);
+      toast.error(error.message);
+    }
+  };
 
   const handleBookmark = async () => {
-  }
+    const originallyIsBookmarked = isBookmarked;
+    setIsBookmarked(!isBookmarked);
+    try {
+      if (!originallyIsBookmarked) {
+        const response = await bookmarkPost({ username: username, postID: post.postID });
+        if (!response.success) throw new Error(response.message);
+      } else {
+        const response = await unbookmarkPost({
+          username: username,
+          postID: post.postID,
+        });
+        if (!response.success) throw new Error(response.message);
+      }
+    } catch (error) {
+      setIsBookmarked(!isBookmarked);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className={styles.container}>
