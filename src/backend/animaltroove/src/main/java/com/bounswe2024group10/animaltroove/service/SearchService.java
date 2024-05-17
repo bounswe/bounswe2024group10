@@ -250,7 +250,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " rdfs:label ?itemLabel .\n" + // Fetch the label of the main item
                 "  FILTER(LANG(?itemLabel) = \"en\")\n" + // Ensure the label is in English
@@ -266,7 +266,7 @@ public class SearchService {
                 "  OPTIONAL {wd:" + entityURI + " wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" ;
+                "GROUP BY ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" ;
         alternativeQueries.add(queryString);
 
         String query2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
@@ -276,7 +276,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P171* ?family.\n" +
                 "  ?family wdt:P105 wd:Q35409.\n" +
@@ -297,7 +297,7 @@ public class SearchService {
                 "  OPTIONAL {?other wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY (xsd:integer(strafter(str(?other), \"Q\")))\n" +
                 "LIMIT 100\n";
 
@@ -310,7 +310,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P279* ?family.\n" +
                 "  ?family wdt:P105 wd:Q35409.\n" +
@@ -331,7 +331,7 @@ public class SearchService {
                 "  OPTIONAL {?other wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY (xsd:integer(strafter(str(?other), \"Q\")))\n" +
                 "LIMIT 100\n";
         alternativeQueries.add(query3);
@@ -343,7 +343,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  wd:" + entityURI + " wdt:P279 ?family.\n" +
                 "  ?family wdt:P105 wd:Q37517.\n" +
@@ -364,10 +364,41 @@ public class SearchService {
                 "  OPTIONAL {?other wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY (xsd:integer(strafter(str(?other), \"Q\")))\n" +
                 "LIMIT 100\n";
         alternativeQueries.add(query4);
+
+        String query5 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+                "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+                "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
+                "SELECT ?other ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "WHERE {\n" +
+                "  wd:" + entityURI + " wdt:P31 ?family.\n" +
+                "  ?family wdt:P279 wd:Q38829.\n" +
+                "  ?other wdt:P31 ?family.\n"+
+                "  ?other rdfs:label ?itemLabel .\n" +
+                "  FILTER(LANG(?itemLabel) = \"en\")\n" +
+                "  OPTIONAL {?other wdt:P18 ?pic.}\n" +
+                "  OPTIONAL {?other wdt:P225 ?name.}\n" +
+                "  OPTIONAL {?other wdt:P9566 ?cycle.}\n" +
+                "  OPTIONAL {?other wdt:P3063 ?preg.}\n" +
+                "  OPTIONAL {?other wdt:P2250 ?life.}\n" +
+                "  OPTIONAL {?other wdt:P3395 ?heart.}\n" +
+                "  OPTIONAL {?other wdt:P2052 ?speed.}\n" +
+                "  OPTIONAL {?other wdt:P7725 ?numBirth.}\n" +
+                "  OPTIONAL {?other wdt:P2050 ?wingSpan.}\n" +
+                "  OPTIONAL {?other wdt:P141 ?conservationStat.}\n" +
+                "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+                "}\n" +
+                "GROUP BY ?other ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "ORDER BY (xsd:integer(strafter(str(?other), \"Q\")))\n" +
+                "LIMIT 100\n";
+        alternativeQueries.add(query5);
 
         SearchResponse result = new SearchResponse();
         ArrayList<AnimalInfoSearch> animalInfoSearch = new ArrayList<AnimalInfoSearch>();
@@ -464,7 +495,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?item ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?item ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  ?item wdt:P279+ wd:" + familyURI + ".\n" +                
                 "  ?item rdfs:label ?itemLabel.\n" +
@@ -482,7 +513,7 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
                 "}\n" +
-                "GROUP BY ?item ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?item ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY (xsd:integer(strafter(str(?item), \"Q\")))\n" +
                 "LIMIT 100";
         alternativeQueries.add(queryString1);
@@ -494,7 +525,7 @@ public class SearchService {
                 "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
                 "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
                 "PREFIX ontology: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?item ?itemLabel ?nameLabel ?cycleLabel ?pregLabel (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
+                "SELECT ?item ?itemLabel ?nameLabel ?cycleLabel (SAMPLE(?preg) AS ?pregLabel) (SAMPLE(?life) AS ?lifeLabel) ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel (SAMPLE(?pic) AS ?samplePic)\n" +
                 "WHERE {\n" +
                 "  ?item wdt:P171* wd:" + familyURI + ".\n" +
                 "  ?item wdt:P31 wd:Q16521.\n" +
@@ -512,7 +543,7 @@ public class SearchService {
                 "  OPTIONAL {?item wdt:P2050 ?wingSpan.}\n" +
                 "  OPTIONAL {?item wdt:P141 ?conservationStat.}\n" +
                 "}\n" +
-                "GROUP BY ?item ?itemLabel ?nameLabel ?cycleLabel ?pregLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
+                "GROUP BY ?item ?itemLabel ?nameLabel ?cycleLabel ?heartLabel ?speedLabel ?numBirthLabel ?wingSpanLabel ?conservationStatLabel\n" +
                 "ORDER BY (xsd:integer(strafter(str(?item), \"Q\")))\n" +
                 "LIMIT 100";
 
@@ -574,8 +605,8 @@ public class SearchService {
                         }
                         animal.setConservationStatus(conservationStatLabel);
                     }
-                    if (querySolution.get("other") != null) {
-                        String code = querySolution.get("other").toString();
+                    if (querySolution.get("item") != null) {
+                        String code = querySolution.get("item").toString();
                         code = code.substring(code.indexOf("Q")+1);
                         long intCode = Long.parseLong(code);
                         animal.setCode(intCode);
