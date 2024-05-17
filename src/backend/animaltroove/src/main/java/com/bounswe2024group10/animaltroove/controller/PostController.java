@@ -41,7 +41,7 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/getFeed")
+    @GetMapping("/getFeed")
     public ResponseEntity<GetPostsResponse> getPosts() {
         GetPostsResponse response = postService.getPosts();
         return new ResponseEntity<>(response, HttpStatus.OK);
