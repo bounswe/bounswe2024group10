@@ -354,7 +354,15 @@ export default function PostModal({ post, isOpened, onClose }) {
                       <div className={styles.avatarContainer}>•</div>
                       <div className={styles.commentContent}>
                         <div className={styles.commentText}>
-                          {comment.description}
+                          <span
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {comment.username}
+                          </span>{" "}
+                          <br />
+                          <p>{comment.description}</p>
                         </div>
                       </div>
                     </div>
