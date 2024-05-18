@@ -1,0 +1,825 @@
+openapi: 3.0.0
+info:
+  title: AnimalTrove
+  description: API for an animal-based social media application
+  version: 0.2.0
+servers:
+  - url: 'http://165.22.95.135:3000/'
+    description: Main API server
+
+tags:
+  - name: Users
+    description: User related endpoints
+  - name: Posts
+    description: Endpoints related to post operations
+  - name: Comment
+    description: Endpoints related to comment operations
+  - name: Search
+    description: Search based endpoints
+
+paths:
+  /api/users/register:
+    post:
+      tags:
+        - Users
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userName
+                - email
+                - password
+                - name
+                - birthday
+                - bio
+                - profilePicture
+              properties:
+                userName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                name:
+                  type: string
+                birthday:
+                  type: string
+                  format: date
+                bio:
+                  type: string
+                profilePicture:
+                  type: string
+                  format: byte
+      responses:
+        '201':
+          description: User registered successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+          
+  /api/users/login:
+    post:
+      tags:
+        - Users
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userName
+                - password
+              properties:
+                userName:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  token:
+                    type: string
+  /api/users/details:
+    post:
+      tags:
+        - Users
+      summary: Get user details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+              properties:
+                username:
+                  type: string
+      responses:
+        '201':
+          description: User details fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  user:
+                      $ref: '#/components/schemas/RegisteredUser'
+
+  /api/posts/create:
+    post:
+      tags:
+        - Posts
+      summary: Create a new post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - media
+                - animalName
+                - caption
+                - location
+                - photoDate
+              properties:
+                username:
+                  type: string
+                media:
+                  type: string
+                  format: byte
+                animalName:
+                  type: string
+                caption:
+                  type: string
+                location:
+                  type: string
+                photoDate:
+                  type: string
+                  format: date
+      responses:
+        '201':
+          description: Successful post creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/posts/getByUser:
+    post:
+      tags:
+        - Posts
+      summary: Get posts of a specific user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+              properties:
+                username:
+                  type: string
+      responses:
+        '201':
+          description: Posts fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+  /api/posts/getByAnimalName:
+    post:
+      tags:
+        - Posts
+      summary: Get posts by animal name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - animalName
+              properties:
+                animalName:
+                  type: string
+      responses:
+        '201':
+          description: Posts fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+  /api/posts/getByFamily:
+    post:
+      tags:
+        - Posts
+      summary: Get posts by family
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - family
+              properties:
+                family:
+                  type: string
+      responses:
+        '201':
+          description: Posts fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+  /api/posts/getFeed:
+    get:
+      tags:
+        - Posts
+      summary: Get the feed of posts
+      responses:
+        '200':
+          description: Feed fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+  /api/posts/getUserPostInteractions:
+    post:
+      tags:
+        - Posts
+      summary: Get interactions of a user with a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - postID
+                - username
+              properties:
+                postID:
+                  type: integer
+                username:
+                  type: string
+      responses:
+        '201':
+          description: Interactions fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  isLiked:
+                    type: boolean
+                  isDisliked:
+                    type: boolean
+                  isBookmarked:
+                    type: boolean
+  /api/users/like:
+    post:
+      tags:
+        - Users
+      summary: Like a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful like operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/users/unlike:
+    post:
+      tags:
+        - Users
+      summary: Unlike a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful unlike operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/users/getLikeCount:
+    post:
+      tags:
+        - Users
+      summary: Get the like count of a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - postID
+              properties:
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful retrieval of like count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  likeCount:
+                    type: integer
+  /api/users/dislike:
+    post:
+      tags:
+        - Users
+      summary: Dislike a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful dislike operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/users/undislike:
+    post:
+      tags:
+        - Users
+      summary: Undislike a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful undislike operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/users/getDislikeCount:
+    post:
+      tags:
+        - Users
+      summary: Get the dislike count of a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - postID
+              properties:
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful retrieval of dislike count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  dislikeCount:
+                    type: integer
+                    
+  /api/comment/post:
+    post:
+      tags:
+        - Comment
+      summary: Post a comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+                - description
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Successful comment posting
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/comment/delete:
+    post:
+      tags:
+        - Comment
+      summary: Delete a comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - commentID
+              properties:
+                commentID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful comment deletion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/comment/getByPostID:
+    post:
+      tags:
+        - Comment
+      summary: Get comments by post ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - postID
+              properties:
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful retrieval of comments by post ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+  /api/comment/getByUsername:
+    post:
+      tags:
+        - Comment
+      summary: Get comments by username
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+              properties:
+                username:
+                  type: string
+      responses:
+        '201':
+          description: Successful retrieval of comments by username
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+  /api/users/bookmark:
+    post:
+      tags:
+        - Users
+      summary: Bookmark a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful bookmark operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/users/unbookmark:
+    post:
+      tags:
+        - Users
+      summary: Unbookmark a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - postID
+              properties:
+                username:
+                  type: string
+                postID:
+                  type: integer
+      responses:
+        '201':
+          description: Successful unbookmark operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    
+  /api/search:
+    post:
+      tags:
+        - Search
+      summary: Search for a term in the application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - searchTerm
+              properties:
+                searchTerm:
+                  type: string
+      responses:
+        '201':
+          description: Search results returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  animalInfoSearch:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AnimalInfoSearch'
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegisteredUser'
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+                  userShouldClarify:
+                    type: boolean
+
+components:
+  schemas:
+    AnimalInfoSearch:
+      type: object
+      properties:  
+        name:
+          type: string
+        cycle:
+          type: string
+        pregnancy:
+          type: string
+        lifeExpectancy:
+          type: string
+        heartRate:
+          type: string
+        speed:
+          type: string
+        numberOfBirths:
+          type: string
+        pic:
+          type: string
+        wingSpan:
+          type: string
+        conservationStatus:
+          type: string
+        mainLabel:
+          type: string
+        code:
+          type: integer
+        exampleProperty:
+          type: string
+    RegisteredUser:
+      type: object
+      properties:
+        userName:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        birthday:
+          type: string
+          format: date
+        bio:
+          type: string
+        profilePicture:
+          type: string
+          format: byte
+    Post:
+      type: object
+      properties:
+        postId:
+          type: integer
+        username:
+          type: string
+        media:
+          type: string
+          format: byte
+        animalName:
+          type: string
+        caption:
+          type: string
+        location:
+          type: string
+        photoDate:
+          type: string
+          format: date
+    Comment:
+      type: object
+      properties:
+        commentId:
+          type: integer
+        username:
+          type: string
+        postID:
+          type: integer
+        description:
+          type: integer
