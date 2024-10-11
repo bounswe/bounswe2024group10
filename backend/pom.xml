@@ -8,11 +8,11 @@
 		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>com.bounswe2024group10</groupId>
+	<artifactId>Tradeverse</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Tradeverse</name>
+	<description>A web forum related to financial news, analysises, etc.</description>
 	<url/>
 	<licenses>
 		<license/>

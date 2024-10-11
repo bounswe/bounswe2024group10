@@ -1,13 +1,13 @@
-package com.example.demo;
+package com.bounswe2024group10.Tradeverse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class TradeverseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(TradeverseApplication.class, args);
 	}
 
 }

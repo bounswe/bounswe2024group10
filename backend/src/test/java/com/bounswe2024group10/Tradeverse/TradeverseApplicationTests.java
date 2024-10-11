@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.bounswe2024group10.Tradeverse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class TradeverseApplicationTests {
 
 	@Test
 	void contextLoads() {
