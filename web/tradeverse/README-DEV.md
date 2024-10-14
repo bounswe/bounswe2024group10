@@ -59,9 +59,15 @@ node -v
 
 ## Run the App Using Docker
 
-Ensure that Docker is installed and the Docker daemon is running on your system. Docker Desktop must be running.
+Ensure that Docker is installed and the Docker daemon is running on your system.
 
-1. **Build the Docker image:**
+1. **Verify Docker Engine is running:**
+   ```bash
+   docker info
+   ```
+   If the Docker engine is running, this command will display detailed information about Docker. If not you should launch the Docker Desktop.
+
+2. **Build the Docker image:**
 
    ```bash
    docker build -t tradeverse-web-app .
@@ -69,7 +75,7 @@ Ensure that Docker is installed and the Docker daemon is running on your system.
 
    -t flag is used to tag the image with a name.
 
-2. **Run the Docker container:**
+3. **Run the Docker container:**
 
    ```bash
    docker run -p 3000:3000 tradeverse-web-app
@@ -78,7 +84,7 @@ Ensure that Docker is installed and the Docker daemon is running on your system.
    -p flag is used to map the port 3000 of the container to the port 3000 of the host machine.
 
 
-3. **Access the app:**  
+4. **Access the app:**  
    Open your browser and go to:  
 
    ```
