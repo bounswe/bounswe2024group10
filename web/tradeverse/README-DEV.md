@@ -59,6 +59,8 @@ node -v
 
 ## Run the App Using Docker
 
+Ensure that Docker is installed and the Docker daemon is running on your system. Docker Desktop must be running.
+
 1. **Build the Docker image:**
 
    ```bash
