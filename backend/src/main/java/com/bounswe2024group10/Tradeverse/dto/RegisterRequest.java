@@ -1,28 +1,12 @@
-package com.bounswe2024group10.Tradeverse.model;
+package com.bounswe2024group10.Tradeverse.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use auto-generated ID
-    private Long id;
+public class RegisterRequest {
     private String email;
     private String username;
     private String password;
     private String name;
     private String profilePhoto;
-    private int portfolioPrivacyLevel = 0; // Default value
     private int tag;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;
@@ -62,14 +46,6 @@ public class User {
 
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
-    }
-
-    public int getPortfolioPrivacyLevel() {
-        return portfolioPrivacyLevel;
-    }
-
-    public void setPortfolioPrivacyLevel(int portfolioPrivacyLevel) {
-        this.portfolioPrivacyLevel = portfolioPrivacyLevel;
     }
 
     public int getTag() {
