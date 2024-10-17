@@ -1,9 +1,11 @@
 package com.bounswe2024group10.Tradeverse.util;
 
+import com.bounswe2024group10.Tradeverse.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -13,27 +15,22 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private long validity = 1000 * 60 * 60;
+    private int validity = 1000 * 60 * 60 * 24;
+    private String SECRET_KEY = "bounswe2024group10bounswe2024group10bounswe2024group10bounswe2024group10";
 
-    public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
-    }
-
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + validity))
-                .signWith(secretKey)
-                .compact();
+            .setSubject(user.getUsername())
+            .claim("role", "USER")
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + validity))
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
     }
 
-    public boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     public String extractUsername(String token) {
@@ -41,7 +38,7 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
     private boolean isTokenExpired(String token) {

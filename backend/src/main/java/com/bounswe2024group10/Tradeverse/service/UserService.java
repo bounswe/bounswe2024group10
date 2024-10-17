@@ -49,16 +49,14 @@ public class UserService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-        System.out.println("Login request:");
-        System.out.println(loginRequest);
         User user = userRepository.findByUsername(loginRequest.getUsername());
         if (user == null) {
-            return new LoginResponse(false, "User not found", null); // User not found
+            return new LoginResponse(false, "User not found", null);
         }
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             return new LoginResponse(false, "Invalid password", null); // Invalid password
         }
-        String token = "";
+        String token = jwtUtil.generateToken(user);
         return new LoginResponse(true, "Login successful", token);
     }
 }
