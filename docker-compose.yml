@@ -27,8 +27,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - tradeverse-network
   web:
     build:
       context: ./web/tradeverse
@@ -37,12 +35,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    networks:
-      - tradeverse-network
-
-networks:
-  tradeverse-network:
-    driver: bridge
 
 volumes:
   db-data:
