@@ -7,17 +7,36 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // Use non-reactive version
 
-// TODO: Adjust security config
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests()
-            .anyRequest().permitAll();
+        // Enable CORS and disable CSRF (adjust based on your needs)
+        http.csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Allow all requests
+
         return http.build();
+    }
+
+    // Define a CORS configuration source
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000");  // Allow your frontend's origin
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); // Use non-reactive version
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean
