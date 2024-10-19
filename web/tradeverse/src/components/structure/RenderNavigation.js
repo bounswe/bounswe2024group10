@@ -3,6 +3,7 @@ import { AuthData } from "../../auth/AuthWrapper";
 import { nav } from "./navigation";
 import '../styles/style.css';
 import React, { useState } from 'react';
+import Subforum from '../../pages/Subforum';
 
 export const RenderRoutes = () => {
 
@@ -41,6 +42,7 @@ export const RenderRoutes = () => {
                     ) : (
                          <Route path="/users/:id" element={<Navigate to="/notauthorized" replace />} />
                     )*/}
+                    <Route path="/subforums/:name" element={<Subforum />} />
                     {/*<Route path="*" element={<NotFound />} />*/}
                </Routes>
         )
