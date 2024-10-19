@@ -46,11 +46,14 @@
     color: white;
     font-size: 16px;
     font-weight: bold;
+    display: flex; /* Flexbox for alignment */
+    justify-content: center; /* Horizontally center the text */
+    align-items: center; /* Vertically center the text */
+    
 }
 .image-container{
    width: 60%;
-   
-   height: 93vh;         /* Ekranın tamamını kapla (viewport yüksekliği) */
+   height: 90.3vh;         /* Ekranın tamamını kapla (viewport yüksekliği) */
     overflow: hidden;      /* Taşmayı gizle */
     position: relative;
     display: flex;         /* Use flexbox for alignment */
