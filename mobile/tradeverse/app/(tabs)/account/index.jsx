@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native';
+import AccountRootScreen from '../../../screens/account-root';
 
 export default function Account() {
   return (
-    <Text>Account</Text>
+    <AccountRootScreen/>
   );
 }
