@@ -76,7 +76,8 @@ export const RenderMenu = () => {
        </div>
    
        <div className="centerTitle">
-         <h2>TRADEVERSE</h2>
+        <Link to={'/'} className="link"><h2>TRADEVERSE</h2></Link>
+         
        </div>
    
        <div className="rightMenu">
