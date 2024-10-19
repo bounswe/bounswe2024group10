@@ -60,49 +60,48 @@ export const RenderMenu = () => {
          )
     }
     return (
-         <div className="menu">
-              { nav.map((r, i) => {
-
-                   if (!r.isPrivate && r.isMenu) {
-                        return (
-                             <MenuItem key={i} r={r}/>
-                        )
-                   } else if (user.isAuthenticated && r.isMenu && !r.isAdmin) {
-                        return (
-                             <MenuItem key={i} r={r}/>
-                        )
-                   } else if (user.isAuthenticated && r.isMenu && r.isAdmin && user.role === 'admin') {
-                    return (
-                         <MenuItem key={i} r={r}/>
-                    )
-                    } else return false
-              } )}
-
-              { user.isAuthenticated ?
-              <div className="menuItem">
-                    
-                    <div 
-                    className="userDropdown" 
-                    onClick={toggleDropdown}
-                    >
-                         <img
-                         src={user.img}
-                         alt={user.name}
-                         className="userImage"
-                         
-                         />
-                         {isDropdownOpen && (
-                         <div className="dropdownContent" >
-                              <p style={{color:'black',fontWeight:'bold',marginBottom:'5'}}>{user.name}</p>
-                              <Link to={'#'} onClick={logout} style={{color:'red',fontWeight:'lighter'}}>Log out</Link>
-                         </div>
-                         )}
-                    </div>
-               </div>
-              
-              :
-              <div className="menuItem"><Link to={'login'}>Log in</Link></div> }
-              
-         </div>
-    )
+     <div className="menu">
+       <div className="leftMenu">
+         {nav.map((r, i) => {
+           if (!r.isPrivate && r.isMenu) {
+             return <MenuItem key={i} r={r} />;
+           } else if (user.isAuthenticated && r.isMenu && !r.isAdmin) {
+             return <MenuItem key={i} r={r} />;
+           } else if (user.isAuthenticated && r.isMenu && r.isAdmin && user.role === 'admin') {
+             return <MenuItem key={i} r={r} />;
+           } else return false;
+         })}
+       </div>
+   
+       <div className="centerTitle">
+         <h2>TRADEVERSE</h2>
+       </div>
+   
+       <div className="rightMenu">
+         {user.isAuthenticated ? (
+           <div className="menuItem">
+             <div className="userDropdown" onClick={toggleDropdown}>
+               <h5>{user.name}</h5>
+               {isDropdownOpen && (
+                 <div className="dropdownContent">
+                   <p style={{ color: 'black', fontWeight: 'bold', marginBottom: '5' }}>{user.name}</p>
+                   <Link to={'#'} onClick={logout} style={{ color: 'red', fontWeight: 'lighter' }}>
+                     Log out
+                   </Link>
+                 </div>
+               )}
+             </div>
+           </div>
+         ) : (
+           <div className="menuItem">
+             <Link to={'signup'} className="registerButton">
+               <i className="fas fa-user-plus"></i> Register
+             </Link>
+             <Link to={'login'} className="loginButton">Log in</Link>
+             
+           </div>
+         )}
+       </div>
+     </div>
+   );
 }
