@@ -8,13 +8,15 @@ const mockData = {
                     id: 101,
                     username: "user1",
                     forumId: 1,
-                    image: "https://example.com/image1.jpg",
+                    forumName: "BIST",  // Added forumName
+                    image: "https://forex.com.tr/wp-content/uploads/2016/08/bist-07042020-161139-3.jpg",
                     description: "Discussion about BIST trends.",
                     date: "2024-10-01",
                     time: "10:00",
                     likeCount: 15,
                     dislikeCount: 2,
                     commentCount: 3,
+                    tags: ["BIST", "Stocks", "Investment"],  // Added tags
                     comments: [
                         {
                             username: "commenter1",
@@ -32,13 +34,15 @@ const mockData = {
                     id: 102,
                     username: "user2",
                     forumId: 1,
-                    image: "https://example.com/image2.jpg",
+                    forumName: "BIST",  // Added forumName
+                    image: null,
                     description: "How to invest in BIST?",
                     date: "2024-10-02",
                     time: "12:30",
                     likeCount: 8,
                     dislikeCount: 1,
                     commentCount: 2,
+                    tags: ["BIST", "Investing", "Advice"],  // Added tags
                     comments: [
                         {
                             username: "commenter3",
@@ -62,13 +66,15 @@ const mockData = {
                     id: 201,
                     username: "user3",
                     forumId: 2,
-                    image: "https://example.com/image3.jpg",
+                    forumName: "GOLD",  // Added forumName
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj3I0eQl0Yx1S5hswtxOuIIHNbPDYmjZOoeg&s",
                     description: "Is it the right time to invest in gold?",
                     date: "2024-10-03",
                     time: "09:15",
                     likeCount: 20,
                     dislikeCount: 0,
                     commentCount: 4,
+                    tags: ["Gold", "Investment", "Market Trends"],  // Added tags
                     comments: [
                         {
                             username: "commenter5",
@@ -92,13 +98,15 @@ const mockData = {
                     id: 301,
                     username: "user4",
                     forumId: 3,
-                    image: "https://example.com/image4.jpg",
+                    forumName: "NASDAQ",  // Added forumName
+                    image: null,
                     description: "Tech stocks on NASDAQ.",
                     date: "2024-10-04",
                     time: "14:00",
                     likeCount: 30,
                     dislikeCount: 5,
                     commentCount: 5,
+                    tags: ["NASDAQ", "Tech Stocks", "Investment"],  // Added tags
                     comments: [
                         {
                             username: "commenter7",
@@ -122,13 +130,15 @@ const mockData = {
                     id: 401,
                     username: "user5",
                     forumId: 4,
-                    image: "https://example.com/image5.jpg",
+                    forumName: "SP500",  // Added forumName
+                    image: "https://wealthface.com/blog/wp-content/uploads/2021/05/SP500.jpg",
                     description: "Performance analysis of S&P 500.",
                     date: "2024-10-05",
                     time: "16:45",
                     likeCount: 25,
                     dislikeCount: 1,
                     commentCount: 3,
+                    tags: ["SP500", "Market Analysis", "Investing"],  // Added tags
                     comments: [
                         {
                             username: "commenter9",
@@ -152,13 +162,15 @@ const mockData = {
                     id: 501,
                     username: "user6",
                     forumId: 5,
-                    image: "https://example.com/image6.jpg",
+                    forumName: "DAX",  // Added forumName
+                    image: null,
                     description: "Investing in the German DAX index.",
                     date: "2024-10-06",
                     time: "11:20",
                     likeCount: 18,
                     dislikeCount: 0,
                     commentCount: 2,
+                    tags: ["DAX", "German Market", "Investment"],  // Added tags
                     comments: [
                         {
                             username: "commenter11",
@@ -182,13 +194,15 @@ const mockData = {
                     id: 601,
                     username: "user7",
                     forumId: 6,
-                    image: "https://example.com/image7.jpg",
+                    forumName: "Real Estate",  // Added forumName
+                    image: "https://cdn.statcdn.com/Infographic/images/normal/29562.jpeg",
                     description: "Real estate market trends.",
                     date: "2024-10-07",
                     time: "08:30",
                     likeCount: 22,
                     dislikeCount: 3,
                     commentCount: 4,
+                    tags: ["Real Estate", "Market Trends", "Investment"],  // Added tags
                     comments: [
                         {
                             username: "commenter13",
