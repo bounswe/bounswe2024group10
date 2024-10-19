@@ -23,22 +23,91 @@
 }
 
 .menu {
-  background-color:#ffffff;;
+  background-color: #ffffff;
   display: flex;
-  text-align: center;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 0;
+  position: relative;
 }
 
-.menu .menuItem {
+/* Left-aligned menu items */
+.leftMenu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Center-aligned title */
+.centerTitle {
+  position: absolute; /* Absolute positioning to center the title */
+  left: 50%; /* Position in the center horizontally */
+  transform: translateX(-50%); /* Center align the text */
+}
+
+/* Right-aligned user menu */
+.rightMenu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menuItem {
+  margin-right: 50px; /* Adjust the spacing from the right */
+  
+}
+.menuItem a {
   display: inline-block;
-  margin: 0 30px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-right: 10px;
+  text-align: center;
 }
 
-.menu .menuItem a {
-  color: #21407e;
-  text-decoration: none;
+/* Login button specific styles */
+.loginButton {
+  background-color: #EAEAEA;
+  color: blue;
+  
+}
+
+.loginButton:hover {
+  background-color: lightgrey;
+}
+
+/* Register button specific styles */
+.registerButton {
+  background-color: #F48023;
+  color: white;
+  
+}
+
+.registerButton:hover {
+  background-color: darkorange;
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .menuItem a {
+    padding: 8px 15px;  /* Reduce padding on smaller screens */
+    margin-right: 5px;  /* Smaller margin between buttons */
+    font-size: 14px;    /* Decrease font size */
+  }
+}
+
+@media (max-width: 480px) {
+  .menuItem {
+    display: flex;
+    flex-direction: column;   /* Stack buttons vertically on small screens */
+    align-items: center;
+  }
+
+  .menuItem a {
+    width: 80%;               /* Buttons take up 80% of the screen width */
+    margin-bottom: 10px;       /* Space between stacked buttons */
+    font-size: 12px;           /* Further reduce font size */
+  }
 }
 
 /* General Styles */
