@@ -18,6 +18,7 @@ export default function ExploreRootScreen() {
         <SearchBar />
       </PaddedContainer>
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      {}
     </GlobalScreen>
   );
 }
