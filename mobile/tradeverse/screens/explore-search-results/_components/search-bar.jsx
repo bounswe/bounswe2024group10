@@ -25,7 +25,7 @@ export default function SearchBar({ value }) {
             setSearchKey(e);
           }}
           onSubmitEditing={() => {
-            router.push(`/${paths.EXPLORE.SEARCH}?searchKey=${searchKey}`);
+            // router.push(`/${paths.EXPLORE.SEARCH}?searchKey=${searchKey}`);
           }}
         />
         <IconSearch color={COLORS.primary800} strokeWidth={1.5} />

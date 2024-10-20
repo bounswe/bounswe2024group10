@@ -5,13 +5,13 @@ import GlobalScreen from "../../components/ui/global-screen";
 import Tabs from "./_components/tabs";
 import PaddedContainer from "../../components/ui/padded-container";
 import PopularView from "./views/popular-view";
-import ExploreData from "../../mock/explore";
 import { Stack, useLocalSearchParams } from "expo-router";
 import SearchBar from "./_components/search-bar";
 import { IconAdjustments } from "@tabler/icons-react-native";
+import SearchData from "../../mock/explore-search-results";
 
 export default function ExploreRootScreen() {
-  const [selectedTab, setSelectedTab] = useState("popular");
+  const [selectedTab, setSelectedTab] = useState("assets");
 
   const { searchKey } = useLocalSearchParams();
 
@@ -51,13 +51,10 @@ export default function ExploreRootScreen() {
           <IconAdjustments color={COLORS.primary500} />
         </Pressable>
       </PaddedContainer>
-      {/* <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      {selectedTab === "popular" && (
-        <PopularView data={ExploreData.PopularData} />
-      )}
-      {selectedTab === "recent" && (
-        <PopularView data={ExploreData.RecentData} />
-      )} */}
+        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+        {selectedTab === "popular" && (
+          <PopularView data={SearchData.PopularData} />
+        )}
     </GlobalScreen>
   );
 }
