@@ -10,6 +10,7 @@ import SearchBar from "./_components/search-bar";
 import { IconAdjustments } from "@tabler/icons-react-native";
 import SearchData from "../../mock/explore-search-results";
 import SubForumsView from "./views/subforums-view";
+import TagsView from "./views/tags-view";
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState("assets");
@@ -58,7 +59,7 @@ export default function ExploreRootScreen() {
         )}
 
         {selectedTab === "assets" && (<></>)}
-        {selectedTab === "tags" && (<></>)}
+        {selectedTab === "tags" && (<TagsView data={SearchData.TagsData} />)}
         {selectedTab === "sub_forums" && (<SubForumsView data={SearchData.SubForumsData} />)}
         {selectedTab === "posts" && (<></>)}
         {selectedTab === "people" && (<></>)}

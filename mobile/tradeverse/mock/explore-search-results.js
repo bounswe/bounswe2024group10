@@ -303,23 +303,25 @@ const PopularData = [
 ];
 const TagsData = [
   {
-    title: "Investment tips & tricks",
+    title: "CryptoTips",
     id: 1,
+    posts: 240000,
+    people: 2320,
   },
+  
   {
-    title: "Investment opportunities in 2024",
+    title: "BasicCrypto",
     id: 2,
+    posts: 2600000,
+    people: 200,
   },
 
   {
-    title: "Where to invest in 2024",
+    title: "CryptoMarketTrends",
     id: 3,
-  },
-  {
-    title: "Short term investments.",
-    id: 4,
-  },
-  {},
+    posts: 21300,
+    people: 200000,
+  }
 ];
 
 const AssetsData = [
