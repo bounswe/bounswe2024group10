@@ -303,7 +303,7 @@ const ForYouPosts = [
 ];
 const FollowedTopicsPosts = [
   {
-    title: "How to pass into profitable area in stock marketing.",
+    title: "First Post Of Followed Topics",
     content: [
       {
         type: "text",
@@ -606,7 +606,7 @@ const FollowedTopicsPosts = [
 ];
 const FollowedPeoplePosts = [
   {
-    title: "How to pass into profitable area in stock marketing.",
+    title: "First Post Of Followed People",
     content: [
       {
         type: "text",
