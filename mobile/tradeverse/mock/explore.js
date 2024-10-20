@@ -348,4 +348,4 @@
     },
   ];
   
-  export default { ForYouPosts, FollowedPeoplePosts, FollowedTopicsPosts };
+  export default { PopularData, RecentData };
