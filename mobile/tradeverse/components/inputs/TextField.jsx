@@ -15,6 +15,7 @@ export default function TextField({
   value,
   label = '',
   multiline = false,
+  defaultValue = '',
   error = '',
   showErrorMessage = false // helperText | container.
 }) {
@@ -39,6 +40,7 @@ export default function TextField({
         multiline={multiline}
         onBlur={onBlur}
         name={name}
+        defaultValue={defaultValue}
         placeholderTextColor='#3C3B3B'
         value={value}
         placeholder={placeholder}

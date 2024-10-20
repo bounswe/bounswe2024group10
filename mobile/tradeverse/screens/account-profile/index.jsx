@@ -7,9 +7,11 @@ import RHFTextField from "../../components/inputs/RHFTextField";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SIZE_CONSTANT } from "../../constants/theme";
+import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
 import ProfileImage from "../../components/images/profile-image";
 import { IconPencil } from "@tabler/icons-react-native";
+import ProfileData from "../../mock/user-profile";
+import { Stack } from "expo-router";
 
 export default function AccountProfileScreen() {
   const validationSchema = z.object({
@@ -21,6 +23,7 @@ export default function AccountProfileScreen() {
     defaultValues: {
       name: "",
       surname: "",
+      tag: "",
       description: "",
     },
     resolver: zodResolver(validationSchema),
@@ -29,6 +32,10 @@ export default function AccountProfileScreen() {
   return (
     <GlobalScreen>
       <FullScrollView>
+        <Stack.Screen options={{
+            headerBackTitleVisible: false,
+            headerTitle: "Profile Settings",
+        }}/>
         <FormProvider {...form}>
           <View
             style={{
@@ -37,7 +44,6 @@ export default function AccountProfileScreen() {
               flexDirection: "row",
               justifyContent: "center",
               position: "relative",
-              marginBottom: SIZE_CONSTANT * 4,
             }}
           >
             <View
@@ -56,13 +62,20 @@ export default function AccountProfileScreen() {
               <IconPencil size={SIZE_CONSTANT * 2.4} color="white" />
             </View>
             <ProfileImage
+            src={ProfileData.avatar}
               style={{
                 width: SIZE_CONSTANT * 7.2,
                 height: SIZE_CONSTANT * 7.2,
                 borderRadius: 50,
               }}
-              deviceReference={true}
             />
+          </View>
+          <View style={{
+              marginBottom: SIZE_CONSTANT * 4,
+          }}>
+            <Text style={{ textAlign: "center", fontSize: SIZE_CONSTANT * 1.4,color:COLORS.graytext,marginTop:SIZE_CONSTANT*0.8 }}>
+              @{ProfileData.username}
+            </Text>
           </View>
           <View
             style={{
@@ -71,9 +84,12 @@ export default function AccountProfileScreen() {
               gap: SIZE_CONSTANT * 2,
             }}
           >
-            <RHFTextField label="Name" name="name" />
-            <RHFTextField label="Surname" name="surname" />
-            <RHFTextArea label="Description" name="description" />
+            <RHFTextField style={{
+                backgroundColor: '#E6F4F1', 
+            }} label="Tag" name="tag" placeholder={ProfileData.tag} defaultValue={ProfileData.tag}/>
+            <RHFTextField placeholder={ProfileData.name} label="Name" name="name" defaultValue={ProfileData.name} />
+            <RHFTextField placeholder={ProfileData.surname} label="Surname" name="surname"  defaultValue={ProfileData.surname}/>
+            <RHFTextArea placeholder={ProfileData.description} label="Description" name="description"  defaultValue={ProfileData.description}/>
           </View>
         </FormProvider>
       </FullScrollView>
