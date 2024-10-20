@@ -4,10 +4,12 @@ import mockData from "../data/mockData";
 import "./styles/Home.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire, faClock } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from "react-router-dom"; // Import useParams
 
-const Home = () => {
+const Subforum = () => {
+    const { name } = useParams(); // Get the forumName from the URL
     const [activeButton, setActiveButton] = useState("new");
-    const [posts, setPosts] = useState(mockData.subforums.flatMap(subforum => subforum.posts));
+    const [posts, setPosts] = useState(mockData.subforums.filter(subforum => subforum.name === name).flatMap(subforum => subforum.posts));
     const [userActions, setUserActions] = useState({}); // To track user actions on posts (like/dislike)
 
     // Function to handle sorting posts
@@ -126,4 +128,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Subforum;

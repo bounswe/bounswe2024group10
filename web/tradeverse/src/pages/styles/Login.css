@@ -1,0 +1,72 @@
+.page{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    background-color: #F5F5F5;
+
+}
+
+.input{
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 5px;
+
+
+}
+.input input {
+    width: 100%; /* Full width */
+    height: 42px; /* Fixed height */
+     /* Padding inside the input */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 5px; /* Slightly rounded corners */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s; /* Smooth transition on focus */
+}
+
+.input input:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+.button{
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    height: 38px;
+    margin-top: 10px;
+    padding: 0  ;
+    background-color: #F48023;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex; /* Flexbox for alignment */
+    justify-content: center; /* Horizontally center the text */
+    align-items: center; /* Vertically center the text */
+    
+}
+.image-container{
+   width: 60%;
+   height: 90.3vh;         /* Ekranın tamamını kapla (viewport yüksekliği) */
+    overflow: hidden;      /* Taşmayı gizle */
+    position: relative;
+    display: flex;         /* Use flexbox for alignment */
+    align-items: center;   /* Center items vertically */
+    justify-content: center;
+}
+.image-container img {
+    object-fit: cover;     /* Cover the container while maintaining aspect ratio */
+    position: absolute;    /* Position absolute for better control */
+    top: 50%;              /* Center it vertically */
+    left: 50%;             /* Center it horizontally */
+    transform: translate(-50%, -50%); /* Adjust position */
+    width: 100%;           /* Tam genişlik */
+    height: 100%;          /* Tam yükseklik */
+    display: block;        /* Alt boşluğu kaldır */
+}

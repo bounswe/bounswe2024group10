@@ -1,38 +1,122 @@
-.App {
+.header {
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+.header h1 {
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+.header p {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header .logo {
+  text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header .logo img {
+  cursor: pointer;
+  width: 100px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.menu {
+  background-color: #ffffff;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-between;
+  padding: 15px 0;
+  position: relative;
+}
+
+/* Left-aligned menu items */
+.leftMenu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Center-aligned title */
+.centerTitle {
+  position: absolute; /* Absolute positioning to center the title */
+  left: 50%; /* Position in the center horizontally */
+  transform: translateX(-50%); /* Center align the text */
+}
+
+/* Right-aligned user menu */
+.rightMenu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menuItem {
+  margin-right: 50px; /* Adjust the spacing from the right */
+  
+}
+.menuItem a {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-right: 10px;
+  text-align: center;
+}
+
+/* Login button specific styles */
+.loginButton {
+  background-color: #EAEAEA;
+  color: blue;
+  
+}
+
+.loginButton:hover {
+  background-color: lightgrey;
+}
+
+/* Register button specific styles */
+.registerButton {
+  background-color: #F48023;
   color: white;
+  
 }
 
-.App-link {
-  color: #61dafb;
+.registerButton:hover {
+  background-color: darkorange;
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .menuItem a {
+    padding: 8px 15px;  /* Reduce padding on smaller screens */
+    margin-right: 5px;  /* Smaller margin between buttons */
+    font-size: 14px;    /* Decrease font size */
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media (max-width: 480px) {
+  .menuItem {
+    display: flex;
+    flex-direction: column;   /* Stack buttons vertically on small screens */
+    align-items: center;
   }
-  to {
-    transform: rotate(360deg);
+
+  .menuItem a {
+    width: 80%;               /* Buttons take up 80% of the screen width */
+    margin-bottom: 10px;       /* Space between stacked buttons */
+    font-size: 12px;           /* Further reduce font size */
   }
+}
+
+/* General Styles */
+
+.error {
+  background-color: red;
+  width: 280px;
+  margin: 5px 0;
+  margin: 0 auto;
+  padding: 15px;
+  color: #fff;
 }

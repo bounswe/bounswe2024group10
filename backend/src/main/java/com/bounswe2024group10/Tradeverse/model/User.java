@@ -1,13 +1,19 @@
 package com.bounswe2024group10.Tradeverse.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Use auto-generated ID
     private Long id;
+
     private String email;
     private String username;
     private String password;
@@ -16,6 +22,7 @@ public class User {
     private int portfolioPrivacyLevel = 0; // Default value
     private int tag;
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -78,5 +85,32 @@ public class User {
 
     public void setTag(int tag) {
         this.tag = tag;
+    }
+
+    // UserDetails interface methods
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // You can return roles or authorities assigned to the user
+        return List.of(() -> "ROLE_USER"); // or return an empty list if no roles are used
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Implement logic to check if account is expired
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Implement logic to check if account is locked
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Implement logic to check if credentials are expired
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Implement logic to check if the account is enabled
     }
 }
