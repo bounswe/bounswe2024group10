@@ -199,7 +199,7 @@ export default function PostCard({ style, post }) {
         <Text>
           {post.content.map((content, index) => {
             if (content.type === "text") {
-              return <DefaultText  key={index} text={content} />;
+              return <DefaultText  key={index} index={index} text={content} />;
             }
             if (content.type === "tag") {
               return <TagText key={index} index={index} tag={content} />;
