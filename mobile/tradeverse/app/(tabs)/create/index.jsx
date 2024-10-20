@@ -5,7 +5,6 @@ import WelcomingScreen from '../../../screens/welcoming';
 
 export default function Create() {
   return (
-      // <CreateRootScreen/>
-      <WelcomingScreen/>
+      <CreateRootScreen/>
   );
 }
