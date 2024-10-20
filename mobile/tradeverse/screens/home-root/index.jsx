@@ -6,6 +6,8 @@ import FullScrollView from "../../components/ui/full-scroll-view";
 import ForYouView from "./views/for-you-view";
 import HomeData from "../../mock/home";
 import Tabs from "./_components/tabs";
+import FollowedTopicsView from "./views/followed-topics-view";
+import FollowedPeopleView from "./views/followed-people-view";
 
 export default function HomeRootScreen() {
   const [selectedTab, setSelectedTab] = useState('for_you') // for_you, followed_topics, followed_people
@@ -18,8 +20,8 @@ export default function HomeRootScreen() {
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
       <FullScrollView>
         {selectedTab === 'for_you' && (<ForYouView data={HomeData.ForYouPosts} />)}
-        {selectedTab === 'followed_topics' && (<></>)}
-        {selectedTab === 'followed_people' && (<></>)}
+        {selectedTab === 'followed_topics' && (<FollowedTopicsView data={HomeData.FollowedTopicsPosts} />)}
+        {selectedTab === 'followed_people' && (<FollowedPeopleView data={HomeData.FollowedPeoplePosts} />)}
       </FullScrollView>
     </GlobalScreen>
   );
