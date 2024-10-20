@@ -13,9 +13,10 @@ import SubForumsView from "./views/subforums-view";
 import TagsView from "./views/tags-view";
 import PostsView from "./views/posts-view";
 import UsersView from "./views/users-view";
+import AssetsView from "./views/asset-view";
 
 export default function ExploreRootScreen() {
-  const [selectedTab, setSelectedTab] = useState("assets");
+  const [selectedTab, setSelectedTab] = useState("popular");
 
   const { searchKey } = useLocalSearchParams();
 
@@ -56,11 +57,11 @@ export default function ExploreRootScreen() {
         </Pressable>
       </PaddedContainer>
         <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+
         {selectedTab === "popular" && (
           <PopularView data={SearchData.PopularData} />
         )}
-
-        {selectedTab === "assets" && (<></>)}
+        {selectedTab === "assets" && (<AssetsView data={SearchData.AssetsData} />)}
         {selectedTab === "tags" && (<TagsView data={SearchData.TagsData} />)}
         {selectedTab === "sub_forums" && (<SubForumsView data={SearchData.SubForumsData} />)}
         {selectedTab === "posts" && (<PostsView data={SearchData.PopularData} />)}
