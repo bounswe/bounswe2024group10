@@ -41,6 +41,7 @@ export default function Tabs({selectedTab, setSelectedTab}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                     paddingVertical: 10,
+                    backgroundColor:selectedTab === tab.value ? `${COLORS.primary50}80` : 'transparent',
                     borderBottomWidth: selectedTab === tab.value ? SIZE_CONSTANT*0.3 : 0,
                     borderBottomColor: selectedTab === tab.value ? COLORS.primary500 : 'transparent'
                 }}
