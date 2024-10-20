@@ -6,11 +6,10 @@ import ProfileInfo from './_components/top-profile-info';
 import GlobalScreen from '../../components/ui/global-screen';
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme';
 import FullScrollView from '../../components/ui/full-scroll-view';
-import Navigated from '../../components/ui/navigated-screen';
 
 export default function AccountRootScreen() {
   return (
-    <Navigated>
+
       <GlobalScreen>
         <FullScrollView>
           <ProfileInfo />
@@ -33,7 +32,7 @@ export default function AccountRootScreen() {
           ))}
         </FullScrollView>
       </GlobalScreen>
-    </Navigated>
+   
   );
 }
 
