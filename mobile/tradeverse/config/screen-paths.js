@@ -12,6 +12,7 @@ const roots = {
     },
     EXPLORE: {
       ROOT: roots.EXPLORE,
+      SEARCH: `${roots.EXPLORE}/search`,
     },
     CREATE: {
       ROOT: roots.CREATE,
