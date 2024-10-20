@@ -45,7 +45,7 @@ export const COLORS = {
 export const FONT_WEIGHTS = {
     thin: '100',
     light: '200',
-    regular: '300',
+    regular: '400',
     medium: '500',
     semibold: '600',
     bold: '700',
