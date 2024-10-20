@@ -22,6 +22,7 @@ const roots = {
     },
     ACCOUNT: {
       ROOT: roots.ACCOUNT,
+      PROFILE: `${roots.ACCOUNT}/profile`,
     },
   };  
   export default paths;

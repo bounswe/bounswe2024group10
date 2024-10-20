@@ -6,7 +6,6 @@ import {
   View,
   Pressable,
 } from "react-native";
-import { IconArrowRight } from "@tabler/icons-react-native";
 import {
   COLORS,
   FONT_WEIGHTS,
