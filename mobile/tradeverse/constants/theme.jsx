@@ -1,6 +1,8 @@
 export const COLORS = {
     black: '#000000',
     white: '#FFFFFF',
+
+    graytext: '#A0A0A0',
     
     primary50: '#EEF2FF',
     primary100: '#E0E7FF',
@@ -26,6 +28,29 @@ export const COLORS = {
   };
   
   export const SIZE_CONSTANT = 11;
+
+
+  export const SIZES = {
+      xxSmall: SIZE_CONSTANT * 1,
+      xSmall: SIZE_CONSTANT * 1.2,
+      small: SIZE_CONSTANT * 1.4,
+      medium: SIZE_CONSTANT * 1.6,
+      large: SIZE_CONSTANT * 2,
+      xLarge: SIZE_CONSTANT * 2.4,
+      xxLarge: SIZE_CONSTANT * 3.2
+  };
+
+
+
+export const FONT_WEIGHTS = {
+    thin: '100',
+    light: '200',
+    regular: '300',
+    medium: '500',
+    semibold: '600',
+    bold: '700',
+    black: '900'
+}
   
   
   
