@@ -387,4 +387,22 @@ const SubForumsData = [
   },
 ];
 
-export default { PopularData, TagsData, AssetsData, SubForumsData };
+const UsersData = [
+    {
+        name: "Daron",
+        surname: "Acemoglu",
+        username: "daronacemoglu",
+        avatar:
+          "https://img.kitapyurdu.com/v1/getImage/fn:10642557/wi:200/wh:526d5c04e",
+        id: 1,
+      },
+      {
+        name: "Warren",
+        surname: "Buffet",
+        username: "godofinvestment",
+        avatar:'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS_y3Ofdg25BKMSnFvLIp9-wJ9sdSRPoJbzoIqV-XhbOuiKuknK',
+        id: 1,
+      },
+]
+
+export default { PopularData, TagsData, AssetsData, SubForumsData,UsersData };
