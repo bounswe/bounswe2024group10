@@ -1,12 +1,12 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
-import PostCard from "../_components/post-result";
+import SubForumResult from "../_components/result-cards/sub-forum-result";
 
-export default function RecentView({ data }) {
+export default function SubForumsView({ data }) {
   return (
     <ScrollView>
-      {data.map((post, index) => (
-        <PostCard key={index} post={post} />
+      {data.map((subForum, index) => (
+        <SubForumResult key={index} subForum={subForum} />
       ))}
     </ScrollView>
   );

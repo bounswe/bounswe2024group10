@@ -322,4 +322,67 @@ const TagsData = [
   {},
 ];
 
-export default { PopularData, TagsData };
+const AssetsData = [
+  {
+    abbreviation: "BTC",
+    label: "Bitcoin",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/640px-Bitcoin.svg.png",
+    id: 1,
+  },
+  {
+    abbreviation: "ETH",
+    label: "Ethereum",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdV3w4R5eJCubPeZ-BZa_Qdk4Md3BCBhhQrg&s",
+    id: 2,
+  },
+
+  {
+    abbreviation: "USD",
+    label: "United States Dollar",
+    image:
+      "https://media.istockphoto.com/id/1151557689/vector/vector-image-of-a-flat-isolated-icon-dollar-sign-currency-exchange-dollar-united-states.jpg?s=612x612&w=0&k=20&c=XxoU_vrc2LCsrlRnmZHysq6HG_tBIUsPVVxi0VeTCKA=",
+    id: 3,
+  },
+  {
+    abbreviation: "EUR",
+    label: "Euro",
+    image:
+      "https://static-00.iconduck.com/assets.00/euro-symbol-icon-2048x2048-jz6x8c3o.png",
+    id: 4,
+  },
+];
+
+const SubForumsData = [
+  {
+    id: 1,
+    title: "Investment Strategies & Market Insights",
+    posts: 2600000,
+    followers: 145000,
+    people: 200000,
+  },
+  {
+    id: 2,
+    title: "Crypto Trends & Blockchain Innovations",
+    posts: 1900000,
+    followers: 78000,
+    people: 120000,
+  },
+  {
+    id: 3,
+    title: "Personal Finance & Wealth Management",
+    posts: 2300000,
+    followers: 210000,
+    people: 175000,
+  },
+  {
+    id: 4,
+    title: "Stock Market Analysis & Trading Techniques",
+    posts: 3400000,
+    followers: 310000,
+    people: 220000,
+  },
+];
+
+export default { PopularData, TagsData, AssetsData, SubForumsData };

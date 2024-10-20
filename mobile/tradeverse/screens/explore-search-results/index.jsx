@@ -9,6 +9,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import SearchBar from "./_components/search-bar";
 import { IconAdjustments } from "@tabler/icons-react-native";
 import SearchData from "../../mock/explore-search-results";
+import SubForumsView from "./views/subforums-view";
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState("assets");
@@ -55,6 +56,13 @@ export default function ExploreRootScreen() {
         {selectedTab === "popular" && (
           <PopularView data={SearchData.PopularData} />
         )}
+
+        {selectedTab === "assets" && (<></>)}
+        {selectedTab === "tags" && (<></>)}
+        {selectedTab === "sub_forums" && (<SubForumsView data={SearchData.SubForumsData} />)}
+        {selectedTab === "posts" && (<></>)}
+        {selectedTab === "people" && (<></>)}
+
     </GlobalScreen>
   );
 }
