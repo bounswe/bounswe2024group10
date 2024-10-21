@@ -31,7 +31,7 @@ export default function SubForumResult({ style, subForum }) {
     );
   };
   return (
-    <SubforumLink target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
+    <SubforumLink subForum={subForum} target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
 
     
     <View
@@ -64,15 +64,15 @@ export default function SubForumResult({ style, subForum }) {
       >
         <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>✍️</Text>}
-          value={subForum.posts}
+          value={subForum.totalPosts}
         />
         <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>⭐</Text>}
-          value={subForum.followers}
+          value={subForum.totalFollowers}
         />
         <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>👤</Text>}
-          value={subForum.people}
+          value={subForum.totalPeople}
         />
       </View>
     </View>

@@ -6,11 +6,12 @@ import { router } from "expo-router";
 export default function SubforumLink({
   children,
   target = paths.EXPLORE.SUBFORUM_DETAIL,
+  subForum,
 }) {
   return (
     <Pressable
       onPress={() => {
-        router.push(target);
+        router.push(`${target}?subforumId=${subForum?.id}`);
       }}
     >
       {children}

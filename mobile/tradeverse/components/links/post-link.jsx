@@ -6,11 +6,12 @@ import { router } from "expo-router";
 export default function PostLink({
   children,
   target = paths.EXPLORE.POST_DETAIL,
+  post
 }) {
   return (
     <Pressable
       onPress={() => {
-        router.push(target);
+        router.push(`${target}?postId=${post?.id}`);
       }}
     >
       {children}

@@ -12,7 +12,7 @@ import paths from "../../../../config/screen-paths";
 
 export default function AssetResult({ style, asset }) {
   return (
-    <AssetLink target={paths.EXPLORE.SEARCH_RESULTS.ASSET_DETAIL}>
+    <AssetLink asset={asset} target={paths.EXPLORE.SEARCH_RESULTS.ASSET_DETAIL}>
       <View
         style={{
           paddingHorizontal: SIZES.small,

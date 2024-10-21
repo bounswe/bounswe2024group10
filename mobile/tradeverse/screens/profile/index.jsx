@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import GlobalScreen from "../../components/ui/global-screen";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import HomeData from "../../mock/home";
 import PostCard from "../home-root/_components/post-card";
 import PaddedContainer from "../../components/ui/padded-container";
+import { getUserByUsername } from "../../mock-services/users";
+import { getPostsByUser } from "../../mock-services/post";
+import formatInteractionNumber from "../../util/format-number";
+import ProfileImage from "../../components/images/profile-image";
 
 const ProfileHeader = () => {
   const [activeTab, setActiveTab] = useState("Recent"); // State for tab selection
+  const [postsData, setPostsData] = useState([]);
+  const [profile, setProfile] = useState({});
+
+  const { username } = useLocalSearchParams();
+
+  useEffect(() => {
+    const profileResult = getUserByUsername(username);
+    const postsResult = getPostsByUser(username);
+
+    setPostsData(postsResult);
+    setProfile(profileResult);
+  }, [username]);
+
+  if (!profile || !postsData) {
+    return <GlobalScreen />;
+  }
 
   return (
     <GlobalScreen
@@ -25,15 +45,12 @@ const ProfileHeader = () => {
         <PaddedContainer>
           <View style={styles.upperBar}>
             <View style={styles.profileInfo}>
-              <Image
-                style={styles.profileImage}
-                source={{
-                  uri: "https://iexp.es/congreso/quinto-congreso/wp-content/uploads/2015/04/speaker-1-v2.jpg",
-                }} // Replace with actual profile image URL
-              />
+              <ProfileImage style={styles.profileImage} src={profile.avatar} />
               <View style={styles.nameSection}>
-                <Text style={styles.name}>Gülşen Sabak</Text>
-                <Text style={styles.username}>@gulsensabak</Text>
+                <Text style={styles.name}>
+                  {profile.name} {profile.surname}
+                </Text>
+                <Text style={styles.username}>@{profile.username}</Text>
               </View>
             </View>
             <TouchableOpacity style={styles.threeDots}>
@@ -43,11 +60,15 @@ const ProfileHeader = () => {
 
           <View style={styles.middleBar}>
             <View style={styles.stat}>
-              <Text style={styles.statNumber}>132k</Text>
+              <Text style={styles.statNumber}>
+                {formatInteractionNumber(profile.followers)}
+              </Text>
               <Text style={styles.statLabel}>Followers</Text>
             </View>
             <View style={styles.stat}>
-              <Text style={styles.statNumber}>230</Text>
+              <Text style={styles.statNumber}>
+                {profile?.totalPosts ?? profile?.posts?.length}
+              </Text>
               <Text style={styles.statLabel}>Posts</Text>
             </View>
             <TouchableOpacity style={styles.followButton}>
@@ -71,7 +92,7 @@ const ProfileHeader = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {HomeData.ForYouPosts.map((post, index) => (
+        {postsData.map((post, index) => (
           <PostCard key={index} post={post} />
         ))}
       </View>

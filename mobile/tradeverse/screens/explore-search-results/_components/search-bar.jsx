@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { IconSearch } from "@tabler/icons-react-native";
 import { View, TextInput, StyleSheet } from "react-native";
-import { router } from "expo-router";
 import { COLORS, SIZE_CONSTANT } from "../../../constants/theme";
-import paths from "../../../config/screen-paths";
 
-export default function SearchBar({ value }) {
+export default function SearchBar({ value, onChange }) {
   const [searchKey, setSearchKey] = useState("");
 
   useEffect(() => {
@@ -23,6 +21,7 @@ export default function SearchBar({ value }) {
           placeholderTextColor="#A8ADD9"
           onChangeText={(e) => {
             setSearchKey(e);
+            onChange(e);
           }}
           onSubmitEditing={() => {
             // router.push(`/${paths.EXPLORE.SEARCH}?searchKey=${searchKey}`);

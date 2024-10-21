@@ -16,6 +16,7 @@ import {
 import UserLink from "../../../components/links/user-link";
 import SubforumLink from "../../../components/links/subforum-link";
 import PostLink from "../../../components/links/post-link";
+import paths from "../../../config/screen-paths";
 
 const AuthorInfo = ({ author }) => {
   return (
@@ -72,7 +73,7 @@ const AuthorInfo = ({ author }) => {
 
 const SubforumInfo = ({ subforum }) => {
   return (
-    <SubforumLink>
+    <SubforumLink subForum={subforum}>
       <View
         style={{
           display: "flex",
@@ -94,7 +95,7 @@ const SubforumInfo = ({ subforum }) => {
             letterSpacing: -0.03,
           }}
         >
-          {subforum.name}
+          {subforum.title}
         </Text>
       </View>
     </SubforumLink>
@@ -155,7 +156,7 @@ const InteractionInfo = ({ icon = () => {}, value }) => {
 
 export default function PostCard({ style, post }) {
   return (
-    <PostLink>
+    <PostLink target={`${paths.EXPLORE.POST_DETAIL}?postId=${post.id}`}>
       <View
         style={{
           paddingHorizontal: SIZES.small,

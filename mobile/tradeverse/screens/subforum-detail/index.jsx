@@ -1,187 +1,65 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import GlobalScreen from "../../components/ui/global-screen";
-import FullScrollView from "../../components/ui/full-scroll-view";
-// Mock data for posts
-const postData = [
-  {
-    id: 1,
-    profilePhoto: "https://example.com/profile1.png", // Replace with actual photo URLs
-    name: "Daron Acemoğlu",
-    username: "@godofinvestment",
-    postTitle: "How to pass into profitable area in stock marketing",
-    views: 12300,
-    comments: 132,
-    likes: 132,
-    dislikes: 132,
-  },
-  {
-    id: 2,
-    profilePhoto: "https://example.com/profile2.png",
-    name: "John Doe",
-    username: "@stockExpert",
-    postTitle: "The future of investing in uncertain markets",
-    views: 5000,
-    comments: 90,
-    likes: 200,
-    dislikes: 10,
-  },
-  {
-    id: 3,
-    profilePhoto: "https://example.com/profile1.png", // Replace with actual photo URLs
-    name: "Daron Acemoğlu",
-    username: "@godofinvestment",
-    postTitle: "How to pass into profitable area in stock marketing",
-    views: 12300,
-    comments: 132,
-    likes: 132,
-    dislikes: 132,
-  },
-  {
-    id: 4,
-    profilePhoto: "https://example.com/profile2.png",
-    name: "John Doe",
-    username: "@stockExpert",
-    postTitle: "The future of investing in uncertain markets",
-    views: 5000,
-    comments: 90,
-    likes: 200,
-    dislikes: 10,
-  },
-  {
-    id: 5,
-    profilePhoto: "https://example.com/profile1.png", // Replace with actual photo URLs
-    name: "Daron Acemoğlu",
-    username: "@godofinvestment",
-    postTitle: "How to pass into profitable area in stock marketing",
-    views: 12300,
-    comments: 132,
-    likes: 132,
-    dislikes: 132,
-  },
-  {
-    id: 6,
-    profilePhoto: "https://example.com/profile2.png",
-    name: "John Doe",
-    username: "@stockExpert",
-    postTitle: "The future of investing in uncertain markets",
-    views: 5000,
-    comments: 90,
-    likes: 200,
-    dislikes: 10,
-  },
-  // Add more posts as necessary
-];
-
-const Post = ({ post }) => {
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
-
-  const toggleLike = () => {
-    if (liked) {
-      setLiked(false);
-    } else {
-      setLiked(true);
-      setDisliked(false); // Un-dislike if liked
-    }
-  };
-
-  const toggleDislike = () => {
-    if (disliked) {
-      setDisliked(false);
-    } else {
-      setDisliked(true);
-      setLiked(false); // Un-like if disliked
-    }
-  };
-
-  return (
-    <GlobalScreen>
-      <FullScrollView>
-        <TouchableOpacity style={styles.postContainer}>
-          <TouchableOpacity style={styles.userInfo}>
-            <Image
-              source={{ uri: post.profilePhoto }}
-              style={styles.profilePhoto}
-            />
-            <View>
-              <Text style={styles.userName}>{post.name}</Text>
-              <Text style={styles.userHandle}>{post.username}</Text>
-            </View>
-          </TouchableOpacity>
-
-          <Text style={styles.postTitle}>{post.postTitle}</Text>
-
-          <View style={styles.postActions}>
-            <View style={styles.viewCount}>
-              <Text>👁 {post.views.toLocaleString()}</Text>
-            </View>
-            <View style={styles.interactionButtons}>
-              <TouchableOpacity style={styles.actionButton}>
-                <Text>💬 {post.comments}</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.actionButton, liked ? styles.likedButton : null]}
-                onPress={toggleLike}
-              >
-                <Text>❤ {liked ? post.likes + 1 : post.likes}</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  styles.actionButton,
-                  disliked ? styles.dislikedButton : null,
-                ]}
-                onPress={toggleDislike}
-              >
-                <Text>❌ {disliked ? post.dislikes + 1 : post.dislikes}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </FullScrollView>
-    </GlobalScreen>
-  );
-};
+import { useLocalSearchParams } from "expo-router";
+import { getSubForumById } from "../../mock-services/subforums";
+import PostCard from "../home-root/_components/post-card";
+import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
 
 const SubforumScreen = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.titleBlock}>
-        <Text style={styles.title}>Dollar Subforum</Text>
-      </View>
+  const [data, setData] = useState(null);
 
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {postData.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
-      </ScrollView>
-    </View>
+  const { subforumId } = useLocalSearchParams();
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log('subforumId', subforumId);
+    console.log('====================================');
+    const res = getSubForumById(subforumId);
+    console.log(res.title);
+    setData(res);
+  }, [subforumId]);
+
+  return (
+    <GlobalScreen
+      containerStyle={{
+        paddingHorizontal: 0,
+      }}
+    >
+      {data && (
+        <View style={styles.container}>
+          <View style={styles.titleBlock}>
+            <Text style={styles.title}>{data?.title}
+
+              
+            </Text>
+            <Text>
+            {`✍️ ${data?.posts?.length}`}
+            </Text>
+
+          </View>
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            {data?.posts.map((post) => (
+              <PostCard key={post.id} post={{...post,subforum:data}} />
+            ))}
+          </ScrollView>
+        </View>
+      )}
+    </GlobalScreen>
   );
 };
 
 // Styles
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#EDE7F6", // Light purple background
-    padding: 20,
-  },
+
   titleBlock: {
+    marginLeft: SIZE_CONSTANT * 1,
     marginBottom: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#4A148C", // Dark purple
+    color:COLORS.primary950,
   },
   scrollViewContent: {
     paddingBottom: 30,

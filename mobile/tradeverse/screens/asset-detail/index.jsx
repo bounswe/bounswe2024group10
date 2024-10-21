@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import GlobalScreen from "../../components/ui/global-screen";
 import { IconCaretDown, IconCaretDownFilled } from "@tabler/icons-react-native";
-import { COLORS, SIZES } from "../../constants/theme";
-import { Stack } from "expo-router";
+import { COLORS, SIZE_CONSTANT, SIZES } from "../../constants/theme";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { getAssetById } from "../../mock-services/assets";
+import ContentImage from "../../components/images/content-image";
 
 const AssetDisplay = () => {
-  // Asset data for Bitcoin
-  const asset = {
-    symbol: "BTC",
-    name: "Bitcoin",
-    valueUSD: 64900,
-    logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
-  };
-
   // State to store selected currency
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
 
+  const [asset, setAsset] = useState(null);
   // Currency conversion (for simplicity, using static values)
   const currencyRates = {
     USD: 1,
@@ -24,9 +19,16 @@ const AssetDisplay = () => {
     GBP: 0.74,
   };
 
-  const assetValue = (asset.valueUSD * currencyRates[selectedCurrency]).toFixed(
-    0
-  ); // No decimal places
+  const { assetId } = useLocalSearchParams();
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log('====================================');
+    const res = getAssetById(assetId);
+    console.log('====================================');
+    console.log('====================================');
+    setAsset({...res,value: Math.floor(Math.random() * 10000)});
+  }, [assetId]);
 
   return (
     <GlobalScreen>
@@ -37,29 +39,33 @@ const AssetDisplay = () => {
         }}
       />
       <View style={styles.container}>
-        <View style={styles.row}>
-          <Image source={{ uri: asset.logo }} style={styles.logo} />
-          <Text style={styles.assetText}>{asset.symbol}</Text>
-          <View style={styles.assetInfo}>
-            <Text style={styles.valueText}>{assetValue}</Text>
-            <Text style={{ fontSize: SIZES.large }}>$</Text>
-            <IconCaretDownFilled
-              color={COLORS.primary950}
-              stroke={0}
-              fill={COLORS.primary950}
-            />
-          </View>
-        </View>
+        {asset && (
+          <>
+            <View style={styles.row}>
+              <ContentImage style={styles.logo} />
+              <Text style={styles.assetText}>{asset.label}</Text>
+              <View style={styles.assetInfo}>
+                <Text style={styles.valueText}>{asset.value}</Text>
+                <Text style={{ fontSize: SIZES.large }}>$</Text>
+                <IconCaretDownFilled
+                  color={COLORS.primary950}
+                  stroke={0}
+                  fill={COLORS.primary950}
+                />
+              </View>
+            </View>
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={{
-              uri: "https://www.coindesk.com/resizer/jhtQy7_2CSK7MAVOQepiGMIhbHg=/1056x388/filters:quality(80):format(webp)/cloudfront-us-east-1.images.arcpublishing.com/coindesk/LYMAFPEBHVD7FCUMGEB4B565LU.jpeg",
-            }}
-            style={styles.graphImage}
-            resizeMode="contain"
-          />
-        </View>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{
+                  uri: "https://www.coindesk.com/resizer/jhtQy7_2CSK7MAVOQepiGMIhbHg=/1056x388/filters:quality(80):format(webp)/cloudfront-us-east-1.images.arcpublishing.com/coindesk/LYMAFPEBHVD7FCUMGEB4B565LU.jpeg",
+                }}
+                style={styles.graphImage}
+                resizeMode="contain"
+              />
+            </View>
+          </>
+        )}
       </View>
     </GlobalScreen>
   );
@@ -83,11 +89,10 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 10,
+    borderRadius: 20,
   },
   assetText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginRight: 10,
+    fontSize:SIZE_CONSTANT * 2.4,
   },
   assetInfo: {
     flexDirection: "row",
