@@ -7,6 +7,7 @@
     border-radius: 20px;
     margin-bottom: 20px;
     border: #EAEAEA 1px solid;
+    width: 90%;
     
 }
 .forum-name{
@@ -28,8 +29,8 @@
 .user-details-container{
     display: flex;
     flex-direction: row;
-    margin: 0;
-    height: 50px;
+    margin: 5px;
+    height: 30px;
 }
 
 .user-details{
@@ -52,7 +53,7 @@
 .post-image-container{
     width: 400px;
     height: 400px;
-    margin: 0;
+    margin: 15px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -66,8 +67,12 @@
     object-fit: cover;
     
 }
-.postDetails{
-    margin: 0;
+.postDetails h2 {
+    margin-left: 15px;
+}
+.postDetails p {
+    margin-left: 15px;
+    margin-right: 15px;
 }
 .bottom-container{
     display: flex;
@@ -82,19 +87,19 @@
 }
 .tag{
     display: inline-block;
-    background-color: #2C353D; /* Light grey background */
+    background-color: #2C353D;
     border-radius: 12px;
     padding: 5px 10px;
     margin-right: 5px;
     font-size: 14px;
-    color: #C5D0E6; /* Dark text color */
+    color: #C5D0E6; 
 }
 
 
 
 .postActions {
     display: flex;
-    gap: 10px;
+    gap: 3px;
     margin-top: 10px;
 }
 
@@ -112,16 +117,19 @@ button {
 .likeButton {
     background-color: #e7f3ff;
     color: #007bff;
+    margin: 5px;
 }
 
 .dislikeButton {
     background-color: #ffe7e7;
     color: #ff4d4d;
+    margin: 5px;
 }
 
 .commentButton {
     background-color: #f7f7f7;
     color: #444;
+    margin: 5px;
 }
 
 button:hover {

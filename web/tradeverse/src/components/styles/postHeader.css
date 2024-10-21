@@ -1,0 +1,53 @@
+.postHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.postHeader h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.postHeader p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    align-items: center;
+}
+
+.postStats {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.postHeader .postStats p {
+    margin-left: 15px;
+}
+
+
+.postStats p {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+    min-width: 30px; 
+    text-align: right; 
+    white-space: nowrap; 
+}
+
+
+.postHeader .fa-icon {
+    margin-right: 5px;
+}
+
+
+.postLink {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
