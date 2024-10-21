@@ -28,25 +28,26 @@ const ProfileConfig = {
           value: 'my_profile',
           title: 'My Profile',
           icon: <IconUser {...defaultIconProps} />,
-          href: '#'
+          href: paths.ACCOUNT.PROFILE
         },
         {
           value:'portfolio',
           title: 'Portfolio',
           icon: <IconCoins {...defaultIconProps} />,
-          href: '#'
+          href: paths.ACCOUNT.PORTFOLIO
         },
         {
           value: 'followed_topics',
           title: 'Followed Topics',
           icon: <IconBookmark {...defaultIconProps} />,
-          href: '#'
+          href: paths.ACCOUNT.FOLLOWED_TOPICS
         },
         {
           value: 'my_posts',
           title: 'My Posts',
           icon: <IconTextCaption {...defaultIconProps} />,
-          href: '#'
+          href: '#',
+          disabled: true
         }
       ]
     },
@@ -57,14 +58,14 @@ const ProfileConfig = {
           value: 'my_followers',
           title: 'Followers',
           icon: <IconUserDown {...defaultIconProps} />,
-          href: '#'
+          href: '#',
+          disabled: true
         },
         {
           value: 'my_following',
           title: 'Followings',
           icon: <IconUserUp {...defaultIconProps} />,
-          href: '#',
-          disabled: true
+          href: paths.ACCOUNT.FOLLOWED_USERS,
         }
       ]
     },
@@ -74,13 +75,14 @@ const ProfileConfig = {
       options: [
         {
           value: 'change_password',
-          title: 'Şifre Değiştir',
+          title: 'Change Password',
           icon: <IconKey {...defaultIconProps} />,
           href: '#',
+          disabled: true
         },
         {
           value: 'logout',
-          title: 'Çıkış Yap',
+          title: 'Log Out',
           icon: <IconLogin {...defaultIconProps} />,
           action: () => {}
         }

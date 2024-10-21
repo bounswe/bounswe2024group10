@@ -43,7 +43,7 @@ export default function CreateSubForumScreen() {
     <GlobalScreen>
       <FullScrollView>
         <Stack.Screen
-          options={{
+          optio ns={{
             headerBackTitleVisible: false,
             headerTitle: "Create SubForum",
           }}
@@ -84,10 +84,8 @@ export default function CreateSubForumScreen() {
             style={{
                 marginBottom:SIZE_CONSTANT * 4
             }}
-              placeholder={ProfileData.name}
               label="Title"
               name="name"
-              defaultValue={ProfileData.name}
             />
 
             {/* <TextField multiline={true} style={{}} placeholder="Write your post here..." /> */}
@@ -95,10 +93,8 @@ export default function CreateSubForumScreen() {
               style={{
                 marginBottom: 0,
               }}
-              placeholder={ProfileData.description}
               label="Desciption"
               name="description"
-              defaultValue={ProfileData.description}
             />
             {/* <View
               style={{

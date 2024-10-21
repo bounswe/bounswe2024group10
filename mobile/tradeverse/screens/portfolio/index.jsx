@@ -6,9 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import GlobalScreen from "../../../components/ui/global-screen";
-import FullScrollView from "../../../components/ui/full-scroll-view";
-import { SIZE_CONSTANT } from "../../../constants/theme";
+import FullScrollView from "../../components/ui/full-scroll-view";
+import GlobalScreen from "../../components/ui/global-screen";
+import { SIZE_CONSTANT } from "../../constants/theme";
+import { router, Stack } from "expo-router";
+import paths from "../../config/screen-paths";
 // Mock Data
 const portfolioData = [
   { name: "BTC", value: "0.005" },
@@ -34,10 +36,16 @@ const PortfolioScreen = () => {
   return (
     <GlobalScreen>
       <FullScrollView>
+        <Stack.Screen options={{
+          headerBackTitleVisible: false,
+          headerTitle: "Portfolio",
+        }}/>
         <View style={styles.container}>
           <View style={styles.titleBlock}>
             <Text style={styles.title}>My Portfolio</Text>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity onPress={()=>{
+              router.push(paths.PORTFOLIO.ADD_ASSET);
+            }} style={styles.addButton}>
               <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
           </View>
@@ -46,7 +54,12 @@ const PortfolioScreen = () => {
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View style={styles.portfolioBlock}>
               {portfolioData.map((asset, index) => (
-                <TouchableOpacity key={index} style={styles.assetBlock}>
+                <TouchableOpacity
+                
+                onPress={()=>{
+                  router.push(paths.PORTFOLIO.ASSET_DETAIL);
+                }}
+                key={index} style={styles.assetBlock}>
                   <Text style={styles.assetName}>{asset.name}</Text>
                   <Text style={styles.assetValue}>{asset.value}</Text>
                 </TouchableOpacity>

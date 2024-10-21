@@ -13,6 +13,10 @@ import {
   IconThumbDown,
   IconThumbUp,
 } from "@tabler/icons-react-native";
+import UserLink from "../../../../components/links/user-link";
+import paths from "../../../../config/screen-paths";
+import SubforumLink from "../../../../components/links/subforum-link";
+import PostLink from "../../../../components/links/post-link";
 
 // {
 //     title: 'Title',
@@ -37,81 +41,85 @@ import {
 
 const AuthorInfo = ({ author }) => {
   return (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        gap: SIZE_CONSTANT * 0.6,
-        alignItems: "center",
-      }}
-    >
+    <UserLink target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
       <View
         style={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          gap: SIZE_CONSTANT * 0.6,
+          alignItems: "center",
         }}
       >
-        <Text
+        <View
           style={{
-            fontSize: SIZES.xxSmall,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.black,
-            letterSpacing: -0.03,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          {author.name} {author.surname}
-        </Text>
-        <Text
-          style={{
-            fontSize: SIZE_CONSTANT * 0.8,
-            color: "#A1A1A1",
-            letterSpacing: -0.03,
-            lineHeight: SIZE_CONSTANT * 0.9,
-          }}
-        >
-          @{author.username}
-        </Text>
+          <Text
+            style={{
+              fontSize: SIZES.xxSmall,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.black,
+              letterSpacing: -0.03,
+            }}
+          >
+            {author.name} {author.surname}
+          </Text>
+          <Text
+            style={{
+              fontSize: SIZE_CONSTANT * 0.8,
+              color: "#A1A1A1",
+              letterSpacing: -0.03,
+              lineHeight: SIZE_CONSTANT * 0.9,
+            }}
+          >
+            @{author.username}
+          </Text>
+        </View>
+        <View>
+          <ProfileImage
+            style={{
+              width: SIZE_CONSTANT * 2.4,
+              height: SIZE_CONSTANT * 2.4,
+              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+            }}
+            src={author.avatar}
+          />
+        </View>
       </View>
-      <View>
-        <ProfileImage
-          style={{
-            width: SIZE_CONSTANT * 2.4,
-            height: SIZE_CONSTANT * 2.4,
-            borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-          }}
-          src={author.avatar}
-        />
-      </View>
-    </View>
+    </UserLink>
   );
 };
 
 const SubforumInfo = ({ subforum }) => {
   return (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: SIZE_CONSTANT * 1.2,
-        height: SIZE_CONSTANT * 1.6,
-        backgroundColor: "#D4FFE7",
-        borderWidth: 0.5,
-        borderColor: "#EDFDFF",
-        borderRadius: SIZE_CONSTANT * 1.2,
-      }}
-    >
-      <Text
+    <SubforumLink target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
+      <View
         style={{
-          fontSize: SIZE_CONSTANT * 0.64,
-          fontWeight: FONT_WEIGHTS.medium,
-          color: "#107E64",
-          letterSpacing: -0.03,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: SIZE_CONSTANT * 1.2,
+          height: SIZE_CONSTANT * 1.6,
+          backgroundColor: "#D4FFE7",
+          borderWidth: 0.5,
+          borderColor: "#EDFDFF",
+          borderRadius: SIZE_CONSTANT * 1.2,
         }}
       >
-        {subforum.name}
-      </Text>
-    </View>
+        <Text
+          style={{
+            fontSize: SIZE_CONSTANT * 0.64,
+            fontWeight: FONT_WEIGHTS.medium,
+            color: "#107E64",
+            letterSpacing: -0.03,
+          }}
+        >
+          {subforum.name}
+        </Text>
+      </View>
+    </SubforumLink>
   );
 };
 
@@ -169,40 +177,42 @@ const InteractionInfo = ({ icon = () => {}, value }) => {
 
 export default function PostResult({ style, post }) {
   return (
-    <View
-      style={{
-        paddingHorizontal: SIZES.small,
-        paddingTop: SIZE_CONSTANT * 1.2,
-        paddingBottom: SIZE_CONSTANT * 1.4,
-        borderBottomWidth: 0.5,
-        borderBottomColor: "#E5E5E5",
-      }}
-    >
-      <View>
-        <Text
-          style={{
-            fontSize: SIZES.small,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.black,
-            letterSpacing: -0.03,
-            marginTop: SIZE_CONSTANT * 0.6,
-            marginBottom: SIZE_CONSTANT * 0.8,
-          }}
-        >
-          {post.title}
-        </Text>
-      </View>
+    <PostLink target={paths.EXPLORE.SEARCH_RESULTS.POST_DETAIL}>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
+          paddingHorizontal: SIZES.small,
+          paddingTop: SIZE_CONSTANT * 1.2,
+          paddingBottom: SIZE_CONSTANT * 1.4,
+          borderBottomWidth: 0.5,
+          borderBottomColor: "#E5E5E5",
         }}
       >
-        <SubforumInfo subforum={post.subforum} />
-        <AuthorInfo author={post.author} />
+        <View>
+          <Text
+            style={{
+              fontSize: SIZES.small,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.black,
+              letterSpacing: -0.03,
+              marginTop: SIZE_CONSTANT * 0.6,
+              marginBottom: SIZE_CONSTANT * 0.8,
+            }}
+          >
+            {post.title}
+          </Text>
+        </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <SubforumInfo subforum={post.subforum} />
+          <AuthorInfo author={post.author} />
+        </View>
       </View>
-    </View>
+    </PostLink>
   );
 }

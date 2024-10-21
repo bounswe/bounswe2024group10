@@ -18,8 +18,9 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import GlobalScreen from "../../../components/ui/global-screen";
-import FullScrollView from "../../../components/ui/full-scroll-view";
+import GlobalScreen from "../../components/ui/global-screen";
+import FullScrollView from "../../components/ui/full-scroll-view";
+import { Stack } from "expo-router";
 
 const FollowedTagsScreen = () => {
   const followedTags = [
@@ -55,17 +56,24 @@ const FollowedTagsScreen = () => {
   return (
     <GlobalScreen>
       <FullScrollView>
+        <Stack.Screen
+          options={{
+            headerBackTitleVisible: false,
+            headerTitle: "Followed Subforums",
+          }}
+        />
         <View style={styles.container}>
           <Text style={styles.header}>
             You are following {followedTags.length} topics
           </Text>
-
-          <FlatList
-            data={followedTags}
-            renderItem={renderTagItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.tagList}
-          />
+          {followedTags.map((item, index) => (
+            <TouchableOpacity key={index} style={styles.tagBox}>
+              <Text style={styles.tagName}>{item.name}</Text>
+              <Text style={styles.tagFollowers}>
+                {item.followers} Followers
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </FullScrollView>
     </GlobalScreen>
@@ -75,7 +83,6 @@ const FollowedTagsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
     paddingTop: 40,
     backgroundColor: "#fff",
   },

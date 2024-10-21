@@ -2,6 +2,8 @@ import { View, Text } from "react-native";
 import React from "react";
 import { COLORS, SIZE_CONSTANT, SIZES,FONT_WEIGHTS } from "../../../../constants/theme";
 import formatInteractionNumber from "../../../../util/format-number";
+import SubforumLink from "../../../../components/links/subforum-link";
+import paths from "../../../../config/screen-paths";
 
 export default function SubForumResult({ style, subForum }) {
   const InteractionInfo = ({ icon, value }) => {
@@ -29,6 +31,9 @@ export default function SubForumResult({ style, subForum }) {
     );
   };
   return (
+    <SubforumLink target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
+
+    
     <View
       style={{
         borderBottomWidth: 0.5,
@@ -71,5 +76,6 @@ export default function SubForumResult({ style, subForum }) {
         />
       </View>
     </View>
+    </SubforumLink>
   );
 }

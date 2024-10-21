@@ -93,10 +93,8 @@ export default function CreatePostScreen() {
             style={{
                 marginBottom:SIZE_CONSTANT * 4
             }}
-              placeholder={ProfileData.name}
               label="Title"
               name="name"
-              defaultValue={ProfileData.name}
             />
 
             {/* <TextField multiline={true} style={{}} placeholder="Write your post here..." /> */}
@@ -104,10 +102,8 @@ export default function CreatePostScreen() {
               style={{
                 marginBottom: 0,
               }}
-              placeholder={ProfileData.description}
               label="Content"
               name="description"
-              defaultValue={ProfileData.description}
             />
             <View
               style={{
