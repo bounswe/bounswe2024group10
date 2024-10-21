@@ -6,6 +6,7 @@ Tradeverse is a web forum application focused on financial news, analyses, and d
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Setup Instructions](#setup-instructions)
+- [Mobile Setup Instructions](#mobile-setup-instructions)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -59,6 +60,56 @@ Change the db credentials at `docker-compose.yaml`
     - You can access the main page at `http://localhost:3000/`.
     - You can access the backend at `http://localhost:8080/api/`.
     - You can access the database at `http://localhost:3306/`.
+
+## Mobile Setup Instructions
+
+### Prerequisites
+- Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
+- Install Expo CLI globally:
+   ```bash
+   npm install -g expo-cli
+   ```
+
+### Clone the Mobile Repository
+If you haven't already, clone the mobile project repository:
+```bash
+cd mobile
+git clone <your-mobile-repo-url>
+cd tradeverse
+```
+
+### Install Dependencies
+Navigate to the mobile directory and install the required dependencies:
+```bash
+npm install
+```
+
+### Start the Development Server
+You can start the Expo development server by running:
+```bash
+npm start
+```
+This will open a new tab in your browser with the Expo developer tools.
+
+### Run on Android Emulator or Device
+- **Using Android Emulator**: Make sure you have Android Studio installed and an emulator set up. In the Expo developer tools, click on "Run on Android device/emulator".
+- **Using Physical Device**: Install the Expo Go app from the Google Play Store. Scan the QR code displayed in the Expo developer tools to run the app on your device.
+
+### Build the APK
+To create a standalone APK for your app, you can use the following command:
+```bash
+eas build --platform android
+```
+Make sure you have the EAS CLI installed. If you don't have it, install it using:
+```bash
+npm install -g eas-cli
+```
+
+### Follow the Prompts
+The EAS build process will prompt you for various configurations. Follow the instructions to complete the build.
+
+### Download the APK
+Once the build is complete, you will receive a link to download the APK file. You can then install this APK on any Android device.
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for any changes or improvements.
