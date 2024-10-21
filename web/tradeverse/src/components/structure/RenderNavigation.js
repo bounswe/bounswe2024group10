@@ -4,6 +4,7 @@ import { nav } from "./navigation";
 import '../styles/style.css';
 import React, { useState } from 'react';
 import Home from '../../pages/Home';
+import PostPage from '../../pages/PostPage';
 import SubforumNavbar from "./subforumNavbar";
 import mockData from "../../data/mockData";
 
@@ -45,6 +46,7 @@ export const RenderRoutes = () => {
                          <Route path="/users/:id" element={<Navigate to="/notauthorized" replace />} />
                     )*/}
                     <Route path="/:name" element={<Home />} />
+                    <Route path="/:name/:postId" element={<PostPage />} />
                     {/*<Route path="*" element={<NotFound />} />*/}
                </Routes>
         )
