@@ -20,9 +20,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf().disable() // Disable CSRF for testing purposes
-            .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll() // Allow access to auth endpoints
-                .anyRequest().authenticated(); // Require authentication for other requests
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll() // Allow access to auth endpoints
+                .anyRequest().authenticated() // Require authentication for other requests
+            );
         return http.build();
     }
 }
