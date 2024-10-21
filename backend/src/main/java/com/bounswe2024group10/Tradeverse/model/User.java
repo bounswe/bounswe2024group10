@@ -21,6 +21,7 @@ public class User implements UserDetails {
     private String profilePhoto;
     private int portfolioPrivacyLevel = 0; // Default value
     private int tag;
+    private String bio; // New field for user bio
 
     // Getters and setters
     public Long getId() {
@@ -85,6 +86,14 @@ public class User implements UserDetails {
 
     public void setTag(int tag) {
         this.tag = tag;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     // UserDetails interface methods
