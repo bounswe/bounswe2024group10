@@ -61,3 +61,12 @@
   .dropdownContent a:last-of-type:hover {
     color: #cc0000;
   }
+
+  .centerTitle .logo {
+    height: 100px;
+    margin-top: 10px;
+}
+ 
+.menu {
+  height: 60px
+}

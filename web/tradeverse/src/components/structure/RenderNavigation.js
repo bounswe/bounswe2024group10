@@ -3,7 +3,9 @@ import { AuthData } from "../../auth/AuthWrapper";
 import { nav } from "./navigation";
 import '../styles/style.css';
 import React, { useState } from 'react';
-import Subforum from '../../pages/Subforum';
+import Home from '../../pages/Home';
+import SubforumNavbar from "./subforumNavbar";
+import mockData from "../../data/mockData";
 
 export const RenderRoutes = () => {
 
@@ -42,7 +44,7 @@ export const RenderRoutes = () => {
                     ) : (
                          <Route path="/users/:id" element={<Navigate to="/notauthorized" replace />} />
                     )*/}
-                    <Route path="/subforums/:name" element={<Subforum />} />
+                    <Route path="/:name" element={<Home />} />
                     {/*<Route path="*" element={<NotFound />} />*/}
                </Routes>
         )
@@ -62,6 +64,7 @@ export const RenderMenu = () => {
          )
     }
     return (
+    <div className="topbarContainer">
      <div className="menu">
        <div className="leftMenu">
          {nav.map((r, i) => {
@@ -76,8 +79,9 @@ export const RenderMenu = () => {
        </div>
    
        <div className="centerTitle">
-        <Link to={'/'} className="link"><h2>TRADEVERSE</h2></Link>
-         
+          <Link to={'/'} className="link">
+              <img src="logo.png" alt="Tradeverse Logo" className="logo" />
+          </Link>
        </div>
    
        <div className="rightMenu">
@@ -105,6 +109,8 @@ export const RenderMenu = () => {
            </div>
          )}
        </div>
+     </div>
+      <SubforumNavbar subforums={mockData.subforums}/>
      </div>
    );
 }

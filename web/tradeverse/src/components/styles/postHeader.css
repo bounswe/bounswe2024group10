@@ -1,0 +1,16 @@
+.postHeader {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.postHeader h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.postHeader p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #888;
+}
