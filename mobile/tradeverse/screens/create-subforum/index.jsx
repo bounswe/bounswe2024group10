@@ -45,7 +45,7 @@ export default function CreateSubForumScreen() {
         <Stack.Screen
           options={{
             headerBackTitleVisible: false,
-            headerTitle: "Create Post",
+            headerTitle: "Create SubForum",
           }}
         />
         <View
