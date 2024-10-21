@@ -14,17 +14,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // Use non-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Enable CORS and disable CSRF (adjust based on your needs)
-        http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Allow all requests
-
-        return http.build();
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
