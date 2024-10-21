@@ -1,0 +1,24 @@
+.comment {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 80%;
+}
+
+.comment-user-details {
+    display: flex;
+    align-items: center;
+}
+
+.comment-user-info h5 {
+    margin: 0;
+}
+
+.commentText {
+    margin-top: 10px;
+    font-size: 16px;
+}
