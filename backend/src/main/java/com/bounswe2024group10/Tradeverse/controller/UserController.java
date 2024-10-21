@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;  // Assuming you have a JwtUtil for handling token operations
 
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
         RegisterResponse response = userService.register(registerRequest);
@@ -33,6 +33,7 @@ public class UserController {
         return ResponseEntity.status(401).build();
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         LoginResponse response = userService.login(loginRequest);
@@ -41,6 +42,8 @@ public class UserController {
         }
         return ResponseEntity.status(401).build();
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/validate-token")
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token) {
         if (token.startsWith("Bearer ")) {
