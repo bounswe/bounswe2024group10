@@ -35,3 +35,8 @@
 .sort-button:hover {
     background-color: #e7e7e7; /* Light grey on hover */
 }
+
+.feedContainer {
+    margin: 20px;
+    width: 90%;
+}
