@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,11 @@ import {
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Icon library
+import { useLocalSearchParams } from "expo-router";
+import { getPostById } from "../../mock-services/post";
+import PostCard from "../home-root/_components/post-card";
+import PostHeader from "./_components/post-header";
+import GlobalScreen from "../../components/ui/global-screen";
 
 const { width } = Dimensions.get("window"); // Get screen width
 
@@ -37,6 +42,17 @@ const PostScreen = () => {
     setLikeStatus((prev) => (prev === type ? null : type));
   };
 
+  const { postId } = useLocalSearchParams();
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log('Post ID:', postId);
+    console.log('====================================');
+    const postDetail = getPostById(postId);
+    setData(postDetail);
+  }, [postId]);
+
   const renderComment = ({ item }) => (
     <View style={styles.commentBlock}>
       <TouchableOpacity style={styles.userInfo}>
@@ -52,90 +68,23 @@ const PostScreen = () => {
       <Text style={styles.commentText}>{item.text}</Text>
     </View>
   );
-
-  return (
-    <FlatList
-      data={mockComments}
-      renderItem={renderComment}
-      keyExtractor={(item) => item.id}
-      ListHeaderComponent={
-        <View style={styles.postBlock}>
-          <View style={styles.postHeader}>
-            <TouchableOpacity style={styles.userInfo}>
-              <Image
-                source={{
-                  uri: post.user.image || "https://via.placeholder.com/40",
-                }}
-                style={styles.avatar}
-              />
-              <View>
-                <Text style={styles.username}>{post.user.name}</Text>
-                <Text style={styles.handle}>{post.user.username}</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.forum}>
-                {post.forum.length > 20 ? post.forum.slice(0, 20) : post.forum}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.postContent}>
-            <Text style={styles.title}>{post.title}</Text>
-            {post.image && (
-              <Image source={{ uri: post.image }} style={styles.postImage} />
-            )}
-            <Text style={styles.postText}>{post.text}</Text>
-            <View style={styles.hashtags}>
-              {post.hashtags.map((tag, index) => (
-                <Text key={index} style={styles.hashtag}>
-                  {tag}
-                </Text>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.postFooter}>
-            <View style={styles.stat}>
-              <Ionicons name="eye" size={20} color="purple" />
-              <Text>{post.stats.views}</Text>
-            </View>
-            <TouchableOpacity style={styles.stat}>
-              <Ionicons name="chatbubble-outline" size={20} color="purple" />
-              <Text>{post.stats.comments}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("like")}
-              style={styles.stat}
-            >
-              <Ionicons
-                name={likeStatus === "like" ? "thumbs-up" : "thumbs-up-outline"}
-                size={20}
-                color="purple"
-              />
-              <Text>{post.stats.likes}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("dislike")}
-              style={styles.stat}
-            >
-              <Ionicons
-                name={
-                  likeStatus === "dislike"
-                    ? "thumbs-down"
-                    : "thumbs-down-outline"
-                }
-                size={20}
-                color="purple"
-              />
-              <Text>{post.stats.dislikes}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      }
-      contentContainerStyle={{ paddingBottom: 20 }}
-    />
-  );
+  if (data) {
+    return (
+      <GlobalScreen containerStyle={{
+        paddingHorizontal: 0,
+      }}> 
+        <FlatList
+          data={mockComments}
+          renderItem={renderComment}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={<PostHeader post={data} />}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      </GlobalScreen>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 const styles = StyleSheet.create({

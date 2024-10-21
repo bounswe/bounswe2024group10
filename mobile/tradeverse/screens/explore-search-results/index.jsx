@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
 import GlobalScreen from "../../components/ui/global-screen";
@@ -8,17 +8,41 @@ import PopularView from "./views/popular-view";
 import { Stack, useLocalSearchParams } from "expo-router";
 import SearchBar from "./_components/search-bar";
 import { IconAdjustments } from "@tabler/icons-react-native";
-import SearchData from "../../mock/explore-search-results";
 import SubForumsView from "./views/subforums-view";
 import TagsView from "./views/tags-view";
 import PostsView from "./views/posts-view";
 import UsersView from "./views/users-view";
 import AssetsView from "./views/asset-view";
+import { searchOnExplore } from "../../mock-services/explore";
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState("popular");
 
+  const [updatedSearchKey, setUpdatedSearchKey] = useState("");
+
+  const [data, setData] = useState({
+    popular: [],
+    assets: [],
+    tags: [],
+    sub_forums: [],
+    posts: [],
+    people: [],
+  });
+
   const { searchKey } = useLocalSearchParams();
+
+  useEffect(() => {
+    const data = searchOnExplore(updatedSearchKey ?? searchKey);
+
+    setData({
+      popular: data.popular,
+      assets: data.assets,
+      tags: data.tags,
+      sub_forums: data.subforums,
+      posts: data.posts,
+      people: data.users,
+    });
+  }, [searchKey, updatedSearchKey]);
 
   return (
     <GlobalScreen
@@ -41,7 +65,12 @@ export default function ExploreRootScreen() {
           gap: SIZE_CONSTANT * 1,
         }}
       >
-        <SearchBar value={searchKey} />
+        <SearchBar
+          onChange={(val) => {
+            setUpdatedSearchKey(val);
+          }}
+          value={searchKey}
+        />
         <Pressable
           style={{
             backgroundColor: COLORS.primary50,
@@ -49,24 +78,26 @@ export default function ExploreRootScreen() {
             justifyContent: "center",
             alignItems: "center",
             borderRadius: SIZE_CONSTANT * 1,
-            height:SIZE_CONSTANT * 3.8,
-            width:SIZE_CONSTANT * 3.8
+            height: SIZE_CONSTANT * 3.8,
+            width: SIZE_CONSTANT * 3.8,
           }}
         >
           <IconAdjustments color={COLORS.primary500} />
         </Pressable>
       </PaddedContainer>
-        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-
-        {selectedTab === "popular" && (
-          <PopularView data={SearchData.PopularData} />
-        )}
-        {selectedTab === "assets" && (<AssetsView data={SearchData.AssetsData} />)}
-        {selectedTab === "tags" && (<TagsView data={SearchData.TagsData} />)}
-        {selectedTab === "sub_forums" && (<SubForumsView data={SearchData.SubForumsData} />)}
-        {selectedTab === "posts" && (<PostsView data={SearchData.PopularData} />)}
-        {selectedTab === "people" && (<UsersView data={SearchData.UsersData} />)}
-
+      <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      {data && (
+        <>
+          {selectedTab === "popular" && <PopularView data={data.popular} />}
+          {selectedTab === "assets" && <AssetsView data={data.assets} />}
+          {selectedTab === "tags" && <TagsView data={data.tags} />}
+          {selectedTab === "sub_forums" && (
+            <SubForumsView data={data.sub_forums} />
+          )}
+          {selectedTab === "posts" && <PostsView data={data.posts} />}
+          {selectedTab === "people" && <UsersView data={data.people} />}
+        </>
+      )}
     </GlobalScreen>
   );
 }

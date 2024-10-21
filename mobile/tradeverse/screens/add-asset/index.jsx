@@ -41,7 +41,6 @@ export default function AddAssetScreen() {
 
   // Handle Add to Portfolio with platform-specific alert
   const handleAddToPortfolio = () => {
-    console.log("Add to Portfolio button pressed"); // Debugging line
 
     const alertFunction = Platform.OS === "web" ? window.alert : Alert.alert;
 

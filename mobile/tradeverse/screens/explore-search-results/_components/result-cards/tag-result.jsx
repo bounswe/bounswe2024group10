@@ -47,7 +47,7 @@ export default function TagResult({ style, tag }) {
           marginBottom: SIZE_CONSTANT * 0.8,
         }}
       >
-        @{tag.title}
+        @{tag.label}
       </Text>
       <View
         style={{

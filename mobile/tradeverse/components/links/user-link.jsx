@@ -6,11 +6,12 @@ import paths from "../../config/screen-paths";
 export default function UserLink({
   children,
   target = paths.EXPLORE.USER_PROFILE,
+  user
 }) {
   return (
     <Pressable
       onPress={() => {
-        router.push(target);
+        router.push(`${target}?username=${user?.username}`);
       }}
     >
       {children}

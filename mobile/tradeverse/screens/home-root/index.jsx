@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import GlobalScreen from "../../components/ui/global-screen";
 import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
@@ -8,21 +8,44 @@ import HomeData from "../../mock/home";
 import Tabs from "./_components/tabs";
 import FollowedTopicsView from "./views/followed-topics-view";
 import FollowedPeopleView from "./views/followed-people-view";
-
+import { getHomeFeed } from "../../mock-services/home";
 export default function HomeRootScreen() {
-  const [selectedTab, setSelectedTab] = useState('for_you') // for_you, followed_topics, followed_people
+
+
+  const [selectedTab, setSelectedTab] = useState("for_you"); // for_you, followed_topics, followed_people
+  const [data, setData] = useState({
+    forYouPosts: [],
+    followedTopicsPosts: [],
+    followedPeoplePosts: [],
+  });
+
+  useEffect(() => {
+    const data = getHomeFeed();
+    setData({
+      forYouPosts: data.forYouPosts,
+      followedTopicsPosts: data.followedTopicsPosts,
+      followedPeoplePosts: data.followedPeoplePosts,
+    });
+  }, []);
+
   return (
     <GlobalScreen
       containerStyle={{
         paddingHorizontal: 0,
       }}
     >
-      <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-      <FullScrollView>
-        {selectedTab === 'for_you' && (<ForYouView data={HomeData.ForYouPosts} />)}
-        {selectedTab === 'followed_topics' && (<FollowedTopicsView data={HomeData.FollowedTopicsPosts} />)}
-        {selectedTab === 'followed_people' && (<FollowedPeopleView data={HomeData.FollowedPeoplePosts} />)}
-      </FullScrollView>
+      <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      {data && (
+        <FullScrollView>
+          {selectedTab === "for_you" && <ForYouView data={data.forYouPosts} />}
+          {selectedTab === "followed_topics" && (
+            <FollowedTopicsView data={data.followedTopicsPosts} />
+          )}
+          {selectedTab === "followed_people" && (
+            <FollowedPeopleView data={data.followedPeoplePosts} />
+          )}
+        </FullScrollView>
+      )}
     </GlobalScreen>
   );
 }

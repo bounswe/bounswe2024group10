@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,60 +11,61 @@ import GlobalScreen from "../../components/ui/global-screen";
 import { SIZE_CONSTANT } from "../../constants/theme";
 import { router, Stack } from "expo-router";
 import paths from "../../config/screen-paths";
+import { searchAssets } from "../../mock-services/assets";
 // Mock Data
-const portfolioData = [
-  { name: "BTC", value: "0.005" },
-  { name: "USD", value: "$31.82" },
-  { name: "EUR", value: "€52.96" },
-  { name: "JPY", value: "¥4000.50" },
-  { name: "BTC", value: "0.005" },
-  { name: "USD", value: "$31.82" },
-  { name: "EUR", value: "€52.96" },
-  { name: "JPY", value: "¥4000.50" },
-  { name: "BTC", value: "0.005" },
-  { name: "USD", value: "$31.82" },
-  { name: "EUR", value: "€52.96" },
-  { name: "JPY", value: "¥4000.50" },
-  { name: "BTC", value: "0.005" },
-  { name: "USD", value: "$31.82" },
-  { name: "EUR", value: "€52.96" },
-  { name: "JPY", value: "¥4000.50" },
-  // You can add more assets as needed
-];
 
 const PortfolioScreen = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const data = searchAssets("")
+      .slice(0, 5)
+      .map((a) => ({ ...a, value: Math.floor(Math.random() * 10000) }));
+    setData(data);
+  }, []);
+
   return (
     <GlobalScreen>
       <FullScrollView>
-        <Stack.Screen options={{
-          headerBackTitleVisible: false,
-          headerTitle: "Portfolio",
-        }}/>
+        <Stack.Screen
+          options={{
+            headerBackTitleVisible: false,
+            headerTitle: "Portfolio",
+          }}
+        />
         <View style={styles.container}>
           <View style={styles.titleBlock}>
             <Text style={styles.title}>My Portfolio</Text>
-            <TouchableOpacity onPress={()=>{
-              router.push(paths.PORTFOLIO.ADD_ASSET);
-            }} style={styles.addButton}>
+            <TouchableOpacity
+              onPress={() => {
+                router.push(paths.PORTFOLIO.ADD_ASSET);
+              }}
+              style={styles.addButton}
+            >
               <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
           </View>
 
           {/* Scrollable Portfolio Block */}
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            <View style={styles.portfolioBlock}>
-              {portfolioData.map((asset, index) => (
-                <TouchableOpacity
-                
-                onPress={()=>{
-                  router.push(paths.PORTFOLIO.ASSET_DETAIL);
-                }}
-                key={index} style={styles.assetBlock}>
-                  <Text style={styles.assetName}>{asset.name}</Text>
-                  <Text style={styles.assetValue}>{asset.value}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+            {data && (
+              <View style={styles.portfolioBlock}>
+                {data.map((asset, index) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      router.push(
+                        paths.PORTFOLIO.ASSET_DETAIL + `?assetId=${asset.id}`
+                      );
+                    }}
+                    key={index}
+                    style={styles.assetBlock}
+                  >
+                    <Text style={styles.assetName}>{asset.label}</Text>
+                    <Text style={styles.assetValue}>{asset.value}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </ScrollView>
         </View>
       </FullScrollView>

@@ -41,7 +41,7 @@ import PostLink from "../../../../components/links/post-link";
 
 const AuthorInfo = ({ author }) => {
   return (
-    <UserLink target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
+    <UserLink user={author} target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
       <View
         style={{
           display: "flex",
@@ -94,7 +94,7 @@ const AuthorInfo = ({ author }) => {
 
 const SubforumInfo = ({ subforum }) => {
   return (
-    <SubforumLink target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
+    <SubforumLink subForum={subforum} target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
       <View
         style={{
           display: "flex",
@@ -116,7 +116,7 @@ const SubforumInfo = ({ subforum }) => {
             letterSpacing: -0.03,
           }}
         >
-          {subforum.name}
+          {subforum.title}
         </Text>
       </View>
     </SubforumLink>
@@ -177,7 +177,7 @@ const InteractionInfo = ({ icon = () => {}, value }) => {
 
 export default function PostResult({ style, post }) {
   return (
-    <PostLink target={paths.EXPLORE.SEARCH_RESULTS.POST_DETAIL}>
+    <PostLink target={paths.EXPLORE.SEARCH_RESULTS.POST_DETAIL} post={post}>
       <View
         style={{
           paddingHorizontal: SIZES.small,

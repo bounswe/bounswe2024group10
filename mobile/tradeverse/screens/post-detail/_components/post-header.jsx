@@ -3,8 +3,6 @@ import React from "react";
 import {
   COLORS,
   FONT_WEIGHTS,
-  SIZE_CONSTANT,
-  SIZES,
 } from "../../../constants/theme";
 import ProfileImage from "../../../components/images/profile-image";
 import {
@@ -39,10 +37,20 @@ import SubforumLink from "../../../components/links/subforum-link";
 //       id: 1,
 //     },
 //   }
+const SIZE_CONSTANT = 14;
+const SIZES = {
+    xxSmall: SIZE_CONSTANT * 1,
+    xSmall: SIZE_CONSTANT * 1.2,
+    small: SIZE_CONSTANT * 1.4,
+    medium: SIZE_CONSTANT * 1.6,
+    large: SIZE_CONSTANT * 1.8,
+    xLarge: SIZE_CONSTANT * 2,
+
+}
 
 const AuthorInfo = ({ author }) => {
   return (
-    <UserLink user={author} target={paths.HOME.USER_PROFILE}>
+    <UserLink target={paths.HOME.USER_PROFILE}>
       <View
         style={{
           display: "flex",
@@ -176,8 +184,7 @@ const InteractionInfo = ({ icon = () => {}, value }) => {
   );
 };
 
-export default function PostCard({ style, post }) {
-  
+export default function PostHeader({ style, post }) {
   return (
     <PostLink target={paths.HOME.POST_DETAIL} post={post}>
       <View

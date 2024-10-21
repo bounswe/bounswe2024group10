@@ -6,11 +6,12 @@ import { router } from "expo-router";
 export default function AssetLink({
   children,
   target = paths.EXPLORE.ASSET_DETAIL,
+  asset,
 }) {
   return (
     <Pressable
       onPress={() => {
-        router.push(target);
+        router.push(`${target}?assetId=${asset?.id}`);
       }}
     >
       {children}
