@@ -28,7 +28,7 @@ const Post = ({ post , onLike, onDislike}) => {
     return (
         <div className="post">
             <div className='forum-name'>
-                <Link to={`/subforums/${post.forumName}`} className='forum-link'>
+                <Link to={'/subforums/${post.forumName}'} className='forum-link'>
                     <span className='forum-font'>-/{post.forumName}</span>
                 </Link>
             </div>

@@ -5,6 +5,7 @@
 }
 
 .postHeader h3 {
+    text-decoration: none;
     margin: 0;
     font-size: 18px;
 }
@@ -13,4 +14,10 @@
     margin: 5px 0;
     font-size: 14px;
     color: #888;
+}
+
+.postLink {
+    text-decoration: none; /* Remove underline */
+    color: inherit;       /* Inherit text color from parent */
+    cursor: pointer;      /* Show pointer cursor on hover */
 }
