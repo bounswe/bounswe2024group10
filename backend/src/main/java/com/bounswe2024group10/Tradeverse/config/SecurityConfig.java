@@ -25,20 +25,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Define a CORS configuration source
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");  // Allow your frontend's origin
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); // Use non-reactive version
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
