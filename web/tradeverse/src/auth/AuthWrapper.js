@@ -2,9 +2,9 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { RenderMenu, RenderRoutes } from "../components/structure/RenderNavigation";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const LOGIN_API_URL = 'http://localhost:8080/api/auth/login';
-const VALIDATE_TOKEN_URL = 'http://localhost:8080/api/auth/validate-token';
-const REGISTER_API_URL = 'http://localhost:8080/api/auth/register'; // New Registration API URL
+const LOGIN_API_URL = 'http://35.246.188.121:8080/api/auth/login';
+const VALIDATE_TOKEN_URL = 'http://35.246.188.121:8080/api/auth/validate-token';
+const REGISTER_API_URL = 'http://35.246.188.121:8080/api/auth/register'; // New Registration API URL
 
 
 const AuthContext = createContext();
