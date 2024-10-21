@@ -11,7 +11,6 @@ export default function CreateRootScreen() {
       <GlobalScreen>
         <FullScrollView>
              <View style={styles.container}>
-                  {/* Main content */}
                   <View style={styles.mainContent}>
                     <Text style={styles.title}>Create</Text>
 
