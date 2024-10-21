@@ -29,13 +29,13 @@ public class UserService {
 
     public RegisterResponse register(RegisterRequest registerRequest) {
         if (!EMAIL_PATTERN.matcher(registerRequest.getEmail()).matches()) {
-            return new RegisterResponse(false, "Invalid email format");
+            return new RegisterResponse(false, "Invalid email format", null, null);
         }
         if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
-            return new RegisterResponse(false, "Email is already in use");
+            return new RegisterResponse(false, "Email is already in use", null, null);
         }
         if (userRepository.findByUsername(registerRequest.getUsername()) != null) {
-            return new RegisterResponse(false, "Username is already in use");
+            return new RegisterResponse(false, "Username is already in use", null, null);
         }
         User user = new User(); 
         user.setEmail(registerRequest.getEmail());
@@ -45,7 +45,10 @@ public class UserService {
         user.setProfilePhoto(registerRequest.getProfilePhoto());
         user.setTag(registerRequest.getTag());
         userRepository.save(user);
-        return new RegisterResponse(true, "User registered successfully");
+        
+        // Generate token after successful registration
+        String token = jwtUtil.generateToken(user);
+        return new RegisterResponse(true, "User registered successfully", token, user.getUsername());
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
