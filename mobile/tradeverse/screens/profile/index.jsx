@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import GlobalScreen from "../../components/ui/global-screen";
 import { Stack, useLocalSearchParams } from "expo-router";
-import HomeData from "../../mock/home";
 import PostCard from "../home-root/_components/post-card";
 import PaddedContainer from "../../components/ui/padded-container";
 import { getUserByUsername } from "../../mock-services/users";

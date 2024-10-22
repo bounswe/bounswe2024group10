@@ -10,8 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
 import ProfileImage from "../../components/images/profile-image";
 import { IconPencil } from "@tabler/icons-react-native";
-import ProfileData from "../../mock/user-profile";
 import { Stack } from "expo-router";
+import { useContext } from "react";
+import { AuthContext } from "../../auth/context";
 
 export default function AccountProfileScreen() {
   const validationSchema = z.object({
@@ -28,6 +29,9 @@ export default function AccountProfileScreen() {
     },
     resolver: zodResolver(validationSchema),
   });
+
+  const {user} = useContext(AuthContext);
+  
 
   return (
     <GlobalScreen>
@@ -62,7 +66,7 @@ export default function AccountProfileScreen() {
               <IconPencil size={SIZE_CONSTANT * 2.4} color="white" />
             </View>
             <ProfileImage
-            src={ProfileData.avatar}
+            // src={}
               style={{
                 width: SIZE_CONSTANT * 7.2,
                 height: SIZE_CONSTANT * 7.2,
@@ -74,7 +78,7 @@ export default function AccountProfileScreen() {
               marginBottom: SIZE_CONSTANT * 4,
           }}>
             <Text style={{ textAlign: "center", fontSize: SIZE_CONSTANT * 1.4,color:COLORS.graytext,marginTop:SIZE_CONSTANT*0.8 }}>
-              @{ProfileData.username}
+              @{user?.username??'username'}
             </Text>
           </View>
           <View
@@ -86,10 +90,9 @@ export default function AccountProfileScreen() {
           >
             <RHFTextField style={{
                 backgroundColor: '#E6F4F1', 
-            }} label="Tag" name="tag" placeholder={ProfileData.tag} defaultValue={ProfileData.tag}/>
-            <RHFTextField placeholder={ProfileData.name} label="Name" name="name" defaultValue={ProfileData.name} />
-            <RHFTextField placeholder={ProfileData.surname} label="Surname" name="surname"  defaultValue={ProfileData.surname}/>
-            <RHFTextArea placeholder={ProfileData.description} label="Description" name="description"  defaultValue={ProfileData.description}/>
+            }} label="Tag" name="tag" placeholder={'Beginner'} defaultValue={user?.tag??'Beginner'}/>
+            <RHFTextField placeholder={user?.name} label="Name" name="name" defaultValue={user?.name} />
+            <RHFTextArea placeholder={'Create a description'} label="Description" name="description" defaultValue={user?.description??''}/>
           </View>
         </FormProvider>
       </FullScrollView>

@@ -4,7 +4,6 @@ import GlobalScreen from "../../components/ui/global-screen";
 import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
 import FullScrollView from "../../components/ui/full-scroll-view";
 import ForYouView from "./views/for-you-view";
-import HomeData from "../../mock/home";
 import Tabs from "./_components/tabs";
 import FollowedTopicsView from "./views/followed-topics-view";
 import FollowedPeopleView from "./views/followed-people-view";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import ProfileOption from "./_components/account-option";
 import ProfileConfig from "./profile-config";
@@ -6,8 +6,10 @@ import ProfileInfo from "./_components/top-profile-info";
 import GlobalScreen from "../../components/ui/global-screen";
 import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
 import FullScrollView from "../../components/ui/full-scroll-view";
+import { AuthContext } from "../../auth/context";
 
 export default function AccountRootScreen() {
+  const { logout } = useContext(AuthContext);
   return (
     <GlobalScreen>
       <FullScrollView>
@@ -23,7 +25,7 @@ export default function AccountRootScreen() {
                 text={option.title}
                 icon={option.icon}
                 route={option.href}
-                action={option.value === "logout" ? () => {} : option.action}
+                action={option.value === "logout" ? logout : option.action}
               />
             ))}
           </View>
