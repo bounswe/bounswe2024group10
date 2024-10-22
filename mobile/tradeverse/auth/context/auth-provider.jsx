@@ -11,9 +11,28 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoggedin, setIsLoggedIn] = useState(false);
 
+  const [isTagSelected, setIsTagSelected] = useState(false);
+
   useEffect(() => {
     isAuthenticated();
   }, [isAuthenticated]);
+
+  useEffect(()=>{
+    console.log('====================================');
+    console.log('isTagSelected',isTagSelected);
+    console.log('====================================');
+    if(isAuthenticated){
+      if(isTagSelected){
+        router.replace('(tabs)');
+      }
+      else{
+        router.replace('splash');
+      }
+    }
+    else{
+      router.replace('auth');
+    }
+  },[isTagSelected,isAuthenticated]);
 
   const signIn = useCallback(async ({ username, password }) => {
     try {
@@ -22,9 +41,7 @@ export default function AuthProvider({ children }) {
       if (res.status === 200) {
         await AsyncStorage.setItem('authToken', res.data?.token);
         await AsyncStorage.setItem('username', username);
-        console.log('TRYING TO GET USER BY USERNAME');
         const userProfile = await getUserByUsername({ username });
-        console.log(userProfile);
         
         setUser(userProfile);
         setIsLoggedIn(true);
@@ -71,6 +88,7 @@ export default function AuthProvider({ children }) {
     setUser(null);
     router.replace('auth');
     await AsyncStorage.removeItem('authToken');
+    await AsyncStorage.removeItem('username');
     setLoading(false);
   }, []);
 
@@ -134,9 +152,11 @@ export default function AuthProvider({ children }) {
       isLoggedin,
       setLoading,
       signIn,
+      setIsTagSelected,
       loading,
       refetchUser,
       signUp,
+      isTagSelected,
       userProfile: user?.profile,
       isAuthenticated,
       logout,
@@ -149,6 +169,8 @@ export default function AuthProvider({ children }) {
       loading,
       signIn,
       refetchUser,
+      isTagSelected,
+      setIsTagSelected,
       signUp,
       logout,
       isAuthenticated

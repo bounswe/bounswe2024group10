@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -16,11 +16,14 @@ import GlobalScreen from "../../components/ui/global-screen";
 import MainButton from "../../components/buttons/main-button";
 import ProfileImage from "../../components/images/profile-image";
 import { launchImageLibraryAsync } from "expo-image-picker";
+import { AuthContext } from "../../auth/context";
 
 export default function WelcomingScreen() {
   const [currentStep, setCurrentStep] = useState("profile"); // user_tag, profile
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedUserTag, setSelectedUserTag] = useState(null);
+
+  const { setIsTagSelected } = useContext(AuthContext);
 
   const openImageGallery = async () => {
     const result = await launchImageLibraryAsync({
@@ -35,6 +38,8 @@ export default function WelcomingScreen() {
     }
   };
 
+  
+
   const options = [
     { label: "Beginner", icon: "🏁", value: "beginner" },
     { label: "Day Trader", icon: "📊", value: "day_trader" },
@@ -46,6 +51,8 @@ export default function WelcomingScreen() {
   const handleNext = () => {
     if (currentStep === "profile") {
       setCurrentStep("user_tag");
+    } else {
+      setIsTagSelected(true);
     }
   };
 
@@ -117,7 +124,8 @@ export default function WelcomingScreen() {
           </TouchableOpacity>
           {selectedImage && (
             <MainButton
-            onPress={handleNext}
+
+              // onPress={handleNext}
               style={{ marginTop: SIZE_CONSTANT * 7 }}
               text="Continue"
             />
@@ -148,6 +156,7 @@ export default function WelcomingScreen() {
         ))}
 
         <MainButton
+          onPress={handleNext}
           style={{ marginTop: SIZE_CONSTANT * 2 }}
           text="Continue"
           disabled={!selectedUserTag}
