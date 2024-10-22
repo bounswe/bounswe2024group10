@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { IconChevronRight } from "@tabler/icons-react-native";
 import { Alert, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
@@ -9,10 +9,18 @@ import {
   FONT_WEIGHTS,
 } from "../../../constants/theme";
 import ProfileImage from "../../../components/images/profile-image";
-import MockUserProfile from "../../../mock/user-profile";
 import paths from "../../../config/screen-paths";
+import { AuthContext } from "../../../auth/context";
 
 export default function ProfileInfo() {
+  
+  const {user} = useContext(AuthContext);
+
+  useEffect(()=>{
+    console.log('====================================');
+    console.log(user);
+    console.log('====================================');
+  },[user]);
   return (
     <Pressable
       style={styles.container}
@@ -21,13 +29,13 @@ export default function ProfileInfo() {
       }}
     >
       <View style={styles.leftContainer}>
-        <ProfileImage src={MockUserProfile.avatar} style={styles.avatar} />
+        <ProfileImage src={user?.profileImage??''} style={styles.avatar} />
       </View>
       <View style={styles.rightContainer}>
         <Text style={styles.nameText}>
-          {MockUserProfile.name} {MockUserProfile.surname}
+          {user?.name}
         </Text>
-        <Text style={styles.usernameText}>@{MockUserProfile?.username}</Text>
+        <Text style={styles.usernameText}>@{user?.username}</Text>
       </View>
       <View style={styles.chevronContainer}>
         <IconChevronRight size={24} color={COLORS.primary500} />

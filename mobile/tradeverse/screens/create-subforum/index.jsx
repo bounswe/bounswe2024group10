@@ -13,7 +13,6 @@ import {
   SIZE_CONSTANT,
   SIZES,
 } from "../../constants/theme";
-import ProfileData from "../../mock/user-profile";
 import { Stack } from "expo-router";
 import {
   IconCaretDown,
