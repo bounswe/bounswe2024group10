@@ -20,7 +20,7 @@ import paths from "../../../config/screen-paths";
 
 const AuthorInfo = ({ author }) => {
   return (
-    <UserLink>
+    <UserLink user={author}>
       <View
         style={{
           display: "flex",

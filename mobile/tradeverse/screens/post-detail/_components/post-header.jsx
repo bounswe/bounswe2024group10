@@ -50,7 +50,7 @@ const SIZES = {
 
 const AuthorInfo = ({ author }) => {
   return (
-    <UserLink target={paths.HOME.USER_PROFILE}>
+    <UserLink user={author} target={paths.HOME.USER_PROFILE}>
       <View
         style={{
           display: "flex",
