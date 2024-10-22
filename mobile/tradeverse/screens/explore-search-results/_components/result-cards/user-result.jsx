@@ -12,7 +12,7 @@ import paths from "../../../../config/screen-paths";
 
 export default function UserResult({ user }) {
   return (
-    <UserLink target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
+    <UserLink user={user} target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
       <View
         style={{
           display: "flex",
