@@ -4,6 +4,8 @@ import com.bounswe2024group10.Tradeverse.dto.LoginRequest;
 import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
 import com.bounswe2024group10.Tradeverse.dto.RegisterRequest;
 import com.bounswe2024group10.Tradeverse.dto.RegisterResponse;
+import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsRequest;
+import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 import com.bounswe2024group10.Tradeverse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +71,15 @@ public class UserController {
             // Handle exceptions (e.g., token expiration or malformed token)
             return ResponseEntity.badRequest().body(Map.of("error", "Invalid token"));
         }
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/get-user-details")
+    public ResponseEntity<GetUserDetailsResponse> getUserDetails(@RequestBody GetUserDetailsRequest request) {
+        GetUserDetailsResponse response = userService.getUserDetails(request);
+        if (response != null) {
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.status(404).build();
     }
 }

@@ -1,5 +1,7 @@
 package com.bounswe2024group10.Tradeverse.service;
 
+import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsRequest;
+import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
 import com.bounswe2024group10.Tradeverse.dto.LoginRequest;
 import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
 import com.bounswe2024group10.Tradeverse.dto.RegisterRequest;
@@ -46,7 +48,6 @@ public class UserService {
         user.setTag(registerRequest.getTag());
         userRepository.save(user);
         
-        // Generate token after successful registration
         String token = jwtUtil.generateToken(user);
         return new RegisterResponse(true, "User registered successfully", token, user.getUsername());
     }
@@ -54,12 +55,20 @@ public class UserService {
     public LoginResponse login(LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername());
         if (user == null) {
-            return new LoginResponse(false, "User not found", null, null, 0); // Updated response
+            return new LoginResponse(false, "User not found", null, null, 0);
         }
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            return new LoginResponse(false, "Invalid password", null, null, 0); // Updated response
+            return new LoginResponse(false, "Invalid password", null, null, 0);
         }
         String token = jwtUtil.generateToken(user);
-        return new LoginResponse(true, "Login successful", token, user.getUsername(), user.getTag()); // Updated response
+        return new LoginResponse(true, "Login successful", token, user.getUsername(), user.getTag());
+    }
+
+    public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user != null) {
+            return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio());
+        }
+        return null;
     }
 }
