@@ -477,7 +477,7 @@ I was take notes during the customer 1 presentation. By utilizing these notes I 
   | Task Name | Related issue |
   | --- | --- |
   | Use Case Diagrams | [#256](https://github.com/bounswe/bounswe2024group10/issues/256) |
-    | Lab 4 Report | [#253](https://github.com/bounswe/bounswe2024group10/issues/253) |
+  | Lab 4 Report | [#253](https://github.com/bounswe/bounswe2024group10/issues/253) |
     
 
 
