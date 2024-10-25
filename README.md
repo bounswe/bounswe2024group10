@@ -56,6 +56,8 @@ Change the db credentials at `docker-compose.yaml`
    - Start the MySQL database and the Spring Boot application.
 
 ### Access the Application
+-- Access the deployed app at `http://35.246.188.121:3000/`.
+
 - Once the containers are running:
     - You can access the main page at `http://localhost:3000/`.
     - You can access the backend at `http://localhost:8080/api/`.
