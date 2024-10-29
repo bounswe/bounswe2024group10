@@ -36,9 +36,11 @@ const roots = {
   
   export const NAV_OPTIONS = [
     {
-      icon: <IconHome {...DefaultIconStyle} />,
+      icons :{
+        active:(style)=> <IconHome {...style} />,
+        inactive : (style) => <IconHome {...style}/>
+      },
       label: 'Home',
-      activeIcon: <IconHomeFilled {...DefaultFilledIconStyle} />,
       path: paths.HOME.ROOT,
       name: 'home',
       routeValue: 'home/index',
@@ -48,8 +50,12 @@ const roots = {
   },
 
   {
-    icon: <IconSearch {...DefaultIconStyle} />,
-    activeIcon: <IconSearch {...DefaultFilledIconStyle} />,
+    // icon: <IconSearch {...DefaultIconStyle} />,
+    // activeIcon: <IconSearch {...DefaultFilledIconStyle} />,
+    icons :{
+      active:(style)=> <IconSearch {...style} />,
+      inactive : (style) => <IconSearch {...style}/>
+    },
     label: 'Explore',
     path: paths.EXPLORE.ROOT,
     name:'explore',
@@ -60,8 +66,12 @@ const roots = {
   }
 ,
   {
-    icon:<IconPlus {...DefaultIconStyle} />,
-    activeIcon:<IconPlus {...DefaultIconStyle} />,
+    // icon:<IconPlus {...DefaultIconStyle} />,
+    // activeIcon:<IconPlus {...DefaultIconStyle} />,
+    icons :{
+      active:(style)=> <IconPlus {...style} />,
+      inactive : (style) => <IconPlus {...style}/>
+    },
     label:'Add',
     path: paths.CREATE.ROOT,
     name:'create',
@@ -71,8 +81,12 @@ const roots = {
     }
   },
   {
-    icon:<IconLayout {...DefaultIconStyle} />,
-    activeIcon:<IconLayoutFilled {...DefaultFilledIconStyle} />,
+    // icon:<IconLayout {...DefaultIconStyle} />,
+    // activeIcon:<IconLayoutFilled {...DefaultFilledIconStyle} />,
+    icons :{
+      active:(style)=> <IconLayout {...style} />,
+      inactive : (style) => <IconLayout {...style}/>
+    },
     label:'Portfolio',
     name:'portfolio',
     routeValue:'portfolio/index',
@@ -81,8 +95,12 @@ const roots = {
     }
   },
     {
-        icon:<IconUser {...DefaultIconStyle} />,
-        activeIcon:<IconUserFilled {...DefaultFilledIconStyle} />,
+        // icon:<IconUser {...DefaultIconStyle} />,
+        // activeIcon:<IconUserFilled {...DefaultFilledIconStyle} />,
+        icons :{
+          active:(style)=> <IconUser {...style} />,
+          inactive : (style) => <IconUser {...style}/>
+        },
         label:'Account',
         name:'account',
         routeValue:'account/index',

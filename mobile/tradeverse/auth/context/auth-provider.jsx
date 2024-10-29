@@ -13,10 +13,6 @@ export default function AuthProvider({ children }) {
 
   const [isTagSelected, setIsTagSelected] = useState(false);
 
-  useEffect(() => {
-    isAuthenticated();
-  }, [isAuthenticated]);
-
   // useEffect(()=>{
   //   console.log('isTagSelected',isTagSelected);
   //   console.log('isAuthenticated',isLoggedin);
@@ -146,6 +142,10 @@ export default function AuthProvider({ children }) {
     return result;
   }, []);
 
+  useEffect(() => {
+    isAuthenticated();
+  }, [isAuthenticated]);
+
   const contextValue = useMemo(
     () => ({
       user,
@@ -158,7 +158,7 @@ export default function AuthProvider({ children }) {
       signUp,
       isTagSelected,
       userProfile: user?.profile,
-      isAuthenticated,
+      // isAuthenticated,
       logout,
       setUser
     }),
@@ -173,9 +173,11 @@ export default function AuthProvider({ children }) {
       setIsTagSelected,
       signUp,
       logout,
-      isAuthenticated
+      // isAuthenticated
     ]
   );
+
+
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
