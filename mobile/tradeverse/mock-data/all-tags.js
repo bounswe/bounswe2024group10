@@ -299,4 +299,16 @@ export const allTags = [
     posts: 6541,
     people: 267,
   },
+  {
+    id: 51,
+    label: "MicroEconomy",
+    posts: 4321,
+    people: 189,
+  },
+  {
+    id: 52,
+    label: "CryptoEconomy",
+    posts: 5432,
+    people: 198,
+  },
 ];

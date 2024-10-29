@@ -17,32 +17,31 @@ export default function AuthProvider({ children }) {
     isAuthenticated();
   }, [isAuthenticated]);
 
-  useEffect(()=>{
-    console.log('====================================');
-    console.log('isTagSelected',isTagSelected);
-    console.log('====================================');
-    if(isAuthenticated){
-      if(isTagSelected){
-        router.replace('(tabs)');
-      }
-      else{
-        router.replace('splash');
-      }
-    }
-    else{
-      router.replace('auth');
-    }
-  },[isTagSelected,isAuthenticated]);
+  // useEffect(()=>{
+  //   console.log('isTagSelected',isTagSelected);
+  //   console.log('isAuthenticated',isLoggedin);
+    
+    
+  //   if(isLoggedin){
+  //     if(isTagSelected){
+  //       router.replace('(tabs)');
+  //     }
+  //     else{
+  //       router.replace('splash');
+  //     }
+  //   }
+  //   else{
+  //     router.replace('auth');
+  //   }
+  // },[isTagSelected, isAuthenticated]);
 
   const signIn = useCallback(async ({ username, password }) => {
     try {
-      // setLoading(true);
       const res = await login({ username, password });
       if (res.status === 200) {
         await AsyncStorage.setItem('authToken', res.data?.token);
         await AsyncStorage.setItem('username', username);
         const userProfile = await getUserByUsername({ username });
-        
         setUser(userProfile);
         setIsLoggedIn(true);
         router.replace('(tabs)');
@@ -72,7 +71,8 @@ export default function AuthProvider({ children }) {
 
         setUser(userProfile);
         setIsLoggedIn(true);
-        router.replace('(tabs)');
+        // router.replace('(tabs)');
+        router.replace('splash');
         // setUser(res.data?.user);
       }
     } catch (error) {

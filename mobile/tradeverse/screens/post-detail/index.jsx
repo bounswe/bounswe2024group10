@@ -46,9 +46,6 @@ const PostScreen = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    console.log('====================================');
-    console.log('Post ID:', postId);
-    console.log('====================================');
     const postDetail = getPostById(postId);
     setData(postDetail);
   }, [postId]);

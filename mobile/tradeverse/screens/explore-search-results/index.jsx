@@ -31,9 +31,12 @@ export default function ExploreRootScreen() {
 
   const { searchKey } = useLocalSearchParams();
 
+  useEffect(()=>{
+    setUpdatedSearchKey(searchKey)
+  },[searchKey])
+
   useEffect(() => {
     const data = searchOnExplore(updatedSearchKey ?? searchKey);
-
     setData({
       popular: data.popular,
       assets: data.assets,

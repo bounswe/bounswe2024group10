@@ -4,7 +4,8 @@ export const searchAssets = (searchTerm) => {
     return allAssets;
   }
   return allAssets.filter((asset) =>
-    asset.label.toLowerCase().includes(searchTerm.toLowerCase())
+    asset.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  asset.abbreviation.toLowerCase().includes(searchTerm.toLowerCase())
   );
 };
 

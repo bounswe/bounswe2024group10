@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import FullScrollView from "../../components/ui/full-scroll-view";
 import GlobalScreen from "../../components/ui/global-screen";
-import { SIZE_CONSTANT } from "../../constants/theme";
+import { COLORS, FONT_WEIGHTS, SIZE_CONSTANT } from "../../constants/theme";
 import { router, Stack } from "expo-router";
 import paths from "../../config/screen-paths";
 import { searchAssets } from "../../mock-services/assets";
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#4A148C", // Dark purple
+    color: COLORS.primary800,
   },
   addButton: {
-    backgroundColor: "#7B1FA2", // Medium purple
+    backgroundColor:COLORS.primary500,
     width: 48,
     height: 48,
     display: "flex",
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 
   addButtonText: {
     fontSize: SIZE_CONSTANT * 2,
+    fontWeight: FONT_WEIGHTS.medium,
     color: "#FFFFFF", // White text
   },
   scrollViewContent: {
@@ -112,7 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   assetBlock: {
-    backgroundColor: "#D1C4E9", // Lighter purple
+    borderColor: COLORS.primary50, // Light purple
+    borderWidth: .5,
+    backgroundColor: COLORS.primary100, // Lighter purple
     width: "48%",
     height: 100,
     borderRadius: 10,
@@ -120,14 +123,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 20,
   },
+
   assetName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#4A148C", // Dark purple for text
+    color:COLORS.primary700,
   },
+
   assetValue: {
     fontSize: 16,
-    color: "#7B1FA2", // Medium purple for value
+    color:COLORS.primary800,
     alignSelf: "flex-end",
   },
 });
