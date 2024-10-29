@@ -16,11 +16,6 @@ export default function ProfileInfo() {
   
   const {user} = useContext(AuthContext);
 
-  useEffect(()=>{
-    console.log('====================================');
-    console.log(user);
-    console.log('====================================');
-  },[user]);
   return (
     <Pressable
       style={styles.container}
