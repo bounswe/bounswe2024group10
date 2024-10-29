@@ -12,11 +12,7 @@ const SubforumScreen = () => {
   const { subforumId } = useLocalSearchParams();
 
   useEffect(() => {
-    console.log('====================================');
-    console.log('subforumId', subforumId);
-    console.log('====================================');
     const res = getSubForumById(subforumId);
-    console.log(res.title);
     setData(res);
   }, [subforumId]);
 

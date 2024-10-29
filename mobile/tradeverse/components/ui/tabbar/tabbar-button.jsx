@@ -32,8 +32,8 @@ export default function TabBarButton({
   });
 
   const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 1]);
-    const topValue = interpolate(scale.value, [0, 1], [0, 7]);
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, .92]);
+    const topValue = interpolate(scale.value, [0, 1], [0, 0]);
     return {
       transform: [{
         scale: scaleValue
@@ -56,9 +56,9 @@ export default function TabBarButton({
           ? icons.active(styles.activeIcon)
           : icons.inactive(styles.inactiveIcon)}
       </Animated.View>
-      <Animated.Text style={[styles.tabBarItemText, animatedTextStyle]}>
+      {/* <Animated.Text style={[styles.tabBarItemText, animatedTextStyle]}>
         {label}
-      </Animated.Text>
+      </Animated.Text> */}
     </Pressable>
   );
 }
@@ -72,17 +72,18 @@ const styles = StyleSheet.create({
   },
   tabBarItemText: {
     fontSize: SIZES.xxSmall,
-    color: COLORS.graytext,
+    color: COLORS.white,
     fontWeight: 'light'
   },
   inactiveIcon: {
-    strokeWidth: 1.8,
-    size: SIZE_CONSTANT * 2.8,
-    color: COLORS.primary500
+    strokeWidth: 1.5,
+    size: SIZE_CONSTANT * 3,
+    // color: COLORS.primary500
+    color:COLORS.white
   },
   activeIcon: {
     strokeWidth: 2,
-    size: SIZE_CONSTANT * 2.8,
-    color: '#fff',
+    size: SIZE_CONSTANT * 3,
+    color: COLORS.primary500,
   }
 });

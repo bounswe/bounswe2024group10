@@ -5,7 +5,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 import { View, StyleSheet, Platform } from 'react-native';
 import TabBarButton from './tabbar-button';
 import { NAV_OPTIONS } from '../../../config/navigation';
-import { COLORS } from '@/constants/theme';
+import { COLORS, SIZE_CONSTANT } from '@/constants/theme';
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   const [tabBarDimensions, setTabBarDimensions] = useState({
@@ -84,8 +84,8 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
 const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: 'white',
-    height: 68,
+    backgroundColor: COLORS.primary500,
+    height: SIZE_CONSTANT * 5.2,
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
@@ -100,10 +100,11 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   focusCircle: {
-    width: 50,
-    height: 50,
+    width: 42,
+    height: 42,
     borderRadius: 30,
-    backgroundColor: COLORS.primary500,
+    // backgroundColor: COLORS.primary500,
+    backgroundColor:COLORS.white,
   },
   focusCircleContainer:{
     position: 'absolute',

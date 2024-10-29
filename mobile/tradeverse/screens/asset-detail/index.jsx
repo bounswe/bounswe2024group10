@@ -22,11 +22,7 @@ const AssetDisplay = () => {
   const { assetId } = useLocalSearchParams();
 
   useEffect(() => {
-    console.log('====================================');
-    console.log('====================================');
     const res = getAssetById(assetId);
-    console.log('====================================');
-    console.log('====================================');
     setAsset({...res,value: Math.floor(Math.random() * 10000)});
   }, [assetId]);
 
