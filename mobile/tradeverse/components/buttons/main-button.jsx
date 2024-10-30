@@ -1,33 +1,41 @@
-import React from 'react';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Text } from 'react-native';
-import { COLORS, SIZE_CONSTANT } from '../../constants/theme';
+import React from 'react'
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+} from 'react-native'
+import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 
 export default function MainButton({
-  onPress=()=>{Alert.alert("Not Implemented")},
+  onPress = () => {
+    Alert.alert('Not Implemented')
+  },
   loading,
   disabled,
   style,
   textStyle,
   variant = 'primary',
-  text = 'Press'
+  text = 'Press',
 }) {
-  const selectedStyle = styles[variant];
+  const selectedStyle = styles[variant]
 
   return (
     <Pressable
       onPress={(e) => {
-        e.preventDefault();
-        onPress();
+        e.preventDefault()
+        onPress()
       }}
-      role='button'
+      role="button"
       disabled={disabled}
       style={[
         selectedStyle.container,
         style,
         {
           opacity: disabled ? 0.5 : 1,
-          pointerEvents: disabled ? 'none' : 'auto'
-        }
+          pointerEvents: disabled ? 'none' : 'auto',
+        },
       ]}
     >
       {loading ? (
@@ -36,7 +44,7 @@ export default function MainButton({
         <Text style={[selectedStyle.text, textStyle]}>{text}</Text>
       )}
     </Pressable>
-  );
+  )
 }
 
 const primaryStyle = StyleSheet.create({
@@ -48,14 +56,14 @@ const primaryStyle = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 6
+    borderRadius: 6,
   },
   text: {
     color: COLORS.white,
     fontSize: SIZE_CONSTANT * 1.4,
     fontWeight: '600',
-  }
-});
+  },
+})
 
 const secondaryStyle = StyleSheet.create({
   container: {
@@ -68,16 +76,16 @@ const secondaryStyle = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 6,
     borderColor: '#F2F2F2',
-    borderWidth: 1
+    borderWidth: 1,
   },
   text: {
     color: COLORS.primary950,
     fontSize: 14,
-    fontWeight: 'regular'
-  }
-});
+    fontWeight: 'regular',
+  },
+})
 
 const styles = {
   primary: primaryStyle,
-  secondary: secondaryStyle
-};
+  secondary: secondaryStyle,
+}

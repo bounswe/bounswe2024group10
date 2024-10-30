@@ -1,21 +1,18 @@
-import { View, Text } from "react-native";
-import React from "react";
-import {
-  COLORS,
-  FONT_WEIGHTS,
-} from "../../../constants/theme";
-import ProfileImage from "../../../components/images/profile-image";
+import { View, Text } from 'react-native'
+import React from 'react'
 import {
   IconEye,
   IconMessage,
   IconMessageCircle2,
   IconThumbDown,
   IconThumbUp,
-} from "@tabler/icons-react-native";
-import UserLink from "../../../components/links/user-link";
-import paths from "../../../config/screen-paths";
-import PostLink from "../../../components/links/post-link";
-import SubforumLink from "../../../components/links/subforum-link";
+} from '@tabler/icons-react-native'
+import { COLORS, FONT_WEIGHTS } from '../../../constants/theme'
+import ProfileImage from '../../../components/images/profile-image'
+import UserLink from '../../../components/links/user-link'
+import paths from '../../../config/screen-paths'
+import PostLink from '../../../components/links/post-link'
+import SubforumLink from '../../../components/links/subforum-link'
 
 // {
 //     title: 'Title',
@@ -37,152 +34,139 @@ import SubforumLink from "../../../components/links/subforum-link";
 //       id: 1,
 //     },
 //   }
-const SIZE_CONSTANT = 14;
+const SIZE_CONSTANT = 14
 const SIZES = {
-    xxSmall: SIZE_CONSTANT * 1,
-    xSmall: SIZE_CONSTANT * 1.2,
-    small: SIZE_CONSTANT * 1.4,
-    medium: SIZE_CONSTANT * 1.6,
-    large: SIZE_CONSTANT * 1.8,
-    xLarge: SIZE_CONSTANT * 2,
-
+  xxSmall: SIZE_CONSTANT * 1,
+  xSmall: SIZE_CONSTANT * 1.2,
+  small: SIZE_CONSTANT * 1.4,
+  medium: SIZE_CONSTANT * 1.6,
+  large: SIZE_CONSTANT * 1.8,
+  xLarge: SIZE_CONSTANT * 2,
 }
 
-const AuthorInfo = ({ author }) => {
-  return (
-    <UserLink user={author} target={paths.HOME.USER_PROFILE}>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: SIZE_CONSTANT * 0.6,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <ProfileImage
-            style={{
-              width: SIZE_CONSTANT * 2.1,
-              height: SIZE_CONSTANT * 2.1,
-              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-            }}
-            src={author.avatar}
-          />
-        </View>
-        <View
+const AuthorInfo = ({ author }) => (
+  <UserLink user={author} target={paths.HOME.USER_PROFILE}>
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: SIZE_CONSTANT * 0.6,
+        alignItems: 'center',
+      }}
+    >
+      <View>
+        <ProfileImage
           style={{
-            display: "flex",
-            flexDirection: "column",
+            width: SIZE_CONSTANT * 2.1,
+            height: SIZE_CONSTANT * 2.1,
+            borderRadius: (SIZE_CONSTANT * 2.1) / 2,
           }}
-        >
-          <Text
-            style={{
-              fontSize: SIZES.xxSmall,
-              fontWeight: FONT_WEIGHTS.semibold,
-              color: COLORS.black,
-              letterSpacing: -0.03,
-            }}
-          >
-            {author.name} {author.surname}
-          </Text>
-          <Text
-            style={{
-              fontSize: SIZE_CONSTANT * 0.8,
-              color: "#A1A1A1",
-              letterSpacing: -0.03,
-              lineHeight: SIZE_CONSTANT * 0.9,
-            }}
-          >
-            @{author.username}
-          </Text>
-        </View>
+          src={author.avatar}
+        />
       </View>
-    </UserLink>
-  );
-};
-
-const SubforumInfo = ({ subforum }) => {
-  return (
-    <SubforumLink subForum={subforum} target={paths.HOME.SUBFORUM_DETAIL}>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          paddingHorizontal: SIZE_CONSTANT * 1.2,
-          height: SIZE_CONSTANT * 1.6,
-          backgroundColor: "#D4FFE7",
-          borderWidth: 0.5,
-          borderColor: "#EDFDFF",
-          borderRadius: SIZE_CONSTANT * 1.2,
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Text
           style={{
-            fontSize: SIZE_CONSTANT * 0.64,
-            fontWeight: FONT_WEIGHTS.medium,
-            color: "#107E64",
+            fontSize: SIZES.xxSmall,
+            fontWeight: FONT_WEIGHTS.semibold,
+            color: COLORS.black,
             letterSpacing: -0.03,
           }}
         >
-          {subforum.title}
+          {author.name} {author.surname}
         </Text>
-      </View>
-    </SubforumLink>
-  );
-};
-
-const TagText = ({ tag, index = 0, isLast = false }) => {
-  return (
-    <Text
-      style={{
-        display: "inline",
-        fontSize: SIZES.xSmall,
-        color: COLORS.primary500,
-        letterSpacing: -0.03,
-      }}
-    >
-      {index === 0 ? "" : " "}@{tag.value}
-    </Text>
-  );
-};
-
-const DefaultText = ({ text, index = 0 }) => {
-  return (
-    <Text
-      style={{
-        fontSize: SIZES.xSmall,
-        color: COLORS.primary950,
-        letterSpacing: -0.03,
-      }}
-    >
-      {index === 0 ? "" : " "}
-      {text.value}
-    </Text>
-  );
-};
-
-const InteractionInfo = ({ icon = () => {}, value }) => {
-  return (
-    <View
-      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-    >
-      <View>{icon({ prop: { color: "#444" } })}</View>
-      <View>
         <Text
           style={{
             fontSize: SIZE_CONSTANT * 0.8,
-            color: "#444",
+            color: '#A1A1A1',
             letterSpacing: -0.03,
-            fontWeight: FONT_WEIGHTS.medium,
+            lineHeight: SIZE_CONSTANT * 0.9,
           }}
         >
-          {value}
+          @{author.username}
         </Text>
       </View>
     </View>
-  );
-};
+  </UserLink>
+)
+
+const SubforumInfo = ({ subforum }) => (
+  <SubforumLink subForum={subforum} target={paths.HOME.SUBFORUM_DETAIL}>
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: SIZE_CONSTANT * 1.2,
+        height: SIZE_CONSTANT * 1.6,
+        backgroundColor: '#D4FFE7',
+        borderWidth: 0.5,
+        borderColor: '#EDFDFF',
+        borderRadius: SIZE_CONSTANT * 1.2,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: SIZE_CONSTANT * 0.64,
+          fontWeight: FONT_WEIGHTS.medium,
+          color: '#107E64',
+          letterSpacing: -0.03,
+        }}
+      >
+        {subforum.title}
+      </Text>
+    </View>
+  </SubforumLink>
+)
+
+const TagText = ({ tag, index = 0, isLast = false }) => (
+  <Text
+    style={{
+      display: 'inline',
+      fontSize: SIZES.xSmall,
+      color: COLORS.primary500,
+      letterSpacing: -0.03,
+    }}
+  >
+    {index === 0 ? '' : ' '}@{tag.value}
+  </Text>
+)
+
+const DefaultText = ({ text, index = 0 }) => (
+  <Text
+    style={{
+      fontSize: SIZES.xSmall,
+      color: COLORS.primary950,
+      letterSpacing: -0.03,
+    }}
+  >
+    {index === 0 ? '' : ' '}
+    {text.value}
+  </Text>
+)
+
+const InteractionInfo = ({ icon = () => {}, value }) => (
+  <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <View>{icon({ prop: { color: '#444' } })}</View>
+    <View>
+      <Text
+        style={{
+          fontSize: SIZE_CONSTANT * 0.8,
+          color: '#444',
+          letterSpacing: -0.03,
+          fontWeight: FONT_WEIGHTS.medium,
+        }}
+      >
+        {value}
+      </Text>
+    </View>
+  </View>
+)
 
 export default function PostHeader({ style, post }) {
   return (
@@ -193,15 +177,15 @@ export default function PostHeader({ style, post }) {
           paddingTop: SIZE_CONSTANT * 1.2,
           paddingBottom: SIZE_CONSTANT * 1.4,
           borderBottomWidth: 0.5,
-          borderBottomColor: "#E5E5E5",
+          borderBottomColor: '#E5E5E5',
         }}
       >
         <View
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <AuthorInfo author={post.author} />
@@ -225,11 +209,11 @@ export default function PostHeader({ style, post }) {
         <View>
           <Text>
             {post.content.map((content, index) => {
-              if (content.type === "text") {
-                return <DefaultText key={index} index={index} text={content} />;
+              if (content.type === 'text') {
+                return <DefaultText key={index} index={index} text={content} />
               }
-              if (content.type === "tag") {
-                return <TagText key={index} index={index} tag={content} />;
+              if (content.type === 'tag') {
+                return <TagText key={index} index={index} tag={content} />
               }
             })}
           </Text>
@@ -237,9 +221,9 @@ export default function PostHeader({ style, post }) {
         <View
           style={{
             marginTop: SIZE_CONSTANT * 1.2,
-            display: "flex",
-            justifyContent: "space-between",
-            flexDirection: "row",
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
           }}
         >
           <View>
@@ -250,8 +234,8 @@ export default function PostHeader({ style, post }) {
           </View>
           <View
             style={{
-              display: "flex",
-              flexDirection: "row",
+              display: 'flex',
+              flexDirection: 'row',
               gap: SIZE_CONSTANT * 1.4,
             }}
           >
@@ -271,5 +255,5 @@ export default function PostHeader({ style, post }) {
         </View>
       </View>
     </PostLink>
-  );
+  )
 }

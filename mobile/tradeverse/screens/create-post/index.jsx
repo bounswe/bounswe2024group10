@@ -1,42 +1,42 @@
-import { View, Text } from "react-native";
-import React from "react";
-import GlobalScreen from "../../components/ui/global-screen";
-import FullScrollView from "../../components/ui/full-scroll-view";
-import RHFTextArea from "../../components/inputs/RHFTextArea";
-import RHFTextField from "../../components/inputs/RHFTextField";
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  COLORS,
-  FONT_WEIGHTS,
-  SIZE_CONSTANT,
-  SIZES,
-} from "../../constants/theme";
-import { Stack } from "expo-router";
+import { View, Text } from 'react-native'
+import React from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Stack } from 'expo-router'
 import {
   IconCaretDown,
   IconCaretDownFilled,
   IconImageInPicture,
   IconPaperclip,
   IconPhotoPlus,
-} from "@tabler/icons-react-native";
-import MainButton from "../../components/buttons/main-button";
-import TextField from "../../components/inputs/TextField";
+} from '@tabler/icons-react-native'
+import GlobalScreen from '../../components/ui/global-screen'
+import FullScrollView from '../../components/ui/full-scroll-view'
+import RHFTextArea from '../../components/inputs/RHFTextArea'
+import RHFTextField from '../../components/inputs/RHFTextField'
+import {
+  COLORS,
+  FONT_WEIGHTS,
+  SIZE_CONSTANT,
+  SIZES,
+} from '../../constants/theme'
+import MainButton from '../../components/buttons/main-button'
+import TextField from '../../components/inputs/TextField'
 
 export default function CreatePostScreen() {
   const validationSchema = z.object({
-    title: z.string().min(1, { message: "Bu alan gerekli." }),
-    content: z.string().min(1, { message: "Bu alan gerekli." }),
-  });
+    title: z.string().min(1, { message: 'Bu alan gerekli.' }),
+    content: z.string().min(1, { message: 'Bu alan gerekli.' }),
+  })
 
   const form = useForm({
     defaultValues: {
-      title: "",
-      content: "",
+      title: '',
+      content: '',
     },
     resolver: zodResolver(validationSchema),
-  });
+  })
 
   return (
     <GlobalScreen>
@@ -44,13 +44,13 @@ export default function CreatePostScreen() {
         <Stack.Screen
           options={{
             headerBackTitleVisible: false,
-            headerTitle: "Create Post",
+            headerTitle: 'Create Post',
           }}
         />
         <Text
           style={{
             fontSize: SIZES.xSmall,
-            color: "#3C3B3B",
+            color: '#3C3B3B',
             letterSpacing: -0.01,
           }}
         >
@@ -58,9 +58,9 @@ export default function CreatePostScreen() {
         </Text>
         <View
           style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
             gap: SIZE_CONSTANT * 0.4,
           }}
         >
@@ -71,7 +71,7 @@ export default function CreatePostScreen() {
               fontWeight: FONT_WEIGHTS.medium,
             }}
           >
-            Stock Market Trends & Future{" "}
+            Stock Market Trends & Future{' '}
           </Text>
           <IconCaretDownFilled size={SIZES.small} color={COLORS.primary500} />
         </View>
@@ -83,15 +83,14 @@ export default function CreatePostScreen() {
           ></View>
           <View
             style={{
-              display: "flex",
-              flexDirection: "column",
-              
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
             <RHFTextField
-            style={{
-                marginBottom:SIZE_CONSTANT * 4
-            }}
+              style={{
+                marginBottom: SIZE_CONSTANT * 4,
+              }}
               label="Title"
               name="name"
             />
@@ -106,14 +105,14 @@ export default function CreatePostScreen() {
             />
             <View
               style={{
-                backgroundColor: "#F4F4F4",
+                backgroundColor: '#F4F4F4',
                 paddingHorizontal: SIZES.xSmall,
                 paddingVertical: SIZE_CONSTANT * 0.6,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
                 gap: SIZE_CONSTANT * 1,
-                alignItems: "center",
+                alignItems: 'center',
               }}
             >
               <IconPhotoPlus
@@ -137,5 +136,5 @@ export default function CreatePostScreen() {
         </FormProvider>
       </FullScrollView>
     </GlobalScreen>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import PostCard from "../_components/result-cards/post-result";
+import { View, Text, ScrollView } from 'react-native'
+import React from 'react'
+import PostCard from '../_components/result-cards/post-result'
 
 export default function PopularView({ data }) {
   return (
@@ -9,5 +9,5 @@ export default function PopularView({ data }) {
         <PostCard key={index} post={post} />
       ))}
     </ScrollView>
-  );
+  )
 }

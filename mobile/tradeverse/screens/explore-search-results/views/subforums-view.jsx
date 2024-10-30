@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import SubForumResult from "../_components/result-cards/sub-forum-result";
+import { View, Text, ScrollView } from 'react-native'
+import React from 'react'
+import SubForumResult from '../_components/result-cards/sub-forum-result'
 
 export default function SubForumsView({ data }) {
   return (
@@ -9,5 +9,5 @@ export default function SubForumsView({ data }) {
         <SubForumResult key={index} subForum={subForum} />
       ))}
     </ScrollView>
-  );
+  )
 }

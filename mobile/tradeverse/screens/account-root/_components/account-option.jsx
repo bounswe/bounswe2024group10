@@ -1,7 +1,7 @@
-import React from "react";
-import { useRouter } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLORS, SIZES } from "../../../constants/theme";
+import React from 'react'
+import { useRouter } from 'expo-router'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { COLORS, SIZES } from '../../../constants/theme'
 
 export default function ProfileOption({
   icon = () => null,
@@ -11,17 +11,17 @@ export default function ProfileOption({
   disabled = false,
   isLastOption = false,
 }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handlePress = () => {
-    if (action) action();
-    else router.push(route);
-  };
+    if (action) action()
+    else router.push(route)
+  }
 
   return (
     <TouchableOpacity
       style={{
-        pointerEvents: disabled ? "none" : "auto",
+        pointerEvents: disabled ? 'none' : 'auto',
         opacity: disabled ? 0.5 : 1,
       }}
       onPress={handlePress}
@@ -42,28 +42,28 @@ export default function ProfileOption({
         </View>
       </View>
     </TouchableOpacity>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     gap: SIZES.xxSmall,
   },
 
   leftContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   rightContainer: {
-    flexBasis: "100%",
+    flexBasis: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: "#EEEEEE",
+    borderBottomColor: '#EEEEEE',
     paddingVertical: SIZES.medium,
   },
   optionText: {
     fontSize: SIZES.small,
-    color: "#000",
+    color: '#000',
   },
-});
+})

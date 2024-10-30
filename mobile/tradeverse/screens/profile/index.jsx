@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import GlobalScreen from "../../components/ui/global-screen";
-import { Stack, useLocalSearchParams } from "expo-router";
-import PostCard from "../home-root/_components/post-card";
-import PaddedContainer from "../../components/ui/padded-container";
-import { getUserByUsername } from "../../mock-services/users";
-import { getPostsByUser } from "../../mock-services/post";
-import formatInteractionNumber from "../../util/format-number";
-import ProfileImage from "../../components/images/profile-image";
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import GlobalScreen from '../../components/ui/global-screen'
+import { Stack, useLocalSearchParams } from 'expo-router'
+import PostCard from '../home-root/_components/post-card'
+import PaddedContainer from '../../components/ui/padded-container'
+import { getUserByUsername } from '../../mock-services/users'
+import { getPostsByUser } from '../../mock-services/post'
+import formatInteractionNumber from '../../util/format-number'
+import ProfileImage from '../../components/images/profile-image'
 
 const ProfileHeader = () => {
-  const [activeTab, setActiveTab] = useState("Recent"); // State for tab selection
-  const [postsData, setPostsData] = useState([]);
-  const [profile, setProfile] = useState({});
+  const [activeTab, setActiveTab] = useState('Recent') // State for tab selection
+  const [postsData, setPostsData] = useState([])
+  const [profile, setProfile] = useState({})
 
-  const { username } = useLocalSearchParams();
+  const { username } = useLocalSearchParams()
 
   useEffect(() => {
-    const profileResult = getUserByUsername(username);
-    const postsResult = getPostsByUser(username);
+    const profileResult = getUserByUsername(username)
+    const postsResult = getPostsByUser(username)
 
-    setPostsData(postsResult);
-    setProfile(profileResult);
-  }, [username]);
+    setPostsData(postsResult)
+    setProfile(profileResult)
+  }, [username])
 
   if (!profile || !postsData) {
-    return <GlobalScreen />;
+    return <GlobalScreen />
   }
 
   return (
@@ -37,7 +37,7 @@ const ProfileHeader = () => {
       <Stack.Screen
         options={{
           headerBackTitleVisible: false,
-          headerTitle: "Profile",
+          headerTitle: 'Profile',
         }}
       />
       <View style={styles.container}>
@@ -76,16 +76,16 @@ const ProfileHeader = () => {
           </View>
         </PaddedContainer>
         <View style={styles.tabSection}>
-          <TouchableOpacity onPress={() => setActiveTab("Recent")}>
+          <TouchableOpacity onPress={() => setActiveTab('Recent')}>
             <Text
-              style={[styles.tab, activeTab === "Recent" && styles.activeTab]}
+              style={[styles.tab, activeTab === 'Recent' && styles.activeTab]}
             >
               Recent
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setActiveTab("Popular")}>
+          <TouchableOpacity onPress={() => setActiveTab('Popular')}>
             <Text
-              style={[styles.tab, activeTab === "Popular" && styles.activeTab]}
+              style={[styles.tab, activeTab === 'Popular' && styles.activeTab]}
             >
               Popular
             </Text>
@@ -96,18 +96,18 @@ const ProfileHeader = () => {
         ))}
       </View>
     </GlobalScreen>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   upperBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   profileInfo: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   profileImage: {
     width: 70,
@@ -119,62 +119,62 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   username: {
     fontSize: 16,
-    color: "gray",
+    color: 'gray',
   },
   threeDots: {
     paddingHorizontal: 10,
   },
   dotsText: {
     fontSize: 24,
-    color: "gray",
+    color: 'gray',
   },
   middleBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginVertical: 20,
   },
   stat: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   statNumber: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   statLabel: {
     fontSize: 14,
-    color: "gray",
+    color: 'gray',
   },
   followButton: {
-    backgroundColor: "#6C63FF",
+    backgroundColor: '#6C63FF',
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 5,
   },
   followButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   tabSection: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     borderTopWidth: 1,
-    borderTopColor: "#eee",
+    borderTopColor: '#eee',
     paddingTop: 10,
   },
   tab: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#6C63FF",
+    fontWeight: 'bold',
+    color: '#6C63FF',
   },
   activeTab: {
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
-});
+})
 
-export default ProfileHeader;
+export default ProfileHeader
