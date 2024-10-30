@@ -1,46 +1,48 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withSpring
-} from 'react-native-reanimated';
-import React, { useEffect } from 'react';
-import { COLORS, SIZE_CONSTANT, SIZES } from '../../../constants/theme';
+  withSpring,
+} from 'react-native-reanimated'
+import React, { useEffect } from 'react'
+import { COLORS, SIZE_CONSTANT, SIZES } from '../../../constants/theme'
 
 export default function TabBarButton({
   key,
   onPress,
   isFocused = false,
   icons,
-  label
+  label,
 }) {
-  const scale = useSharedValue(1);
+  const scale = useSharedValue(1)
 
   useEffect(() => {
     scale.value = withSpring(isFocused ? 1 : 0, {
-      duration: 350
-    });
-  }, [scale, isFocused]);
+      duration: 350,
+    })
+  }, [scale, isFocused])
 
   const animatedTextStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(scale.value, [0, 1], [1, 0]);
+    const opacity = interpolate(scale.value, [0, 1], [1, 0])
 
     return {
-      opacity
-    };
-  });
+      opacity,
+    }
+  })
 
   const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0.8, .92]);
-    const topValue = interpolate(scale.value, [0, 1], [0, 0]);
+    const scaleValue = interpolate(scale.value, [0, 1], [0.8, 0.92])
+    const topValue = interpolate(scale.value, [0, 1], [0, 0])
     return {
-      transform: [{
-        scale: scaleValue
-      }],
-      top: topValue
-    };
-  });
+      transform: [
+        {
+          scale: scaleValue,
+        },
+      ],
+      top: topValue,
+    }
+  })
 
   return (
     <Pressable
@@ -60,7 +62,7 @@ export default function TabBarButton({
         {label}
       </Animated.Text> */}
     </Pressable>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -68,22 +70,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex:90
+    zIndex: 90,
   },
   tabBarItemText: {
     fontSize: SIZES.xxSmall,
     color: COLORS.white,
-    fontWeight: 'light'
+    fontWeight: 'light',
   },
   inactiveIcon: {
     strokeWidth: 1.5,
     size: SIZE_CONSTANT * 3,
     // color: COLORS.primary500
-    color:COLORS.white
+    color: COLORS.white,
   },
   activeIcon: {
     strokeWidth: 2,
     size: SIZE_CONSTANT * 3,
     color: COLORS.primary500,
-  }
-});
+  },
+})

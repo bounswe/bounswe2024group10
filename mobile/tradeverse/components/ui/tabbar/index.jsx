@@ -1,71 +1,81 @@
 /* eslint-disable no-nested-ternary */
-import { useEffect, useState } from 'react';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { useEffect, useState } from 'react'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated'
 
-import { View, StyleSheet, Platform } from 'react-native';
-import TabBarButton from './tabbar-button';
-import { NAV_OPTIONS } from '../../../config/navigation';
-import { COLORS, SIZE_CONSTANT } from '@/constants/theme';
+import { View, StyleSheet, Platform } from 'react-native'
+import TabBarButton from './tabbar-button'
+import { NAV_OPTIONS } from '../../../config/navigation'
+import { COLORS, SIZE_CONSTANT } from '@/constants/theme'
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   const [tabBarDimensions, setTabBarDimensions] = useState({
     width: 0,
-    height: 0
-  });
+    height: 0,
+  })
 
-  const buttonWidth = tabBarDimensions.width / state.routes.length;
+  const buttonWidth = tabBarDimensions.width / state.routes.length
 
   const onLayoutChange = (e) => {
     setTabBarDimensions({
       width: e.nativeEvent.layout.width,
-      height: e.nativeEvent.layout.height
-    });
-  };
+      height: e.nativeEvent.layout.height,
+    })
+  }
 
-  const buttonPositionX = useSharedValue(0);
+  const buttonPositionX = useSharedValue(0)
 
   useEffect(() => {
-    buttonPositionX.value = withSpring( buttonWidth * state.index ,{duration: 1220,reduceMotion:true});
-  }, [buttonWidth, state.index, buttonPositionX]);
+    buttonPositionX.value = withSpring(buttonWidth * state.index, {
+      duration: 1220,
+      reduceMotion: true,
+    })
+  }, [buttonWidth, state.index, buttonPositionX])
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: buttonPositionX.value
-        }
-      ]
-    };
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: buttonPositionX.value,
+      },
+    ],
+  }))
 
   return (
     <View onLayout={onLayoutChange} style={styles.tabBar}>
-      <Animated.View style={[{width:buttonWidth},animatedStyle,styles.focusCircleContainer]} >
+      <Animated.View
+        style={[
+          { width: buttonWidth },
+          animatedStyle,
+          styles.focusCircleContainer,
+        ]}
+      >
         <View style={styles.focusCircle} />
       </Animated.View>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const { options } = descriptors[route.key]
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
               ? options.title
-              : route.name;
+              : route.name
 
-        const isFocused = state.index === index;
+        const isFocused = state.index === index
 
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
-            canPreventDefault: true
-          });
+            canPreventDefault: true,
+          })
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
+            navigation.navigate(route.name, route.params)
           }
-        };
-
+        }
 
         return (
           <TabBarButton
@@ -75,10 +85,10 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
             icons={NAV_OPTIONS[index].icons}
             isFocused={isFocused}
           />
-        );
+        )
       })}
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -104,16 +114,15 @@ const styles = StyleSheet.create({
     height: 42,
     borderRadius: 30,
     // backgroundColor: COLORS.primary500,
-    backgroundColor:COLORS.white,
+    backgroundColor: COLORS.white,
   },
-  focusCircleContainer:{
+  focusCircleContainer: {
     position: 'absolute',
     display: 'flex',
     top: 0,
     left: 0,
     bottom: 0,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
-
+    alignItems: 'center',
+  },
+})

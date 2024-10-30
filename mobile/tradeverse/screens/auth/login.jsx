@@ -1,44 +1,49 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React from 'react'
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from 'react-native'
 
-const LoginScreen = () => {
-  return (
-    <View style={styles.container}>
-      {/* Logo */}
-      <Text style={styles.logo}>Tradeverse</Text>
+const LoginScreen = () => (
+  <View style={styles.container}>
+    {/* Logo */}
+    <Text style={styles.logo}>Tradeverse</Text>
 
-      {/* Email Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#AAA"
-      />
+    {/* Email Input */}
+    <TextInput
+      style={styles.input}
+      placeholder="Email"
+      placeholderTextColor="#AAA"
+    />
 
-      {/* Password Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
-        placeholderTextColor="#AAA"
-      />
+    {/* Password Input */}
+    <TextInput
+      style={styles.input}
+      placeholder="Password"
+      secureTextEntry={true}
+      placeholderTextColor="#AAA"
+    />
 
-      {/* Login Button */}
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
+    {/* Login Button */}
+    <TouchableOpacity style={styles.loginButton}>
+      <Text style={styles.loginButtonText}>Login</Text>
+    </TouchableOpacity>
 
-      {/* Register Link */}
-      <TouchableOpacity>
-        <Text style={styles.registerText}>Register</Text>
-      </TouchableOpacity>
+    {/* Register Link */}
+    <TouchableOpacity>
+      <Text style={styles.registerText}>Register</Text>
+    </TouchableOpacity>
 
-      {/* Forgot Password Section - replacing OR */}
-      <TouchableOpacity style={styles.forgotPasswordButton}>
-        <Text style={styles.forgotPasswordText}>Forget Password?</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+    {/* Forgot Password Section - replacing OR */}
+    <TouchableOpacity style={styles.forgotPasswordButton}>
+      <Text style={styles.forgotPasswordText}>Forget Password?</Text>
+    </TouchableOpacity>
+  </View>
+)
 
 const styles = StyleSheet.create({
   container: {
@@ -90,6 +95,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-});
+})
 
-export default LoginScreen;
+export default LoginScreen

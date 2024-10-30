@@ -3,7 +3,5 @@ import React from 'react'
 import CreatePostScreen from '../../../screens/create-post'
 
 export default function post() {
-  return (
-<CreatePostScreen />
-  )
+  return <CreatePostScreen />
 }

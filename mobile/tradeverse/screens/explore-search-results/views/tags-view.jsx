@@ -1,7 +1,7 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import SubForumResult from "../_components/result-cards/sub-forum-result";
-import TagResult from "../_components/result-cards/tag-result";
+import { View, Text, ScrollView } from 'react-native'
+import React from 'react'
+import SubForumResult from '../_components/result-cards/sub-forum-result'
+import TagResult from '../_components/result-cards/tag-result'
 
 export default function TagsView({ data }) {
   return (
@@ -10,5 +10,5 @@ export default function TagsView({ data }) {
         <TagResult key={index} tag={t} />
       ))}
     </ScrollView>
-  );
+  )
 }

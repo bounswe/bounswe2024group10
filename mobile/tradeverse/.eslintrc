@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+  ],
+  "plugins": ["prettier", "react", "react-hooks"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "eqeqeq": "off",
+    "comma-dangle": "off",
+    "no-underscore-dangle": "off",
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+      },
+      "babel-module": {},
+    },
+  },
+}

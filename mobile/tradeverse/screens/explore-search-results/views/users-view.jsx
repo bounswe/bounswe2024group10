@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import UserResult from "../_components/result-cards/user-result";
+import { View, Text, ScrollView } from 'react-native'
+import React from 'react'
+import UserResult from '../_components/result-cards/user-result'
 
 export default function UsersView({ data }) {
   return (
@@ -9,5 +9,5 @@ export default function UsersView({ data }) {
         <UserResult key={index} user={u} />
       ))}
     </ScrollView>
-  );
+  )
 }
