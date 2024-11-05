@@ -5,7 +5,7 @@ import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
 import com.bounswe2024group10.Tradeverse.dto.RegisterRequest;
 import com.bounswe2024group10.Tradeverse.dto.RegisterResponse;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
-import com.bounswe2024group10.Tradeverse.service.UserService;
+import com.bounswe2024group10.Tradeverse.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,14 +19,14 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
     @Autowired
     private JwtUtil jwtUtil;  // Assuming you have a JwtUtil for handling token operations
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
-        RegisterResponse response = userService.register(registerRequest);
+        RegisterResponse response = authenticationService.register(registerRequest);
         if (response != null) {
             return ResponseEntity.ok(response);
         }
@@ -36,7 +36,7 @@ public class AuthenticationController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        LoginResponse response = userService.login(loginRequest);
+        LoginResponse response = authenticationService.login(loginRequest);
         if (response != null) {
             return ResponseEntity.ok(response);
         }
