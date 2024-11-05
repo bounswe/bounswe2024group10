@@ -3,12 +3,10 @@ package com.bounswe2024group10.Tradeverse.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsRequest;
 import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
 import com.bounswe2024group10.Tradeverse.service.UserService;
 
@@ -19,9 +17,9 @@ public class UserController {
     private UserService userService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-user-details")
-    public ResponseEntity<GetUserDetailsResponse> getUserDetails(@RequestBody GetUserDetailsRequest request) {
-        GetUserDetailsResponse response = userService.getUserDetails(request);
+    @GetMapping("/get-user-details/{username}")
+    public ResponseEntity<GetUserDetailsResponse> getUserDetails(@PathVariable String username) {
+        GetUserDetailsResponse response = userService.getUserDetails(username);
         if (response != null) {
             return ResponseEntity.ok(response);
         }

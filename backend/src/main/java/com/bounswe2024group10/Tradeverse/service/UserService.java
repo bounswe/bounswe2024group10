@@ -1,6 +1,5 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsRequest;
 import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
 import com.bounswe2024group10.Tradeverse.dto.LoginRequest;
 import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
@@ -64,8 +63,8 @@ public class UserService {
         return new LoginResponse(true, "Login successful", token, user.getUsername(), user.getTag());
     }
 
-    public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest request) {
-        User user = userRepository.findByUsername(request.getUsername());
+    public GetUserDetailsResponse getUserDetails(String username) {
+        User user = userRepository.findByUsername(username);
         if (user != null) {
             return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio());
         }
