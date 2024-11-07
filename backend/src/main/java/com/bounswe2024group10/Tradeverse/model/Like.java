@@ -10,7 +10,7 @@ public class Like {
     private Long id;
 
     @Column(nullable = false)
-    private String likeUsername;
+    private String username;
 
     @Column(nullable = false)
     private Long postID;
@@ -18,8 +18,8 @@ public class Like {
     public Like() {
     }
 
-    public Like(String likeUsername, Long postID) {
-        this.likeUsername = likeUsername;
+    public Like(String username, Long postID) {
+        this.username = username;
         this.postID = postID;
     }
 
@@ -31,12 +31,12 @@ public class Like {
         this.id = id;
     }
 
-    public String getLikeUsername() {
-        return likeUsername;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLikeUsername(String likeUsername) {
-        this.likeUsername = likeUsername;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getPostID() {

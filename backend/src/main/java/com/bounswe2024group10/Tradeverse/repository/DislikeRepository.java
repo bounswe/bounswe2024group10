@@ -9,7 +9,7 @@ import com.bounswe2024group10.Tradeverse.model.Dislike;
 
 @Repository
 public interface DislikeRepository extends JpaRepository<Dislike, Long> {
-    Dislike findByUsernameAndPostId(String username, Long postId);
+    Dislike findByUsernameAndPostID(String username, Long postID);
     List<Dislike> findByUsername(String username);
-    List<Dislike> findByPostId(Long postId);
+    List<Dislike> findByPostID(Long postID);
 }

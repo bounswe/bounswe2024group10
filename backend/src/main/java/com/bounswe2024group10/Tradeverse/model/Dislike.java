@@ -15,7 +15,7 @@ public class Dislike {
     private Long id;
 
     @Column(nullable = false)
-    private String dislikeUsername;
+    private String username;
 
     @Column(nullable = false)
     private Long postID;
@@ -23,8 +23,8 @@ public class Dislike {
     public Dislike() {
     }
 
-    public Dislike(String dislikeUsername, Long postID) {
-        this.dislikeUsername = dislikeUsername;
+    public Dislike(String username, Long postID) {
+        this.username = username;
         this.postID = postID;
     }
 
@@ -36,12 +36,12 @@ public class Dislike {
         this.id = id;
     }
 
-    public String getDislikeUsername() {
-        return dislikeUsername;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDislikeUsername(String likeUsername) {
-        this.dislikeUsername = likeUsername;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getPostID() {
