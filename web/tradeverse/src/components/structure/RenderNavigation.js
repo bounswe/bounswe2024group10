@@ -87,6 +87,11 @@ export const RenderMenu = () => {
        </div>
    
        <div className="rightMenu">
+        <div className="img-container">
+          <Link to={'/search'} className="searchButton">
+            <i className="fas fa-search"></i>
+          </Link>
+        </div>
          {user.isAuthenticated ? (
            <div className="menuItem">
              <div className="userDropdown" onClick={toggleDropdown}>
@@ -112,7 +117,7 @@ export const RenderMenu = () => {
          )}
        </div>
      </div>
-      <SubforumNavbar subforums={mockData.subforums}/>
+      <SubforumNavbar subforums={mockData.subforums}/>  
      </div>
    );
 }
