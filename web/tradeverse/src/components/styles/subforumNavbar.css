@@ -1,0 +1,32 @@
+.subforumNavbar {
+    background-color: #333;
+    padding: 10px;
+}
+
+.subforumNavbar ul {
+    /* list-style-type: none; */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.subforumNavbar ul li {
+    display: inline;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.subforumNavbar ul li:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+.subforumNavbar a {
+    text-decoration: none;
+    color: #ffffff;
+}

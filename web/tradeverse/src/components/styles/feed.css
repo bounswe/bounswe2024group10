@@ -1,0 +1,47 @@
+.feed {
+    border: 2px solid #ccc;  
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 20px auto;  
+}
+
+
+.post-headers {
+    display: flex;
+    flex-direction: column;
+}
+
+.headerButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sortButtons {
+    display: flex; 
+    flex-direction: row;
+    gap: 10px;
+}
+
+.sortButton {
+    width: 80px;
+    height: 60px;
+    background-color: #ddd;
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.sortButton.active {
+    background-color: #5D5FEF;
+    color: white;
+}
+
+.sortButton:hover {
+    background-color: #bbb;
+}

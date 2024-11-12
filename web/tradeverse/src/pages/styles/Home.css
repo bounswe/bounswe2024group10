@@ -1,0 +1,42 @@
+.homePage{
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.posts{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 20px;
+}
+.sort-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.sort-button {
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sort-button.active {
+    background-color: #007bff; /* Change this to your active color */
+    color: white; /* Text color for active button */
+}
+
+.sort-button:hover {
+    background-color: #e7e7e7; /* Light grey on hover */
+}
+
+.feedContainer {
+    margin: 20px;
+    width: 90%;
+}

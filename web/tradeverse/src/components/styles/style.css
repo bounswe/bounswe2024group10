@@ -1,0 +1,72 @@
+.userDropdown {
+    position: relative;
+    display: inline-block;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .link {
+    text-decoration: none; /* Remove underline */
+    color: inherit;        /* Inherit text color from parent */
+    cursor: pointer;
+  }
+  
+  .userImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    
+  }
+  
+  .dropdownContent {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 15;
+    width: max-content;
+    
+  }
+  
+  .dropdownContent p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .dropdownContent a {
+    font-size: 14px;
+    color: blue;
+    text-decoration: none;
+    padding: 8px 0;
+    transition: color 0.2s ease;
+  }
+  
+  .dropdownContent a:hover {
+    color: #66b80e;
+  }
+  
+  .dropdownContent a:last-of-type {
+    color: #ff4d4d;
+  }
+  
+  .dropdownContent a:last-of-type:hover {
+    color: #cc0000;
+  }
+
+  .centerTitle .logo {
+    height: 100px;
+    margin-top: 10px;
+}
+ 
+.menu {
+  height: 60px
+}

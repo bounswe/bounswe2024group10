@@ -1,0 +1,16 @@
+.container{
+    width: 100%;
+}
+.navList{
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+.navElement{
+    padding:10;
+    background-color: #ffffff;
+    
+}
+.navLink{
+    text-decoration: none;
+}
