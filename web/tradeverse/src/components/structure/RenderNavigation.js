@@ -82,7 +82,7 @@ export const RenderMenu = () => {
    
        <div className="centerTitle">
           <Link to={'/'} className="link">
-              <img src="logo.png" alt="Tradeverse Logo" className="logo" />
+              <img src="logo_new.png" alt="Tradeverse Logo" className="logo" />
           </Link>
        </div>
    
