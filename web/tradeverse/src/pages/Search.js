@@ -150,8 +150,10 @@ const Search = () => {
               // Render post results
               return (
                 <div key={index} className="post-card">
+                  <Link to={`/${result.forumName.toLowerCase()}/${result.id}`} className="postLink">
                   <h4 className="post-username">{result.username}</h4>
                   <p className="post-content">{result.content}</p>
+                  </Link>
                 </div>
               );
             } else {
