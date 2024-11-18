@@ -44,7 +44,7 @@
   
   .dropdownContent a {
     font-size: 14px;
-    color: blue;
+    color: rgb(93, 95, 239); 
     text-decoration: none;
     padding: 8px 0;
     transition: color 0.2s ease;
@@ -69,4 +69,45 @@
  
 .menu {
   height: 60px
+}
+/* Container for the icon */
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+/* Search button styling */
+.searchButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: rgb(93, 95, 239); 
+  color: white; /* White icon color */
+  border-radius: 50%; /* Circular button */
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Icon styling */
+.searchButton i {
+  font-size: 20px; /* Icon size */
+}
+
+/* Hover effects */
+.searchButton:hover {
+  opacity: 0.9; /* Slightly reduce opacity on hover */
+  transform: scale(1.1); /* Slightly increase size on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+/* Active state */
+.searchButton:active {
+  background-color: #003f7f; /* Even darker blue for active state */
+  transform: scale(0.95); /* Slightly shrink for click feedback */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
 }
