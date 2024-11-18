@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Feed from "../components/structure/feed";
-import mockData from "../data/mockData";
 import { Link } from 'react-router-dom';
+import mockData from "../data/mockData";
 import './styles/Search.css'; // Import the CSS file
 
 const Search = () => {
@@ -17,47 +16,65 @@ const Search = () => {
     switch (category) {
       case 'popular':
         filteredResults = [
-          ...mockData.subforums.filter(subforum =>
-            subforum.name.toLowerCase().includes(lowerTerm)
-          ),
-          ...mockData.allTags.filter(tag =>
-            tag.label.toLowerCase().includes(lowerTerm)
-          ),
-          ...mockData.allUsers.filter(user =>
-            user.name.toLowerCase().includes(lowerTerm) ||
-            user.surname.toLowerCase().includes(lowerTerm) ||
-            user.username.toLowerCase().includes(lowerTerm)
-          ),
+          // Subforums first
+          ...mockData.subforums
+            .filter(subforum => subforum.name.toLowerCase().includes(lowerTerm))
+            .map(subforum => ({ ...subforum, type: 'subforum' })),
+          // Posts next
+          ...mockData.subforums
+            .flatMap(subforum =>
+              subforum.posts.filter(post =>
+                post.content.toLowerCase().includes(lowerTerm) ||
+                post.description.toLowerCase().includes(lowerTerm)
+              )
+            )
+            .map(post => ({ ...post, type: 'post' })),
+          // Users after that
+          ...mockData.allUsers
+            .filter(user =>
+              user.name.toLowerCase().includes(lowerTerm) ||
+              user.surname.toLowerCase().includes(lowerTerm) ||
+              user.username.toLowerCase().includes(lowerTerm)
+            )
+            .map(user => ({ ...user, type: 'user' })),
+          // Tags last
+          ...mockData.allTags
+            .filter(tag => tag.label.toLowerCase().includes(lowerTerm))
+            .map(tag => ({ ...tag, type: 'tag' })),
         ];
         break;
 
       case 'tags':
-        filteredResults = mockData.allTags.filter(tag =>
-          tag.label.toLowerCase().includes(lowerTerm)
-        );
+        filteredResults = mockData.allTags
+          .filter(tag => tag.label.toLowerCase().includes(lowerTerm))
+          .map(tag => ({ ...tag, type: 'tag' }));
         break;
 
       case 'subforums':
-        filteredResults = mockData.subforums.filter(subforum =>
-          subforum.name.toLowerCase().includes(lowerTerm)
-        );
+        filteredResults = mockData.subforums
+          .filter(subforum => subforum.name.toLowerCase().includes(lowerTerm))
+          .map(subforum => ({ ...subforum, type: 'subforum' }));
         break;
 
       case 'posts':
-        filteredResults = mockData.subforums.flatMap(subforum =>
-          subforum.posts.filter(post =>
-            post.content.toLowerCase().includes(lowerTerm) ||
-            post.description.toLowerCase().includes(lowerTerm)
+        filteredResults = mockData.subforums
+          .flatMap(subforum =>
+            subforum.posts.filter(post =>
+              post.content.toLowerCase().includes(lowerTerm) ||
+              post.description.toLowerCase().includes(lowerTerm)
+            )
           )
-        );
+          .map(post => ({ ...post, type: 'post' }));
         break;
 
       case 'users':
-        filteredResults = mockData.allUsers.filter(user =>
-          user.name.toLowerCase().includes(lowerTerm) ||
-          user.surname.toLowerCase().includes(lowerTerm) ||
-          user.username.toLowerCase().includes(lowerTerm)
-        );
+        filteredResults = mockData.allUsers
+          .filter(user =>
+            user.name.toLowerCase().includes(lowerTerm) ||
+            user.surname.toLowerCase().includes(lowerTerm) ||
+            user.username.toLowerCase().includes(lowerTerm)
+          )
+          .map(user => ({ ...user, type: 'user' }));
         break;
 
       default:
@@ -110,55 +127,51 @@ const Search = () => {
           <p className="no-results">No results found.</p>
         ) : (
           results.map((result, index) => {
-            if (searchCategory === 'users') {
-              // Render user results
-              return (
-                <div key={index} className="user-card">
-                  <img
-                    src={result.avatar}
-                    alt={result.name}
-                    className="user-avatar"
-                  />
-                  <div>
-                    <p className="user-name">
-                      {result.name} {result.surname} (@{result.username})
-                    </p>
-                    <p className="user-followers">Followers: {result.followers}</p>
+            switch (result.type) {
+              case 'user':
+                return (
+                  <div key={index} className="user-card">
+                    <img src={result.avatar} alt={result.name} className="user-avatar" />
+                    <div>
+                      <p className="user-name">
+                        {result.name} {result.surname} (@{result.username})
+                      </p>
+                      <p className="user-followers">Followers: {result.followers}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            } else if (searchCategory === 'tags') {
-              // Render tag results
-              return (
-                <div key={index} className="tag-card">
-                  <p className="tag-label">{result.label}</p>
-                  <p className="tag-info">
-                    Posts: {result.posts}, People: {result.people}
-                  </p>
-                </div>
-              );
-            } else if (searchCategory === 'subforums') {
-              // Render subforum results
-              return (
-                <div key={index} className="subforum-card">
-                  <Link to={`/${result.name.toLowerCase()}`} className="subforum-link">
-                    <h3>{result.name}</h3>
-                  </Link>
-                </div>
-              );
-            } else if (searchCategory === 'posts') {
-              // Render post results
-              return (
-                <div key={index} className="post-card">
-                  <Link to={`/${result.forumName.toLowerCase()}/${result.id}`} className="postLink">
-                  <h4 className="post-username">{result.username}</h4>
-                  <p className="post-content">{result.content}</p>
-                  </Link>
-                </div>
-              );
-            } else {
-              // Render general results (for popular)
-              return <div key={index}><p>{JSON.stringify(result)}</p></div>;
+                );
+
+              case 'tag':
+                return (
+                  <div key={index} className="tag-card">
+                    <p className="tag-label">{result.label}</p>
+                    <p className="tag-info">
+                      Posts: {result.posts}, People: {result.people}
+                    </p>
+                  </div>
+                );
+
+              case 'subforum':
+                return (
+                  <div key={index} className="subforum-card">
+                    <Link to={`/${result.name.toLowerCase()}`} className="subforum-link">
+                      <h3>{result.name}</h3>
+                    </Link>
+                  </div>
+                );
+
+              case 'post':
+                return (
+                  <div key={index} className="post-card">
+                    <Link to={`/${result.forumName.toLowerCase()}/${result.id}`} className="post-link">
+                      <h4 className="post-username">{result.username}</h4>
+                      <p className="post-content">{result.content}</p>
+                    </Link>
+                  </div>
+                );
+
+              default:
+                return null;
             }
           })
         )}
