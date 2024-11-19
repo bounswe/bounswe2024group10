@@ -11,6 +11,7 @@
     "eqeqeq": "off",
     "comma-dangle": "off",
     "no-underscore-dangle": "off",
+    "no-use-before-define": "off",
   },
   "settings": {
     "import/resolver": {

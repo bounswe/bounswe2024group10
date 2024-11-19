@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+/* eslint-disable prettier/prettier */
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Text,
   StyleSheet,
@@ -17,13 +18,14 @@ import GlobalScreen from '../../components/ui/global-screen'
 import MainButton from '../../components/buttons/main-button'
 import ProfileImage from '../../components/images/profile-image'
 import { AuthContext } from '../../auth/context'
+import { router } from 'expo-router'
 
 export default function WelcomingScreen() {
   const [currentStep, setCurrentStep] = useState('profile') // user_tag, profile
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedUserTag, setSelectedUserTag] = useState(null)
 
-  const { setIsTagSelected } = useContext(AuthContext)
+  const { setIsTagSelected, isTagSelected } = useContext(AuthContext)
 
   const openImageGallery = async () => {
     const result = await launchImageLibraryAsync({
@@ -53,6 +55,12 @@ export default function WelcomingScreen() {
       setIsTagSelected(true)
     }
   }
+
+  useEffect(() => {
+    if (isTagSelected) {
+      router.replace('tabs')
+    }
+  }, [isTagSelected])
 
   const ProfileView = () => (
     <View>
@@ -121,7 +129,7 @@ export default function WelcomingScreen() {
         </TouchableOpacity>
         {selectedImage && (
           <MainButton
-            // onPress={handleNext}
+            onPress={handleNext}
             style={{ marginTop: SIZE_CONSTANT * 7 }}
             text="Continue"
           />

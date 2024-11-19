@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react'
 import Animated, {
@@ -6,10 +7,10 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 
-import { View, StyleSheet, Platform } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { COLORS, SIZE_CONSTANT } from '@/constants/theme'
 import TabBarButton from './tabbar-button'
 import { NAV_OPTIONS } from '../../../config/navigation'
-import { COLORS, SIZE_CONSTANT } from '@/constants/theme'
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   const [tabBarDimensions, setTabBarDimensions] = useState({

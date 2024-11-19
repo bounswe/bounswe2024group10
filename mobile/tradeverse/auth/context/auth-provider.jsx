@@ -4,7 +4,7 @@ import { router } from 'expo-router'
 import api from '../../services/_axios'
 import AuthContext from './auth-context'
 import { getMe, register, login } from '../../services/auth'
-import { getUserByUsername } from '../../services/user'
+import getUserByUsername from '../../services/user'
 
 export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false)
@@ -51,7 +51,7 @@ export default function AuthProvider({ children }) {
   const signUp = useCallback(
     async ({ email, password, name, tag = 0, profilePhoto, username }) => {
       try {
-        // setLoading(true);
+        setLoading(true)
         const res = await register({
           email,
           password,
@@ -74,10 +74,10 @@ export default function AuthProvider({ children }) {
       } catch (error) {
         throw new Error(error.message ?? 'Giriş başarısız')
       } finally {
-        // setLoading(false);
+        setLoading(false)
       }
     },
-    [],
+    []
   )
 
   const logout = useCallback(async () => {
@@ -176,7 +176,7 @@ export default function AuthProvider({ children }) {
       signUp,
       logout,
       // isAuthenticated
-    ],
+    ]
   )
 
   return (
