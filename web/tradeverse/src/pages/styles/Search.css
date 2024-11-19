@@ -1,0 +1,215 @@
+/* Search.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.search-bar {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.category-selector {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.category-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #e0e0e0;
+    color: black;
+    transition: background 0.3s ease;
+}
+
+.category-button.active {
+    background-color: rgb(93, 95, 239);
+    color: white;
+}
+
+.results-container {
+    margin-top: 20px;
+}
+
+.no-results {
+    font-size: 16px;
+    color: #888;
+    text-align: center;
+}
+
+/* User Card Styling */
+.user-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.user-card:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.user-followers {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Tag Card Styling */
+.tag-card {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: rgb(44, 53, 61);
+    transition: transform 0.2s ease;
+}
+
+.tag-card:hover {
+    transform: scale(1.02);
+    background-color: rgb(197, 208, 230);
+    
+}
+.tag-card:hover .tag-label,
+.tag-card:hover .tag-info {
+    color: rgb(44, 53, 61); /* Change text color on hover */
+}
+
+.tag-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(197, 208, 230);
+}
+
+.tag-info {
+    font-size: 14px;
+    color: rgb(197, 208, 230);
+}
+
+
+/* Subforum Card Styling */
+.subforum-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: transform 0.2s ease;
+}
+.subforum-card:hover {
+    transform: scale(1.02);
+    background-color: rgb(197, 208, 230);
+}
+.subforum-card:hover .subforum-link {
+    color: rgb(44, 53, 61); /* Change text color on hover */
+}
+
+.subforum-link {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(93, 95, 239);
+    transition: color 0.3s ease;
+}
+
+.subforum-link:hover {
+    color: rgb(44, 53, 61);
+    
+}
+
+/* Post Card Styling */
+.post-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #fdfdfd; /* Light background for contrast */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+}
+
+.post-card:hover {
+    transform: translateY(-5px); /* Lift the card slightly on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+    background-color: #f7faff; /* Slightly tinted background on hover */
+}
+
+/* Username styling */
+.post-username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007BFF; /* Blue for username */
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.post-username:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Post content styling */
+.post-content {
+    text-decoration: none;
+    font-size: 16px;
+    color: #333; /* Darker text for readability */
+    line-height: 1.6; /* Increase line spacing for readability */
+    margin-top: 5px;
+}
+
+/* Divider */
+.post-divider {
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 10px 0;
+}
+
+/* Post footer (optional, for additional info like time, comments, etc.) */
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #777; /* Muted text color for secondary information */
+}
+
+.post-footer a {
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s ease;
+}
+
+.post-footer a:hover {
+    color: #0056b3;
+}
+.post-link {
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s ease;
+}
