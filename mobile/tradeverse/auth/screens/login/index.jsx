@@ -1,12 +1,9 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable no-use-before-define */
 import React, { useState, useContext, useEffect } from 'react'
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native'
+import { View, StyleSheet, SafeAreaView, Text } from 'react-native'
 import { Stack } from 'expo-router'
 
 import { Controller, useForm } from 'react-hook-form'
@@ -85,7 +82,7 @@ export default function LoginScreen() {
     } catch (error) {
       setError('root', {
         type: 'value',
-        message: error.message ?? 'Login failed.',
+        message: error.message ? error.message : 'Login failed.',
       })
     }
   }
@@ -100,7 +97,7 @@ export default function LoginScreen() {
     } catch (error) {
       setError('root', {
         type: 'value',
-        message: error.message ?? 'Register failed.',
+        message: error.message ? error.message : 'Register failed.',
       })
     }
   }

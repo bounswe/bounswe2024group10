@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import {
   View,
   TextInput,
-  Button,
   StyleSheet,
   TouchableOpacity,
   Text,
-  Alert,
   Image,
 } from "react-native";
-import axios from "axios";
-import {createPost} from '../services/post.js';
+import { createPost } from "../services/post.js";
 import * as ImagePicker from "expo-image-picker"; // Import ImagePicker from expo
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -54,7 +51,6 @@ const CreatePost = () => {
     setMedia(pickerResult.assets[0].base64);
     setSelectedImage(pickerResult.assets[0]); // Store the whole object returned by ImagePicker
   };
-  
 
   const handlePost = async () => {
     const username = await AsyncStorage.getItem("userName");
@@ -62,7 +58,7 @@ const CreatePost = () => {
       throw new Error("User not logged in");
     }
     try {
-      const response = await createPost( {
+      const response = await createPost({
         username,
         media,
         caption,
@@ -72,13 +68,12 @@ const CreatePost = () => {
       });
       console.log("Post created:", response);
       setTimeout(() => {
-        navigation.navigate('Home');
+        navigation.navigate("Home");
       }, 2000); // 2000 milliseconds delay (2 seconds)
       // You can show a success message or navigate to another screen here
     } catch (error) {
       console.error("Error creating post:", error);
       // You can show an error message here
-      
     }
   };
 

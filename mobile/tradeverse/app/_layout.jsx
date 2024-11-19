@@ -1,3 +1,6 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable import/no-named-as-default-member */
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import 'react-native-reanimated'

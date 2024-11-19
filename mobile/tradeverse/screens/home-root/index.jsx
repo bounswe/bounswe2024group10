@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 import FullScrollView from '../../components/ui/full-scroll-view'
@@ -7,7 +7,7 @@ import ForYouView from './views/for-you-view'
 import Tabs from './_components/tabs'
 import FollowedTopicsView from './views/followed-topics-view'
 import FollowedPeopleView from './views/followed-people-view'
-import { getHomeFeed } from '../../mock-services/home'
+import getHomeFeed from '../../mock-services/home'
 
 export default function HomeRootScreen() {
   const [selectedTab, setSelectedTab] = useState('for_you') // for_you, followed_topics, followed_people
@@ -18,11 +18,11 @@ export default function HomeRootScreen() {
   })
 
   useEffect(() => {
-    const data = getHomeFeed()
+    const d = getHomeFeed()
     setData({
-      forYouPosts: data.forYouPosts,
-      followedTopicsPosts: data.followedTopicsPosts,
-      followedPeoplePosts: data.followedPeoplePosts,
+      forYouPosts: d.forYouPosts,
+      followedTopicsPosts: d.followedTopicsPosts,
+      followedPeoplePosts: d.followedPeoplePosts,
     })
   }, [])
 

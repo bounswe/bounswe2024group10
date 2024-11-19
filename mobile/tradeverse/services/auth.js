@@ -32,12 +32,15 @@ export async function login({ username, password }) {
       },
       data: { username, password },
     })
+
     await AsyncStorage.removeItem('authToken')
 
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
     AsyncStorage.setItem('authToken', response.data.token)
     return response
   } catch (error) {
+    console.log('Login Error ->', error.message)
+
     throw new Error(error.message || 'Giriş başarısız')
   }
 }
@@ -67,12 +70,17 @@ export async function register({
         Authorization: undefined,
       },
     })
-    await AsyncStorage.removeItem('authToken')
+    if (!response.data.isSuccessful) {
+      throw new Error(response.data.message)
+    }
+    console.log('Register Response ->', response.data)
 
+    await AsyncStorage.removeItem('authToken')
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
     AsyncStorage.setItem('authToken', response.data.token)
     return response
   } catch (error) {
+    console.log('Register Error ->', error.message)
     throw new Error(error.message || 'Kayıt başarısız')
   }
 }

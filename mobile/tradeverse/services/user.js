@@ -4,7 +4,7 @@ export default async function getUserByUsername({ username }) {
   try {
     const response = await api({
       url: '/auth/get-user-details',
-      method: 'POST',
+      method: 'GET',
       headers: {
         Authorization: undefined,
       },
