@@ -12,4 +12,5 @@ public interface DislikeRepository extends JpaRepository<Dislike, Long> {
     Dislike findByUsernameAndPostID(String username, Long postID);
     List<Dislike> findByUsername(String username);
     List<Dislike> findByPostID(Long postID);
+    Long countByPostID(Long postID);
 }
