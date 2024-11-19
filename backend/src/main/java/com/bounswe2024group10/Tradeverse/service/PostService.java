@@ -7,8 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bounswe2024group10.Tradeverse.dto.post.CreateForumRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.CreateForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
@@ -89,6 +97,76 @@ public class PostService {
         postRepository.save(post);
         return new CreatePostResponse(true, "Post created successfully");
     }
+
+    public CreateForumResponse createForum(CreateForumRequest request) {
+        // TO DO: Check if the user is admin
+        Post post = new Post(request.getUsername(), request.getTitle(), null, null, false, LocalDateTime.now());
+        postRepository.save(post);
+        return new CreateForumResponse(true, "Forum created successfully");
+    }
+    
+    // TO DO: Check if the user is admin if necessary? and if admin delete username check
+    public CreateSubforumResponse createSubforum(CreateSubforumRequest request) {
+        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), null, false, LocalDateTime.now());
+        if(!isPostSubForum(post)) {
+            return new CreateSubforumResponse(false, "Parent post is not a forum");
+        }
+        postRepository.save(post);
+        return new CreateSubforumResponse(true, "Subforum created successfully");
+    }
+
+    public EditPostResponse editPost(EditPostRequest request) {
+        Post post = postRepository.findById(request.getPostID()).orElse(null);
+        if (post == null) {
+            return new EditPostResponse(false, "Post does not exist");
+        }
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new EditPostResponse(false, "You are not authorized to edit this post");
+        }
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        post.setLastEditDate(LocalDateTime.now());
+        postRepository.save(post);
+        return new EditPostResponse(true, "Post edited successfully");
+    }
+
+        // TO DO: Check if the user is admin if necessary? and if admin delete username check
+    public EditForumResponse editSubforum(EditForumRequest request) {
+        Post post = postRepository.findById(request.getPostID()).orElse(null);
+        if (post == null) {
+            return new EditForumResponse(false, "Subforum does not exist");
+        }
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new EditForumResponse(false, "You are not authorized to edit this subforum");
+        }
+        if(!isPostSubForum(post)) {
+            return new EditForumResponse(false, "Post is not a subforum");
+        }
+        post.setTitle(request.getTitle());
+        post.setLastEditDate(LocalDateTime.now());
+        postRepository.save(post);
+        return new EditForumResponse(true, "Subforum edited successfully");
+    }
+
+    public EditForumResponse editForum(EditForumRequest request) {
+        Post post = postRepository.findById(request.getPostID()).orElse(null);
+        if (post == null) {
+            return new EditForumResponse(false, "Forum does not exist");
+        }
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new EditForumResponse(false, "You are not authorized to edit this forum");
+        }
+        if(!isPostForum(post)) {
+            return new EditForumResponse(false, "Post is not a forum");
+        }
+        post.setTitle(request.getTitle());
+        post.setLastEditDate(LocalDateTime.now());
+        postRepository.save(post);
+        return new EditForumResponse(true, "Forum edited successfully");
+    }
+
+
+
 
     private boolean isPostForum(Post post) {
         return post.getParentID() == null;

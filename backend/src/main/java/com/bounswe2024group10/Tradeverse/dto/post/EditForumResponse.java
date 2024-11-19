@@ -1,10 +1,10 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
-public class EditPostResponse {
+public class EditForumResponse {
     private boolean isSuccessful;
     private String message;
 
-    public EditPostResponse(boolean isSuccessful, String message) {
+    public EditForumResponse(boolean isSuccessful, String message) {
         this.isSuccessful = isSuccessful;
         this.message = message;
     }
