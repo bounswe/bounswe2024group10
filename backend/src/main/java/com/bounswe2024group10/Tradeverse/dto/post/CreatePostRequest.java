@@ -1,15 +1,13 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class CreatePostRequest {
     private String username;
     private String title;
     private Long parentID;
-    private String content;
-    private Boolean likable;
-    private LocalDateTime creationDate;
-    private LocalDateTime lastEditDate;
+    private List<HashMap<String, String>> content;
 
     public String getUsername() {
         return username;
@@ -35,35 +33,12 @@ public class CreatePostRequest {
         this.parentID = parentID;
     }
 
-    public String getContent() {
+    public List<HashMap<String, String>> getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(List<HashMap<String, String>> content) {
         this.content = content;
     }
 
-    public Boolean getLikable() {
-        return likable;
-    }
-
-    public void setLikable(Boolean likable) {
-        this.likable = likable;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public LocalDateTime getLastEditDate() {
-        return lastEditDate;
-    }
-
-    public void setLastEditDate(LocalDateTime lastEditDate) {
-        this.lastEditDate = lastEditDate;
-    }
 }

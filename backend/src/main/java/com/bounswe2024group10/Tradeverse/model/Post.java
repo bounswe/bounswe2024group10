@@ -1,6 +1,8 @@
 package com.bounswe2024group10.Tradeverse.model;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +29,7 @@ public class Post {
     private Long parentID;
 
     @Column(nullable = false)
-    private String content;
+    private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
     private Boolean likable;
@@ -41,7 +43,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(String username, String title, Long parentID, String content, Boolean likable, LocalDateTime creationDate) {
+    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, Boolean likable, LocalDateTime creationDate) {
         this.username = username;
         this.title = title;
         this.parentID = parentID;
@@ -83,11 +85,11 @@ public class Post {
         this.parentID = parentID;
     }
 
-    public String getContent() {
+    public List<HashMap<String, String>> getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(List<HashMap<String, String>> content) {
         this.content = content;
     }
 

@@ -1,23 +1,24 @@
 package com.bounswe2024group10.Tradeverse.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
-
-import java.util.stream.Collectors;
-
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 
 @Service
 public class PostService {
@@ -83,16 +84,23 @@ public class PostService {
         return new GetPostResponse(true, "Post fetched successfully", post);
     }
 
-    public boolean isPostForum(Post post) {
+    public CreatePostResponse createPost(CreatePostRequest request) {
+        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), true, LocalDateTime.now());
+        postRepository.save(post);
+        return new CreatePostResponse(true, "Post created successfully");
+    }
+
+    private boolean isPostForum(Post post) {
         return post.getParentID() == null;
     }
 
-    public boolean isPostSubForum(Post post) {
+    private boolean isPostSubForum(Post post) {
         if(post.getParentID() == null) {
             return false;
         } else {
             Post parent = postRepository.findById(post.getParentID()).orElse(null);
             return parent != null && parent.getParentID() == null;
+        }
     }
 
 }

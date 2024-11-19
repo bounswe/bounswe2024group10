@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
@@ -54,6 +56,13 @@ public class PostController {
     @PostMapping("/get-post")
     public ResponseEntity<GetPostResponse> getPost(@RequestBody GetPostRequest request) {
         GetPostResponse response = postService.getPost(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/create-post")
+    public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {
+        CreatePostResponse response = postService.createPost(request);
         return ResponseEntity.ok(response);
     }
 }
