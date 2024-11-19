@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.service.PostService;
 
 
