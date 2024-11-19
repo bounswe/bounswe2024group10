@@ -1,12 +1,15 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
+import java.time.LocalDateTime;
+
 public class CreatePostRequest {
     private String username;
     private String title;
     private Long parentID;
     private String content;
     private Boolean likable;
-    private String creationDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime lastEditDate;
 
     public String getUsername() {
         return username;
@@ -48,12 +51,19 @@ public class CreatePostRequest {
         this.likable = likable;
     }
 
-    public String getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
+    public LocalDateTime getLastEditDate() {
+        return lastEditDate;
+    }
+
+    public void setLastEditDate(LocalDateTime lastEditDate) {
+        this.lastEditDate = lastEditDate;
+    }
 }

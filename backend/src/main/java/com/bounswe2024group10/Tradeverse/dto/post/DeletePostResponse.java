@@ -1,19 +1,12 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
-import java.util.List;
-
-import com.bounswe2024group10.Tradeverse.model.Post;
-
-public class GetCommentsResponse {
-
+public class DeletePostResponse {
     private boolean isSuccessful;
     private String message;
-    private List<Post> comments;
 
-    public GetCommentsResponse(boolean isSuccessful, String message, List<Post> comments) {
+    public DeletePostResponse(boolean isSuccessful, String message) {
         this.isSuccessful = isSuccessful;
         this.message = message;
-        this.comments = comments;
     }
 
     public boolean isSuccessful() {
@@ -30,13 +23,5 @@ public class GetCommentsResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public List<Post> getComments() {
-        return comments;
-    }
-
-    public void setLikers(List<Post> comments) {
-        this.comments = comments;
     }
 }

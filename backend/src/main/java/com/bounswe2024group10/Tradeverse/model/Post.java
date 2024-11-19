@@ -35,6 +35,9 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
+    @Column(nullable = false)
+    private LocalDateTime lastEditDate;
+
     public Post() {
     }
 
@@ -45,6 +48,7 @@ public class Post {
         this.content = content;
         this.likable = likable;
         this.creationDate = creationDate;
+        this.lastEditDate = creationDate;
     }
 
     public Long getId() {
@@ -103,4 +107,11 @@ public class Post {
         this.creationDate = creationDate;
     }
     
+    public LocalDateTime getLastEditDate() {
+        return lastEditDate;
+    }
+
+    public void setLastEditDate(LocalDateTime lastEditDate) {
+        this.lastEditDate = lastEditDate;
+    }
 }
