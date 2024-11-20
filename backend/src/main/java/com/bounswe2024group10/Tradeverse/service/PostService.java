@@ -13,6 +13,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.DeletePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.DeletePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
@@ -148,6 +150,7 @@ public class PostService {
         return new EditForumResponse(true, "Subforum edited successfully");
     }
 
+    // TO DO: Check if the user is admin
     public EditForumResponse editForum(EditForumRequest request) {
         Post post = postRepository.findById(request.getPostID()).orElse(null);
         if (post == null) {
@@ -163,6 +166,50 @@ public class PostService {
         post.setLastEditDate(LocalDateTime.now());
         postRepository.save(post);
         return new EditForumResponse(true, "Forum edited successfully");
+    }
+
+    public DeletePostResponse deletePost(DeletePostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new DeletePostResponse(false, "Post does not exist");
+        }
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new DeletePostResponse(false, "You are not authorized to delete this post");
+        }
+        postRepository.delete(post);
+        return new DeletePostResponse(true, "Post deleted successfully");
+    }
+
+    // TO DO: Check if the user is admin
+    public DeletePostResponse deleteForum(DeletePostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new DeletePostResponse(false, "Forum does not exist");
+        }
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new DeletePostResponse(false, "You are not authorized to delete this forum");
+        }
+        if(!isPostForum(post)) {
+            return new DeletePostResponse(false, "Post is not a forum");
+        }
+        postRepository.delete(post);
+        return new DeletePostResponse(true, "Forum deleted successfully");
+    }
+
+    // TO DO: Check if the user is admin if necessary? and if admin delete username check
+    public DeletePostResponse deleteSubforum(DeletePostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new DeletePostResponse(false, "Subforum does not exist");
+        }
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new DeletePostResponse(false, "You are not authorized to delete this subforum");
+        }
+        if(!isPostSubForum(post)) {
+            return new DeletePostResponse(false, "Post is not a subforum");
+        }
+        postRepository.delete(post);
+        return new DeletePostResponse(true, "Subforum deleted successfully");
     }
 
 

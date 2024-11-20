@@ -14,6 +14,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.DeletePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.DeletePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
@@ -106,6 +108,27 @@ public class PostController {
     @PostMapping("/edit-forum")
     public ResponseEntity<EditForumResponse> editForum(@RequestBody EditForumRequest request) {
         EditForumResponse response = postService.editForum(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/delete-post")
+    public ResponseEntity<DeletePostResponse> deletePost(@RequestBody DeletePostRequest request) {
+        DeletePostResponse response = postService.deletePost(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/delete-subforum")
+    public ResponseEntity<DeletePostResponse> deleteSubforum(@RequestBody DeletePostRequest request) {
+        DeletePostResponse response = postService.deleteSubforum(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/delete-forum")
+    public ResponseEntity<DeletePostResponse> deleteForum(@RequestBody DeletePostRequest request) {
+        DeletePostResponse response = postService.deleteForum(request);
         return ResponseEntity.ok(response);
     }
 }
