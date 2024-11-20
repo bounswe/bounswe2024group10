@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import com.bounswe2024group10.Tradeverse.extra.PostType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,16 +21,12 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private Long parentID;
 
-    @Column(nullable = false)
     private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
@@ -40,10 +38,16 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime lastEditDate;
 
+    @Column(nullable = false)
+    private LocalDateTime lastUpdateDate;
+
+    @Column(nullable = false)
+    private PostType postType;
+
     public Post() {
     }
 
-    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, Boolean likable, LocalDateTime creationDate) {
+    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, Boolean likable, LocalDateTime creationDate, PostType postType) {
         this.username = username;
         this.title = title;
         this.parentID = parentID;
@@ -51,6 +55,8 @@ public class Post {
         this.likable = likable;
         this.creationDate = creationDate;
         this.lastEditDate = creationDate;
+        this.lastUpdateDate = creationDate;
+        this.postType = postType;
     }
 
     public Long getId() {
@@ -115,5 +121,21 @@ public class Post {
 
     public void setLastEditDate(LocalDateTime lastEditDate) {
         this.lastEditDate = lastEditDate;
+    }
+
+    public LocalDateTime getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public PostType getPostType() {
+        return postType;
+    }
+
+    public void setPostType(PostType postType) {
+        this.postType = postType;
     }
 }

@@ -26,8 +26,10 @@ import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostWLikesResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
+import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
@@ -36,6 +38,11 @@ import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Service
 public class PostService {
+
+    private static final PostType FORUM = PostType.FORUM;
+    private static final PostType SUBFORUM = PostType.SUBFORUM;
+    private static final PostType POST = PostType.POST;
+    private static final PostType COMMENT = PostType.COMMENT;
     
     @Autowired
     private LikeRepository likeRepository;
@@ -55,7 +62,7 @@ public class PostService {
     }
 
     public GetCommentsResponse getForums() {
-        List<Post> forums = postRepository.findByParentID(null);
+        List<Post> forums = postRepository.findByPostType(FORUM);
         return new GetCommentsResponse(true, "Forums fetched successfully", forums);
     }
 
@@ -64,26 +71,30 @@ public class PostService {
         if (post == null) {
             return new GetCommentsResponse(false, "Forum does not exist", null);
         }
-        if (!isPostForum(post)) {
-            return new GetCommentsResponse(false, "Post is not a forum", null);
+        if (post.getPostType() != FORUM) {
+            return new GetCommentsResponse(false, "Given post is not a forum", null);
         }
         List<Post> subForums = postRepository.findByParentID(request.getPostId());
         return new GetCommentsResponse(true, "Subforums fetched successfully", subForums);
     }
 
-    public GetCommentsResponse getSubForumPosts(GetCommentsRequest request) {
+    public GetCommentsResponse getPosts(GetCommentsRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
             return new GetCommentsResponse(false, "Subforum does not exist", null);
         }
-        if (!isPostSubForum(post)) {
-            return new GetCommentsResponse(false, "Post is not a subforum", null);
+        if (post.getPostType() != SUBFORUM) {
+            return new GetCommentsResponse(false, "Given post is not a subforum", null);
         }
         List<Post> subForumPosts = postRepository.findByParentID(request.getPostId());
         return new GetCommentsResponse(true, "Subforum posts fetched successfully", subForumPosts);
     }
 
     public GetCommentsWLikesResponse getCommentsWLikes(GetCommentsRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new GetCommentsWLikesResponse(false, "Post does not exist", null, null, null);
+        }
         List<Post> comments = postRepository.findByParentID(request.getPostId());
         List<Long> nofLikes = comments.stream().map(comment -> likeRepository.countByPostID(comment.getId())).collect(Collectors.toList());
         List<Long> nofDislikes = comments.stream().map(comment -> dislikeRepository.countByPostID(comment.getId())).collect(Collectors.toList());
@@ -98,23 +109,38 @@ public class PostService {
         return new GetPostResponse(true, "Post fetched successfully", post);
     }
 
+    public GetPostWLikesResponse getPostWLikes(GetPostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new GetPostWLikesResponse(false, "Post does not exist", null, null, null);
+        }
+        Long nofLikes = likeRepository.countByPostID(post.getId());
+        Long nofDislikes = dislikeRepository.countByPostID(post.getId());
+        return new GetPostWLikesResponse(true, "Post fetched successfully", post, nofLikes, nofDislikes);
+    }
+
     public CreatePostResponse createPost(CreatePostRequest request) {
-        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), true, LocalDateTime.now());
+        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), true, LocalDateTime.now(), POST);
         postRepository.save(post);
         return new CreatePostResponse(true, "Post created successfully");
     }
 
     public CreateForumResponse createForum(CreateForumRequest request) {
         // TO DO: Check if the user is admin
-        Post post = new Post(request.getUsername(), request.getTitle(), null, null, false, LocalDateTime.now());
+        Post post = new Post(request.getUsername(), request.getTitle(), null, null, false, LocalDateTime.now(), FORUM);
         postRepository.save(post);
         return new CreateForumResponse(true, "Forum created successfully");
     }
     
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public CreateSubforumResponse createSubforum(CreateSubforumRequest request) {
-        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), null, false, LocalDateTime.now());
-        if(!isPostSubForum(post)) {
+        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), null, false, LocalDateTime.now(), SUBFORUM);
+        Post parentPost = postRepository.findById(request.getParentID()).orElse(null);
+        if (parentPost == null) {
+            return new CreateSubforumResponse(false, "Parent post does not exist");
+        }
+
+        if(parentPost.getPostType() != FORUM) {
             return new CreateSubforumResponse(false, "Parent post is not a forum");
         }
         postRepository.save(post);
@@ -129,9 +155,13 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new EditPostResponse(false, "You are not authorized to edit this post");
         }
+        if (post.getPostType() != POST) {
+            return new EditPostResponse(false, "Post is not a post");
+        }
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
         post.setLastEditDate(LocalDateTime.now());
+        post.setLastUpdateDate(LocalDateTime.now());
         postRepository.save(post);
         return new EditPostResponse(true, "Post edited successfully");
     }
@@ -145,7 +175,7 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new EditForumResponse(false, "You are not authorized to edit this subforum");
         }
-        if(!isPostSubForum(post)) {
+        if(post.getPostType() != SUBFORUM) {
             return new EditForumResponse(false, "Post is not a subforum");
         }
         post.setTitle(request.getTitle());
@@ -163,7 +193,7 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new EditForumResponse(false, "You are not authorized to edit this forum");
         }
-        if(!isPostForum(post)) {
+        if(post.getPostType() != FORUM) {
             return new EditForumResponse(false, "Post is not a forum");
         }
         post.setTitle(request.getTitle());
@@ -180,6 +210,9 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new DeletePostResponse(false, "You are not authorized to delete this post");
         }
+        if(post.getPostType() != POST) {
+            return new DeletePostResponse(false, "Post is not a post");
+        }
         postRepository.delete(post);
         return new DeletePostResponse(true, "Post deleted successfully");
     }
@@ -193,7 +226,7 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new DeletePostResponse(false, "You are not authorized to delete this forum");
         }
-        if(!isPostForum(post)) {
+        if(post.getPostType() != FORUM) {
             return new DeletePostResponse(false, "Post is not a forum");
         }
         postRepository.delete(post);
@@ -209,7 +242,7 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new DeletePostResponse(false, "You are not authorized to delete this subforum");
         }
-        if(!isPostSubForum(post)) {
+        if(post.getPostType() != SUBFORUM) {
             return new DeletePostResponse(false, "Post is not a subforum");
         }
         postRepository.delete(post);
@@ -224,22 +257,6 @@ public class PostService {
         }
         return new SearchAndListPostsResponse(false, "Invalid query type", null);
         
-    }
-
-
-
-
-    private boolean isPostForum(Post post) {
-        return post.getParentID() == null;
-    }
-
-    private boolean isPostSubForum(Post post) {
-        if(post.getParentID() == null) {
-            return false;
-        } else {
-            Post parent = postRepository.findById(post.getParentID()).orElse(null);
-            return parent != null && parent.getParentID() == null;
-        }
     }
 
 }
