@@ -25,6 +25,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.service.PostService;
 
 
@@ -129,6 +131,13 @@ public class PostController {
     @PostMapping("/delete-forum")
     public ResponseEntity<DeletePostResponse> deleteForum(@RequestBody DeletePostRequest request) {
         DeletePostResponse response = postService.deleteForum(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/search-posts")
+    public ResponseEntity<SearchAndListPostsResponse> searchPosts(@RequestBody SearchAndListPostsRequest request) {
+        SearchAndListPostsResponse response = postService.searchAndListPosts(request);
         return ResponseEntity.ok(response);
     }
 }

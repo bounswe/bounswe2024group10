@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bounswe2024group10.Tradeverse.dto.post.CreateForumRequest;
@@ -24,6 +26,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetCommentsWLikesResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
@@ -210,6 +214,16 @@ public class PostService {
         }
         postRepository.delete(post);
         return new DeletePostResponse(true, "Subforum deleted successfully");
+    }
+
+    public SearchAndListPostsResponse searchAndListPosts(SearchAndListPostsRequest request) {
+        Pageable pageable = PageRequest.of(request.getOffset(), request.getLimit());
+        if (request.getQueryType().equals("date")) {
+            List<Post> posts = postRepository.findByTitleContaining(request.getKeyword(), pageable);
+            return new SearchAndListPostsResponse(true, "Posts fetched successfully", posts);
+        }
+        return new SearchAndListPostsResponse(false, "Invalid query type", null);
+        
     }
 
 
