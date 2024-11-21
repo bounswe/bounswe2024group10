@@ -26,10 +26,10 @@ public class SecurityConfig {
                     .requestMatchers("/api/auth/login").permitAll()
                     .requestMatchers("/api/follow/**").permitAll()
                     .requestMatchers("/api/like/**").permitAll()
-                    .requestMatchers("/api/auth/validate-token").permitAll()
-                    .requestMatchers("/api/user/get-user-details").permitAll()
                     .requestMatchers("/api/post/**").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                    .requestMatchers("/api/auth/validate-token").permitAll()
+                    .requestMatchers("/api/user/get-user-details").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
