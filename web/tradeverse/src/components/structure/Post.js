@@ -8,6 +8,7 @@ const Post = ({ post , onLike, onDislike}) => {
     console.log(post);
     const { user } = AuthData();
 
+
     const handleLike = () => {
         if (user.isAuthenticated) {
             onLike(post.id);

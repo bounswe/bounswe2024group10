@@ -1,53 +1,100 @@
-.postHeader {
+
+.post-header {
+    border: 2px solid #ccc;  
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9f9f9; 
+    box-shadow: 0 4px 8px rgba(199,210,254,255);
+    width: 100%;
+    margin: 6px auto;  
+}
+
+
+.user-and-tag {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    width: 100%;
-}
-
-.postHeader h3 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.postHeader p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #888;
-    display: flex;
+    padding-left: 6px;
+    padding-top: 10px;
     align-items: center;
 }
 
-.postStats {
-    display: flex;
-    flex-direction: row;
-
+.post-header-tag {
+    background-color: #d7fee7;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 25px;
+    margin-top: 15px;
+    height:max-content;
 }
 
-.postHeader .postStats p {
+.post-header-tag p {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: #4e8d71;
+    font-weight: bold;
+}
+
+.user-details {
+  padding: 4px;
+  padding-left: 10px;
+}
+
+.user-details p {
+  font-size: 14px;
+}
+
+.user-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.post-header-details h2 {
     margin-left: 15px;
 }
+.post-header-details p {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
 
+.bottom-container {
+    padding-left: 6px
+}
 
-.postStats p {
+.view-stats {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 5px; 
-    min-width: 30px; 
-    text-align: right; 
-    white-space: nowrap; 
 }
 
-
-.postHeader .fa-icon {
+.view-stats p {
     margin-right: 5px;
+    font-size: 14px;
+    color: grey;
 }
 
+.comment-like-dislike-stats {
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+}
 
-.postLink {
-    color: #333;
+.stat {
+    display: flex;
+    flex-direction: row;
+    margin: 0 10px;
+}
+
+.stat p {
+    margin-right: 5px;
+    font-size: 14px;
+    color: grey;
+}
+
+.post-link {
     text-decoration: none;
-    transition: color 0.3s ease;
+    color: black;
 }

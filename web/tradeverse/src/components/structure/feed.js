@@ -28,7 +28,7 @@ const Feed = ({ posts, name}) => {
 
     return (
         <div className="feed">
-            <div className='headerButton'>
+            {/* <div className='headerButton'>
                 <h2>
                     {name ? `${name.toUpperCase()} Posts` : activeSort === "new" ? "Latest Posts" : "Trending Posts"}
                 </h2>
@@ -47,8 +47,8 @@ const Feed = ({ posts, name}) => {
                         <FontAwesomeIcon icon={faFire} /> Hot
                     </button>
                 </div>
-            </div>
-            <hr></hr>
+            </div> */}
+            {/* <hr></hr> */}
             <div className="post-headers">
                 {sortedPosts.map(post => (
                     <PostHeader 

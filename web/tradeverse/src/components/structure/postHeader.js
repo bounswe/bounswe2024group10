@@ -10,24 +10,48 @@ import {
 import "../styles/postHeader.css";
 
 const PostHeader = ({ post }) => {
+  console.log("POST:", post);
+
   return (
-    <div className="postHeader">
-      <Link to={`/${post.forumName.toLowerCase()}/${post.id}`} className="postLink">
-        <div className="postInfo">
-          <h3>{post.description}</h3>{" "}
-          <p>
-            Posted by {post.username} on {post.date}
-          </p>
+    <div className="post-header">
+      <div className="user-and-tag">
+        <div className="user-details-container">
+          <img src={post.author.avatar} className="user-image" />
+          <div className="user-details">
+            <h3>{`${post.author.name} ${post.author.surname}`}</h3>
+            <p>{`@${post.username}`}</p>
+          </div>
         </div>
-      </Link>
-      <div className="postStats">
-        <p>
-          <FontAwesomeIcon icon={faThumbsUp} /> {post.likeCount}
-        </p>
-        <p>
-          <FontAwesomeIcon icon={faComments} /> {post.commentCount}
-        </p>
+        <div className="post-header-tag">
+          <p>{post.tags[1]}</p>
+        </div>
       </div>
+      <Link to={`/${post.forumName.toLowerCase()}/${post.id}`} className="post-link">
+      <div className="post-header-details">
+        <h2>{post.description}</h2>
+        <p>{post.content}</p>
+      </div>
+      <div className="bottom-container">
+        <div className="view-stats">
+          <p class="fa fa-eye" aria-hidden="true"></p>
+          <p>{post.viewCount}</p>
+        </div>
+        <div className="comment-like-dislike-stats">
+          <div className="stat">
+            <p class="fa fa-comment" aria-hidden="true"></p>
+            <p>{post.commentCount}</p>
+          </div>
+          <div className="stat">
+            <p class="fa fa-thumbs-up" aria-hidden="true"></p>
+            <p>{post.likeCount}</p>
+          </div>
+          <div className="stat">
+            <p class="fa fa-thumbs-down" aria-hidden="true"></p>
+            <p>{post.dislikeCount}</p>
+          </div>
+        </div>
+      </div>
+      </Link>
     </div>
   );
 };
