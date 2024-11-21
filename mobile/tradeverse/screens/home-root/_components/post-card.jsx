@@ -165,6 +165,7 @@ const InteractionInfo = ({ icon = () => {}, value }) => (
 )
 
 export default function PostCard({ style, post }) {
+  
   return (
     <PostLink target={paths.HOME.POST_DETAIL} post={post}>
       <View
@@ -239,14 +240,65 @@ export default function PostCard({ style, post }) {
               icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
               value={post.views}
             />
-            <InteractionInfo
-              icon={(params) => <IconThumbUp color="#444" size={12} />}
-              value={post.views}
-            />
-            <InteractionInfo
-              icon={(params) => <IconThumbDown color="#444" size={12} />}
-              value={post.views}
-            />
+
+            {/* presslendiğinde filliyo */}
+            <Pressable onPress={handleLike}>
+              <InteractionInfo
+                icon={(params) =>
+                  isLiked ? (
+                    <IconThumbUpFilled
+                      fill={COLORS.primary500}
+                      strokeWidth={0}
+                      color="#444"
+                      size={12}
+                    />
+                  ) : (
+                    <IconThumbUp color="#444" size={12} />
+                  )
+                }
+                value={post.views}
+              />
+            </Pressable>
+
+            <Pressable onPress={handleUnlike}>
+              <InteractionInfo
+                icon={(params) =>
+                  !isLiked ? (
+                    <IconThumbUp color="#444" size={12} />
+                  ) : (
+                    <IconThumbUpFilled
+                      fill={COLORS.primary500}
+                      strokeWidth={0}
+                      color="#444"
+                      size={12}
+                    />
+                  )
+                }
+                value={post.likes}
+              />
+            </Pressable>
+
+
+            <Pressable onPress={isDisliked ? handleUndislike : handleDislike}>
+              <InteractionInfo
+                icon={(params) =>
+                  isDisliked ? (
+                    <IconThumbDownFilled
+                      fill={COLORS.primary500}
+                      strokeWidth={0}
+                      color="#444"
+                      size={12}
+                    />
+                  ) : (
+                    <IconThumbDown color="#444" size={12} />
+                  )
+                }
+                value={post.dislikes}
+              />
+            </Pressable>
+
+
+
           </View>
         </View>
       </View>

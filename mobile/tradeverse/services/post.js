@@ -1,38 +1,57 @@
-/* eslint-disable import/prefer-default-export */
 import api from './_axios'
 
-const categorizeContentText = (text) => {
-  const splitted = text.split(' ')
-  const categorized = splitted.map((word) => {
-    if (word.startsWith('@')) {
-      return { tag: word }
-    }
-    return { text: word }
-  })
-  return categorized
-}
-
-export async function createPost({
-  username,
-  title,
-  parentID = 2,
-  content = '',
-}) {
+export async function likePost({ username, postId }) {
   try {
     const response = await api({
-      url: '/post/create-post',
+      url: '/like/like-post',
       method: 'POST',
-      data: {
-        username,
-        title,
-        parentID,
-        content: categorizeContentText(content),
-      },
+      data: { username, postId },
     })
-
     return response.data
   } catch (error) {
-    console.error('Create Post failed', error)
+    console.error('Like Post Failed', error)
   }
   return null
 }
+
+export async function unlikePost({ username, postId }) {
+    try {
+      const response = await api({
+        url: '/like/unlike-post',
+        method: 'POST',
+        data: { username, postId },
+      })
+      return response.data
+    } catch (error) {
+       console.error('Unlike post failed', error)
+    }
+    return null
+  }
+
+export async function dislikePost({ username, postId }) {
+  try {
+    const response = await api({
+      url: '/dislike/dislike-post',
+      method: 'POST',
+      data: { username, postId },
+    })
+    return response.data
+  } catch (error) {
+     console.error('Dislike post failed', error)
+  }
+  return null
+}
+
+export async function undislikePost({ username, postId }) {
+    try {
+      const response = await api({
+        url: '/dislike/dislike-post',
+        method: 'POST',
+        data: { username, postId },
+      })
+      return response.data
+    } catch (error) {
+       console.error('Undislike post failed', error)
+    }
+    return null
+  }
