@@ -35,9 +35,11 @@ import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.model.Post;
+import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
+import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Service
 public class PostService {
@@ -54,6 +56,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public GeneralGetResponse getChilderen(GeneralGetRequest request) {
         List<Post> childeren = postRepository.findByParentID(request.getPostId());
@@ -133,6 +138,10 @@ public class PostService {
 
     public CreatePostResponse createPost(CreatePostRequest request) {
         Post parentSubforum = postRepository.findById(request.getParentID()).orElse(null);
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            return new CreatePostResponse(false, "User does not exist");
+        }
         if (parentSubforum == null) {
             return new CreatePostResponse(false, "Parent post does not exist");
         }
@@ -175,6 +184,10 @@ public class PostService {
 
     public CreateCommentResponse createComment(CreateCommentRequest request) {
         Post parentPost = postRepository.findById(request.getParentID()).orElse(null);
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            return new CreateCommentResponse(false, "User does not exist");
+        }
         if (parentPost == null) {
             return new CreateCommentResponse(false, "Parent post does not exist");
         }

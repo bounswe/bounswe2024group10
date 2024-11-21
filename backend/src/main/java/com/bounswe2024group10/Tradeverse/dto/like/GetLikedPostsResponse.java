@@ -2,13 +2,15 @@ package com.bounswe2024group10.Tradeverse.dto.like;
 
 import java.util.List;
 
+import com.bounswe2024group10.Tradeverse.model.Post;
+
 public class GetLikedPostsResponse {
 
     private boolean isSuccessful;
     private String message;
-    private List<Long> likedPosts;
+    private List<Post> likedPosts;
 
-    public GetLikedPostsResponse(boolean isSuccessful, String message, List<Long> likedPosts) {
+    public GetLikedPostsResponse(boolean isSuccessful, String message, List<Post> likedPosts) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.likedPosts = likedPosts;
@@ -30,11 +32,11 @@ public class GetLikedPostsResponse {
         this.message = message;
     }
 
-    public List<Long> getLikedPosts() {
+    public List<Post> getLikedPosts() {
         return likedPosts;
     }
 
-    public void setLikedPosts(List<Long> likedPosts) {
+    public void setLikedPosts(List<Post> likedPosts) {
         this.likedPosts = likedPosts;
     }
 }

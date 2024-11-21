@@ -16,6 +16,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByUsername(String username);
     List<Post> findByParentID(Long parentID);
     List<Post> findByPostType(PostType postType);
+    List<Post> findAllById(List<Long> ids);
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% ORDER BY p.lastEditDate DESC")
     List<Post> findByTitleContaining(@Param("keyword") String keyword, Pageable pageable);
 }
