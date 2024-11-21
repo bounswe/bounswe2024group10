@@ -1,5 +1,6 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,7 +37,7 @@ import com.bounswe2024group10.Tradeverse.service.PostService;
 
 
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping(value = "/api/post")
 public class PostController {
     @Autowired
     private PostService postService;
