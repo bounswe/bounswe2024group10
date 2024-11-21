@@ -1,119 +1,106 @@
 .post {
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(199, 210, 254, 255);
-    width: 90%;
-    margin: 6px auto;
-  }
-  
-  .userAndTag {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 6px;
-    padding-top: 10px;
-    align-items: center;
-  }
-  
-  .postHeaderTag {
-    background-color: #d7fee7;
-    border-radius: 20px;
-    padding: 5px 10px;
-    margin-right: 25px;
-    margin-top: 15px;
-    height: max-content;
-  }
-  
-  .postHeaderTag p {
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-    color: #4e8d71;
-    font-weight: bold;
-  }
-  
-  .userDetailsContainer {
-    display: flex;
-    flex-direction: row;
-    margin: 5px;
-    height: 30px;
-  }
-  
-  .userDetails {
-    display: flex;
-    flex-direction: column;
-    padding: 4px;
-    padding-left: 10px;
-  }
-  .userDetails h3 {
-    margin: 0;
-  }
-  .userDetails p {
-    margin: 0;
-    font-size: 14px;
-  }
-  
-  .userImage {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  
-  .postHeaderDetails {
-    padding-top: 15px;
-  }
-  
-  .postHeaderDetails h2 {
-    margin-left: 15px;
-  }
-  .postHeaderDetails p {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 5px;
-  }
-  
-  .bottomContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 6px;
-  }
-  
-  .viewStats {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 10px;
-  }
-  
-  .viewStats p {
-    margin-right: 5px;
-    font-size: 14px;
-    color: grey;
-  }
-  
-  .commentLikeDislikeStats {
-    display: flex;
-    flex-direction: row;
-    margin-right: 10px;
-  }
-  
-  .stat {
-    display: flex;
-    flex-direction: row;
-    margin: 0 10px;
-  }
-  
-  .stat p {
-    margin-right: 5px;
-    font-size: 14px;
-    color: grey;
-  }
-  
-  .postLink {
-    text-decoration: none;
-    color: black;
-  }
-  
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(199, 210, 254, 255);
+  width: 90%;
+  margin: 6px auto;
+}
+
+.userAndTag {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 6px;
+  padding-top: 10px;
+  align-items: center;
+}
+
+.postTag {
+  background-color: #d7fee7;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-right: 25px;
+  margin-top: 15px;
+  height: max-content;
+}
+
+.postTag p {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  color: #4e8d71;
+  font-weight: bold;
+}
+
+.userDetailsContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  height: 30px;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  padding-left: 10px;
+}
+.userDetails h3 {
+  margin: 0;
+}
+.userDetails p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.userImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.postDetails {
+  padding-top: 15px;
+}
+
+.postDetails h2 {
+  margin-left: 15px;
+}
+.postDetails p {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.bottomContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content:end;
+  padding-right: 10px;
+}
+
+.actionContainer {
+  display: flex;
+  flex-direction: row;
+  margin-right: 10px;
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  margin: 0 10px;
+}
+
+.action p {
+  margin-right: 5px;
+  font-size: 14px;
+  color: grey;
+}
+
+.action button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
