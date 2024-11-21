@@ -23,10 +23,13 @@ public class Post {
 
     private String username;
 
+    @Column(nullable = true)
     private String title;
 
+    @Column(nullable = true)
     private Long parentID;
 
+    @Column(nullable = true)
     private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
