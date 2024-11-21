@@ -42,6 +42,9 @@ public class DislikeService {
         if (post == null) {
             return new DislikePostResponse(false, "Post does not exist");
         }
+        if (!post.getLikable()) {
+            return new DislikePostResponse(false, "Post is not likable");
+        }
         if (dislikeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId()) != null) {
             return new DislikePostResponse(false, "You have already disliked this post");
         }

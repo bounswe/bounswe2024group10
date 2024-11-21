@@ -39,12 +39,18 @@ public class LikeService {
 
     public LikePostResponse likePost(LikePostRequest request) {
         User user = userRepository.findByUsername(request.getUsername());
-         
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (user == null) {
             return new LikePostResponse(false, "User does not exist");
         }
         if (likeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId()) != null) {
             return new LikePostResponse(false, "You have already liked this post");
+        }
+        if (post == null) {
+            return new LikePostResponse(false, "Post does not exist");
+        }  
+        if (!post.getLikable()) {
+            return new LikePostResponse(false, "Post is not likable");
         }
         Like like = new Like(request.getUsername(), request.getPostId());
         likeRepository.save(like);
@@ -63,7 +69,10 @@ public class LikeService {
         if (user == null) {
             return new UnlikePostResponse(false, "User does not exist");
         }
-
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new UnlikePostResponse(false, "Post does not exist");
+        } 
         Like like = likeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId());
         if (like != null) {
             likeRepository.delete(like);
