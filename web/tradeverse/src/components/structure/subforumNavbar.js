@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/subforumNavbar.css'; 
+import styles from '../styles/subforumNavbar.module.css'; 
 
 const SubforumNavbar = ({ subforums }) => {
     return (
-        <nav className="subforumNavbar">
+        <nav className={styles.subforumNavbar}>
             <ul>
                 {subforums.map((subforum, i) => (
                     <li key={i}>

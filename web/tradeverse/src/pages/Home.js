@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Feed from "../components/structure/feed";
 import mockData from "../data/mockData";
-import "./styles/Home.css";
+import styles from "./styles/Home.module.css";
 import { useParams } from "react-router-dom";
 
 const Home = () => {
@@ -23,8 +23,8 @@ const Home = () => {
 
 
     return (
-        <div className="homePage">
-            <div className="feedContainer">
+        <div className={styles.homePage}>
+            <div className={styles.feedContainer}>
                 <Feed posts={posts} name={name}/>
             </div>
         </div>

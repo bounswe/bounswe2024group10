@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import PostHeader from './postHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Assuming you are using FontAwesome
 import { faClock, faFire } from '@fortawesome/free-solid-svg-icons'; 
-import "../styles/feed.css"
+import styles from "../styles/feed.module.css"
 
 
 const Feed = ({ posts, name}) => {
@@ -27,7 +27,7 @@ const Feed = ({ posts, name}) => {
       }, [posts, activeSort]);
 
     return (
-        <div className="feed">
+        <div className={styles.feed}>
             {/* <div className='headerButton'>
                 <h2>
                     {name ? `${name.toUpperCase()} Posts` : activeSort === "new" ? "Latest Posts" : "Trending Posts"}
@@ -49,7 +49,7 @@ const Feed = ({ posts, name}) => {
                 </div>
             </div> */}
             {/* <hr></hr> */}
-            <div className="post-headers">
+            <div className={styles.postHeaders}>
                 {sortedPosts.map(post => (
                     <PostHeader 
                         key={post.id} 

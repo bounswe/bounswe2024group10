@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Post from "../components/structure/Post";
+import Post from "../components/structure/post";
 import Comment from "../components/structure/comment";
 import mockData from "../data/mockData";
-import "./styles/PostPage.css";
+import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
 
 const PostPage = () => {
@@ -31,7 +31,7 @@ const PostPage = () => {
     }
 
     return (
-        <div className="post-page">
+        <div className={styles.postPage}>
             <Post post={post} />  {/* Render the Post component with the specific post */}
                 {post.comments && post.comments.length > 0 ? (
                     post.comments.map((comment, index) => (

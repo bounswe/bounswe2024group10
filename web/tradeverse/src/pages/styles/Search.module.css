@@ -7,7 +7,7 @@
     font-family: Arial, sans-serif;
 }
 
-.search-bar {
+.searchBar {
     padding: 10px;
     width: 100%;
     font-size: 16px;
@@ -16,13 +16,13 @@
     border-radius: 5px;
 }
 
-.category-selector {
+.categorySelector {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.category-button {
+.categoryButton {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -33,23 +33,23 @@
     transition: background 0.3s ease;
 }
 
-.category-button.active {
+.categoryButton.active {
     background-color: rgb(93, 95, 239);
     color: white;
 }
 
-.results-container {
+.resultsContainer {
     margin-top: 20px;
 }
 
-.no-results {
+.noResults {
     font-size: 16px;
     color: #888;
     text-align: center;
 }
 
 /* User Card Styling */
-.user-card {
+.userCard {
     display: flex;
     align-items: center;
     padding: 10px;
@@ -59,29 +59,29 @@
     transition: box-shadow 0.3s ease;
 }
 
-.user-card:hover {
+.userCard:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.user-avatar {
+.userAvatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-.user-name {
+.userName {
     font-size: 16px;
     font-weight: bold;
 }
 
-.user-followers {
+.userFollowers {
     font-size: 14px;
     color: #555;
 }
 
 /* Tag Card Styling */
-.tag-card {
+.tagCard {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -90,45 +90,45 @@
     transition: transform 0.2s ease;
 }
 
-.tag-card:hover {
+.tagCard:hover {
     transform: scale(1.02);
     background-color: rgb(197, 208, 230);
     
 }
-.tag-card:hover .tag-label,
-.tag-card:hover .tag-info {
+.tagCard:hover .tag-label,
+.tagCard:hover .tag-info {
     color: rgb(44, 53, 61); /* Change text color on hover */
 }
 
-.tag-label {
+.tagLabel {
     font-size: 16px;
     font-weight: bold;
     color: rgb(197, 208, 230);
 }
 
-.tag-info {
+.tagInfo {
     font-size: 14px;
     color: rgb(197, 208, 230);
 }
 
 
 /* Subforum Card Styling */
-.subforum-card {
+.subforumCard {
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
     transition: transform 0.2s ease;
 }
-.subforum-card:hover {
+.subforumCard:hover {
     transform: scale(1.02);
     background-color: rgb(197, 208, 230);
 }
-.subforum-card:hover .subforum-link {
+.subforumCard:hover .subforumLink {
     color: rgb(44, 53, 61); /* Change text color on hover */
 }
 
-.subforum-link {
+.subforumLink {
     font-size: 18px;
     font-weight: bold;
     text-decoration: none;
@@ -136,13 +136,13 @@
     transition: color 0.3s ease;
 }
 
-.subforum-link:hover {
+.subforumLink:hover {
     color: rgb(44, 53, 61);
     
 }
 
 /* Post Card Styling */
-.post-card {
+.postCard {
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -153,14 +153,14 @@
     text-decoration: none;
 }
 
-.post-card:hover {
+.postCard:hover {
     transform: translateY(-5px); /* Lift the card slightly on hover */
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
     background-color: #f7faff; /* Slightly tinted background on hover */
 }
 
 /* Username styling */
-.post-username {
+.postUsername {
     font-size: 18px;
     font-weight: bold;
     color: #007BFF; /* Blue for username */
@@ -169,12 +169,12 @@
     text-decoration: none;
 }
 
-.post-username:hover {
+.postUsername:hover {
     color: #0056b3; /* Darker blue on hover */
 }
 
 /* Post content styling */
-.post-content {
+.postContent {
     text-decoration: none;
     font-size: 16px;
     color: #333; /* Darker text for readability */
@@ -183,14 +183,14 @@
 }
 
 /* Divider */
-.post-divider {
+.postDivider {
     height: 1px;
     background-color: #e0e0e0;
     margin: 10px 0;
 }
 
 /* Post footer (optional, for additional info like time, comments, etc.) */
-.post-footer {
+.postFooter {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -199,16 +199,16 @@
     color: #777; /* Muted text color for secondary information */
 }
 
-.post-footer a {
+.postFooter a {
     text-decoration: none;
     color: #007BFF;
     transition: color 0.3s ease;
 }
 
-.post-footer a:hover {
+.postFooter a:hover {
     color: #0056b3;
 }
-.post-link {
+.postLink {
     text-decoration: none;
     color: #007BFF;
     transition: color 0.3s ease;

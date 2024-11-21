@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './styles/Login.css'; // Reusing the same styles
+import styles from './styles/Login.module.css'; // Reusing the same styles
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -48,12 +48,12 @@ const SignUp = () => {
     };
 
     return (
-        <div className="page">
-            <div className="inputs">
+        <div className={styles.page}>
+            <div className={styles.inputs}>
                 <div>
                     <h2>Join Tradeverse community</h2>
                     <span >Get more features and priviliges by joining to the most helpful community</span>
-                    <div className="input">
+                    <div className={styles.input}>
                         <input
                             value={formData.name}
                             onChange={(e) => setFormData({ name: e.target.value })}
@@ -63,7 +63,7 @@ const SignUp = () => {
                             style={{ marginTop: '10px', height: '40px' }}
                         />
                     </div>
-                    <div className="input">
+                    <div className={styles.input}>
                         <input
                             value={formData.username}
                             onChange={(e) => setFormData({ username: e.target.value })}
@@ -73,7 +73,7 @@ const SignUp = () => {
                             style={{ marginTop: '10px', height: '40px' }}
                         />
                     </div>
-                    <div className="input">
+                    <div className={styles.input}>
                         <input
                             value={formData.email}
                             onChange={(e) => setFormData({ email: e.target.value })}
@@ -83,7 +83,7 @@ const SignUp = () => {
                             style={{ marginTop: '10px', height: '40px' }}
                         />
                     </div>
-                    <div className="input">
+                    <div className={styles.input}>
                         <input
                             value={formData.password}
                             onChange={(e) => setFormData({ password: e.target.value })}
@@ -94,7 +94,7 @@ const SignUp = () => {
                         />
                     </div>
                     <div>
-                        <button className="button" onClick={doSignUp}>Sign Up</button>
+                        <button className={styles.button} onClick={doSignUp}>Sign Up</button>
                     </div>
 
                     {/* Display error message */}
@@ -105,7 +105,7 @@ const SignUp = () => {
                     )}
                 </div>
             </div>
-            <div className="image-container">
+            <div className={styles.imageContainer}>
                 <div style={{ objectFit: "cover", width: "100%" }}>
                     <img 
                         src="/background.jpg" 

@@ -11,13 +11,13 @@
     width: 50%;
     margin-top: 20px;
 }
-.sort-buttons {
+.sortButtons {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 20px;
 }
 
-.sort-button {
+.sortButton {
     background-color: transparent;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -27,12 +27,12 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-.sort-button.active {
+.sortButton.active {
     background-color: #007bff; /* Change this to your active color */
     color: white; /* Text color for active button */
 }
 
-.sort-button:hover {
+.sortButton:hover {
     background-color: #e7e7e7; /* Light grey on hover */
 }
 

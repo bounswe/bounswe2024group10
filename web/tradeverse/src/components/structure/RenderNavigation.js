@@ -1,7 +1,7 @@
 import { Link, Route, Routes, Navigate } from "react-router-dom";
 import { AuthData } from "../../auth/AuthWrapper";
 import { nav } from "./navigation";
-import '../styles/style.css';
+import styles from '../styles/style.module.css';
 import React, { useState } from 'react';
 import Home from '../../pages/Home';
 import PostPage from '../../pages/PostPage';
@@ -62,13 +62,13 @@ export const RenderMenu = () => {
 
     const MenuItem = ({r}) => {
          return (
-              <div className="menuItem"><Link to={r.path}>{r.name}</Link></div>
+              <div className={styles.menuItem}><Link to={r.path}>{r.name}</Link></div>
          )
     }
     return (
-    <div className="topbarContainer">
-     <div className="menu">
-       <div className="leftMenu">
+    <div className={styles.topbarContainer}>
+     <div className={styles.menu}>
+       <div className={styles.leftMenu}>
          {nav.map((r, i) => {
            if (!r.isPrivate && r.isMenu) {
              return <MenuItem key={i} r={r} />;
@@ -80,24 +80,24 @@ export const RenderMenu = () => {
          })}
        </div>
    
-       <div className="centerTitle">
-          <Link to={'/'} className="link">
-              <img src="logo_new.png" alt="Tradeverse Logo" className="logo" />
+       <div className={styles.centerTitle}>
+          <Link to={'/'} className={styles.link}>
+              <img src="logo_new.png" alt="Tradeverse Logo" className={styles.logo} />
           </Link>
        </div>
    
-       <div className="rightMenu">
-        <div className="img-container">
-          <Link to={'/search'} className="searchButton">
+       <div className={styles.rightMenu}>
+        <div className={styles.imgContainer}>
+          <Link to={'/search'} className={styles.searchButton}>
             <i className="fas fa-search"></i>
           </Link>
         </div>
          {user.isAuthenticated ? (
-           <div className="menuItem">
-             <div className="userDropdown" onClick={toggleDropdown}>
+           <div className={styles.menuItem}>
+             <div className={styles.userDropdown} onClick={toggleDropdown}>
                <h5>{user.name}</h5>
                {isDropdownOpen && (
-                 <div className="dropdownContent">
+                 <div className={styles.dropdownContent}>
                    <p style={{ color: 'black', fontWeight: 'bold', marginBottom: '5' }}>{user.name}</p>
                    <Link to={'#'} onClick={logout} style={{ color: 'red', fontWeight: 'lighter' }}>
                      Log out
@@ -107,11 +107,11 @@ export const RenderMenu = () => {
              </div>
            </div>
          ) : (
-           <div className="menuItem">
-             <Link to={'signup'} className="registerButton">
+           <div className={styles.menuItem}>
+             <Link to={'signup'} className={styles.registerButton}>
                <i className="fas fa-user-plus"></i> Register
              </Link>
-             <Link to={'login'} className="loginButton">Log in</Link>
+             <Link to={'login'} className={styles.loginButton}>Log in</Link>
              
            </div>
          )}
