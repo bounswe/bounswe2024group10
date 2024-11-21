@@ -1,6 +1,6 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
-public class DeletePostRequest {
+public class GeneralDeleteRequest {
         
         private String username;
         private Long postId;

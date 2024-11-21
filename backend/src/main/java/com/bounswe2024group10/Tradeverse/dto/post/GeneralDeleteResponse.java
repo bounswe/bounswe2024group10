@@ -1,10 +1,10 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
-public class DeletePostResponse {
+public class GeneralDeleteResponse {
     private boolean isSuccessful;
     private String message;
 
-    public DeletePostResponse(boolean isSuccessful, String message) {
+    public GeneralDeleteResponse(boolean isSuccessful, String message) {
         this.isSuccessful = isSuccessful;
         this.message = message;
     }
