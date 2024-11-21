@@ -4,9 +4,11 @@ package com.bounswe2024group10.Tradeverse.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentRequest;
@@ -43,44 +45,70 @@ public class PostController {
     private PostService postService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-forums")
+    @GetMapping("/get-forums")
     public ResponseEntity<GetForumsResponse> getForums() {
         GetForumsResponse response = postService.getForums();
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-subforums")
-    public ResponseEntity<GeneralGetResponse> getSubForums(@RequestBody GeneralGetRequest request) {
+    @GetMapping("/get-subforums")
+    public ResponseEntity<GeneralGetResponse> getSubForums(@RequestParam Long postId) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        request.setPostId(postId);
         GeneralGetResponse response = postService.getSubForums(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-posts")
-    public ResponseEntity<GeneralGetWLikesResponse> getPosts(@RequestBody GeneralGetRequest request) {
+    @GetMapping("/get-posts")
+    public ResponseEntity<GeneralGetWLikesResponse> getPosts(@RequestParam Long postId) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        request.setPostId(postId);
         GeneralGetWLikesResponse response = postService.getPostsWLikes(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-comments")
-    public ResponseEntity<GeneralGetWLikesResponse> getComments(@RequestBody GeneralGetRequest request) {
+    @GetMapping("/get-comments")
+    public ResponseEntity<GeneralGetWLikesResponse> getComments(@RequestParam Long postId) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        request.setPostId(postId);
         GeneralGetWLikesResponse response = postService.getCommentsWLikes(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-post")
-    public ResponseEntity<GetPostWLikesResponse> getPost(@RequestBody GetPostRequest request) {
+    @GetMapping("/get-post")
+    public ResponseEntity<GetPostWLikesResponse> getPost(@RequestParam Long postId) {
+        GetPostRequest request = new GetPostRequest();
+        request.setPostId(postId);
         GetPostWLikesResponse response = postService.getPostWLikes(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/get-comment")
-    public ResponseEntity<GetPostWLikesResponse> getComment(@RequestBody GetPostRequest request) {
+    @GetMapping("/get-comment")
+    public ResponseEntity<GetPostWLikesResponse> getComment(@RequestParam Long postId) {
+        GetPostRequest request = new GetPostRequest();
+        request.setPostId(postId);
         GetPostWLikesResponse response = postService.getCommentWLikes(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/search-posts")
+    public ResponseEntity<SearchAndListPostsResponse> searchPosts(
+            @RequestParam(required = false) String queryType,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Integer offset,
+            @RequestParam(required = false) Integer limit) {
+        SearchAndListPostsRequest request = new SearchAndListPostsRequest();
+        request.setQueryType(queryType);
+        request.setKeyword(keyword);
+        request.setOffset(offset);
+        request.setLimit(limit);
+        SearchAndListPostsResponse response = postService.searchAndListPosts(request);
         return ResponseEntity.ok(response);
     }
 
@@ -166,13 +194,6 @@ public class PostController {
     @PostMapping("/delete-comment")
     public ResponseEntity<GeneralDeleteResponse> deleteComment(@RequestBody GeneralDeleteRequest request) {
         GeneralDeleteResponse response = postService.deleteComment(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/search-posts")
-    public ResponseEntity<SearchAndListPostsResponse> searchPosts(@RequestBody SearchAndListPostsRequest request) {
-        SearchAndListPostsResponse response = postService.searchAndListPosts(request);
         return ResponseEntity.ok(response);
     }
 }

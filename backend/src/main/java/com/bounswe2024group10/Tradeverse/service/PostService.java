@@ -38,11 +38,9 @@ import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
-import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Service
 public class PostService {
-
     private static final PostType FORUM = PostType.FORUM;
     private static final PostType SUBFORUM = PostType.SUBFORUM;
     private static final PostType POST = PostType.POST;
@@ -53,9 +51,6 @@ public class PostService {
 
     @Autowired
     private DislikeRepository dislikeRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private PostRepository postRepository;
@@ -246,7 +241,7 @@ public class PostService {
         return new EditPostResponse(true, "Post edited successfully");
     }
 
-        // TO DO: Check if the user is admin if necessary? and if admin delete username check
+    // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public EditForumResponse editSubforum(EditForumRequest request) {
         Post post = postRepository.findById(request.getPostID()).orElse(null);
         if (post == null) {
