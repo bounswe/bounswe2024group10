@@ -177,7 +177,60 @@ const InteractionInfo = ({ icon = () => {}, value }) => {
 };
 
 export default function PostCard({ style, post }) {
+  {/* for handle likes*/}
+  const { user } = useContext(AuthContext)
+  const [isLiked, setIsLiked] = useState(post?.isLiked ?? false)
+
+  const handleLike = async () => {
+    const response = await likePost({
+      postId: post?.id,
+      username: user.username,
+    })
+    if (response.success) {
+      setIsLiked(true)
+    }
+  }
+
+
+  {/* for handle dislikes */}
+  const [isDisliked, setIsDisliked] = useState(post?.isDisliked ?? false);
+  const handleDislike = async () => {
+    const response = await dislikePost({
+      postId: post?.id,
+      username: user.username,
+    });
   
+    if (response?.success) {
+      setIsDisliked(true);
+      setIsLiked(false); // Disliking typically removes a like, adjust if behavior differs.
+    }
+  };
+
+  {/*for handle unlike*/}
+  const handleUnlike = async () => {
+    const response = await unlikePost({
+      postId: post?.id,
+      username: user.username,
+    });
+  
+    if (response?.success) {
+      setIsLiked(false);
+    }
+  };
+
+  {/* for handle undislike */}
+  const handleUndislike = async () => {
+    const response = await undislikePost({
+      postId: post?.id,
+      username: user.username,
+    });
+  
+    if (response?.success) {
+      setIsDisliked(false);
+    }
+  };
+
+
   return (
     <PostLink target={paths.HOME.POST_DETAIL} post={post}>
       <View
@@ -252,14 +305,65 @@ export default function PostCard({ style, post }) {
               icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
               value={post.views}
             />
-            <InteractionInfo
-              icon={(params) => <IconThumbUp color="#444" size={12} />}
-              value={post.views}
-            />
-            <InteractionInfo
-              icon={(params) => <IconThumbDown color="#444" size={12} />}
-              value={post.views}
-            />
+
+            {/* presslendiğinde filliyo */}
+            <Pressable onPress={handleLike}>
+              <InteractionInfo
+                icon={(params) =>
+                  isLiked ? (
+                    <IconThumbUpFilled
+                      fill={COLORS.primary500}
+                      strokeWidth={0}
+                      color="#444"
+                      size={12}
+                    />
+                  ) : (
+                    <IconThumbUp color="#444" size={12} />
+                  )
+                }
+                value={post.views}
+              />
+            </Pressable>
+
+            <Pressable onPress={handleUnlike}>
+              <InteractionInfo
+                icon={(params) =>
+                  !isLiked ? (
+                    <IconThumbUp color="#444" size={12} />
+                  ) : (
+                    <IconThumbUpFilled
+                      fill={COLORS.primary500}
+                      strokeWidth={0}
+                      color="#444"
+                      size={12}
+                    />
+                  )
+                }
+                value={post.likes}
+              />
+            </Pressable>
+
+
+            <Pressable onPress={isDisliked ? handleUndislike : handleDislike}>
+              <InteractionInfo
+                icon={(params) =>
+                  isDisliked ? (
+                    <IconThumbDownFilled
+                      fill={COLORS.primary500}
+                      strokeWidth={0}
+                      color="#444"
+                      size={12}
+                    />
+                  ) : (
+                    <IconThumbDown color="#444" size={12} />
+                  )
+                }
+                value={post.dislikes}
+              />
+            </Pressable>
+
+
+
           </View>
         </View>
       </View>
