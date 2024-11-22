@@ -1,4 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Storage } from "../util/storage";
+
 import api from "./_axios";
 
 export async function getMe({ authToken = "", username = "" }) {
@@ -24,7 +25,7 @@ export async function login({ username, password }) {
   console.log(username, password);
 
   try {
-    await AsyncStorage.removeItem("authToken");
+    // await Storage.removeItem("authToken");
     const response = await api({
       url: "/auth/login",
       method: "POST",
@@ -33,14 +34,12 @@ export async function login({ username, password }) {
       },
       data: { username, password },
     });
-    await AsyncStorage.removeItem("authToken");
-    console.log(response.data);
 
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-    AsyncStorage.setItem("authToken", response.data.token);
+    
     return response;
   } catch (error) {
-    throw new Error(error.message ?? "Giriş başarısız");
+    throw new Error(`Failed: ${error.message}` ?? "Giriş başarısız");
   }
 }
 
@@ -55,7 +54,7 @@ export async function register({
   try {
     console.log(email, password, name, username, tag, profilePhoto);
 
-    await AsyncStorage.removeItem("authToken");
+    await Storage.removeItem("authToken");
     const response = await api({
       url: "/auth/register",
       method: "POST",
@@ -71,11 +70,11 @@ export async function register({
         Authorization: undefined,
       },
     });
-    await AsyncStorage.removeItem("authToken");
+    await Storage.removeItem("authToken");
     console.log(response.data);
 
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-    AsyncStorage.setItem("authToken", response.data.token);
+    Storage.setItem("authToken", response.data.token);
     return response;
   } catch (error) {
     console.log("basarisiz");

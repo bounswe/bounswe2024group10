@@ -22,8 +22,7 @@ export default function WelcomingScreen() {
   const [currentStep, setCurrentStep] = useState("profile"); // user_tag, profile
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedUserTag, setSelectedUserTag] = useState(null);
-
-  const { setIsTagSelected } = useContext(AuthContext);
+  const { setIsTagSelected, setLoading } = useContext(AuthContext);
 
   const openImageGallery = async () => {
     const result = await launchImageLibraryAsync({
@@ -49,11 +48,13 @@ export default function WelcomingScreen() {
   ];
 
   const handleNext = () => {
+    setLoading(true)
     if (currentStep === "profile") {
       setCurrentStep("user_tag");
     } else {
       setIsTagSelected(true);
     }
+    setLoading(false);
   };
 
   const ProfileView = () => {
