@@ -3,32 +3,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
 import api from '../../services/_axios'
 import AuthContext from './auth-context'
-import { getMe, register, login } from '../../services/auth'
+import { getMe, register, login, validateToken } from '../../services/auth'
 import getUserByUsername from '../../services/user'
 
 export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState(null)
   const [isLoggedin, setIsLoggedIn] = useState(false)
-
   const [isTagSelected, setIsTagSelected] = useState(false)
-
-  // useEffect(()=>{
-  //   console.log('isTagSelected',isTagSelected);
-  //   console.log('isAuthenticated',isLoggedin);
-
-  //   if(isLoggedin){
-  //     if(isTagSelected){
-  //       router.replace('(tabs)');
-  //     }
-  //     else{
-  //       router.replace('splash');
-  //     }
-  //   }
-  //   else{
-  //     router.replace('auth');
-  //   }
-  // },[isTagSelected, isAuthenticated]);
 
   const signIn = useCallback(async ({ username, password }) => {
     try {
@@ -64,12 +46,9 @@ export default function AuthProvider({ children }) {
           await AsyncStorage.setItem('authToken', res.data?.token)
           await AsyncStorage.setItem('username', username)
           const userProfile = await getUserByUsername({ username })
-
           setUser(userProfile)
           setIsLoggedIn(true)
-          // router.replace('(tabs)');
           router.replace('splash')
-          // setUser(res.data?.user);
         }
       } catch (error) {
         throw new Error(error.message ?? 'Giriş başarısız')
@@ -114,34 +93,38 @@ export default function AuthProvider({ children }) {
   }, [])
 
   const isAuthenticated = useCallback(async () => {
-    let result = false
+    try {
+      let result = false
+      setLoading(true)
 
-    setLoading(true)
+      const token = await AsyncStorage.getItem('authToken')
+      if (token) {
+        const validateResponse = await validateToken({ token })
+        if (validateResponse?.username) {
+          console.log('Token is valid ->', validateResponse, token)
+          api.defaults.headers.common.Authorization = `Bearer ${token}`
+          const userProfile = await getUserByUsername({
+            username: validateResponse.username,
+            token,
+          })
+          console.log('userProfile', userProfile)
 
-    const token = await AsyncStorage.getItem('authToken')
-    const username = await AsyncStorage.getItem('username')
-
-    api.defaults.headers.common.Authorization = `Bearer ${token}`
-
-    if (token || username) {
-      const loggedinUser = await getMe({ authToken: token, username })
-      if (loggedinUser) {
-        setIsLoggedIn(true)
-        setUser(loggedinUser)
-        result = true
-      } else {
-        await AsyncStorage.removeItem('authToken')
-        setIsLoggedIn(false)
-        setUser(null)
-        result = false
+          setUser(userProfile)
+          setIsLoggedIn(true)
+        } else {
+          await AsyncStorage.removeItem('authToken')
+          setIsLoggedIn(false)
+          setUser(null)
+        }
       }
-    } else {
-      setUser(null)
+    } catch (error) {
+      console.log('error on isAuthenticated', error)
+      await AsyncStorage.removeItem('authToken')
       setIsLoggedIn(false)
-      result = false
+      setUser(null)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
-    return result
   }, [])
 
   useEffect(() => {
@@ -160,7 +143,6 @@ export default function AuthProvider({ children }) {
       signUp,
       isTagSelected,
       userProfile: user?.profile,
-      // isAuthenticated,
       logout,
       setUser,
     }),
@@ -175,7 +157,6 @@ export default function AuthProvider({ children }) {
       setIsTagSelected,
       signUp,
       logout,
-      // isAuthenticated
     ]
   )
 

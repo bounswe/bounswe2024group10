@@ -9,11 +9,10 @@ import React, { useEffect } from 'react'
 import { COLORS, SIZE_CONSTANT, SIZES } from '../../../constants/theme'
 
 export default function TabBarButton({
-  key,
   onPress,
   isFocused = false,
   icons,
-  label,
+  label = '',
 }) {
   const scale = useSharedValue(1)
 
@@ -47,7 +46,6 @@ export default function TabBarButton({
   return (
     <Pressable
       // eslint-disable-next-line react/no-array-index-key
-      key={key}
       accessibilityRole="button"
       accessibilityState={isFocused ? { selected: true } : {}}
       onPress={onPress}
