@@ -40,3 +40,35 @@
     margin: 20px;
     width: 90%;
 }
+
+.filterButtons {
+    display: flex;
+    justify-content: space-around;
+    /* gap: 20px; */
+    margin-top: 16px;
+    background-color: white;
+    border-radius: 20px;
+    
+}
+
+.filterButton {
+    width: 15vw;
+    padding: 10px;
+    border: none;
+    background-color: white;
+    border-radius: 20px;
+    color: #5d5fef;
+    font-weight: bold;
+    
+}
+
+.filterButton:hover {
+    background-color: #e0e0e0;
+}
+
+.active {
+    background-color: #c7d2fe;
+    color: #5d5fef;
+    border-color: #5d5fef;
+    font-weight: bold;
+}
