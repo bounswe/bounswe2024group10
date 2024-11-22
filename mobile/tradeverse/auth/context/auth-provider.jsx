@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import api from '../../services/_axios';
 import AuthContext from './auth-context';
 import { getMe, register, login } from '../../services/auth';
 import { getUserByUsername } from '../../services/user';
+
+import { Storage } from '../../util/storage';
 
 export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
@@ -36,21 +37,22 @@ export default function AuthProvider({ children }) {
 
   const signIn = useCallback(async ({ username, password }) => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const res = await login({ username, password });
-      if (res.status === 200) {
-        await AsyncStorage.setItem('authToken', res.data?.token);
-        await AsyncStorage.setItem('username', username);
+      if (res.data['isSuccessful'] === true) {
+        await Storage.setItem('authToken', res.data?.token ?? "");
+        await Storage.setItem('username', res.data['username']?? "");
         const userProfile = await getUserByUsername({ username });
-        
+
         setUser(userProfile);
         setIsLoggedIn(true);
         router.replace('(tabs)');
       }
     } catch (error) {
+      console.error(error.message)
       throw new Error(error.message);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   }, []);
 
@@ -66,8 +68,8 @@ export default function AuthProvider({ children }) {
         username
       });
       if (res.status === 200) {
-        await AsyncStorage.setItem('authToken', res.data?.token);
-        await AsyncStorage.setItem('username', username);
+        await Storage.setItem('authToken', res.data?.token);
+        await Storage.setItem('username', username);
         const userProfile = await getUserByUsername({ username });
 
         setUser(userProfile);
@@ -87,16 +89,16 @@ export default function AuthProvider({ children }) {
     setIsLoggedIn(false);
     setUser(null);
     router.replace('auth');
-    await AsyncStorage.removeItem('authToken');
-    await AsyncStorage.removeItem('username');
+    await Storage.removeItem('authToken');
+    await Storage.removeItem('username');
     setLoading(false);
   }, []);
 
   const refetchUser = useCallback(async () => {
     setLoading(true);
 
-    const token = await AsyncStorage.getItem('authToken');
-    const username = await AsyncStorage.getItem('username');
+    const token = await Storage.getItem('authToken');
+    const username = await Storage.getItem('username');
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -120,8 +122,8 @@ export default function AuthProvider({ children }) {
 
     setLoading(true);
 
-    const token = await AsyncStorage.getItem('authToken');
-    const username = await AsyncStorage.getItem('username');
+    const token = await Storage.getItem('authToken');
+    const username = await Storage.getItem('username');
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -132,7 +134,7 @@ export default function AuthProvider({ children }) {
         setUser(loggedinUser);
         result = true;
       } else {
-        await AsyncStorage.removeItem('authToken');
+        await Storage.removeItem('authToken');
         setIsLoggedIn(false);
         setUser(null);
         result = false;
