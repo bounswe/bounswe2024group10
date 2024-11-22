@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import com.bounswe2024group10.Tradeverse.extra.ListHashMapConverter;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,13 +25,14 @@ public class Post {
 
     private String username;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String title;
 
     @Column(nullable = true)
     private Long parentID;
 
-    @Column(nullable = true)
+    @Convert(converter = ListHashMapConverter.class)
+    @Column(nullable = true, columnDefinition = "TEXT")
     private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
