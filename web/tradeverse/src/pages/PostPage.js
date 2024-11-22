@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Post from "../components/structure/post";
+import Post from "../components/structure/Post";
 import Comment from "../components/structure/comment";
 import mockData from "../data/mockData";
 import styles from "./styles/PostPage.module.css";
