@@ -9,12 +9,12 @@
     width: 80%;
 }
 
-.comment-user-details {
+.commentUserDetails {
     display: flex;
     align-items: center;
 }
 
-.comment-user-info h5 {
+.commentUserInfo h5 {
     margin: 0;
 }
 

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './styles/Login.css';
+import styles from './styles/Login.module.css';
 
 
 const Login = () => {
@@ -52,12 +52,12 @@ const Login = () => {
     };
 
     return (
-        <div className="page">
-            <div className="inputs">
+        <div className={styles.page}>
+            <div className={styles.inputs}>
                 <div>
                 <h2>We’ve missed you!</h2>
                 <span>More than 150 subforums are waiting for your wise suggestions!</span> 
-                <div className="input">
+                <div className={styles.input}>
                     
                     <input
                         value={formData.userName}
@@ -69,7 +69,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="input">
+                <div className={styles.input}>
                     <input
                         value={formData.password}
                         onChange={(e) => setFormData({ password: e.target.value })}
@@ -81,7 +81,7 @@ const Login = () => {
                 </div>
 
                 <div >
-                    <button className="button"onClick={doLogin}>Log in</button>
+                    <button className={styles.button} onClick={doLogin}>Log in</button>
                 </div>
 
                 {/* Display error message */}
@@ -92,7 +92,7 @@ const Login = () => {
                 )}
                 </div>
             </div>
-            <div className="image-container">
+            <div className={styles.imageContainer}>
                 <div style={{objectFit:"cover",width:"100%"}}>
                 <img 
                 src="/background.jpg" 
