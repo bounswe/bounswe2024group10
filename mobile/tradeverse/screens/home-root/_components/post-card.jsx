@@ -1,23 +1,32 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useContext, useState, useEffect } from "react";
+
+import { View, Text, Pressable } from "react-native";
+
+import { Storage } from "../../../util/storage";
+
+import { likePost, dislikePost, unlikePost, undislikePost } from "../../../services/post";
+
+import {
+  COLORS,
+  FONT_WEIGHTS,
+  SIZE_CONSTANT,
+  SIZES,
+} from "../../../constants/theme";
+
 import {
   IconEye,
   IconMessage,
   IconMessageCircle2,
   IconThumbDown,
   IconThumbUp,
-} from '@tabler/icons-react-native'
-import {
-  COLORS,
-  FONT_WEIGHTS,
-  SIZE_CONSTANT,
-  SIZES,
-} from '../../../constants/theme'
-import ProfileImage from '../../../components/images/profile-image'
-import UserLink from '../../../components/links/user-link'
-import paths from '../../../config/screen-paths'
-import PostLink from '../../../components/links/post-link'
-import SubforumLink from '../../../components/links/subforum-link'
+  IconThumbUpFilled
+} from "@tabler/icons-react-native";
+
+import ProfileImage from "../../../components/images/profile-image";
+import UserLink from "../../../components/links/user-link";
+import paths from "../../../config/screen-paths";
+import PostLink from "../../../components/links/post-link";
+import SubforumLink from "../../../components/links/subforum-link";
 
 // {
 //     title: 'Title',
@@ -40,18 +49,29 @@ import SubforumLink from '../../../components/links/subforum-link'
 //     },
 //   }
 
-const AuthorInfo = ({ author }) => (
-  <UserLink user={author} target={paths.HOME.USER_PROFILE}>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: SIZE_CONSTANT * 0.6,
-        alignItems: 'center',
-      }}
-    >
-      <View>
-        <ProfileImage
+const AuthorInfo = ({ author }) => {
+  if (!author) return
+  return (
+    <UserLink user={author} target={paths.HOME.USER_PROFILE}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: SIZE_CONSTANT * 0.6,
+          alignItems: "center",
+        }}
+      >
+        <View>
+          <ProfileImage
+            style={{
+              width: SIZE_CONSTANT * 2.1,
+              height: SIZE_CONSTANT * 2.1,
+              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+            }}
+            src={author.avatar}
+          />
+        </View>
+        <View
           style={{
             width: SIZE_CONSTANT * 2.1,
             height: SIZE_CONSTANT * 2.1,
@@ -60,6 +80,14 @@ const AuthorInfo = ({ author }) => (
           src={author.avatar}
         />
       </View>
+    </UserLink>
+  );
+};
+
+const SubforumInfo = ({ subforum }) => {
+  if (!subforum) return <></>;
+  return (
+    <SubforumLink subForum={subforum} target={paths.HOME.SUBFORUM_DETAIL}>
       <View
         style={{
           display: 'flex',
@@ -76,6 +104,47 @@ const AuthorInfo = ({ author }) => (
         >
           {author.name} {author.surname}
         </Text>
+      </View>
+    </SubforumLink>
+  );
+};
+
+const TagText = ({ tag, index = 0, isLast = false }) => {
+  return (
+    <Text
+      style={{
+        display: "inline",
+        fontSize: SIZES.xSmall,
+        color: COLORS.primary500,
+        letterSpacing: -0.03,
+      }}
+    >
+      {index === 0 ? "" : " "}@{tag.value}
+    </Text>
+  );
+};
+
+const DefaultText = ({ text, index = 0 }) => {
+  return (
+    <Text
+      style={{
+        fontSize: SIZES.xSmall,
+        color: COLORS.primary950,
+        letterSpacing: -0.03,
+      }}
+    >
+      {index === 0 ? "" : " "}
+      {text.value}
+    </Text>
+  );
+};
+
+const InteractionInfo = ({ icon = () => {}, value }) => (
+    <View
+      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+    >
+      <View>{icon({ prop: { color: "#444" } })}</View>
+      <View>
         <Text
           style={{
             fontSize: SIZE_CONSTANT * 0.8,
@@ -88,93 +157,34 @@ const AuthorInfo = ({ author }) => (
         </Text>
       </View>
     </View>
-  </UserLink>
-)
-
-const SubforumInfo = ({ subforum }) => (
-  <SubforumLink subForum={subforum} target={paths.HOME.SUBFORUM_DETAIL}>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: SIZE_CONSTANT * 1.2,
-        height: SIZE_CONSTANT * 1.6,
-        backgroundColor: '#D4FFE7',
-        borderWidth: 0.5,
-        borderColor: '#EDFDFF',
-        borderRadius: SIZE_CONSTANT * 1.2,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: SIZE_CONSTANT * 0.64,
-          fontWeight: FONT_WEIGHTS.medium,
-          color: '#107E64',
-          letterSpacing: -0.03,
-        }}
-      >
-        {subforum.title}
-      </Text>
-    </View>
-  </SubforumLink>
-)
-
-const TagText = ({ tag, index = 0, isLast = false }) => (
-  <Text
-    style={{
-      display: 'inline',
-      fontSize: SIZES.xSmall,
-      color: COLORS.primary500,
-      letterSpacing: -0.03,
-    }}
-  >
-    {index === 0 ? '' : ' '}@{tag.value}
-  </Text>
-)
-
-const DefaultText = ({ text, index = 0 }) => (
-  <Text
-    style={{
-      fontSize: SIZES.xSmall,
-      color: COLORS.primary950,
-      letterSpacing: -0.03,
-    }}
-  >
-    {index === 0 ? '' : ' '}
-    {text.value}
-  </Text>
-)
-
-const InteractionInfo = ({ icon = () => {}, value }) => (
-  <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-    <View>{icon({ prop: { color: '#444' } })}</View>
-    <View>
-      <Text
-        style={{
-          fontSize: SIZE_CONSTANT * 0.8,
-          color: '#444',
-          letterSpacing: -0.03,
-          fontWeight: FONT_WEIGHTS.medium,
-        }}
-      >
-        {value}
-      </Text>
-    </View>
-  </View>
-)
+  );
 
 export default function PostCard({ style, post }) {
   {/* for handle likes*/}
-  const { user } = useContext(AuthContext)
+  // const { user } = useContext(AuthContext)
   const [isLiked, setIsLiked] = useState(post?.isLiked ?? false)
+  const [username, setUsername] = useState();
+
+
+  useEffect(() => {
+    const handleUserFetch = async () => {
+      const username = await Storage.getItem('username');
+      setUsername(username)
+    };
+
+    handleUserFetch();
+  }, [])
 
   const handleLike = async () => {
     const response = await likePost({
       postId: post?.id,
-      username: user.username,
+      username,
+      post
     })
     if (response.success) {
+      setIsLiked(true)
+    } else {
+      // set to true because its a mock
       setIsLiked(true)
     }
   }
@@ -185,7 +195,8 @@ export default function PostCard({ style, post }) {
   const handleDislike = async () => {
     const response = await dislikePost({
       postId: post?.id,
-      username: user.username,
+      username,
+      post
     });
   
     if (response?.success) {
@@ -198,7 +209,7 @@ export default function PostCard({ style, post }) {
   const handleUnlike = async () => {
     const response = await unlikePost({
       postId: post?.id,
-      username: user.username,
+      username: username,
     });
   
     if (response?.success) {
@@ -210,7 +221,7 @@ export default function PostCard({ style, post }) {
   const handleUndislike = async () => {
     const response = await undislikePost({
       postId: post?.id,
-      username: user.username,
+      username: username,
     });
   
     if (response?.success) {
@@ -258,9 +269,9 @@ export default function PostCard({ style, post }) {
         </View>
         <View>
           <Text>
-            {post.content.map((content, index) => {
-              if (content.type === 'text') {
-                return <DefaultText key={index} index={index} text={content} />
+            {post && post.content && post.content.map((content, index) => {
+              if (content.type === "text") {
+                return <DefaultText key={index} index={index} text={content} />;
               }
               if (content.type === 'tag') {
                 return <TagText key={index} index={index} tag={content} />
@@ -295,7 +306,7 @@ export default function PostCard({ style, post }) {
             />
 
             {/* presslendiğinde filliyo */}
-            <Pressable onPress={handleLike}>
+            {/* <Pressable onPress={handleLike} >
               <InteractionInfo
                 icon={(params) =>
                   isLiked ? (
@@ -311,9 +322,9 @@ export default function PostCard({ style, post }) {
                 }
                 value={post.views}
               />
-            </Pressable>
+            </Pressable> */}
 
-            <Pressable onPress={handleUnlike}>
+            <Pressable onPress={handleLike} style={{zIndex: 5}}>
               <InteractionInfo
                 icon={(params) =>
                   !isLiked ? (
@@ -332,11 +343,11 @@ export default function PostCard({ style, post }) {
             </Pressable>
 
 
-            <Pressable onPress={isDisliked ? handleUndislike : handleDislike}>
+            <Pressable onPress={isDisliked ? handleUndislike : handleDislike} style={{zIndex: 5}}>
               <InteractionInfo
                 icon={(params) =>
                   isDisliked ? (
-                    <IconThumbDownFilled
+                    <IconThumbDown
                       fill={COLORS.primary500}
                       strokeWidth={0}
                       color="#444"
