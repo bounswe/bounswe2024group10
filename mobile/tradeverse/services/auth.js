@@ -1,18 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import api from './_axios'
 
-export async function getMe({ authToken = '', username = '' }) {
+export async function getMe({ username = '' }) {
   try {
     const response = await api({
-      url: '/auth/get-user-details',
-      method: 'POST',
-      //   method: "GET", // In future
-      headers: {
-        Authorization: authToken ? `Bearer ${authToken}` : null,
-      },
-
-      // TODO:/ Delete later
-      data: username ? { username } : {},
+      url: `/user/get-user-details/${username}`,
+      method: 'GET',
     })
 
     return response.data
@@ -82,5 +75,22 @@ export async function register({
   } catch (error) {
     console.log('Register Error ->', error.message)
     throw new Error(error.message || 'Kayıt başarısız')
+  }
+}
+
+export async function validateToken({ token }) {
+  try {
+    const response = await api({
+      url: '/auth/validate-token',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return response.data
+  } catch (error) {
+    console.log('Validate Token Error ->', error.message)
+    throw new Error(error.message || 'Token doğrulama başarısız')
   }
 }

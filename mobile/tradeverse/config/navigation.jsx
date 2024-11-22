@@ -27,8 +27,6 @@ export const NAV_OPTIONS = [
   },
 
   {
-    // icon: <IconSearch {...DefaultIconStyle} />,
-    // activeIcon: <IconSearch {...DefaultFilledIconStyle} />,
     icons: {
       active: (style) => <IconSearch {...style} />,
       inactive: (style) => <IconSearch {...style} />,
@@ -42,8 +40,6 @@ export const NAV_OPTIONS = [
     },
   },
   {
-    // icon:<IconPlus {...DefaultIconStyle} />,
-    // activeIcon:<IconPlus {...DefaultIconStyle} />,
     icons: {
       active: (style) => <IconPlus {...style} />,
       inactive: (style) => <IconPlus {...style} />,
@@ -57,8 +53,6 @@ export const NAV_OPTIONS = [
     },
   },
   {
-    // icon:<IconLayout {...DefaultIconStyle} />,
-    // activeIcon:<IconLayoutFilled {...DefaultFilledIconStyle} />,
     icons: {
       active: (style) => <IconLayout {...style} />,
       inactive: (style) => <IconLayout {...style} />,
@@ -71,8 +65,6 @@ export const NAV_OPTIONS = [
     },
   },
   {
-    // icon:<IconUser {...DefaultIconStyle} />,
-    // activeIcon:<IconUserFilled {...DefaultFilledIconStyle} />,
     icons: {
       active: (style) => <IconUser {...style} />,
       inactive: (style) => <IconUser {...style} />,

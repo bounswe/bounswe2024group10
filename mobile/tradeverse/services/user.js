@@ -1,19 +1,17 @@
 import api from './_axios'
 
-export default async function getUserByUsername({ username }) {
+export default async function getUserByUsername({ username, token }) {
   try {
     const response = await api({
-      url: '/auth/get-user-details',
+      url: `/user/get-user-details/${username}`,
       method: 'GET',
       headers: {
-        Authorization: undefined,
+        Authorization: `Bearer ${token}`,
       },
-      data: { username },
     })
-
     return response.data
   } catch (error) {
-    // console.error('Get user by username failed', error)
+    console.error('Get user by username failed', error)
   }
   return null
 }

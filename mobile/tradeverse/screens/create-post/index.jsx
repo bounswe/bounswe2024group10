@@ -1,9 +1,10 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
+import { useDispatch } from 'react-redux'
 import {
   IconCaretDown,
   IconCaretDownFilled,
@@ -15,6 +16,8 @@ import GlobalScreen from '../../components/ui/global-screen'
 import FullScrollView from '../../components/ui/full-scroll-view'
 import RHFTextArea from '../../components/inputs/RHFTextArea'
 import RHFTextField from '../../components/inputs/RHFTextField'
+import { createPost } from '../../services/post'
+import { showToast } from '../../reduxStore/ui-slice'
 import {
   COLORS,
   FONT_WEIGHTS,
@@ -22,9 +25,13 @@ import {
   SIZES,
 } from '../../constants/theme'
 import MainButton from '../../components/buttons/main-button'
-import TextField from '../../components/inputs/TextField'
+import AutoSuggestInput from '../../components/inputs/AutoSuggestInput'
+import { AuthContext } from '../../auth/context'
 
 export default function CreatePostScreen() {
+  const [selectedSubforum, setSelectedSubforum] = useState(null)
+  const { user } = useContext(AuthContext)
+  const dispatch = useDispatch()
   const validationSchema = z.object({
     title: z.string().min(1, { message: 'Bu alan gerekli.' }),
     content: z.string().min(1, { message: 'Bu alan gerekli.' }),
@@ -37,6 +44,21 @@ export default function CreatePostScreen() {
     },
     resolver: zodResolver(validationSchema),
   })
+
+  const handleCreate = async (data) => {
+    const res = await createPost({
+      username: user.username,
+      title: data.title,
+      content: data.content,
+      parentID: selectedSubforum?.id ?? 2,
+    })
+    if (res?.successful) {
+      dispatch(
+        showToast({ text: 'Post created successfully', variant: 'success' })
+      )
+      router.back()
+    }
+  }
 
   return (
     <GlobalScreen>
@@ -56,25 +78,12 @@ export default function CreatePostScreen() {
         >
           Create Post Under
         </Text>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: SIZE_CONSTANT * 0.4,
+        <AutoSuggestInput
+          onSelect={(option) => {
+            setSelectedSubforum(option)
           }}
-        >
-          <Text
-            style={{
-              fontSize: SIZES.medium,
-              color: COLORS.primary950,
-              fontWeight: FONT_WEIGHTS.medium,
-            }}
-          >
-            Stock Market Trends & Future{' '}
-          </Text>
-          <IconCaretDownFilled size={SIZES.small} color={COLORS.primary500} />
-        </View>
+          endpoint={'/post/create-post'}
+        />
         <FormProvider {...form}>
           <View
             style={{
@@ -92,7 +101,7 @@ export default function CreatePostScreen() {
                 marginBottom: SIZE_CONSTANT * 4,
               }}
               label="Title"
-              name="name"
+              name="title"
             />
 
             {/* <TextField multiline={true} style={{}} placeholder="Write your post here..." /> */}
@@ -101,7 +110,7 @@ export default function CreatePostScreen() {
                 marginBottom: 0,
               }}
               label="Content"
-              name="description"
+              name="content"
             />
             <View
               style={{
@@ -128,6 +137,9 @@ export default function CreatePostScreen() {
             </View>
           </View>
           <MainButton
+            disabled={form.formState.isSubmitting}
+            loading={form.formState.isSubmitting}
+            onPress={form.handleSubmit(handleCreate)}
             style={{
               marginTop: SIZE_CONSTANT * 12,
             }}

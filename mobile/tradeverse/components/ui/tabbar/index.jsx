@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-nested-ternary */
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

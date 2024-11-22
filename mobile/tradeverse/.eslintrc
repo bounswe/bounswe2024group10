@@ -11,7 +11,10 @@
     "eqeqeq": "off",
     "comma-dangle": "off",
     "no-underscore-dangle": "off",
+    "no-unused-vars": "warn",
     "no-use-before-define": "off",
+    "react/prop-types": "off",
+    "eslint-plugin-import/no-named-as-default": "off",
   },
   "settings": {
     "import/resolver": {
