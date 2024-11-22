@@ -8,7 +8,7 @@ const _getAllPosts = () => {
         subforum: { id: sforum.id, title: sforum.title },
       }))
     );
-  }, [allSubforums]);
+  }, []);
 };
 
 export const getPostById = (postId) =>
