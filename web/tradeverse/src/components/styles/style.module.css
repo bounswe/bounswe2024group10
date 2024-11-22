@@ -164,3 +164,77 @@
 .loginButton:hover {
   background-color: lightgrey;
 }
+
+/* style.module.css */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #eef2ff;
+  overflow-x: hidden;
+  transition: width 0.3s;
+  z-index: 1000;
+}
+
+.sidebar.collapsed {
+  width: 60px; /* Adjust for collapsed width */
+}
+
+.sidebar.expanded {
+  width: 180px; /* Adjust for expanded width */
+}
+
+.sidebarToggle {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  color: black;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.sidebarElement {
+  display: flex;
+  height: 60px;
+  align-items: center;
+}
+
+.iconContainer {
+  width: 60px; /* Fixed width for icons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebarText {
+  margin-left: 10px;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.sidebarLogoContainer {
+  display: flex;
+  align-items: center;
+  height: 90px;
+}
+
+.sidebarLogo {
+  width: 165px;
+  height: 50px;
+  margin-left: 5px;
+}
+
+.sidebarSmallLogo {
+  width: 45px;
+  height: 40px;
+  margin-left: 5px;
+}
