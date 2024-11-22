@@ -165,32 +165,31 @@ const DefaultText = ({ text, index = 0 }) => {
   );
 };
 
-const InteractionInfo = ({ icon = () => {}, value }) => (
-    <View
-      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-    >
-      <View>{icon({ prop: { color: "#444" } })}</View>
-      <View>
-        <Text
-          style={{
-            fontSize: SIZE_CONSTANT * 0.8,
-            color: "#444",
-            letterSpacing: -0.03,
-            fontWeight: FONT_WEIGHTS.medium,
-          }}
-        >
-          {value}
-        </Text>
-      </View>
+const InteractionInfo = ({ icon = () => { }, value }) => (
+  <View
+    style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+  >
+    <View>{icon({ prop: { color: "#444" } })}</View>
+    <View>
+      <Text
+        style={{
+          fontSize: SIZE_CONSTANT * 0.8,
+          color: "#444",
+          letterSpacing: -0.03,
+          fontWeight: FONT_WEIGHTS.medium,
+        }}
+      >
+        {value}
+      </Text>
     </View>
-  );
+  </View>
+);
 
 export default function PostCard({ style, post }) {
-  {/* for handle likes*/}
+  {/* for handle likes*/ }
   // const { user } = useContext(AuthContext)
   const [isLiked, setIsLiked] = useState(post?.isLiked ?? false)
   const [username, setUsername] = useState();
-
 
   useEffect(() => {
     const handleUserFetch = async () => {
@@ -209,47 +208,44 @@ export default function PostCard({ style, post }) {
     })
     if (response.success) {
       setIsLiked(true)
-    } else {
-      // set to true because its a mock
-      setIsLiked(true)
     }
   }
 
 
-  {/* for handle dislikes */}
+  {/* for handle dislikes */ }
   const [isDisliked, setIsDisliked] = useState(post?.isDisliked ?? false);
   const handleDislike = async () => {
+
     const response = await dislikePost({
       postId: post?.id,
       username,
-      post
     });
-  
+
     if (response?.success) {
       setIsDisliked(true);
       setIsLiked(false); // Disliking typically removes a like, adjust if behavior differs.
     }
   };
 
-  {/*for handle unlike*/}
+  {/*for handle unlike*/ }
   const handleUnlike = async () => {
     const response = await unlikePost({
       postId: post?.id,
       username: username,
     });
-  
+
     if (response?.success) {
       setIsLiked(false);
     }
   };
 
-  {/* for handle undislike */}
+  {/* for handle undislike */ }
   const handleUndislike = async () => {
     const response = await undislikePost({
       postId: post?.id,
       username: username,
     });
-  
+
     if (response?.success) {
       setIsDisliked(false);
     }
@@ -350,7 +346,9 @@ export default function PostCard({ style, post }) {
               />
             </Pressable> */}
 
-            <Pressable onPress={handleLike} style={{zIndex: 5}}>
+            <Pressable onPress={(e) => {
+              !isLiked ? handleLike() : handleUnlike()
+            }} style={{ zIndex: 5 }}>
               <InteractionInfo
                 icon={(params) =>
                   !isLiked ? (
@@ -369,7 +367,7 @@ export default function PostCard({ style, post }) {
             </Pressable>
 
 
-            <Pressable onPress={isDisliked ? handleUndislike : handleDislike} style={{zIndex: 5}}>
+            <Pressable onPress={isDisliked ? handleUndislike : handleDislike} style={{ zIndex: 5 }}>
               <InteractionInfo
                 icon={(params) =>
                   isDisliked ? (

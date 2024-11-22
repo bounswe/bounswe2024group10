@@ -1,128 +1,125 @@
-import api from './_axios';
-import * as FileSystem from 'expo-file-system';  
-import { allSubforums } from '../mock-data/all-subforums';
-
-
-const filePath = FileSystem.documentDirectory + 'all-subforums.json';
-
-
-const writeToFile = async (data) => {
-  try {
-    await FileSystem.writeAsStringAsync(filePath, JSON.stringify(data, null, 2), {
-      encoding: FileSystem.EncodingType.UTF8,
-    });
-    console.log('File written successfully!');
-  } catch (error) {
-    console.error('Failed to write file:', error);
-  }
-};
+import api from './_axios'
+import {allSubforums} from '../mock-data/all-subforums'
 
 export async function likePost({ username, postId, post = null }) {
   try {
-    
-     //const response = await api.post('/like/like-post', { username, postId });
+    const response = await api.post('/like/like-post', { username, postId });
+    // if (post) {
+      
+    //   if (post && allSubforums) {
+    //     const subForum = allSubforums.find(sf => sf.id === post.subforum.id);
 
-    
-    if (post && allSubforums) {
-      const subForum = allSubforums.find(sf => sf.id === post.subforum.id);
-      if (subForum) {
-        const targetPost = subForum.posts.find(p => p.id === post.id);
-        if (targetPost) {
-          targetPost.likes = (targetPost.likes || 0) + 1;
-          console.log('Updated Post:', targetPost);
+    //     if (subForum) {
+    //       const targetPost = subForum.posts.find(p => p.id === post.id);
 
-          
-          await writeToFile(allSubforums);
-        } else {
-          console.warn('Post not found in subforum:', post.id);
-        }
-      } else {
-        console.warn('Subforum not found:', post.subforum.id);
-      }
-    }
+    //       if (targetPost) {
+    //         targetPost.likes = (targetPost.likes || 0) + 1;
 
-    //return response.data;
+    //         console.log('Updated Post:', targetPost);
+    //       } else {
+    //         console.warn('Post not found in subforum:', post.id);
+    //       }
+    //     } else {
+    //       console.warn('Subforum not found:', post.subforum.id);
+    //     }
+    //   }
+    return response.data
   } catch (error) {
-    console.error('Like Post Failed', error);
+    console.error('Like Post Failed', error)
   }
-
-  return null;
+  return null
 }
 
 export async function unlikePost({ username, postId }) {
-  try {
-    if (postId && allSubforums) {
-      console.log('Searching for post with ID:', postId);
+    try {
+      const response = await api.post('/like/unlike-post', { username, postId });
+      // if (postId) {
+      
+      //   if (postId && allSubforums) {
+      //     console.log(postId)
+      //     const subForum = allSubforums.forEach((key, val) => {
+      //       key["posts"].map(item => {
+      //         if (item.id == postId) {
 
-      allSubforums.forEach(subForum => {
-        const targetPost = subForum.posts.find(p => p.id === postId);
-        if (targetPost) {
-          targetPost.likes = (targetPost.likes || 0) - 1;
-          console.log('Updated Post:', targetPost);
+      //         }
 
+      //       });
+      //     })
+      //   }
+  
+      // }
+
+       return response.data
+    } catch (error) {
+       console.error('Unlike post failed', error)
+    }
+    return null
+  }
+
+  export async function dislikePost({ username, postId }) {
+    try {
+      const response = await api.post('/dislike/dislike-post', { username, postId });
+
+      if (postId && allSubforums) {
+        console.log("Searching for post with ID:", postId);
+        
+        // Loop through each subforum and its posts to find the post by postId
+        // for (let subforum of allSubforums) {
+        //   const post = subforum.posts.find(item => item.id === postId);
           
-          writeToFile(allSubforums);
-        }
-      });
-    }
-  } catch (error) {
-    console.error('Unlike Post Failed', error);
-  }
-
-  return null;
-}
-
-export async function dislikePost({ username, postId }) {
-  try {
-    if (postId && allSubforums) {
-      console.log('Searching for post with ID:', postId);
-
-      for (let subforum of allSubforums) {
-        const post = subforum.posts.find(item => item.id === postId);
-        if (post) {
-          console.log('Found post:', post);
-          post.dislikes = (post.dislikes || 0) + 1;
-          console.log('Updated post:', post);
-
-          await writeToFile(allSubforums);
-          return post; 
-        }
+        //   // If the post is found, log it and break the loop
+        //   if (post) {
+        //     console.log("Found post:", post);
+            
+        //     // Perform your logic for disliking the post here
+        //     // You can update the likes/dislikes of the post or call an API
+  
+        //     // For example, you could increase the dislike count:
+        //     post.dislikes += 1;
+        //     console.log("Updated post:", post);
+        //     return post; // Return the updated post
+        //   }
+        // }
+        
+        console.log("Post not found");
       }
-
-      console.log('Post not found');
+      return response.data
+    } catch (error) {
+      console.error('Dislike post failed', error);
     }
-  } catch (error) {
-    console.error('Dislike Post Failed', error);
+    
+    return null; // Return null if the post isn't found
   }
-
-  return null;
-}
+  
 
 export async function undislikePost({ username, postId }) {
-  try {
-    
-    //const response = await api.post('/dislike/undislike-post', { username, postId });
+    try {
+      const response = await api.post('/dislike/undislike-post', { username, postId });
 
-    
-    if (postId && allSubforums) {
-      console.log('Searching for post with ID:', postId);
-
-      allSubforums.forEach(subForum => {
-        const targetPost = subForum.posts.find(p => p.id === postId);
-        if (targetPost) {
-          targetPost.dislikes = (targetPost.dislikes || 0) - 1;
-          console.log('Updated Post:', targetPost);
-
-          
-          writeToFile(allSubforums);
-        }
-      });
+      // if (post) {
+      
+      //   if (post && allSubforums) {
+      //     const subForum = allSubforums.find(sf => sf.id === post.subforum.id);
+  
+      //     if (subForum) {
+      //       const targetPost = subForum.posts.find(p => p.id === post.id);
+  
+      //       if (targetPost) {
+      //         targetPost.likes = (targetPost.dislikes || 0) - 1;
+  
+      //         console.log('Updated Post:', targetPost);
+      //       } else {
+      //         console.warn('Post not found in subforum:', post.id);
+      //       }
+      //     } else {
+      //       console.warn('Subforum not found:', post.subforum.id);
+      //     }
+      //   }
+  
+      // }
+      return response.data
+    } catch (error) {
+       console.error('Undislike post failed', error)
     }
-
-    //return response.data;
-  } catch (error) {
-    console.error('Undislike Post Failed', error);
+    return null
   }
-
-  return null;
-}
