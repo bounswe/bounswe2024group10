@@ -91,8 +91,9 @@ export const RenderMenu = () => {
   return (
     <div className={styles.topbarContainer}>
       <div
-        className={`${styles.sidebar} ${isSidebarOpen ? styles.expanded : styles.collapsed
-          }`}
+        className={`${styles.sidebar} ${
+          isSidebarOpen ? styles.expanded : styles.collapsed
+        }`}
       >
         <div className={styles.sidebarLogoContainer}>
           {isSidebarOpen ? (
@@ -109,38 +110,45 @@ export const RenderMenu = () => {
             />
           )}
         </div>
-        <div className={styles.sidebarElement}>
-          <div className={styles.iconContainer}>
-            <i className="fas fa-home"></i>
-          </div>
-          {isSidebarOpen && (
-            <div className={styles.sidebarText}>
-              <h3>Home</h3>
+        <Link to={"/"} className={styles.link}>
+          <div className={styles.sidebarElement}>
+            <div className={styles.iconContainer}>
+              <i className="fas fa-home"></i>
             </div>
-          )}
-        </div>
-        <div className={styles.sidebarElement}>
-          <div className={styles.iconContainer}>
-            <i className="fas fa-search"></i>
+            {isSidebarOpen && (
+              <div className={styles.sidebarText}>
+                <h3>Home</h3>
+              </div>
+            )}
           </div>
-          {isSidebarOpen && (
-            <div className={styles.sidebarText}>
-              <h3>Search</h3>
+        </Link>
+        <Link to={"/search"} className={styles.link}>
+          <div className={styles.sidebarElement}>
+            <div className={styles.iconContainer}>
+              <i className="fas fa-search"></i>
             </div>
-          )}
-        </div>
+            {isSidebarOpen && (
+              <div className={styles.sidebarText}>
+                <h3>Search</h3>
+              </div>
+            )}
+          </div>
+        </Link>
         {user.isAuthenticated && (
           <div>
-            <div className={styles.sidebarElement}>
-              <div className={styles.iconContainer}>
-                <i className="fas fa-chart-pie"></i>
-              </div>
-              {isSidebarOpen && (
-                <div className={styles.sidebarText}>
-                  <h3>Portfolio</h3>
+            <Link to={"/"} className={styles.link}>
+              <div className={styles.sidebarElement}>
+                <div className={styles.iconContainer}>
+                  <i className="fas fa-chart-pie"></i>
                 </div>
-              )}
-            </div>
+                {isSidebarOpen && (
+                  <div className={styles.sidebarText}>
+                    <h3>Portfolio</h3>
+                  </div>
+                )}
+              </div>
+            </Link>
+            <Link to={"/"} className={styles.link}>
             <div className={styles.sidebarElement}>
               <div className={styles.iconContainer}>
                 <i className="fas fa-user"></i>
@@ -151,6 +159,7 @@ export const RenderMenu = () => {
                 </div>
               )}
             </div>
+            </Link>
           </div>
         )}
         <button className={styles.sidebarToggle} onClick={toggleSidebar}>
