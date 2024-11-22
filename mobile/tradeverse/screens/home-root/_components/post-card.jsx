@@ -1,19 +1,28 @@
-import { View, Text } from "react-native";
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+
+import { View, Text, Pressable } from "react-native";
+
+import { Storage } from "../../../util/storage";
+
+import { likePost, dislikePost, unlikePost, undislikePost } from "../../../services/post";
+
 import {
   COLORS,
   FONT_WEIGHTS,
   SIZE_CONSTANT,
   SIZES,
 } from "../../../constants/theme";
-import ProfileImage from "../../../components/images/profile-image";
+
 import {
   IconEye,
   IconMessage,
   IconMessageCircle2,
   IconThumbDown,
   IconThumbUp,
+  IconThumbUpFilled
 } from "@tabler/icons-react-native";
+
+import ProfileImage from "../../../components/images/profile-image";
 import UserLink from "../../../components/links/user-link";
 import paths from "../../../config/screen-paths";
 import PostLink from "../../../components/links/post-link";
@@ -41,6 +50,7 @@ import SubforumLink from "../../../components/links/subforum-link";
 //   }
 
 const AuthorInfo = ({ author }) => {
+  if (!author) return
   return (
     <UserLink user={author} target={paths.HOME.USER_PROFILE}>
       <View
@@ -94,6 +104,7 @@ const AuthorInfo = ({ author }) => {
 };
 
 const SubforumInfo = ({ subforum }) => {
+  if (!subforum) return <></>;
   return (
     <SubforumLink subForum={subforum} target={paths.HOME.SUBFORUM_DETAIL}>
       <View
@@ -154,8 +165,7 @@ const DefaultText = ({ text, index = 0 }) => {
   );
 };
 
-const InteractionInfo = ({ icon = () => {}, value }) => {
-  return (
+const InteractionInfo = ({ icon = () => {}, value }) => (
     <View
       style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
     >
@@ -174,19 +184,33 @@ const InteractionInfo = ({ icon = () => {}, value }) => {
       </View>
     </View>
   );
-};
 
 export default function PostCard({ style, post }) {
   {/* for handle likes*/}
-  const { user } = useContext(AuthContext)
+  // const { user } = useContext(AuthContext)
   const [isLiked, setIsLiked] = useState(post?.isLiked ?? false)
+  const [username, setUsername] = useState();
+
+
+  useEffect(() => {
+    const handleUserFetch = async () => {
+      const username = await Storage.getItem('username');
+      setUsername(username)
+    };
+
+    handleUserFetch();
+  }, [])
 
   const handleLike = async () => {
     const response = await likePost({
       postId: post?.id,
-      username: user.username,
+      username,
+      post
     })
     if (response.success) {
+      setIsLiked(true)
+    } else {
+      // set to true because its a mock
       setIsLiked(true)
     }
   }
@@ -197,7 +221,8 @@ export default function PostCard({ style, post }) {
   const handleDislike = async () => {
     const response = await dislikePost({
       postId: post?.id,
-      username: user.username,
+      username,
+      post
     });
   
     if (response?.success) {
@@ -210,7 +235,7 @@ export default function PostCard({ style, post }) {
   const handleUnlike = async () => {
     const response = await unlikePost({
       postId: post?.id,
-      username: user.username,
+      username: username,
     });
   
     if (response?.success) {
@@ -222,7 +247,7 @@ export default function PostCard({ style, post }) {
   const handleUndislike = async () => {
     const response = await undislikePost({
       postId: post?.id,
-      username: user.username,
+      username: username,
     });
   
     if (response?.success) {
@@ -270,7 +295,7 @@ export default function PostCard({ style, post }) {
         </View>
         <View>
           <Text>
-            {post.content.map((content, index) => {
+            {post && post.content && post.content.map((content, index) => {
               if (content.type === "text") {
                 return <DefaultText key={index} index={index} text={content} />;
               }
@@ -307,7 +332,7 @@ export default function PostCard({ style, post }) {
             />
 
             {/* presslendiğinde filliyo */}
-            <Pressable onPress={handleLike}>
+            {/* <Pressable onPress={handleLike} >
               <InteractionInfo
                 icon={(params) =>
                   isLiked ? (
@@ -323,9 +348,9 @@ export default function PostCard({ style, post }) {
                 }
                 value={post.views}
               />
-            </Pressable>
+            </Pressable> */}
 
-            <Pressable onPress={handleUnlike}>
+            <Pressable onPress={handleLike} style={{zIndex: 5}}>
               <InteractionInfo
                 icon={(params) =>
                   !isLiked ? (
@@ -344,11 +369,11 @@ export default function PostCard({ style, post }) {
             </Pressable>
 
 
-            <Pressable onPress={isDisliked ? handleUndislike : handleDislike}>
+            <Pressable onPress={isDisliked ? handleUndislike : handleDislike} style={{zIndex: 5}}>
               <InteractionInfo
                 icon={(params) =>
                   isDisliked ? (
-                    <IconThumbDownFilled
+                    <IconThumbDown
                       fill={COLORS.primary500}
                       strokeWidth={0}
                       color="#444"

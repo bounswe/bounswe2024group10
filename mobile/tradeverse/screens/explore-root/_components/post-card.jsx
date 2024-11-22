@@ -19,6 +19,8 @@ import PostLink from "../../../components/links/post-link";
 import paths from "../../../config/screen-paths";
 
 const AuthorInfo = ({ author }) => {
+  if (!author) return <></>;
+
   return (
     <UserLink user={author}>
       <View
@@ -72,6 +74,7 @@ const AuthorInfo = ({ author }) => {
 };
 
 const SubforumInfo = ({ subforum }) => {
+  if (!subforum) return <></>;
   return (
     <SubforumLink subForum={subforum}>
       <View
@@ -194,7 +197,7 @@ export default function PostCard({ style, post }) {
         </View>
         <View>
           <Text>
-            {post.content.map((content, index) => {
+            {post && post.content && post.content.map((content, index) => {
               if (content.type === "text") {
                 return <DefaultText key={index} index={index} text={content} />;
               }

@@ -49,6 +49,7 @@ const SIZES = {
 }
 
 const AuthorInfo = ({ author }) => {
+  if (!author) return <></>;
   return (
     <UserLink user={author} target={paths.HOME.USER_PROFILE}>
       <View
@@ -224,7 +225,7 @@ export default function PostHeader({ style, post }) {
         </View>
         <View>
           <Text>
-            {post.content.map((content, index) => {
+            {post && post.content && post.content.map((content, index) => {
               if (content.type === "text") {
                 return <DefaultText key={index} index={index} text={content} />;
               }

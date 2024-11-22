@@ -6,6 +6,8 @@ import SubforumLink from "../../../../components/links/subforum-link";
 import paths from "../../../../config/screen-paths";
 
 export default function SubForumResult({ style, subForum }) {
+  if (!subForum) return <></>;
+
   const InteractionInfo = ({ icon, value }) => {
     return (
       <View

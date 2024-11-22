@@ -40,6 +40,7 @@ import PostLink from "../../../../components/links/post-link";
 //   }
 
 const AuthorInfo = ({ author }) => {
+  if (!author) return <></>;
   return (
     <UserLink user={author} target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
       <View
@@ -93,6 +94,7 @@ const AuthorInfo = ({ author }) => {
 };
 
 const SubforumInfo = ({ subforum }) => {
+  if (!subforum) return <></>;
   return (
     <SubforumLink subForum={subforum} target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
       <View
