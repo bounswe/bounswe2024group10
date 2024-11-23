@@ -1,6 +1,8 @@
 package com.bounswe2024group10.Tradeverse.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,19 +20,15 @@ public class Portfolio {
     private String name;
 
     @Column(nullable = false)
-    private String visibility; // e.g., "PUBLIC" or "PRIVATE"
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private BigDecimal amount; //
 
     public Portfolio() {
     }
 
-    public Portfolio(String username, String name, String visibility) {
+    public Portfolio(String username, String name, BigDecimal amount) {
         this.username = username;
         this.name = name;
-        this.visibility = visibility;
-        this.createdAt = LocalDateTime.now(); // Automatically set the creation time
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -57,19 +55,14 @@ public class Portfolio {
         this.name = name;
     }
 
-    public String getVisibility() {
-        return visibility;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setVisibility(String visibility) {
-        this.visibility = visibility;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+
 }

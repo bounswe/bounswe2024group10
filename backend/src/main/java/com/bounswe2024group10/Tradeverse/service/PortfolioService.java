@@ -6,6 +6,7 @@ import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class PortfolioService {
     private PortfolioRepository portfolioRepository;
 
     public CreatePortfolioResponse createPortfolio(CreatePortfolioRequest request) {
-        Portfolio portfolio = new Portfolio(request.getUsername(), request.getName(), request.getVisibility());
+        Portfolio portfolio = new Portfolio(request.getUsername(), request.getName(), request.getAmount());
 
         try {
             Portfolio savedPortfolio = portfolioRepository.save(portfolio);
@@ -34,7 +35,7 @@ public class PortfolioService {
         }
 
         List<PortfolioDto> portfolioDtos = portfolios.stream()
-                .map(portfolio -> new PortfolioDto(portfolio.getId(), portfolio.getName(), portfolio.getVisibility(), portfolio.getCreatedAt()))
+                .map(portfolio -> new PortfolioDto(portfolio.getId(), portfolio.getName(), portfolio.getName(), portfolio.getAmount()))
                 .collect(Collectors.toList());
 
         return new GetAllPortfoliosResponse(true, "Portfolios retrieved successfully", portfolioDtos);
@@ -48,7 +49,7 @@ public class PortfolioService {
         }
 
         portfolio.setName(request.getName());
-        portfolio.setVisibility(request.getVisibility());
+        portfolio.setAmount(request.getAmount());
 
         Portfolio updatedPortfolio = portfolioRepository.save(portfolio);
         return new UpdatePortfolioResponse(true, updatedPortfolio.getId(), "Portfolio updated successfully");

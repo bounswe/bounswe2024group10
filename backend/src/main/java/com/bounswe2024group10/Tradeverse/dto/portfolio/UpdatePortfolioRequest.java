@@ -1,14 +1,16 @@
 package com.bounswe2024group10.Tradeverse.dto.portfolio;
 
+import java.math.BigDecimal;
+
 public class UpdatePortfolioRequest {
     private Long id;
     private String name;
-    private String visibility;
+    private BigDecimal amount;
 
-    public UpdatePortfolioRequest(Long id, String name, String visibility) {
+    public UpdatePortfolioRequest(Long id, String name, BigDecimal amount) {
         this.id = id;
         this.name = name;
-        this.visibility = visibility;
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -19,7 +21,7 @@ public class UpdatePortfolioRequest {
         return name;
     }
 
-    public String getVisibility() {
-        return visibility;
+    public BigDecimal getAmount() {
+        return amount;
     }
 }
