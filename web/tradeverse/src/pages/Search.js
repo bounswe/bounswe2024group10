@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import mockData from "../data/mockData";
-import './styles/Search.css'; // Import the CSS file
+import styles from './styles/Search.module.css'; // Import the CSS file
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -98,23 +98,23 @@ const Search = () => {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       {/* Search bar */}
       <input
         type="text"
         placeholder="Search..."
         value={searchTerm}
         onChange={handleInputChange}
-        className="search-bar"
+        className={styles.searchBar}
       />
 
       {/* Category selector */}
-      <div className="category-selector">
+      <div className={styles.categorySelector}>
         {['popular', 'tags', 'subforums', 'posts', 'users'].map(category => (
           <button
             key={category}
             onClick={() => handleCategoryChange(category)}
-            className={`category-button ${searchCategory === category ? 'active' : ''}`}
+            className={`${styles.categoryButton} ${searchCategory === category ? styles.active : ''}`}
           >
             {category.toUpperCase()}
           </button>
@@ -122,30 +122,30 @@ const Search = () => {
       </div>
 
       {/* Search results */}
-      <div className="results-container">
+      <div className={styles.resultsContainer}>
         {results.length === 0 ? (
-          <p className="no-results">No results found.</p>
+          <p className={styles.noResults}>No results found.</p>
         ) : (
           results.map((result, index) => {
             switch (result.type) {
               case 'user':
                 return (
-                  <div key={index} className="user-card">
-                    <img src={result.avatar} alt={result.name} className="user-avatar" />
+                  <div key={index} className={styles.userCard}>
+                    <img src={result.avatar} alt={result.name} className={styles.userAvatar} />
                     <div>
-                      <p className="user-name">
+                      <p className={styles.userName}>
                         {result.name} {result.surname} (@{result.username})
                       </p>
-                      <p className="user-followers">Followers: {result.followers}</p>
+                      <p className={styles.userFollowers}>Followers: {result.followers}</p>
                     </div>
                   </div>
                 );
 
               case 'tag':
                 return (
-                  <div key={index} className="tag-card">
-                    <p className="tag-label">{result.label}</p>
-                    <p className="tag-info">
+                  <div key={index} className={styles.tagCard}>
+                    <p className={styles.tagLabel}>{result.label}</p>
+                    <p className={styles.tagInfo}>
                       Posts: {result.posts}, People: {result.people}
                     </p>
                   </div>
@@ -153,8 +153,8 @@ const Search = () => {
 
               case 'subforum':
                 return (
-                  <div key={index} className="subforum-card">
-                    <Link to={`/${result.name.toLowerCase()}`} className="subforum-link">
+                  <div key={index} className={styles.subforumCard}>
+                    <Link to={`/${result.name.toLowerCase()}`} className={styles.subforumLink}>
                       <h3>{result.name}</h3>
                     </Link>
                   </div>
@@ -162,10 +162,10 @@ const Search = () => {
 
               case 'post':
                 return (
-                  <div key={index} className="post-card">
-                    <Link to={`/${result.forumName.toLowerCase()}/${result.id}`} className="post-link">
-                      <h4 className="post-username">{result.username}</h4>
-                      <p className="post-content">{result.content}</p>
+                  <div key={index} className={styles.postCard}>
+                    <Link to={`/${result.forumName.toLowerCase()}/${result.id}`} className={styles.postLink}>
+                      <h4 className={styles.postUsername}>{result.username}</h4>
+                      <p className={styles.postContent}>{result.content}</p>
                     </Link>
                   </div>
                 );
