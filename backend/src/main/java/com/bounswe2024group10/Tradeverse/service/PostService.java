@@ -36,6 +36,7 @@ import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
+import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
@@ -412,21 +413,9 @@ public class PostService {
 
     public ExploreResponse explore(ExploreRequest request) {
         String username = request.getUsername();
-        List<Post> recentPosts = postRepository.findRecentPosts();
-        List<Post> popularPosts = postRepository.findPopularPosts();
-        if (username == null) {
-            return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts, null, null, null, null);
-        }
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return new ExploreResponse(false, "User does not exist", null, null, null, null, null, null);
-        }
-        List<Boolean> isRecentLiked = recentPosts.stream().map(post -> likeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
-        List<Boolean> isRecentDisliked = recentPosts.stream().map(post -> dislikeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
-        List<Boolean> isPopularLiked = popularPosts.stream().map(post -> likeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
-        List<Boolean> isPopularDisliked = popularPosts.stream().map(post -> dislikeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
-        return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts, isRecentLiked, isRecentDisliked, isPopularLiked, isPopularDisliked);
-
+        List<PostWSpecs> recentPosts = postRepository.findRecentPosts().stream().map(post -> new PostWSpecs(post, username)).collect(Collectors.toList());
+        List<PostWSpecs> popularPosts = postRepository.findPopularPosts().stream().map(post -> new PostWSpecs(post, username)).collect(Collectors.toList());
+        return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts);
     }
 
 }

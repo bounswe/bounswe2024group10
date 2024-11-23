@@ -11,6 +11,7 @@ import com.bounswe2024group10.Tradeverse.model.Like;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findByUsernameAndPostIDIn(String username, List<Long> postIDs);
     Like findByUsernameAndPostID(String username, Long postID);
+    Boolean existsByUsernameAndPostID(String username, Long postID);
     List<Like> findByUsername(String username);
     List<Like> findByPostID(Long postID);
     Long countByPostID(Long postID);
