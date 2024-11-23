@@ -69,7 +69,7 @@
 /* Login button specific styles */
 .loginButton {
   background-color: #EAEAEA;
-  color: blue;
+  color: #5D5FEF;
   
 }
 
@@ -79,13 +79,13 @@
 
 /* Register button specific styles */
 .registerButton {
-  background-color: #F48023;
+  background-color: #5D5FEF;
   color: white;
   
 }
 
 .registerButton:hover {
-  background-color: darkorange;
+  opacity: 0.8;
 }
 /* Responsive styles */
 @media (max-width: 768px) {

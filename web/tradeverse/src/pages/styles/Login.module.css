@@ -42,7 +42,7 @@
     height: 38px;
     margin-top: 10px;
     padding: 0  ;
-    background-color: #F48023;
+    background-color: #5D5FEF;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -51,7 +51,7 @@
     align-items: center; /* Vertically center the text */
     
 }
-.image-container{
+.imageContainer{
    width: 60%;
    height: 90.3vh;         /* Ekranın tamamını kapla (viewport yüksekliği) */
     overflow: hidden;      /* Taşmayı gizle */
@@ -60,7 +60,7 @@
     align-items: center;   /* Center items vertically */
     justify-content: center;
 }
-.image-container img {
+.imageContainer img {
     object-fit: cover;     /* Cover the container while maintaining aspect ratio */
     position: absolute;    /* Position absolute for better control */
     top: 50%;              /* Center it vertically */
