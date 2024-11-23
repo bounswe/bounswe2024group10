@@ -50,12 +50,13 @@ public class DislikeService {
         }
         Dislike dislike = new Dislike(request.getUsername(), request.getPostId());
         dislikeRepository.save(dislike);
-
+        post.setNofDislikes(post.getNofDislikes() + 1);
         Like like = likeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId());
         if (like != null) {
             likeRepository.delete(like);
+            post.setNofLikes(post.getNofLikes() - 1);
         }
-
+        postRepository.save(post);
         return new DislikePostResponse(true, "Post liked successfully");
     }
 

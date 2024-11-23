@@ -54,12 +54,13 @@ public class LikeService {
         }
         Like like = new Like(request.getUsername(), request.getPostId());
         likeRepository.save(like);
-
+        post.setNofLikes(post.getNofLikes() + 1);
         Dislike dislike = dislikeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId());
         if (dislike != null) {
             dislikeRepository.delete(dislike);
+            post.setNofDislikes(post.getNofDislikes() - 1);
         }
-
+        postRepository.save(post);
         return new LikePostResponse(true, "Post liked successfully");
     }
 
@@ -76,6 +77,8 @@ public class LikeService {
         Like like = likeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId());
         if (like != null) {
             likeRepository.delete(like);
+            post.setNofLikes(post.getNofLikes() - 1);
+            postRepository.save(post);
             return new UnlikePostResponse(true, "Post unliked successfully");
         } else {
             return new UnlikePostResponse(false, "You have not liked this post");

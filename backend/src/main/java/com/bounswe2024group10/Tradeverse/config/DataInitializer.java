@@ -38,24 +38,24 @@ public class DataInitializer {
             user.setUsername("admin");
             userRepository.save(user);
 
-            Post forum1 = new Post("admin", "General Discussion", null, List.of(new HashMap<>()), false, LocalDateTime.now(), FORUM);
-            Post forum2 = new Post("admin", "Financial News", null, List.of(new HashMap<>()), false, LocalDateTime.now(), FORUM);
+            Post forum1 = new Post("admin", "General Discussion", null, List.of(new HashMap<>()), LocalDateTime.now(), FORUM);
+            Post forum2 = new Post("admin", "Financial News", null, List.of(new HashMap<>()), LocalDateTime.now(), FORUM);
             postRepository.save(forum1);
             postRepository.save(forum2);
 
-            Post subforum1 = new Post("admin", "Subforum 1", forum1.getId(), List.of(new HashMap<>()), false, LocalDateTime.now(), SUBFORUM);
-            Post subforum2 = new Post("admin", "Subforum 2", forum1.getId(), List.of(new HashMap<>()), false, LocalDateTime.now(), SUBFORUM);
+            Post subforum1 = new Post("admin", "Subforum 1", forum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
+            Post subforum2 = new Post("admin", "Subforum 2", forum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
             postRepository.save(subforum1);
             postRepository.save(subforum2);
 
-            Post post1 = new Post("admin", "Post 1", subforum1.getId(), List.of(new HashMap<>()), true, LocalDateTime.now(), POST);
-            Post post2 = new Post("admin", "Post 2", subforum1.getId(), List.of(new HashMap<>()), true, LocalDateTime.now(), POST);
+            Post post1 = new Post("admin", "Post 1", subforum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post2 = new Post("admin", "Post 2", subforum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             postRepository.save(post1);
             postRepository.save(post2);
 
-            Post comment1 = new Post("admin", "Comment 1", post1.getId(), List.of(new HashMap<>()), true, LocalDateTime.now(), COMMENT);
-            Post comment2 = new Post("admin", "Comment 2", post1.getId(), List.of(new HashMap<>()), true, LocalDateTime.now(), COMMENT);
-            Post comment3 = new Post("admin", "Comment 3", comment1.getId(), List.of(new HashMap<>()), true, LocalDateTime.now(), COMMENT);
+            Post comment1 = new Post("admin", "Comment 1", post1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
+            Post comment2 = new Post("admin", "Comment 2", post1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
+            Post comment3 = new Post("admin", "Comment 3", comment1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
             postRepository.save(comment1);
             postRepository.save(comment2);
             postRepository.save(comment3);

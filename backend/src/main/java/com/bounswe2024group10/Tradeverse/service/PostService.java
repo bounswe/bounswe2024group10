@@ -23,14 +23,16 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetWLikesResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetForumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostWLikesResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
@@ -47,7 +49,7 @@ public class PostService {
     private static final PostType SUBFORUM = PostType.SUBFORUM;
     private static final PostType POST = PostType.POST;
     private static final PostType COMMENT = PostType.COMMENT;
-    
+
     @Autowired
     private LikeRepository likeRepository;
 
@@ -61,7 +63,7 @@ public class PostService {
     private UserRepository userRepository;
 
     public GeneralGetResponse getChilderen(GeneralGetRequest request) {
-        List<Post> childeren = postRepository.findByParentID(request.getPostId());
+        List<Post> childeren = postRepository.findByParentID(request.getParentId());
         return new GeneralGetResponse(true, "Comments fetched successfully", childeren);
     }
 
@@ -71,69 +73,61 @@ public class PostService {
     }
 
     public GeneralGetResponse getSubForums(GeneralGetRequest request) {
-        Post forum = postRepository.findById(request.getPostId()).orElse(null);
+        Post forum = postRepository.findById(request.getParentId()).orElse(null);
         if (forum == null) {
             return new GeneralGetResponse(false, "Forum does not exist", null);
         }
         if (forum.getPostType() != FORUM) {
             return new GeneralGetResponse(false, "Given post is not a forum", null);
         }
-        List<Post> subForums = postRepository.findByParentID(request.getPostId());
+        List<Post> subForums = postRepository.findByParentID(request.getParentId());
         return new GeneralGetResponse(true, "Subforums fetched successfully", subForums);
     }
 
-    public GeneralGetWLikesResponse getPostsWLikes(GeneralGetRequest request) {
-        Post subforum = postRepository.findById(request.getPostId()).orElse(null);
+    public GeneralGetResponse getPosts(GeneralGetRequest request) {
+        Post subforum = postRepository.findById(request.getParentId()).orElse(null);
         if (subforum == null) {
-            return new GeneralGetWLikesResponse(false, "Subforum does not exist", null, null, null);
+            return new GeneralGetResponse(false, "Subforum does not exist", null);
         }
         if (subforum.getPostType() != SUBFORUM) {
-            return new GeneralGetWLikesResponse(false, "Given post is not a subforum", null, null, null);
+            return new GeneralGetResponse(false, "Given post is not a subforum", null);
         }
-        List<Post> posts = postRepository.findByParentID(request.getPostId());
-        List<Long> nofLikes = posts.stream().map(comment -> likeRepository.countByPostID(comment.getId())).collect(Collectors.toList());
-        List<Long> nofDislikes = posts.stream().map(comment -> dislikeRepository.countByPostID(comment.getId())).collect(Collectors.toList());
-        return new GeneralGetWLikesResponse(true, "Subforum posts fetched successfully", posts, nofLikes, nofDislikes);
+        List<Post> posts = postRepository.findByParentID(request.getParentId());
+        return new GeneralGetResponse(true, "Subforum posts fetched successfully", posts);
     }
 
-    public GeneralGetWLikesResponse getCommentsWLikes(GeneralGetRequest request) {
-        Post post = postRepository.findById(request.getPostId()).orElse(null);
+    public GeneralGetResponse getComments(GeneralGetRequest request) {
+        Post post = postRepository.findById(request.getParentId()).orElse(null);
         if (post == null) {
-            return new GeneralGetWLikesResponse(false, "Post does not exist", null, null, null);
+            return new GeneralGetResponse(false, "Post does not exist", null);
         }
         if (post.getPostType() != POST) {
-            return new GeneralGetWLikesResponse(false, "Post is not a post", null, null, null);
+            return new GeneralGetResponse(false, "Post is not a post", null);
         }
-        List<Post> comments = postRepository.findByParentID(request.getPostId());
-        List<Long> nofLikes = comments.stream().map(comment -> likeRepository.countByPostID(comment.getId())).collect(Collectors.toList());
-        List<Long> nofDislikes = comments.stream().map(comment -> dislikeRepository.countByPostID(comment.getId())).collect(Collectors.toList());
-        return new GeneralGetWLikesResponse(true, "Comments fetched successfully", comments, nofLikes, nofDislikes);
+        List<Post> comments = postRepository.findByParentID(request.getParentId());
+        return new GeneralGetResponse(true, "Comments fetched successfully", comments);
     }
 
-    public GetPostWLikesResponse getCommentWLikes(GetPostRequest request) {
+    public GetPostResponse getComment(GetPostRequest request) {
         Post comment = postRepository.findById(request.getPostId()).orElse(null);
         if (comment == null) {
-            return new GetPostWLikesResponse(false, "Comment does not exist", null, null, null);
+            return new GetPostResponse(false, "Comment does not exist", null);
         }
         if (comment.getPostType() != COMMENT) {
-            return new GetPostWLikesResponse(false, "Post is not a comment", null, null, null);
+            return new GetPostResponse(false, "Post is not a comment", null);
         }
-        Long nofLikes = likeRepository.countByPostID(comment.getId());
-        Long nofDislikes = dislikeRepository.countByPostID(comment.getId());
-        return new GetPostWLikesResponse(true, "Comment fetched successfully", comment, nofLikes, nofDislikes);
+        return new GetPostResponse(true, "Comment fetched successfully", comment);
     }
 
-    public GetPostWLikesResponse getPostWLikes(GetPostRequest request) {
+    public GetPostResponse getPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
-            return new GetPostWLikesResponse(false, "Post does not exist", null, null, null);
+            return new GetPostResponse(false, "Post does not exist", null);
         }
         if (post.getPostType() != POST) {
-            return new GetPostWLikesResponse(false, "Post is not a post", null, null, null);
+            return new GetPostResponse(false, "Post is not a post", null);
         }
-        Long nofLikes = likeRepository.countByPostID(post.getId());
-        Long nofDislikes = dislikeRepository.countByPostID(post.getId());
-        return new GetPostWLikesResponse(true, "Post fetched successfully", post, nofLikes, nofDislikes);
+        return new GetPostResponse(true, "Post fetched successfully", post);
     }
 
     public CreatePostResponse createPost(CreatePostRequest request) {
@@ -148,7 +142,7 @@ public class PostService {
         if(parentSubforum.getPostType() != SUBFORUM) {
             return new CreatePostResponse(false, "Parent post is not a subforum");
         }
-        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), true, LocalDateTime.now(), POST);
+        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), LocalDateTime.now(), POST);
         postRepository.save(post);
         parentSubforum.setLastUpdateDate(LocalDateTime.now());
         Post parentForum = postRepository.findById(parentSubforum.getParentID()).orElse(null);
@@ -161,14 +155,14 @@ public class PostService {
 
     public CreateForumResponse createForum(CreateForumRequest request) {
         // TO DO: Check if the user is admin
-        Post post = new Post(request.getUsername(), request.getTitle(), null, null, false, LocalDateTime.now(), FORUM);
+        Post post = new Post(request.getUsername(), request.getTitle(), null, null, LocalDateTime.now(), FORUM);
         postRepository.save(post);
         return new CreateForumResponse(true, "Forum created successfully");
     }
     
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public CreateSubforumResponse createSubforum(CreateSubforumRequest request) {
-        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), null, false, LocalDateTime.now(), SUBFORUM);
+        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), null, LocalDateTime.now(), SUBFORUM);
         Post parentForum = postRepository.findById(request.getParentID()).orElse(null);
         if (parentForum == null) {
             return new CreateSubforumResponse(false, "Parent post does not exist");
@@ -194,7 +188,7 @@ public class PostService {
         if(parentPost.getPostType() != POST || parentPost.getPostType() != COMMENT) {
             return new CreateCommentResponse(false, "Parent post is not a post");
         }
-        Post comment = new Post(request.getUsername(), null, request.getParentID(), null, true, LocalDateTime.now(), COMMENT);
+        Post comment = new Post(request.getUsername(), null, request.getParentID(), null, LocalDateTime.now(), COMMENT);
         postRepository.save(comment);
         while (parentPost != null) {
             parentPost.setLastUpdateDate(LocalDateTime.now());
@@ -365,6 +359,74 @@ public class PostService {
             return new SearchAndListPostsResponse(true, "Posts fetched successfully", posts);
         }
         return new SearchAndListPostsResponse(false, "Invalid query type", null);
+    }
+
+    public GetPostResponse generalGetPost(GetPostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        boolean isLiked = false;
+        boolean isDisliked = false;
+
+        if (post == null) {
+            return new GetPostResponse(false, "Post does not exist", null);
+        }
+        if (request.getUsername() != null) {
+            User user = userRepository.findByUsername(request.getUsername());
+            if (user == null) {
+                return new GetPostResponse(false, "User does not exist", null);
+            }
+            isLiked = likeRepository.findByUsernameAndPostID(request.getUsername(),request.getPostId()) != null;
+            isDisliked = dislikeRepository.findByUsernameAndPostID(request.getUsername(),request.getPostId()) != null;
+        }
+        return new GetPostResponse(true, "Post fetched successfully", post, isLiked, isDisliked);
+    }
+
+    public GeneralGetResponse generalGetChilderen(GeneralGetRequest request) {
+        Post post = postRepository.findById(request.getParentId()).orElse(null);
+        List<Boolean> isLiked;
+        List<Boolean> isDisliked;
+        if (post == null) {
+            return new GeneralGetResponse(false, "Post does not exist", null);
+        }
+        List<Post> childeren = postRepository.findByParentID(request.getParentId());
+        List<Long> childerenIds = 
+        childeren.stream().map(Post::getId).collect(Collectors.toList());
+        if(request.getUsername() != null) {
+            User user = userRepository.findByUsername(request.getUsername());
+            if (user == null) {
+                return new GeneralGetResponse(false, "User does not exist", null);
+            }
+            isLiked = dislikeRepository.findByUsernameAndPostIDIn(request.getUsername(), childerenIds)
+                            .stream().map(like -> true).collect(Collectors.toList());
+            isDisliked = dislikeRepository.findByUsernameAndPostIDIn(request.getUsername(), childerenIds)
+                            .stream().map(dislike -> true).collect(Collectors.toList());
+        } else {
+            isLiked = childeren.stream().map(post_ -> false).collect(Collectors.toList());
+            isDisliked = childeren.stream().map(post_ -> false).collect(Collectors.toList());
+        }
+        return new GeneralGetResponse(true, "Comments fetched successfully", childeren, isLiked, isDisliked);
+    }
+
+    public String generalSearch(GeneralSearchRequest request) {
+        return "Not implemented yet";
+    }
+
+    public ExploreResponse explore(ExploreRequest request) {
+        String username = request.getUsername();
+        List<Post> recentPosts = postRepository.findRecentPosts();
+        List<Post> popularPosts = postRepository.findPopularPosts();
+        if (username == null) {
+            return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts, null, null, null, null);
+        }
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return new ExploreResponse(false, "User does not exist", null, null, null, null, null, null);
+        }
+        List<Boolean> isRecentLiked = recentPosts.stream().map(post -> likeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
+        List<Boolean> isRecentDisliked = recentPosts.stream().map(post -> dislikeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
+        List<Boolean> isPopularLiked = popularPosts.stream().map(post -> likeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
+        List<Boolean> isPopularDisliked = popularPosts.stream().map(post -> dislikeRepository.findByUsernameAndPostID(username, post.getId()) != null).collect(Collectors.toList());
+        return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts, isRecentLiked, isRecentDisliked, isPopularLiked, isPopularDisliked);
+
     }
 
 }

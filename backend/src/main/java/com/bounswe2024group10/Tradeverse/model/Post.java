@@ -36,6 +36,12 @@ public class Post {
     private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
+    private Long nofLikes;
+
+    @Column(nullable = false)
+    private Long nofDislikes;
+
+    @Column(nullable = false)
     private Boolean likable;
 
     @Column(nullable = false)
@@ -53,16 +59,18 @@ public class Post {
     public Post() {
     }
 
-    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, Boolean likable, LocalDateTime creationDate, PostType postType) {
+    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, LocalDateTime creationDate, PostType postType) {
         this.username = username;
         this.title = title;
         this.parentID = parentID;
         this.content = content;
-        this.likable = likable;
+        this.likable = postType == PostType.COMMENT || postType == PostType.POST;
         this.creationDate = creationDate;
         this.lastEditDate = creationDate;
         this.lastUpdateDate = creationDate;
         this.postType = postType;
+        this.nofLikes = 0L;
+        this.nofDislikes = 0L;
     }
 
     public Long getId() {
@@ -111,6 +119,22 @@ public class Post {
 
     public void setLikable(Boolean likable) {
         this.likable = likable;
+    }
+
+    public Long getNofLikes() {
+        return nofLikes;
+    }
+
+    public void setNofLikes(Long nofLikes) {
+        this.nofLikes = nofLikes;
+    }
+
+    public Long getNofDislikes() {
+        return nofDislikes;
+    }
+
+    public void setNofDislikes(Long nofDislikes) {
+        this.nofDislikes = nofDislikes;
     }
 
     public LocalDateTime getCreationDate() {
