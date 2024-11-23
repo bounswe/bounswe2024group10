@@ -7,7 +7,6 @@ public class CreatePortfolioRequest {
     private String name;
     private BigDecimal amount;
 
-
     public String getUsername() {
         return username;
     }

@@ -13,15 +13,27 @@ public class GetAllPortfoliosResponse {
         this.portfolios = portfolios;
     }
 
-    public boolean isSuccessful() {
+    public boolean getIsSuccessful() {
         return isSuccessful;
+    }
+
+    public void setIsSuccessful(boolean isSuccessful) {
+        this.isSuccessful = isSuccessful;
     }
 
     public String getMessage() {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public List<PortfolioDto> getPortfolios() {
         return portfolios;
+    }
+
+    public void setPortfolios(List<PortfolioDto> portfolios) {
+        this.portfolios = portfolios;
     }
 }
