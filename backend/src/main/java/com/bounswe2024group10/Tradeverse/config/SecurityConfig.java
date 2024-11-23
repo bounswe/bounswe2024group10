@@ -30,6 +30,7 @@ public class SecurityConfig {
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .requestMatchers("/api/auth/validate-token").permitAll()
                     .requestMatchers("/api/user/**").permitAll()
+                    .requestMatchers("/api/asset/**").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
