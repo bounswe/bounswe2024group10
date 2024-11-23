@@ -20,18 +20,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> 
-                auth.requestMatchers("/api/auth/register").permitAll()
-                    .requestMatchers("/api/auth/login").permitAll()
-                    .requestMatchers("/api/follow/**").permitAll()
-                    .requestMatchers("/api/like/**").permitAll()
-                    .requestMatchers("/api/post/**").permitAll()
-                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                    .requestMatchers("/api/auth/validate-token").permitAll()
-                    .requestMatchers("/api/user/**").permitAll()
-                    .anyRequest().authenticated()
-            );
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/api/auth/register").permitAll()
+                                .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/follow/**").permitAll()
+                                .requestMatchers("/api/like/**").permitAll()
+                                .requestMatchers("/api/post/**").permitAll()
+                                .requestMatchers("/api/portfolio/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                                .requestMatchers("/api/auth/validate-token").permitAll()
+                                .requestMatchers("/api/user/**").permitAll()
+                                .anyRequest().authenticated()
+                );
         return http.build();
     }
 }
