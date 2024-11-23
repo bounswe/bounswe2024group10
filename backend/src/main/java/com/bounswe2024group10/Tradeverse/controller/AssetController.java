@@ -18,4 +18,11 @@ public class AssetController {
         GetAssetDetailsResponse response = assetService.getAssetDetails(request);
         return ResponseEntity.ok(response);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/chart")
+    public ResponseEntity<GetAssetChartResponse> getAssetChart(@RequestBody GetAssetChartRequest request) {
+        GetAssetChartResponse response = assetService.getAssetChart(request);
+        return ResponseEntity.ok(response);
+    }
 }

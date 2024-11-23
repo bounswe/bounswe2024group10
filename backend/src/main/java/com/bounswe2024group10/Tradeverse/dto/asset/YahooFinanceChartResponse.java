@@ -7,6 +7,7 @@ public class YahooFinanceChartResponse {
 
     public static class Chart {
         private Result[] result;
+        private String error;
         
         public Result[] getResult() {
             return result;
@@ -15,10 +16,42 @@ public class YahooFinanceChartResponse {
 
     public static class Result {
         private Meta meta;
+        private long[] timestamp;
+        private Indicators indicators;
         
         public Meta getMeta() {
             return meta;
         }
+        
+        public long[] getTimestamp() {
+            return timestamp;
+        }
+        
+        public Indicators getIndicators() {
+            return indicators;
+        }
+    }
+
+    public static class Indicators {
+        private Quote[] quote;
+        
+        public Quote[] getQuote() {
+            return quote;
+        }
+    }
+
+    public static class Quote {
+        private Float[] high;
+        private Float[] low;
+        private Float[] close;
+        private Float[] open;
+        private Long[] volume;
+        
+        public Float[] getHigh() { return high; }
+        public Float[] getLow() { return low; }
+        public Float[] getClose() { return close; }
+        public Float[] getOpen() { return open; }
+        public Long[] getVolume() { return volume; }
     }
 
     public static class Meta {

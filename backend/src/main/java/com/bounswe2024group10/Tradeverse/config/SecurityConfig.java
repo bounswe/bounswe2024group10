@@ -32,6 +32,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/like/**").permitAll()
                     .requestMatchers("/api/auth/validate-token").permitAll()
                     .requestMatchers("/api/auth/get-user-details").permitAll()
+                    .requestMatchers("/api/asset/**").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
