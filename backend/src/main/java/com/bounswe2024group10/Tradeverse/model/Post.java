@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import com.bounswe2024group10.Tradeverse.extra.ListHashMapConverter;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,11 +25,21 @@ public class Post {
 
     private String username;
 
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String title;
 
+    @Column(nullable = true)
     private Long parentID;
 
+    @Convert(converter = ListHashMapConverter.class)
+    @Column(nullable = true, columnDefinition = "TEXT")
     private List<HashMap<String, String>> content;
+
+    @Column(nullable = false)
+    private Long nofLikes;
+
+    @Column(nullable = false)
+    private Long nofDislikes;
 
     @Column(nullable = false)
     private Boolean likable;
@@ -47,16 +59,18 @@ public class Post {
     public Post() {
     }
 
-    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, Boolean likable, LocalDateTime creationDate, PostType postType) {
+    public Post(String username, String title, Long parentID, List<HashMap<String, String>> content, LocalDateTime creationDate, PostType postType) {
         this.username = username;
         this.title = title;
         this.parentID = parentID;
         this.content = content;
-        this.likable = likable;
+        this.likable = postType == PostType.COMMENT || postType == PostType.POST;
         this.creationDate = creationDate;
         this.lastEditDate = creationDate;
         this.lastUpdateDate = creationDate;
         this.postType = postType;
+        this.nofLikes = 0L;
+        this.nofDislikes = 0L;
     }
 
     public Long getId() {
@@ -105,6 +119,22 @@ public class Post {
 
     public void setLikable(Boolean likable) {
         this.likable = likable;
+    }
+
+    public Long getNofLikes() {
+        return nofLikes;
+    }
+
+    public void setNofLikes(Long nofLikes) {
+        this.nofLikes = nofLikes;
+    }
+
+    public Long getNofDislikes() {
+        return nofDislikes;
+    }
+
+    public void setNofDislikes(Long nofDislikes) {
+        this.nofDislikes = nofDislikes;
     }
 
     public LocalDateTime getCreationDate() {

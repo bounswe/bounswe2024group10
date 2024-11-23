@@ -1,16 +1,10 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
-public class GeneralGetRequest {
-
-    private Long parentId;
+public class ExploreRequest {
     private String username;
 
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long postId) {
-        this.parentId = postId;
+    public ExploreRequest(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
