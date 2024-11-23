@@ -22,15 +22,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> 
-                auth.requestMatchers("/api/auth/register").permitAll()
-                    .requestMatchers("/api/auth/login").permitAll()
-                    .requestMatchers("/api/follow/**").permitAll()
-                    .requestMatchers("/api/like/**").permitAll()
-                    .requestMatchers("/api/post/**").permitAll()
+                auth.requestMatchers("/api/**").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                    .requestMatchers("/api/auth/validate-token").permitAll()
-                    .requestMatchers("/api/user/**").permitAll()
-                    .requestMatchers("/api/asset/**").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
