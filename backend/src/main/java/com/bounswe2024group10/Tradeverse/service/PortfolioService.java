@@ -49,8 +49,6 @@ public class PortfolioService {
 
         if (portfolios.isEmpty()) {
             return new GetAllPortfoliosResponse(false, "No portfolios found for this user", null);
-            // Catch any other exception and provide a generic error message
-            return new CreatePortfolioResponse(false, null, null, null,"Failed to create portfolio: " + e.getMessage());
         }
 
         List<PortfolioDto> portfolioDtos = portfolios.stream()

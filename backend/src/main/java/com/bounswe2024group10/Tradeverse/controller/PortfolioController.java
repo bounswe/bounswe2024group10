@@ -21,7 +21,7 @@ public class PortfolioController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/get-all")
+    @GetMapping("/get-portfolio")
     public ResponseEntity<GetAllPortfoliosResponse> getAllPortfolios(@RequestBody GetAllPortfoliosRequest request) {
         GetAllPortfoliosResponse response = portfolioService.getAllPortfolios(request);
         return ResponseEntity.ok(response);
