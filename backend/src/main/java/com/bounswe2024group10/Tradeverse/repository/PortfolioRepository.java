@@ -14,6 +14,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     // Find portfolios by username
     List<Portfolio> findByUsername(String username);
 
+    Portfolio findByUsernameAndName(String username, String name);
     // Find a portfolio by its ID
     Optional<Portfolio> findById(Long id);
 

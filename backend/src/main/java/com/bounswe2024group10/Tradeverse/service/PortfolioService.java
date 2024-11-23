@@ -58,13 +58,11 @@ public class PortfolioService {
         return new GetAllPortfoliosResponse(true, "Portfolios retrieved successfully", portfolioDtos);
     }
     public UpdatePortfolioResponse updatePortfolio(UpdatePortfolioRequest request) {
-        Portfolio portfolio = portfolioRepository.findById(request.getId()).orElse(null);
+        Portfolio portfolio = portfolioRepository.findByUsernameAndName(request.getUsername(), request.getName());
 
         if (portfolio == null) {
             return new UpdatePortfolioResponse(false, null, "Portfolio not found");
         }
-
-        portfolio.setName(request.getName());
         portfolio.setAmount(request.getAmount());
 
         Portfolio updatedPortfolio = portfolioRepository.save(portfolio);

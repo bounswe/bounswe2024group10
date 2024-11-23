@@ -3,16 +3,15 @@ package com.bounswe2024group10.Tradeverse.dto.portfolio;
 import java.math.BigDecimal;
 
 public class UpdatePortfolioRequest {
-    private Long id;
+    private String username;
     private String name;
     private BigDecimal amount;
 
-    public Long getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
