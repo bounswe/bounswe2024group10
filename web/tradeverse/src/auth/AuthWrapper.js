@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { RenderMenu, RenderRoutes } from "../components/structure/RenderNavigation";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { apiLogin } from "../services/auth";
+import { apiLogin, apiValidateToken, apiRegister } from "../services/auth";
 
-const LOGIN_API_URL = 'http://35.246.188.121:8080/api/auth/login';
-const VALIDATE_TOKEN_URL = 'http://35.246.188.121:8080/api/auth/validate-token';
+
+
 const REGISTER_API_URL = 'http://35.246.188.121:8080/api/auth/register'; // New Registration API URL
 
 
@@ -22,13 +22,7 @@ export const AuthWrapper = () => {
 
             if (token) {
                 try {
-                    const response = await fetch(VALIDATE_TOKEN_URL, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
-                        },
-                    });
+                    const response = await apiValidateToken(token);
 
                     if (!response.ok) {
                         throw new Error('Token validation failed');
@@ -90,26 +84,14 @@ export const AuthWrapper = () => {
     };
     const register = async (registerData) => {
         try {
-            const response = await fetch(REGISTER_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(registerData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Registration failed');
-            }
-
-            const data = await response.json();
+            const response = await apiRegister(registerData);
 
             // Check if registration was successful based on the response body
-            if (!data.isSuccessful) {
-                return Promise.reject(data.message || "Registration failed");
+            if (!response.isSuccessful) {
+                return Promise.reject(response.message || "Registration failed");
             }
 
-            return data; // You can return the success message or handle it as needed
+            return response; // You can return the success message or handle it as needed
         } catch (error) {
             console.error('Registration error:', error);
             return Promise.reject(error.message || "Error occurred during registration");

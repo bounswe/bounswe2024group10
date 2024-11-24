@@ -8,7 +8,7 @@ export async function apiLogin({ username, password }) {
   return response.data;
 }
 
-export async function register({ email, username, password, name, profilePhoto, tag }) {
+export async function apiRegister({ email, username, password, name, profilePhoto, tag }) {
   const response = await api.post("/auth/register", {
     email,
     username,
@@ -16,6 +16,15 @@ export async function register({ email, username, password, name, profilePhoto, 
     name,
     profilePhoto,
     tag,
+  });
+  return response.data;
+}
+
+export async function apiValidateToken(token) {
+  const response = await api.get("/auth/validate-token", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response.data;
 }

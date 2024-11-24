@@ -30,6 +30,7 @@ const SignUp = () => {
             const response = await register({ email, username, password, name });
             
             // Check the response for success or error
+            console.log(response);
             if (response.isSuccessful) {
                 toast("Registration successful!");
                 navigate("/login"); // Redirect after success message
