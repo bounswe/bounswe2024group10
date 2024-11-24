@@ -16,6 +16,7 @@ import com.bounswe2024group10.Tradeverse.model.Post;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByUsername(String username);
     List<Post> findByParentID(Long parentID);
+    List<Post> findByTitle(String title);
     Long countByParentID(Long parentID);
     List<Post> findByPostType(PostType postType);
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% ORDER BY p.lastEditDate DESC")

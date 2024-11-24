@@ -154,9 +154,6 @@ public class PostService {
         Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), LocalDateTime.now(), POST);
         postRepository.save(post);
         parentSubforum.setLastUpdateDate(LocalDateTime.now());
-        Post parentForum = postRepository.findById(parentSubforum.getParentID()).orElse(null);
-        parentForum.setLastUpdateDate(LocalDateTime.now());
-        postRepository.save(parentForum);
         postRepository.save(parentSubforum);
 
         return new CreatePostResponse(true, "Post created successfully");
