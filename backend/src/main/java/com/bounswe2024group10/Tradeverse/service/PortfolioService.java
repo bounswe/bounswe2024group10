@@ -2,13 +2,15 @@ package com.bounswe2024group10.Tradeverse.service;
 
 import com.bounswe2024group10.Tradeverse.dto.portfolio.*;
 import com.bounswe2024group10.Tradeverse.model.Portfolio;
+import com.bounswe2024group10.Tradeverse.model.Asset;
 import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
+import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,55 +19,97 @@ public class PortfolioService {
     @Autowired
     private PortfolioRepository portfolioRepository;
 
-    public CreatePortfolioResponse createPortfolio(CreatePortfolioRequest request) {
-        // Check if a portfolio already exists for the given username
-        Boolean exists = portfolioRepository.existsByUsernameAndName(request.getUsername(), request.getName());
-        if (exists) {
-            return new CreatePortfolioResponse(false, null, null, null,"A portfolio with this username already exists");
-        }
+    @Autowired
+    private AssetRepository assetRepository;
 
-        // Create the new portfolio object from the request
-        Portfolio portfolio = new Portfolio(request.getUsername(), request.getName(), request.getAmount());
-
+    public GetPortfolioResponse getPortfolio(GetPortfolioRequest request) {
         try {
-            // Save the portfolio to the repository
-            Portfolio savedPortfolio = portfolioRepository.save(portfolio);
-            return new CreatePortfolioResponse(true, savedPortfolio.getId(), savedPortfolio.getUsername(), savedPortfolio.getName(),"Portfolio created successfully");
+            List<Portfolio> portfolios = portfolioRepository.findByUsername(request.getUsername());
+            
+            if (portfolios.isEmpty()) {
+                return new GetPortfolioResponse(false, "No portfolio found for this user", request.getUsername(), null);
+            }
 
-        } catch (DataIntegrityViolationException e) {
-            // Handle the case where the name already exists in the database
-            return new CreatePortfolioResponse(false, null, null, null,"Portfolio name already exists");
-        } catch (IllegalArgumentException e) {
-            // Handle invalid input data
-            return new CreatePortfolioResponse(false, null, null, null,"Invalid input data: " + e.getMessage());
+            List<PortfolioDto> portfolioDtos = new ArrayList<>();
+            for (Portfolio portfolio : portfolios) {
+                Asset asset = assetRepository.findById(portfolio.getAssetId())
+                    .orElseThrow(() -> new RuntimeException("Asset not found"));
+                
+                portfolioDtos.add(new PortfolioDto(
+                    portfolio.getId(),
+                    asset,
+                    portfolio.getAmount()
+                ));
+            }
+
+            return new GetPortfolioResponse(true, "Portfolio retrieved successfully", request.getUsername(), portfolioDtos);
         } catch (Exception e) {
-            // Catch any other exception and provide a generic error message
-            return new CreatePortfolioResponse(false, null, null, null,"Failed to create portfolio: " + e.getMessage());
+            return new GetPortfolioResponse(false, "Failed to get portfolio: " + e.getMessage(), request.getUsername(), null);
         }
     }
 
-    public GetAllPortfoliosResponse getAllPortfolios(GetAllPortfoliosRequest request) {
-        List<Portfolio> portfolios = portfolioRepository.findByUsername(request.getUsername());
+    public AddAssetToPortfolioResponse addAssetToPortfolio(AddAssetToPortfolioRequest request) {
+        try {
+            // Check if asset exists
+            if (!assetRepository.existsById(request.getAssetId())) {
+                return new AddAssetToPortfolioResponse(false, "Asset not found");
+            }
 
-        if (portfolios.isEmpty()) {
-            return new GetAllPortfoliosResponse(false, "No portfolios found for this user", null);
+            // Check if portfolio entry already exists
+            if (portfolioRepository.existsByUsernameAndAssetId(request.getUsername(), request.getAssetId())) {
+                // Update existing portfolio
+                List<Portfolio> portfolios = portfolioRepository.findByUsername(request.getUsername());
+                Portfolio portfolio = portfolios.stream()
+                    .filter(p -> p.getAssetId().equals(request.getAssetId()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+                
+                portfolio.setAmount(request.getAmount());
+                portfolioRepository.save(portfolio);
+                return new AddAssetToPortfolioResponse(true, "Asset amount updated in portfolio");
+            }
+
+            // Create new portfolio entry
+            Portfolio portfolio = new Portfolio(
+                request.getUsername(),
+                request.getAssetId(),
+                request.getAmount()
+            );
+            portfolioRepository.save(portfolio);
+
+            return new AddAssetToPortfolioResponse(true, "Asset added to portfolio successfully");
+        } catch (Exception e) {
+            return new AddAssetToPortfolioResponse(false, "Failed to add asset to portfolio: " + e.getMessage());
         }
+    }
 
-        List<PortfolioDto> portfolioDtos = portfolios.stream()
-                .map(portfolio -> new PortfolioDto(portfolio.getId(), portfolio.getName(), portfolio.getName(), portfolio.getAmount()))
+    public GetPortfolioResponse getPortfoliosByAsset(Long assetId) {
+        try {
+            // Check if asset exists
+            if (!assetRepository.existsById(assetId)) {
+                return new GetPortfolioResponse(false, "Asset not found", null, null);
+            }
+
+            List<Portfolio> portfolios = portfolioRepository.findByAssetId(assetId);
+            
+            if (portfolios.isEmpty()) {
+                return new GetPortfolioResponse(false, "No portfolios found for this asset", null, null);
+            }
+
+            Asset asset = assetRepository.findById(assetId)
+                .orElseThrow(() -> new RuntimeException("Asset not found"));
+
+            List<PortfolioDto> portfolioDtos = portfolios.stream()
+                .map(portfolio -> new PortfolioDto(
+                    portfolio.getId(),
+                    asset,
+                    portfolio.getAmount()
+                ))
                 .collect(Collectors.toList());
 
-        return new GetAllPortfoliosResponse(true, "Portfolios retrieved successfully", portfolioDtos);
-    }
-    public UpdatePortfolioResponse updatePortfolio(UpdatePortfolioRequest request) {
-        Portfolio portfolio = portfolioRepository.findByUsernameAndName(request.getUsername(), request.getName());
-
-        if (portfolio == null) {
-            return new UpdatePortfolioResponse(false, null, "Portfolio not found");
+            return new GetPortfolioResponse(true, "Portfolios retrieved successfully", null, portfolioDtos);
+        } catch (Exception e) {
+            return new GetPortfolioResponse(false, "Failed to get portfolios: " + e.getMessage(), null, null);
         }
-        portfolio.setAmount(request.getAmount());
-
-        Portfolio updatedPortfolio = portfolioRepository.save(portfolio);
-        return new UpdatePortfolioResponse(true, updatedPortfolio.getId(), "Portfolio updated successfully");
     }
 }

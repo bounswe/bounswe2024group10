@@ -2,13 +2,9 @@ package com.bounswe2024group10.Tradeverse.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "portfolios")
 public class Portfolio {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,17 +13,17 @@ public class Portfolio {
     private String username;
 
     @Column(nullable = false)
-    private String name;
+    private Long assetId;
 
     @Column(nullable = false)
-    private BigDecimal amount; //
+    private double amount; //
 
     public Portfolio() {
     }
 
-    public Portfolio(String username, String name, BigDecimal amount) {
+    public Portfolio(String username, Long assetId, double amount) {
         this.username = username;
-        this.name = name;
+        this.assetId = assetId;
         this.amount = amount;
     }
 
@@ -47,21 +43,19 @@ public class Portfolio {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public Long getAssetId() {
+        return assetId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
-
-
 }
