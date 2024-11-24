@@ -238,3 +238,13 @@
   height: 40px;
   margin-left: 5px;
 }
+
+.usernameLink {
+  text-decoration: none;
+  color: inherit; /* Matches current text color */
+}
+
+.usernameLink:hover {
+  text-decoration: underline; /* Add underline on hover */
+  color: #007bff; /* Optional: Change color on hover */
+}

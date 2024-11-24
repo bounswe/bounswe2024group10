@@ -1,0 +1,99 @@
+.accountPage {
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile {
+    position: relative;
+    display: inline-block;
+}
+
+.profilePhoto {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.editPhotoBtn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+}
+
+.profile:hover .editPhotoBtn {
+    display: block;
+}
+
+.username {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.followDetails {
+    display: flex;
+    gap: 15px;
+    font-size: 16px;
+    color: #555;
+}
+
+.bioSection, .postsSection, .portfolioSection {
+    background: white;
+    width: 80%;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bio {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.editBioBtn, .editPortfolioBtn, .viewAllPostsBtn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.portfolioTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.portfolioTable th, .portfolioTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.positiveChange {
+    color: green;
+}
+
+.negativeChange {
+    color: red;
+}
