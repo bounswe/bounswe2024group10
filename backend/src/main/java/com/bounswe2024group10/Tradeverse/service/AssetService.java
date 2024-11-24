@@ -8,9 +8,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
+import com.bounswe2024group10.Tradeverse.model.Asset;
+import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class AssetService {
+    @Autowired
+    private AssetRepository assetRepository;
+
     public GetAssetDetailsResponse getAssetDetails(GetAssetDetailsRequest request) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://query1.finance.yahoo.com/v8/finance/chart/" + request.getSymbol();
@@ -70,5 +76,33 @@ public class AssetService {
         response.setSymbol(result.getMeta().getSymbol());
         response.setChart(chartDataList);
         return response;
+    }
+
+    public AddAssetResponse addAsset(AddAssetRequest request) {
+        if (assetRepository.existsByName(request.getName()) ||
+            assetRepository.existsByYahooFinanceSymbol(request.getYahooFinanceSymbol()) ||
+            assetRepository.existsByTradingViewSymbol(request.getTradingViewSymbol())) {
+            throw new RuntimeException("Asset already exists");
+        }
+
+        Asset asset = new Asset(
+            request.getName(),
+            request.getYahooFinanceSymbol(),
+            request.getTradingViewSymbol()
+        );
+
+        Asset savedAsset = assetRepository.save(asset);
+        
+        AddAssetResponse response = new AddAssetResponse();
+        response.setId(savedAsset.getId());
+        response.setName(savedAsset.getName());
+        response.setYahooFinanceSymbol(savedAsset.getYahooFinanceSymbol());
+        response.setTradingViewSymbol(savedAsset.getTradingViewSymbol());
+        
+        return response;
+    }
+
+    public List<Asset> getAllAssets() {
+        return assetRepository.findAll();
     }
 }
