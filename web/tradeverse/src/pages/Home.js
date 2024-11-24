@@ -24,11 +24,9 @@ const Home = () => {
     }
   }, [name]);
 
-  console.log(name);
 
   const handleFilterChange = (type) => {
     setFilterType(type);
-    console.log(`Filter changed to: ${type}`);
   };
 
   return (

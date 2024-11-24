@@ -18,31 +18,29 @@ const Login = () => {
 
     const doLogin = async () => {
 
-          if (!formData.userName) {
-               setErrorMessage('Username cannot be null'); // Warning message for blank username
-               return;
-          }
-     
-          if (!formData.password) {
-               setErrorMessage('Password cannot be null'); // Warning message for blank password
-               return;
-          }
+        if (!formData.userName) {
+            setErrorMessage('Username cannot be null'); // Warning message for blank username
+            return;
+        }
+
+        if (!formData.password) {
+            setErrorMessage('Password cannot be null'); // Warning message for blank password
+            return;
+        }
         setErrorMessage(null); // Clear previous error message
         await delay(1000); // Wait for 1 second
         try {
             const response = await login(formData.userName, formData.password);
-            
-            // Check the response for success or error
-            if (response.success) {
-               toast("Login successful!");
-               
-                
+
+            if (response === "success") {
+                toast("Login successful!");
             }
+
             navigate("/home"); // Redirect after success message
         } catch (error) {
-          // Display the error message sent from the backend
-          setErrorMessage(error);
-     }
+            // Display the error message sent from the backend
+            setErrorMessage(error);
+        }
     };
 
     const handleKeyDown = (event) => {
@@ -55,48 +53,48 @@ const Login = () => {
         <div className={styles.page}>
             <div className={styles.inputs}>
                 <div>
-                <h2>We’ve missed you!</h2>
-                <span>More than 150 subforums are waiting for your wise suggestions!</span> 
-                <div className={styles.input}>
-                    
-                    <input
-                        value={formData.userName}
-                        onChange={(e) => setFormData({ userName: e.target.value })}
-                        onKeyDown={handleKeyDown}
-                        type="text"
-                        placeholder="Enter your username"
-                        style={{ marginTop: '10px', height: '40px' }}
-                    />
-                </div>
+                    <h2>We’ve missed you!</h2>
+                    <span>More than 150 subforums are waiting for your wise suggestions!</span>
+                    <div className={styles.input}>
 
-                <div className={styles.input}>
-                    <input
-                        value={formData.password}
-                        onChange={(e) => setFormData({ password: e.target.value })}
-                        onKeyDown={handleKeyDown}
-                        type="password"
-                        placeholder="Enter your password"
-                        style={{ marginTop: '10px', height: '40px' }}
-                    />
-                </div>
-
-                <div >
-                    <button className={styles.button} onClick={doLogin}>Log in</button>
-                </div>
-
-                {/* Display error message */}
-                {errorMessage && (
-                    <div style={{ color: 'red', marginTop: '10px' }}>
-                        {errorMessage}
+                        <input
+                            value={formData.userName}
+                            onChange={(e) => setFormData({ userName: e.target.value })}
+                            onKeyDown={handleKeyDown}
+                            type="text"
+                            placeholder="Enter your username"
+                            style={{ marginTop: '10px', height: '40px' }}
+                        />
                     </div>
-                )}
+
+                    <div className={styles.input}>
+                        <input
+                            value={formData.password}
+                            onChange={(e) => setFormData({ password: e.target.value })}
+                            onKeyDown={handleKeyDown}
+                            type="password"
+                            placeholder="Enter your password"
+                            style={{ marginTop: '10px', height: '40px' }}
+                        />
+                    </div>
+
+                    <div >
+                        <button className={styles.button} onClick={doLogin}>Log in</button>
+                    </div>
+
+                    {/* Display error message */}
+                    {errorMessage && (
+                        <div style={{ color: 'red', marginTop: '10px' }}>
+                            {errorMessage}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={styles.imageContainer}>
-                <div style={{objectFit:"cover",width:"100%"}}>
-                <img 
-                src="/background.jpg" 
-                />
+                <div style={{ objectFit: "cover", width: "100%" }}>
+                    <img
+                        src="/background.jpg"
+                    />
                 </div>
             </div>
             <ToastContainer />

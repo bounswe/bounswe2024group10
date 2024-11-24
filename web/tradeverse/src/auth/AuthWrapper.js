@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { RenderMenu, RenderRoutes } from "../components/structure/RenderNavigation";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { apiLogin } from "../services/auth";
 
 const LOGIN_API_URL = 'http://35.246.188.121:8080/api/auth/login';
 const VALIDATE_TOKEN_URL = 'http://35.246.188.121:8080/api/auth/validate-token';
@@ -55,34 +56,23 @@ export const AuthWrapper = () => {
 
     const login = async (userName, password) => {
         try {
-              // Replace with your actual API URL
-    
-            const response = await fetch(LOGIN_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username: userName, password }),
-            });
-    
-            if (!response.ok) {
-                throw new Error('Login failed');
-            }
-    
-            const data = await response.json();
-    
+            // Replace with your actual API URL
+
+
+            const response = await apiLogin({ username: userName, password: password });
+
             // Check if login was successful based on the response body
-            if (!data.isSuccessful) {
+            if (!response.isSuccessful) {
                 // If isSuccessful is false, return or throw an error based on the message
-                return Promise.reject(data.message || "Login failed");
+                return Promise.reject(response.message || "Login failed");
             }
-    
+
             // Extract the token, username, and tag from the successful response
-            const { token, username, tag } = data;
-    
+            const { token, username, tag } = response;
+
             // Store the token and user info in localStorage
             localStorage.setItem('authToken', token);
-            
+
             // Example user state handling (adjust according to your logic)
             setUser({
                 name: username,
@@ -91,7 +81,7 @@ export const AuthWrapper = () => {
                 img: "",  // You can fetch or update user image if available
                 tag: tag   // Tag information from LoginResponse
             });
-    
+
             return "success";
         } catch (error) {
             console.error('Login error:', error);
@@ -126,25 +116,25 @@ export const AuthWrapper = () => {
         }
     };
 
-    const logout =  async () => {
+    const logout = async () => {
 
         localStorage.removeItem('authToken');
-        setUser({ name: "", isAuthenticated: false, role: "", img: "",tag:-1 });
+        setUser({ name: "", isAuthenticated: false, role: "", img: "", tag: -1 });
     };
 
-    
+
 
     if (!loading) {
         return (
-            <AuthContext.Provider value={{ user, login, logout ,register}}>
+            <AuthContext.Provider value={{ user, login, logout, register }}>
                 <>
                     <RenderMenu />
                     <RenderRoutes />
                 </>
             </AuthContext.Provider>
         );
-        
+
     }
 
-    
+
 };
