@@ -40,3 +40,267 @@
 .sortButton:hover {
     background-color: #bbb;
 }
+
+
+.postHeader {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(199, 210, 254, 255);
+    width: 100%;
+    margin: 6px auto;
+  }
+  
+  .userAndTag {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 6px;
+    padding-top: 10px;
+    align-items: center;
+  }
+
+  .userDetailsContainer {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    height: 30px;
+  }
+
+  .userDetails {
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    padding-left: 10px;
+  }
+  .userDetails h3 {
+    margin: 0;
+  }
+  .userDetails p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .userImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .postInputForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+    align-items: center;
+    justify-content: center;
+
+  }
+  .postTitleInput {
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    resize: none;
+  }
+  
+  
+  .postInput {
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+  }
+  
+  .postButton {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .postButton:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  .buttonIcon {
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  
+  .actionsContainer {
+    display: flex;
+    flex-wrap: wrap; /* Ensures wrapping on small screens */
+    gap: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .addImageButton,
+  .addChartButton {
+    background-color: #5d5fef;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between icon and text */
+    transition: background-color 0.3s ease;
+    flex: 1 1 auto; /* Allows buttons to scale */
+    max-width: 100%; /* Prevent overflow on small screens */
+    text-align: center;
+  }
+  
+  .addImageButton:hover,
+  .addChartButton:hover {
+    background-color: #4c4ddd;
+  }
+  
+  .addImageButton:active,
+  .addChartButton:active {
+    background-color: #3b3bc3;
+  }
+  
+  .addChartContainer {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Keeps button and dropdown on the same line */
+    gap: 10px;
+    flex: 1 1 auto; /* Allows resizing on small screens */
+    width: 60%;
+    text-align: center;
+  }
+  
+  .subforumDropdown,
+.assetDropdown {
+  background-color: white; /* Neutral background */
+  color: #333; /* Dark text for readability */
+  border: 2px solid #5d5fef; /* Matching primary color border */
+  border-radius: 12px; /* Rounded corners for modern look */
+  padding: 10px 15px; /* Comfortable padding */
+  font-size: 16px; /* Slightly larger font size */
+  cursor: pointer; /* Show pointer on hover */
+  transition: all 0.3s ease; /* Smooth transitions for hover effects */
+  width: 100%; /* Full width for consistent layout */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+
+.subforumDropdown:hover,
+.assetDropdown:hover {
+  background-color: #f0f5ff; /* Light blue hover background */
+  border-color: #4c4ddd; /* Slightly darker border on hover */
+}
+
+.subforumDropdown:focus,
+.assetDropdown:focus {
+  outline: none; /* Remove default outline */
+  border-color: #3b3bc3; /* Darker border for focus */
+  box-shadow: 0 0 8px rgba(93, 95, 239, 0.5); /* Glow effect for focus */
+}
+
+/* For smaller screens */
+@media (max-width: 600px) {
+  .subforumDropdown,
+  .assetDropdown {
+    font-size: 14px; /* Reduce font size */
+    padding: 8px 10px; /* Adjust padding */
+  }
+}
+
+  
+  @media (max-width: 600px) {
+    .addImageButton,
+    .addChartButton {
+      padding: 8px 15px;
+      font-size: 12px;
+    }
+  
+    .assetDropdown {
+      padding: 6px 8px;
+      font-size: 12px;
+    }
+  
+    .actionsContainer {
+      gap: 8px; /* Smaller gaps on small screens */
+    }
+  }
+  
+  
+  
+  
+  
+  .postButton {
+    align-self: flex-end;
+    background-color: #5d5fef;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .tradingViewContainer {
+    width: 90%;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .postButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .imagePreview {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .previewImage {
+    max-width: 50%;
+    max-height: 200px;
+    border-radius: 8px;
+  }
+  
+  .removeImageButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .subforumContainer {
+    margin-top: 10px;
+    text-align: left;
+  }
+  
+  

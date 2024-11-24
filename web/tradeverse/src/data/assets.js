@@ -69,16 +69,13 @@ const assets ={
         { "name": "AbbVie Inc.", "symbol": "NYSE:ABBV" },
         { "name": "Thermo Fisher Scientific Inc.", "symbol": "NYSE:TMO" },
         { "name": "Abbott Laboratories", "symbol": "NYSE:ABT" },
-        { "name": "Comcast Corporation Class A", "symbol": "NASDAQ:CMCSA" },
         { "name": "Amgen Inc.", "symbol": "NASDAQ:AMGN" },
         { "name": "McDonald's Corporation", "symbol": "NYSE:MCD" },
-        { "name": "Costco Wholesale Corporation", "symbol": "NASDAQ:COST" },
         { "name": "Walmart Inc.", "symbol": "NYSE:WMT" },
         { "name": "Medtronic plc", "symbol": "NYSE:MDT" },
         { "name": "Bristol-Myers Squibb Company", "symbol": "NYSE:BMY" },
         { "name": "Union Pacific Corporation", "symbol": "NYSE:UNP" },
         { "name": "Honeywell International Inc.", "symbol": "NASDAQ:HON" },
-        { "name": "Texas Instruments Incorporated", "symbol": "NASDAQ:TXN" },
         { "name": "Goldman Sachs Group, Inc.", "symbol": "NYSE:GS" },
         { "name": "Citigroup Inc.", "symbol": "NYSE:C" },
         { "name": "Morgan Stanley", "symbol": "NYSE:MS" },
@@ -88,7 +85,6 @@ const assets ={
         { "name": "General Electric Company", "symbol": "NYSE:GE" },
         { "name": "Target Corporation", "symbol": "NYSE:TGT" },
         { "name": "Lockheed Martin Corporation", "symbol": "NYSE:LMT" },
-        { "name": "Intel Corporation", "symbol": "NASDAQ:INTC" },
         { "name": "Colgate-Palmolive Company", "symbol": "NYSE:CL" },
         { "name": "Kimberly-Clark Corporation", "symbol": "NYSE:KMB" },
         { "name": "Deere & Company", "symbol": "NYSE:DE" },
@@ -281,4 +277,5 @@ const assets ={
         
       ]
       
-}
+};
+export default assets;  
