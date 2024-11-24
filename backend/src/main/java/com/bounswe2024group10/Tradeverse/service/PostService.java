@@ -1,6 +1,8 @@
 package com.bounswe2024group10.Tradeverse.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,38 +11,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateForumRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateForumResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.EditCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.EditCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetForumsResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.*;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
+import com.bounswe2024group10.Tradeverse.model.Asset;
 import com.bounswe2024group10.Tradeverse.model.Post;
+import com.bounswe2024group10.Tradeverse.model.PostAsset;
 import com.bounswe2024group10.Tradeverse.model.User;
+import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.PostAssetRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
@@ -62,6 +43,12 @@ public class PostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AssetRepository assetRepository;
+
+    @Autowired
+    private PostAssetRepository postAssetRepository;
 
     public GeneralGetResponse getChilderen(GeneralGetRequest request) {
         List<Post> childeren = postRepository.findByParentID(request.getParentId());
@@ -105,23 +92,25 @@ public class PostService {
     public GetPostResponse getComment(GetPostRequest request) {
         Post comment = postRepository.findById(request.getPostId()).orElse(null);
         if (comment == null) {
-            return new GetPostResponse(false, "Comment does not exist", null);
+            return new GetPostResponse(false, "Comment does not exist", null, false, false, null);
         }
         if (comment.getPostType() != COMMENT) {
-            return new GetPostResponse(false, "Post is not a comment", null);
+            return new GetPostResponse(false, "Post is not a comment", null, false, false, null);
         }
-        return new GetPostResponse(true, "Comment fetched successfully", comment);
+        return new GetPostResponse(true, "Comment fetched successfully", comment, false, false, null);
     }
 
     public GetPostResponse getPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
-            return new GetPostResponse(false, "Post does not exist", null);
+            return new GetPostResponse(false, "Post does not exist", null, false, false, null);
         }
         if (post.getPostType() != POST) {
-            return new GetPostResponse(false, "Post is not a post", null);
+            return new GetPostResponse(false, "Post is not a post", null, false, false, null);
         }
-        return new GetPostResponse(true, "Post fetched successfully", post);
+        List<PostAsset> relatedPostAssets = postAssetRepository.findByPostId(post.getId());
+        List<Asset> relatedAssets = relatedPostAssets.stream().map(postAsset -> assetRepository.findById(postAsset.getAssetId()).orElse(null)).collect(Collectors.toList());
+        return new GetPostResponse(true, "Post fetched successfully", post, false, false, relatedAssets);
     }
 
     public CreatePostResponse createPost(CreatePostRequest request) {
@@ -143,7 +132,11 @@ public class PostService {
         parentForum.setLastUpdateDate(LocalDateTime.now());
         postRepository.save(parentForum);
         postRepository.save(parentSubforum);
-
+        List<Asset> newAssets = extractAssets(request.getContent());
+        for (Asset asset : newAssets) {
+            PostAsset postAsset = new PostAsset(post.getId(), asset.getId());
+            postAssetRepository.save(postAsset);
+        }
         return new CreatePostResponse(true, "Post created successfully");
     }
 
@@ -219,6 +212,10 @@ public class PostService {
 
     public EditPostResponse editPost(EditPostRequest request) {
         Post post = postRepository.findById(request.getPostID()).orElse(null);
+        List<PostAsset> relatedAssets = postAssetRepository.findByPostId(request.getPostID());
+        for (PostAsset postAsset : relatedAssets) {
+            postAssetRepository.delete(postAsset);
+        }
         if (post == null) {
             return new EditPostResponse(false, "Post does not exist");
         }
@@ -239,6 +236,11 @@ public class PostService {
         Post parentForum = postRepository.findById(parentSubforum.getParentID()).orElse(null);
         parentForum.setLastUpdateDate(LocalDateTime.now());
         postRepository.save(parentForum);
+        List<Asset> newAssets = extractAssets(request.getContent());
+        for (Asset asset : newAssets) {
+            PostAsset postAsset = new PostAsset(post.getId(), asset.getId());
+            postAssetRepository.save(postAsset);
+        }
         return new EditPostResponse(true, "Post edited successfully");
     }
 
@@ -359,19 +361,18 @@ public class PostService {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         boolean isLiked = false;
         boolean isDisliked = false;
-
         if (post == null) {
-            return new GetPostResponse(false, "Post does not exist", null);
+            return new GetPostResponse(false, "Post does not exist", null, false, false, null);
         }
         if (request.getUsername() != null) {
             User user = userRepository.findByUsername(request.getUsername());
             if (user == null) {
-                return new GetPostResponse(false, "User does not exist", null);
+                return new GetPostResponse(false, "User does not exist", null, false, false, null);
             }
             isLiked = likeRepository.findByUsernameAndPostID(request.getUsername(),request.getPostId()) != null;
             isDisliked = dislikeRepository.findByUsernameAndPostID(request.getUsername(),request.getPostId()) != null;
         }
-        return new GetPostResponse(true, "Post fetched successfully", post, isLiked, isDisliked);
+        return new GetPostResponse(true, "Post fetched successfully", post, isLiked, isDisliked, null);
     }
 
     public GeneralGetResponse generalGetChilderen(GeneralGetRequest request) {
@@ -409,6 +410,23 @@ public class PostService {
         List<PostWSpecs> recentPosts = postRepository.findRecentPosts().stream().map(post -> new PostWSpecs(post, username)).collect(Collectors.toList());
         List<PostWSpecs> popularPosts = postRepository.findPopularPosts().stream().map(post -> new PostWSpecs(post, username)).collect(Collectors.toList());
         return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts);
+    }
+
+    public List<Asset> extractAssets(List<HashMap<String, String>> content) {
+        List<Asset> assets = assetRepository.findAll();
+        List<Asset> extractedAssets = new ArrayList<>();
+        for (Asset asset : assets) {
+            for (HashMap<String, String> contentItem : content) {
+                if (contentItem.get("type").equals("text")) {
+                    if (contentItem.get("value").contains(asset.getName()) || 
+                        contentItem.get("value").contains(asset.getYahooFinanceSymbol()) || 
+                        contentItem.get("value").contains(asset.getTradingViewSymbol())) {
+                        extractedAssets.add(asset);
+                    }
+                }
+            }
+        }
+        return extractedAssets;
     }
 
 }
