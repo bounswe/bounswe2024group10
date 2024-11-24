@@ -70,6 +70,41 @@
     /* Vertically center the text */
 }
 
+.tagButton {
+    border-radius: 5px;
+    border: none;
+    width: 60%;
+    height: 50px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #c7d2fe;
+    color: #3931a2;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activeTagButton {
+    background-color: #5d5fef;
+    color: white;
+}
+
+.nextButtonContainer {
+    position: inherit;
+    width: 30%;
+
+}
+
+.buttonContainer {
+    margin-top: 10px;
+    display: flex;
+    width: 80%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .imageContainer {
     width: 40vw;
     height: 40vw;
