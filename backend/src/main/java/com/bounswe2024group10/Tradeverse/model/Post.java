@@ -32,7 +32,7 @@ public class Post {
     private Long parentID;
 
     @Convert(converter = ListHashMapConverter.class)
-    @Column(nullable = true, columnDefinition = "TEXT")
+    @Column(nullable = true, columnDefinition = "LONGTEXT")
     private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
