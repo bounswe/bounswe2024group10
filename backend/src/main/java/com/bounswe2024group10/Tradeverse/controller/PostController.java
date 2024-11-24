@@ -27,6 +27,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
@@ -240,6 +242,15 @@ public class PostController {
     public ResponseEntity<ExploreResponse> explore(@RequestParam String username) {
         ExploreRequest request = new ExploreRequest(username);
         ExploreResponse response = postService.explore(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/feed")
+    public ResponseEntity<FeedResponse> feed(@RequestParam String username) {
+        FeedRequest request = new FeedRequest();
+        request.setUsername(username);
+        FeedResponse response = postService.feed(request);
         return ResponseEntity.ok(response);
     }
 
