@@ -16,7 +16,7 @@ public class GeneralFollowSubforumRequest {
         return followedSubforumID;
     }
 
-    public void setFollowedUsername(Long followedUsername) {
+    public void setFollowedSubforumID(Long followedUsername) {
         this.followedSubforumID = followedUsername;
     }
 }

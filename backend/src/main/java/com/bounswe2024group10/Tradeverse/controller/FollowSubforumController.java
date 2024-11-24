@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumRequest;
@@ -22,22 +21,30 @@ public class FollowSubforumController {
     private FollowSubforumService followSubforumService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/follow-subforum")
-    public ResponseEntity<GeneralFollowSubforumResponse> followUser(@RequestBody GeneralFollowSubforumRequest request) {
+    @GetMapping("/follow-subforum")
+    public ResponseEntity<GeneralFollowSubforumResponse> followUser(@RequestParam Long followedSubforumID, @RequestParam String followerUsername) {
+        GeneralFollowSubforumRequest request = new GeneralFollowSubforumRequest();
+        request.setFollowedSubforumID(followedSubforumID);
+        request.setFollowerUsername(followerUsername);
         GeneralFollowSubforumResponse response = followSubforumService.followSubforum(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/unfollow-user")
-    public ResponseEntity<GeneralFollowSubforumResponse> unfollowUser(@RequestBody GeneralFollowSubforumRequest request) {
+    @GetMapping("/unfollow-subforum")
+    public ResponseEntity<GeneralFollowSubforumResponse> unfollowUser(@RequestParam Long followedSubforumID, @RequestParam String followerUsername) {
+        GeneralFollowSubforumRequest request = new GeneralFollowSubforumRequest();
+        request.setFollowedSubforumID(followedSubforumID);
+        request.setFollowerUsername(followerUsername);
         GeneralFollowSubforumResponse response = followSubforumService.unfollowSubforum(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-followings")
-    public ResponseEntity<GetFollowingsResponse> getFollowings(@RequestBody GetFollowingsRequest request) {
+    public ResponseEntity<GetFollowingsResponse> getFollowings(@RequestParam String username) {
+        GetFollowingsRequest request = new GetFollowingsRequest();
+        request.setUsername(username);
         GetFollowingsResponse response = followSubforumService.getFollowings(request);
         return ResponseEntity.ok(response);
     }
