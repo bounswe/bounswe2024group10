@@ -2,14 +2,14 @@ package com.bounswe2024group10.Tradeverse.extra;
 
 import java.util.List;
 
-public class SubforumWSpecs {
+public class SubforumWSpecs2 {
 
     private Long id;
     private String title;
     private Long num_of_posts;
     private Long num_of_followers;
     private boolean is_followed;
-    private List<PostWSpecs> posts;
+    private List<Long> posts;
 
     // public SubforumWSpecs(Long id, String username) {
     //     this.id = id;
@@ -60,11 +60,11 @@ public class SubforumWSpecs {
         this.is_followed = is_followed;
     }
 
-    public List<PostWSpecs> getPosts() {
+    public List<Long> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<PostWSpecs> posts) {
+    public void setPosts(List<Long> posts) {
         this.posts = posts;
     }
 }

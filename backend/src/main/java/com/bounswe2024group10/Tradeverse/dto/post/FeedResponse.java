@@ -6,9 +6,10 @@ import java.util.List;
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 
 public class FeedResponse {
+
     private List<PostWSpecs> forYou;
     private HashMap<String, List<PostWSpecs>> followedSubforumPosts;
-    private HashMap<String, List<PostWSpecs>>  followedUserPosts;
+    private HashMap<String, List<PostWSpecs>> followedUserPosts;
     private boolean isSuccessful;
     private String message;
 
@@ -36,13 +37,13 @@ public class FeedResponse {
         this.followedSubforumPosts = followedSubforumPosts;
     }
 
-    public HashMap<String, List<PostWSpecs>>  getFollowedUserPosts() {
+    public HashMap<String, List<PostWSpecs>> getFollowedUserPosts() {
         return followedUserPosts;
     }
 
     public void setFollowedUserPosts(HashMap<String, List<PostWSpecs>> followedUserPosts) {
         this.followedUserPosts = followedUserPosts;
-    }    
+    }
 
     public boolean isSuccessful() {
         return isSuccessful;

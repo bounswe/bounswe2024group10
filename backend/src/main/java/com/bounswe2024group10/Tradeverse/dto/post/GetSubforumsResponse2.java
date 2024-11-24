@@ -2,15 +2,15 @@ package com.bounswe2024group10.Tradeverse.dto.post;
 
 import java.util.List;
 
-import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
+import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs2;
 
-public class GetSubforumsResponse {
+public class GetSubforumsResponse2 {
 
     private boolean isSuccessful;
     private String message;
-    private List<SubforumWSpecs> subforums;
+    private List<SubforumWSpecs2> subforums;
 
-    public GetSubforumsResponse(boolean isSuccessful, String message, List<SubforumWSpecs> subforums) {
+    public GetSubforumsResponse2(boolean isSuccessful, String message, List<SubforumWSpecs2> subforums) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.subforums = subforums;
@@ -32,11 +32,11 @@ public class GetSubforumsResponse {
         this.message = message;
     }
 
-    public List<SubforumWSpecs> getSubforums() {
+    public List<SubforumWSpecs2> getSubforums() {
         return subforums;
     }
 
-    public void setSubforums(List<SubforumWSpecs> subforums) {
+    public void setSubforums(List<SubforumWSpecs2> subforums) {
         this.subforums = subforums;
     }
 }

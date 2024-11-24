@@ -1,8 +1,9 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
+
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 
-
 public class GetPostResponse {
+
     private boolean isSuccessful;
     private String message;
     private PostWSpecs post;
@@ -12,7 +13,6 @@ public class GetPostResponse {
         this.message = message;
         this.post = post;
     }
-
 
     public boolean getIsSuccessful() {
         return isSuccessful;

@@ -1,6 +1,5 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,46 +33,49 @@ import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse2;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.service.PostService;
 
-
 /**
- * PostController handles all HTTP requests related to posts, forums, subforums, and comments.
- * It provides endpoints for creating, editing, deleting, and retrieving posts, forums, subforums, and comments.
- * It also includes endpoints for searching and exploring posts.
- * 
+ * PostController handles all HTTP requests related to posts, forums, subforums,
+ * and comments. It provides endpoints for creating, editing, deleting, and
+ * retrieving posts, forums, subforums, and comments. It also includes endpoints
+ * for searching and exploring posts.
+ *
  * Endpoints:
- * 
- * - GET /api/post/get-subforums: Retrieves subforums for a given username.
- * - GET /api/post/get-posts-of-subforum: Retrieves posts of a specific subforum.
- * - GET /api/post/get-comments-of-post-or-comment: Retrieves comments of a specific post or comment.
- * - GET /api/post/get-post: Retrieves a specific post. It can be a post or a comment or a subforum.
- * - GET /api/post/search-posts: Searches for posts based on query type, keyword, offset, and limit.
- * - POST /api/post/create-post: Creates a new post.
- * - POST /api/post/create-forum: Creates a new forum.
- * - POST /api/post/create-subforum: Creates a new subforum.
- * - POST /api/post/create-comment: Creates a new comment.
- * - POST /api/post/edit-comment: Edits an existing comment.
- * - POST /api/post/edit-post: Edits an existing post.
- * - POST /api/post/edit-subforum: Edits an existing subforum.
- * - POST /api/post/edit-forum: Edits an existing forum.
- * - POST /api/post/delete-post: Deletes a specific post.
- * - POST /api/post/delete-subforum: Deletes a specific subforum.
- * - POST /api/post/delete-forum: Deletes a specific forum.
- * - POST /api/post/delete-comment: Deletes a specific comment.
- * - GET /api/post/general-get-post: Retrieves a post with optional username.
- * - GET /api/post/general-get-childeren: Retrieves children of a specific parent post or comment.
- * - POST /api/post/general-search: Performs a general search.
- * - GET /api/post/explore: Explores posts for a given username.
- * - GET /api/post/feed: Retrieves the feed for a given username.
- * 
- * All endpoints support Cross-Origin Resource Sharing (CORS) with any origin and allowed headers.
+ *
+ * - GET /api/post/get-subforums: Retrieves subforums for a given username. -
+ * GET /api/post/get-posts-of-subforum: Retrieves posts of a specific subforum.
+ * - GET /api/post/get-comments-of-post-or-comment: Retrieves comments of a
+ * specific post or comment. - GET /api/post/get-post: Retrieves a specific
+ * post. It can be a post or a comment or a subforum. - GET
+ * /api/post/search-posts: Searches for posts based on query type, keyword,
+ * offset, and limit. - POST /api/post/create-post: Creates a new post. - POST
+ * /api/post/create-forum: Creates a new forum. - POST
+ * /api/post/create-subforum: Creates a new subforum. - POST
+ * /api/post/create-comment: Creates a new comment. - POST
+ * /api/post/edit-comment: Edits an existing comment. - POST
+ * /api/post/edit-post: Edits an existing post. - POST /api/post/edit-subforum:
+ * Edits an existing subforum. - POST /api/post/edit-forum: Edits an existing
+ * forum. - POST /api/post/delete-post: Deletes a specific post. - POST
+ * /api/post/delete-subforum: Deletes a specific subforum. - POST
+ * /api/post/delete-forum: Deletes a specific forum. - POST
+ * /api/post/delete-comment: Deletes a specific comment. - GET
+ * /api/post/general-get-post: Retrieves a post with optional username. - GET
+ * /api/post/general-get-childeren: Retrieves children of a specific parent post
+ * or comment. - POST /api/post/general-search: Performs a general search. - GET
+ * /api/post/explore: Explores posts for a given username. - GET /api/post/feed:
+ * Retrieves the feed for a given username.
+ *
+ * All endpoints support Cross-Origin Resource Sharing (CORS) with any origin
+ * and allowed headers.
  */
 @RestController
 @RequestMapping(value = "/api/post")
 public class PostController {
+
     @Autowired
     private PostService postService;
 
@@ -83,13 +85,24 @@ public class PostController {
     //     GetForumsResponse response = postService.getForums();
     //     return ResponseEntity.ok(response);
     // }
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-subforums")
-    public ResponseEntity<GetSubforumsResponse> getSubForums(@RequestParam String username){
+    public ResponseEntity<GetSubforumsResponse> getSubForums(@RequestParam String username) {
         GeneralGetRequest request = new GeneralGetRequest();
         request.setUsername(username);
         GetSubforumsResponse response = postService.getSubForums(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-subforums2")
+    public ResponseEntity<GetSubforumsResponse2> getSubForums2(@RequestParam(required = false) String username) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        if (username == null) {
+            username = "reserved";
+        }
+        request.setUsername(username);
+        GetSubforumsResponse2 response = postService.getSubForums2(request);
         return ResponseEntity.ok(response);
     }
 
@@ -105,9 +118,12 @@ public class PostController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-comments-of-post-or-comment")
-    public ResponseEntity<GeneralGetResponse> getComments(@RequestParam Long postId, @RequestParam String username) {
+    public ResponseEntity<GeneralGetResponse> getComments(@RequestParam Long postId, @RequestParam(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
         request.setParentId(postId);
+        if (username == null) {
+            username = "reserved";
+        }
         request.setUsername(username);
         GeneralGetResponse response = postService.getComments(request);
         return ResponseEntity.ok(response);
@@ -131,7 +147,6 @@ public class PostController {
     //     GetPostResponse response = postService.getComment(request);
     //     return ResponseEntity.ok(response);
     // }
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/search-posts")
     public ResponseEntity<SearchAndListPostsResponse> searchPosts(
@@ -173,7 +188,6 @@ public class PostController {
     //     CreateForumResponse response = postService.createForum(request);
     //     return ResponseEntity.ok(response);
     // }
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/create-subforum")
     public ResponseEntity<CreateSubforumResponse> createSubforum(@RequestParam String username, @RequestParam String title) {
@@ -204,7 +218,6 @@ public class PostController {
         EditPostResponse response = postService.editPost(request);
         return ResponseEntity.ok(response);
     }
-    
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/edit-subforum")
@@ -223,7 +236,6 @@ public class PostController {
     //     EditForumResponse response = postService.editForum(request);
     //     return ResponseEntity.ok(response);
     // }
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/delete-post")
     public ResponseEntity<GeneralDeleteResponse> deletePost(@RequestParam Long postId, @RequestParam String username) {
@@ -250,7 +262,6 @@ public class PostController {
     //     GeneralDeleteResponse response = postService.deleteForum(request);
     //     return ResponseEntity.ok(response);
     // }
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/delete-comment")
     public ResponseEntity<GeneralDeleteResponse> deleteComment(@RequestParam Long postId, @RequestParam String username) {
@@ -263,17 +274,17 @@ public class PostController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/general-get-post")
-    public ResponseEntity<GetPostResponse> generalGetPost(@RequestParam Long postId, @RequestBody(required=false) String username) {
+    public ResponseEntity<GetPostResponse> generalGetPost(@RequestParam Long postId, @RequestBody(required = false) String username) {
         GetPostRequest request = new GetPostRequest();
         request.setPostId(postId);
         request.setUsername(username);
         GetPostResponse response = postService.generalGetPost(request);
         return ResponseEntity.ok(response);
     }
-    
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/general-get-childeren")
-    public ResponseEntity<GeneralGetResponse> generalGetChilderen(@RequestParam Long parentId, @RequestBody(required=false) String username) {
+    public ResponseEntity<GeneralGetResponse> generalGetChilderen(@RequestParam Long parentId, @RequestBody(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
         request.setParentId(parentId);
         request.setUsername(username);
@@ -290,14 +301,12 @@ public class PostController {
     //     GeneralDeleteResponse response = postService.generalDelete(request);
     //     return ResponseEntity.ok(response);
     // }
-
     // @CrossOrigin(origins = "*", allowedHeaders = "*")
     // @PostMapping("/general-search")
     // public String generalSearch(@RequestBody GeneralSearchRequest request) {
     //     String response = postService.generalSearch(request);
     //     return response;
     // }
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/explore")
     public ResponseEntity<ExploreResponse> explore(@RequestParam String username) {
@@ -323,5 +332,4 @@ public class PostController {
     //     SearchAndListPostsResponse response = postService.exploreSearch(request);
     //     return ResponseEntity.ok(response);
     // }
-    
 }

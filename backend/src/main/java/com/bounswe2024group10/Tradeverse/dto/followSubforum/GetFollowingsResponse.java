@@ -5,6 +5,7 @@ import java.util.List;
 import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
 
 public class GetFollowingsResponse {
+
     private boolean isSuccessful;
     private String message;
     private List<SubforumWSpecs> followings;
