@@ -32,7 +32,6 @@ import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetForumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
@@ -46,19 +45,17 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/get-forums")
-    public ResponseEntity<GetForumsResponse> getForums() {
-        GetForumsResponse response = postService.getForums();
-        return ResponseEntity.ok(response);
-    }
+    // @CrossOrigin(origins = "*", allowedHeaders = "*")
+    // @GetMapping("/get-forums")
+    // public ResponseEntity<GetForumsResponse> getForums() {
+    //     GetForumsResponse response = postService.getForums();
+    //     return ResponseEntity.ok(response);
+    // }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-subforums")
-    public ResponseEntity<GeneralGetResponse> getSubForums(@RequestParam Long forumId, @RequestParam(required = false) String username){
-        GeneralGetRequest request = new GeneralGetRequest();
-        request.setParentId(forumId);
-        GeneralGetResponse response = postService.getSubForums(request);
+    public ResponseEntity<GeneralGetResponse> getSubForums(){
+        GeneralGetResponse response = postService.getSubForums();
         return ResponseEntity.ok(response);
     }
 

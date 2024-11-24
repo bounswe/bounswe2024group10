@@ -73,15 +73,8 @@ public class PostService {
         return new GetForumsResponse(true, "Forums fetched successfully", forums);
     }
 
-    public GeneralGetResponse getSubForums(GeneralGetRequest request) {
-        Post forum = postRepository.findById(request.getParentId()).orElse(null);
-        if (forum == null) {
-            return new GeneralGetResponse(false, "Forum does not exist", null);
-        }
-        if (forum.getPostType() != FORUM) {
-            return new GeneralGetResponse(false, "Given post is not a forum", null);
-        }
-        List<Post> subForums = postRepository.findByParentID(request.getParentId());
+    public GeneralGetResponse getSubForums() {
+        List<Post> subForums = postRepository.findByPostType(SUBFORUM);
         return new GeneralGetResponse(true, "Subforums fetched successfully", subForums);
     }
 
