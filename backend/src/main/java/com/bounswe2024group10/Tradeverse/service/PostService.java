@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateForumRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumRequest;
@@ -36,10 +34,12 @@ import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetForumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
+import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
@@ -75,7 +75,8 @@ public class PostService {
     private FollowRepository followUserRepository;
 
     public GeneralGetResponse getChilderen(GeneralGetRequest request) {
-        List<Post> childeren = postRepository.findByParentID(request.getParentId());
+        List<PostWSpecs> childeren = postRepository.findByParentID(request.getParentId()).stream()
+                .map(post -> new PostWSpecs(post, request.getUsername())).collect(Collectors.toList());
         return new GeneralGetResponse(true, "Comments fetched successfully", childeren);
     }
 
@@ -84,16 +85,17 @@ public class PostService {
         return new GetForumsResponse(true, "Forums fetched successfully", forums);
     }
 
-    public GeneralGetResponse getSubForums(GeneralGetRequest request) {
+    public GetSubforumsResponse getSubForums(GeneralGetRequest request) {
         Post forum = postRepository.findById(request.getParentId()).orElse(null);
         if (forum == null) {
-            return new GeneralGetResponse(false, "Forum does not exist", null);
+            return new GetSubforumsResponse(false, "Forum does not exist", null);
         }
         if (forum.getPostType() != FORUM) {
-            return new GeneralGetResponse(false, "Given post is not a forum", null);
+            return new GetSubforumsResponse(false, "Given post is not a forum", null);
         }
-        List<Post> subForums = postRepository.findByParentID(request.getParentId());
-        return new GeneralGetResponse(true, "Subforums fetched successfully", subForums);
+        List<SubforumWSpecs> subForums = postRepository.findByParentID(request.getParentId()).stream()
+                .map(subforum -> new SubforumWSpecs(subforum.getId(), request.getUsername())).collect(Collectors.toList());
+        return new GetSubforumsResponse(true, "Subforums fetched successfully", subForums);
     }
 
     public GeneralGetResponse getPosts(GeneralGetRequest request) {
@@ -104,7 +106,8 @@ public class PostService {
         if (subforum.getPostType() != SUBFORUM) {
             return new GeneralGetResponse(false, "Given post is not a subforum", null);
         }
-        List<Post> posts = postRepository.findByParentID(request.getParentId());
+        List<PostWSpecs> posts = postRepository.findByParentID(request.getParentId()).stream()
+                .map(post -> new PostWSpecs(post, request.getUsername())).collect(Collectors.toList());
         return new GeneralGetResponse(true, "Subforum posts fetched successfully", posts);
     }
 
@@ -113,33 +116,35 @@ public class PostService {
         if (post == null) {
             return new GeneralGetResponse(false, "Post does not exist", null);
         }
-        if (post.getPostType() != POST) {
-            return new GeneralGetResponse(false, "Post is not a post", null);
+        if (post.getPostType() != POST || post.getPostType() != COMMENT) {
+            return new GeneralGetResponse(false, "Post is not a post or comment", null);
         }
-        List<Post> comments = postRepository.findByParentID(request.getParentId());
+        List<PostWSpecs> comments = postRepository.findByParentID(request.getParentId()).stream()
+                .map(comment -> new PostWSpecs(comment, request.getUsername())).collect(Collectors.toList());
         return new GeneralGetResponse(true, "Comments fetched successfully", comments);
     }
 
-    public GetPostResponse getComment(GetPostRequest request) {
-        Post comment = postRepository.findById(request.getPostId()).orElse(null);
-        if (comment == null) {
-            return new GetPostResponse(false, "Comment does not exist", null);
-        }
-        if (comment.getPostType() != COMMENT) {
-            return new GetPostResponse(false, "Post is not a comment", null);
-        }
-        return new GetPostResponse(true, "Comment fetched successfully", comment);
-    }
+    // public GetPostResponse getComment(GetPostRequest request) {
+    //     Post comment = postRepository.findById(request.getPostId()).orElse(null);
+    //     if (comment == null) {
+    //         return new GetPostResponse(false, "Comment does not exist", null);
+    //     }
+    //     if (comment.getPostType() != COMMENT) {
+    //         return new GetPostResponse(false, "Post is not a comment", null);
+    //     }
+    //     return new GetPostResponse(true, "Comment fetched successfully", comment);
+    // }
 
     public GetPostResponse getPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
+        PostWSpecs postWSpecs = new PostWSpecs(post, request.getUsername());
         if (post == null) {
             return new GetPostResponse(false, "Post does not exist", null);
         }
         if (post.getPostType() != POST) {
             return new GetPostResponse(false, "Post is not a post", null);
         }
-        return new GetPostResponse(true, "Post fetched successfully", post);
+        return new GetPostResponse(true, "Post fetched successfully", postWSpecs);
     }
 
     public CreatePostResponse createPost(CreatePostRequest request) {
@@ -165,26 +170,17 @@ public class PostService {
         return new CreatePostResponse(true, "Post created successfully");
     }
 
-    public CreateForumResponse createForum(CreateForumRequest request) {
-        // TO DO: Check if the user is admin
-        Post post = new Post(request.getUsername(), request.getTitle(), null, null, LocalDateTime.now(), FORUM);
-        postRepository.save(post);
-        return new CreateForumResponse(true, "Forum created successfully");
-    }
+    // public CreateForumResponse createForum(CreateForumRequest request) {
+    //     // TO DO: Check if the user is admin
+    //     Post post = new Post(request.getUsername(), request.getTitle(), null, null, LocalDateTime.now(), FORUM);
+    //     postRepository.save(post);
+    //     return new CreateForumResponse(true, "Forum created successfully");
+    // }
     
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public CreateSubforumResponse createSubforum(CreateSubforumRequest request) {
-        Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), null, LocalDateTime.now(), SUBFORUM);
-        Post parentForum = postRepository.findById(request.getParentID()).orElse(null);
-        if (parentForum == null) {
-            return new CreateSubforumResponse(false, "Parent post does not exist");
-        }
-        if(parentForum.getPostType() != FORUM) {
-            return new CreateSubforumResponse(false, "Parent post is not a forum");
-        }
+        Post post = new Post(request.getUsername(), request.getTitle(), null, null, LocalDateTime.now(), SUBFORUM);
         postRepository.save(post);
-        parentForum.setLastUpdateDate(LocalDateTime.now());
-        postRepository.save(parentForum);
         return new CreateSubforumResponse(true, "Subforum created successfully");
     }
 
@@ -283,23 +279,23 @@ public class PostService {
     }
 
     // TO DO: Check if the user is admin
-    public EditForumResponse editForum(EditForumRequest request) {
-        Post post = postRepository.findById(request.getPostID()).orElse(null);
-        if (post == null) {
-            return new EditForumResponse(false, "Forum does not exist");
-        }
-        if (!post.getUsername().equals(request.getUsername())) {
-            return new EditForumResponse(false, "You are not authorized to edit this forum");
-        }
-        if(post.getPostType() != FORUM) {
-            return new EditForumResponse(false, "Post is not a forum");
-        }
-        post.setTitle(request.getTitle());
-        post.setLastEditDate(LocalDateTime.now());
-        post.setLastUpdateDate(LocalDateTime.now());
-        postRepository.save(post);
-        return new EditForumResponse(true, "Forum edited successfully");
-    }
+    // public EditForumResponse editForum(EditForumRequest request) {
+    //     Post post = postRepository.findById(request.getPostID()).orElse(null);
+    //     if (post == null) {
+    //         return new EditForumResponse(false, "Forum does not exist");
+    //     }
+    //     if (!post.getUsername().equals(request.getUsername())) {
+    //         return new EditForumResponse(false, "You are not authorized to edit this forum");
+    //     }
+    //     if(post.getPostType() != FORUM) {
+    //         return new EditForumResponse(false, "Post is not a forum");
+    //     }
+    //     post.setTitle(request.getTitle());
+    //     post.setLastEditDate(LocalDateTime.now());
+    //     post.setLastUpdateDate(LocalDateTime.now());
+    //     postRepository.save(post);
+    //     return new EditForumResponse(true, "Forum edited successfully");
+    // }
 
     public GeneralDeleteResponse deletePost(GeneralDeleteRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
@@ -316,30 +312,27 @@ public class PostService {
         return new GeneralDeleteResponse(true, "Post deleted successfully");
     }
 
-    // TO DO: Check if the user is admin
-    public GeneralDeleteResponse deleteForum(GeneralDeleteRequest request) {
-        Post post = postRepository.findById(request.getPostId()).orElse(null);
-        if (post == null) {
-            return new GeneralDeleteResponse(false, "Forum does not exist");
-        }
-        if (!post.getUsername().equals(request.getUsername())) {
-            return new GeneralDeleteResponse(false, "You are not authorized to delete this forum");
-        }
-        if(post.getPostType() != FORUM) {
-            return new GeneralDeleteResponse(false, "Post is not a forum");
-        }
-        postRepository.delete(post);
-        return new GeneralDeleteResponse(true, "Forum deleted successfully");
-    }
+    // // TO DO: Check if the user is admin
+    // public GeneralDeleteResponse deleteForum(GeneralDeleteRequest request) {
+    //     Post post = postRepository.findById(request.getPostId()).orElse(null);
+    //     if (post == null) {
+    //         return new GeneralDeleteResponse(false, "Forum does not exist");
+    //     }
+    //     if (!post.getUsername().equals(request.getUsername())) {
+    //         return new GeneralDeleteResponse(false, "You are not authorized to delete this forum");
+    //     }
+    //     if(post.getPostType() != FORUM) {
+    //         return new GeneralDeleteResponse(false, "Post is not a forum");
+    //     }
+    //     postRepository.delete(post);
+    //     return new GeneralDeleteResponse(true, "Forum deleted successfully");
+    // }
 
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public GeneralDeleteResponse deleteSubforum(GeneralDeleteRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
             return new GeneralDeleteResponse(false, "Subforum does not exist");
-        }
-        if (!post.getUsername().equals(request.getUsername())) {
-            return new GeneralDeleteResponse(false, "You are not authorized to delete this subforum");
         }
         if(post.getPostType() != SUBFORUM) {
             return new GeneralDeleteResponse(false, "Post is not a subforum");
@@ -375,47 +368,33 @@ public class PostService {
 
     public GetPostResponse generalGetPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
-        boolean isLiked = false;
-        boolean isDisliked = false;
-
         if (post == null) {
             return new GetPostResponse(false, "Post does not exist", null);
         }
-        if (request.getUsername() != null) {
-            User user = userRepository.findByUsername(request.getUsername());
-            if (user == null) {
-                return new GetPostResponse(false, "User does not exist", null);
-            }
-            isLiked = likeRepository.findByUsernameAndPostID(request.getUsername(),request.getPostId()) != null;
-            isDisliked = dislikeRepository.findByUsernameAndPostID(request.getUsername(),request.getPostId()) != null;
-        }
-        return new GetPostResponse(true, "Post fetched successfully", post, isLiked, isDisliked);
+        PostWSpecs postWSpecs = new PostWSpecs(post, request.getUsername());
+        return new GetPostResponse(true, "Post fetched successfully", postWSpecs);
     }
 
     public GeneralGetResponse generalGetChilderen(GeneralGetRequest request) {
         Post post = postRepository.findById(request.getParentId()).orElse(null);
-        List<Boolean> isLiked;
-        List<Boolean> isDisliked;
         if (post == null) {
             return new GeneralGetResponse(false, "Post does not exist", null);
         }
-        List<Post> childeren = postRepository.findByParentID(request.getParentId());
-        List<Long> childerenIds = 
-        childeren.stream().map(Post::getId).collect(Collectors.toList());
-        if(request.getUsername() != null) {
-            User user = userRepository.findByUsername(request.getUsername());
-            if (user == null) {
-                return new GeneralGetResponse(false, "User does not exist", null);
-            }
-            isLiked = dislikeRepository.findByUsernameAndPostIDIn(request.getUsername(), childerenIds)
-                            .stream().map(like -> true).collect(Collectors.toList());
-            isDisliked = dislikeRepository.findByUsernameAndPostIDIn(request.getUsername(), childerenIds)
-                            .stream().map(dislike -> true).collect(Collectors.toList());
-        } else {
-            isLiked = childeren.stream().map(post_ -> false).collect(Collectors.toList());
-            isDisliked = childeren.stream().map(post_ -> false).collect(Collectors.toList());
+        List<PostWSpecs> childeren = postRepository.findByParentID(request.getParentId()).stream()
+                .map(p -> new PostWSpecs(p, request.getUsername())).collect(Collectors.toList());
+        return new GeneralGetResponse(true, "Comments fetched successfully", childeren);
+    }
+
+    public GeneralDeleteResponse generalDelete(GeneralDeleteRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new GeneralDeleteResponse(false, "Post does not exist");
         }
-        return new GeneralGetResponse(true, "Comments fetched successfully", childeren, isLiked, isDisliked);
+        if (!post.getUsername().equals(request.getUsername())) {
+            return new GeneralDeleteResponse(false, "You are not authorized to delete this comment");
+        }
+        postRepository.delete(post);
+        return new GeneralDeleteResponse(true, "Post deleted successfully");
     }
 
     public String generalSearch(GeneralSearchRequest request) {

@@ -81,6 +81,41 @@ public class PostWSpecs {
         this.comments = postRepository.findByParentID(post.getId()).stream().map(p -> new PostWSpecs(p, username)).toList();
     }
 
+    public PostWSpecs(Long postID, String username) {
+        Post post = postRepository.findById(postID).get();
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.parentID = post.getParentID();
+        this.content = post.getContent();
+        this.nofLikes = post.getNofLikes();
+        this.nofDislikes = post.getNofDislikes();
+        this.likable = post.getLikable();
+        this.creationDate = post.getCreationDate();
+        this.lastEditDate = post.getLastEditDate();
+        this.lastUpdateDate = post.getLastUpdateDate();
+        this.postType = post.getPostType();
+        
+        this.nofComments = postRepository.countByParentID(post.getId());
+        this.isLiked = likeRepository.existsByUsernameAndPostID(username, post.getId());
+        this.isDisliked = dislikeRepository.existsByUsernameAndPostID(username, post.getId());
+        switch (postType) {
+            case SUBFORUM:
+                this.parentSubforum = this;
+                break;
+            case FORUM:
+                this.parentSubforum = null;
+                break;
+            default:
+                Post parent = postRepository.findById(post.getParentID()).get();
+                while (parent.getPostType() != PostType.SUBFORUM) {
+                    parent = postRepository.findById(parent.getParentID()).get();
+                }
+                this.parentSubforum = new PostWSpecs(parent, username);
+        }
+        this.author = userRepository.findByUsername(post.getUsername());
+        this.comments = postRepository.findByParentID(post.getId()).stream().map(p -> new PostWSpecs(p, username)).toList();
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,9 +1,12 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class CreateCommentRequest {
     private String username;
     private Long parentID;
-    private String content;
+    private List<HashMap<String, String>> content;
 
 
     public String getUsername() {
@@ -22,11 +25,11 @@ public class CreateCommentRequest {
         this.parentID = parentID;
     }
 
-    public String getContent() {
+    public List<HashMap<String, String>> getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(List<HashMap<String, String>> content) {
         this.content = content;
     }
 }

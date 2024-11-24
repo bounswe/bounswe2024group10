@@ -2,18 +2,17 @@ package com.bounswe2024group10.Tradeverse.dto.post;
 
 import java.util.List;
 
-import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
+import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
 
-public class GeneralGetResponse {
-
+public class GetSubforumsResponse {
     private boolean isSuccessful;
     private String message;
-    private List<PostWSpecs> comments;
+    private List<SubforumWSpecs> subforums;
 
-    public GeneralGetResponse(boolean isSuccessful, String message, List<PostWSpecs> comments) {
+    public GetSubforumsResponse(boolean isSuccessful, String message, List<SubforumWSpecs> subforums) {
         this.isSuccessful = isSuccessful;
         this.message = message;
-        this.comments = comments;
+        this.subforums = subforums;
     }
 
     public boolean isSuccessful() {
@@ -32,11 +31,11 @@ public class GeneralGetResponse {
         this.message = message;
     }
 
-    public List<PostWSpecs> getComments() {
-        return comments;
+    public List<SubforumWSpecs> getSubforums() {
+        return subforums;
     }
 
-    public void setComments(List<PostWSpecs> comments) {
-        this.comments = comments;
+    public void setSubforums(List<SubforumWSpecs> subforums) {
+        this.subforums = subforums;
     }
 }
