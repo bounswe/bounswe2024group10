@@ -6,6 +6,14 @@ public class GetPostRequest {
 
     private String username;
 
+    public GetPostRequest() {
+    }
+
+    public GetPostRequest(Long postId, String username) {
+        this.postId = postId;
+        this.username = username;
+    }
+
     public Long getPostId() {
         return postId;
     }
