@@ -7,12 +7,14 @@ public class GetPortfolioResponse {
     private String message;
     private String username;
     private List<PortfolioDto> portfolios;
+    private double totalValue;
 
-    public GetPortfolioResponse(boolean isSuccessful, String message, String username, List<PortfolioDto> portfolios) {
+    public GetPortfolioResponse(boolean isSuccessful, String message, String username, List<PortfolioDto> portfolios, double totalValue) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.username = username;
         this.portfolios = portfolios;
+        this.totalValue = totalValue;
     }
 
     public boolean getIsSuccessful() {
@@ -45,5 +47,13 @@ public class GetPortfolioResponse {
 
     public void setPortfolios(List<PortfolioDto> portfolios) {
         this.portfolios = portfolios;
+    }
+
+    public double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(double totalValue) {
+        this.totalValue = totalValue;
     }
 }
