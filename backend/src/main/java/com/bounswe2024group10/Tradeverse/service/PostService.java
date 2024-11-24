@@ -1,6 +1,7 @@
 package com.bounswe2024group10.Tradeverse.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
@@ -40,6 +43,8 @@ import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
@@ -62,6 +67,12 @@ public class PostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FollowSubforumRepository followSubforumRepository;
+
+    @Autowired
+    private FollowRepository followUserRepository;
 
     public GeneralGetResponse getChilderen(GeneralGetRequest request) {
         List<Post> childeren = postRepository.findByParentID(request.getParentId());
@@ -416,6 +427,34 @@ public class PostService {
         List<PostWSpecs> recentPosts = postRepository.findRecentPosts().stream().map(post -> new PostWSpecs(post, username)).collect(Collectors.toList());
         List<PostWSpecs> popularPosts = postRepository.findPopularPosts().stream().map(post -> new PostWSpecs(post, username)).collect(Collectors.toList());
         return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts);
+    }
+
+    public FeedResponse feed(FeedRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            return new FeedResponse(null, null, null, false, "User does not exist");
+        }
+        List<Post> followedSubforums = followSubforumRepository.findByFollowerUsername(user.getUsername()).stream()
+                .map(follow -> postRepository.findById(follow.getFollowedSubforumID()).orElse(null))
+                .collect(Collectors.toList());
+        HashMap<String, List<PostWSpecs>> followedSubforumPosts = new HashMap<>();
+        for (Post subforum : followedSubforums) {
+            List<PostWSpecs> posts = postRepository.findByParentID(subforum.getId()).stream()
+                    .map(post -> new PostWSpecs(post, user.getUsername())).collect(Collectors.toList());
+            followedSubforumPosts.put(subforum.getTitle(), posts);
+        }
+        List<String> followedUsernames = followUserRepository.findByFollowerUsername(user.getUsername()).stream()
+                .map(follow -> follow.getFollowedUsername()).collect(Collectors.toList());
+
+        HashMap<String, List<PostWSpecs>> followedUserPosts = new HashMap<>();
+        for (String username : followedUsernames) {
+            List<PostWSpecs> posts = postRepository.findByUsername(username).stream()
+                    .map(post -> new PostWSpecs(post, user.getUsername())).collect(Collectors.toList());
+            followedUserPosts.put(username, posts);
+        }
+        // TO DO: Implement forYou
+        return new FeedResponse(null, followedSubforumPosts, followedUserPosts, true, "Feed fetched successfully");
+
     }
 
 }
