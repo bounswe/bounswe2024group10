@@ -1,10 +1,19 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
-import com.bounswe2024group10.Tradeverse.dto.followSubforum.*;
-import com.bounswe2024group10.Tradeverse.service.FollowSubforumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumRequest;
+import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsRequest;
+import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsResponse;
+import com.bounswe2024group10.Tradeverse.service.FollowSubforumService;
 
 @RestController
 @RequestMapping("/api/follow-subforum")
@@ -32,11 +41,4 @@ public class FollowSubforumController {
         GetFollowingsResponse response = followSubforumService.getFollowings(request);
         return ResponseEntity.ok(response);
     }
-
-    // @CrossOrigin(origins = "*", allowedHeaders = "*")
-    // @GetMapping("/get-followers")
-    // public ResponseEntity<GetFollowersResponse> getFollowers(@RequestBody GetFollowersRequest request) {
-    //     GetFollowersResponse response = followSubforumService.getFollowers(request);
-    //     return ResponseEntity.ok(response);
-    // }
 }
