@@ -88,6 +88,18 @@ export const AuthWrapper = () => {
                 return Promise.reject(response.message || "Registration failed");
             }
 
+
+            localStorage.setItem('authToken', response.token);
+
+            // Example user state handling (adjust according to your logic)
+            setUser({
+                name: response.username,
+                isAuthenticated: true,
+                role: "user",  // Adjust this based on role handling if needed
+                img: "",  // You can fetch or update user image if available
+                tag: response.tag   // Tag information from LoginResponse
+            });
+
             return response; // You can return the success message or handle it as needed
         } catch (error) {
             console.error('Registration error:', error);

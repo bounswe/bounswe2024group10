@@ -46,7 +46,7 @@ const SignUp = () => {
                 // Check the response for success or error
                 if (response.isSuccessful) {
                     toast("Registration successful!");
-                    navigate("/login"); // Redirect after success message
+                    navigate("/"); // Redirect after success message
                 } else {
                     setErrorMessage(response.message); // Display error message sent from the backend
                 }
