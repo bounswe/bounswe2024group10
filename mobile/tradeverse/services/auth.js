@@ -1,5 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import api from './_axios'
+import { Storage } from "../util/storage";
+
+import api from "./_axios";
 
 export async function getMe({ username = '' }) {
   try {
@@ -16,7 +17,7 @@ export async function getMe({ username = '' }) {
 
 export async function login({ username, password }) {
   try {
-    await AsyncStorage.removeItem('authToken')
+    // await Storage.removeItem("authToken");
     const response = await api({
       url: '/auth/login',
       method: 'POST',
@@ -24,17 +25,13 @@ export async function login({ username, password }) {
         Authorization: undefined,
       },
       data: { username, password },
-    })
+    });
 
-    await AsyncStorage.removeItem('authToken')
-
-    api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
-    AsyncStorage.setItem('authToken', response.data.token)
-    return response
+    api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+    
+    return response;
   } catch (error) {
-    console.log('Login Error ->', error.message)
-
-    throw new Error(error.message || 'Giriş başarısız')
+    throw new Error(`Failed: ${error.message}` ?? "Giriş başarısız");
   }
 }
 
@@ -47,7 +44,9 @@ export async function register({
   profilePhoto = '',
 }) {
   try {
-    await AsyncStorage.removeItem('authToken')
+    console.log(email, password, name, username, tag, profilePhoto);
+
+    await Storage.removeItem("authToken");
     const response = await api({
       url: '/auth/register',
       method: 'POST',
@@ -62,16 +61,13 @@ export async function register({
       headers: {
         Authorization: undefined,
       },
-    })
-    if (!response.data.isSuccessful) {
-      throw new Error(response.data.message)
-    }
-    console.log('Register Response ->', response.data)
+    });
+    await Storage.removeItem("authToken");
+    console.log(response.data);
 
-    await AsyncStorage.removeItem('authToken')
-    api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
-    AsyncStorage.setItem('authToken', response.data.token)
-    return response
+    api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+    Storage.setItem("authToken", response.data.token);
+    return response;
   } catch (error) {
     console.log('Register Error ->', error.message)
     throw new Error(error.message || 'Kayıt başarısız')

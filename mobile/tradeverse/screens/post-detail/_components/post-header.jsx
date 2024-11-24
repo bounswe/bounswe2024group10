@@ -44,18 +44,29 @@ const SIZES = {
   xLarge: SIZE_CONSTANT * 2,
 }
 
-const AuthorInfo = ({ author }) => (
-  <UserLink user={author} target={paths.HOME.USER_PROFILE}>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: SIZE_CONSTANT * 0.6,
-        alignItems: 'center',
-      }}
-    >
-      <View>
-        <ProfileImage
+const AuthorInfo = ({ author }) => {
+  if (!author) return <></>;
+  return (
+    <UserLink user={author} target={paths.HOME.USER_PROFILE}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: SIZE_CONSTANT * 0.6,
+          alignItems: "center",
+        }}
+      >
+        <View>
+          <ProfileImage
+            style={{
+              width: SIZE_CONSTANT * 2.1,
+              height: SIZE_CONSTANT * 2.1,
+              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+            }}
+            src={author.avatar}
+          />
+        </View>
+        <View
           style={{
             width: SIZE_CONSTANT * 2.1,
             height: SIZE_CONSTANT * 2.1,
@@ -208,9 +219,9 @@ export default function PostHeader({ style, post }) {
         </View>
         <View>
           <Text>
-            {post.content.map((content, index) => {
-              if (content.type === 'text') {
-                return <DefaultText key={index} index={index} text={content} />
+            {post && post.content && post.content.map((content, index) => {
+              if (content.type === "text") {
+                return <DefaultText key={index} index={index} text={content} />;
               }
               if (content.type === 'tag') {
                 return <TagText key={index} index={index} tag={content} />

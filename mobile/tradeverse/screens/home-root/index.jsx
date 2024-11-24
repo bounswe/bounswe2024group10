@@ -35,8 +35,8 @@ export default function HomeRootScreen() {
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       {data && (
         <FullScrollView>
-          {selectedTab === 'for_you' && <ForYouView data={data.forYouPosts} />}
-          {selectedTab === 'followed_topics' && (
+          {selectedTab === "for_you" && data.forYouPosts && <ForYouView data={data.forYouPosts} />}
+          {selectedTab === "followed_topics" && (
             <FollowedTopicsView data={data.followedTopicsPosts} />
           )}
           {selectedTab === 'followed_people' && (

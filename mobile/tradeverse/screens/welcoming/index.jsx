@@ -21,11 +21,10 @@ import { AuthContext } from '../../auth/context'
 import { router } from 'expo-router'
 
 export default function WelcomingScreen() {
-  const [currentStep, setCurrentStep] = useState('profile') // user_tag, profile
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [selectedUserTag, setSelectedUserTag] = useState(null)
-
-  const { setIsTagSelected, isTagSelected } = useContext(AuthContext)
+  const [currentStep, setCurrentStep] = useState("profile"); // user_tag, profile
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedUserTag, setSelectedUserTag] = useState(null);
+  const { setIsTagSelected, setLoading } = useContext(AuthContext);
 
   const openImageGallery = async () => {
     const result = await launchImageLibraryAsync({
@@ -49,12 +48,14 @@ export default function WelcomingScreen() {
   ]
 
   const handleNext = () => {
-    if (currentStep === 'profile') {
-      setCurrentStep('user_tag')
+    setLoading(true)
+    if (currentStep === "profile") {
+      setCurrentStep("user_tag");
     } else {
       setIsTagSelected(true)
     }
-  }
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (isTagSelected) {
