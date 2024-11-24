@@ -31,7 +31,6 @@ import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetForumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
@@ -80,20 +79,13 @@ public class PostService {
         return new GeneralGetResponse(true, "Comments fetched successfully", childeren);
     }
 
-    public GetForumsResponse getForums() {
-        List<Post> forums = postRepository.findByPostType(FORUM);
-        return new GetForumsResponse(true, "Forums fetched successfully", forums);
-    }
+    // public GetForumsResponse getForums() {
+    //     List<Post> forums = postRepository.findByPostType(FORUM);
+    //     return new GetForumsResponse(true, "Forums fetched successfully", forums);
+    // }
 
     public GetSubforumsResponse getSubForums(GeneralGetRequest request) {
-        Post forum = postRepository.findById(request.getParentId()).orElse(null);
-        if (forum == null) {
-            return new GetSubforumsResponse(false, "Forum does not exist", null);
-        }
-        if (forum.getPostType() != FORUM) {
-            return new GetSubforumsResponse(false, "Given post is not a forum", null);
-        }
-        List<SubforumWSpecs> subForums = postRepository.findByParentID(request.getParentId()).stream()
+        List<SubforumWSpecs> subForums = postRepository.findByPostType(SUBFORUM).stream()
                 .map(subforum -> new SubforumWSpecs(subforum.getId(), request.getUsername())).collect(Collectors.toList());
         return new GetSubforumsResponse(true, "Subforums fetched successfully", subForums);
     }
