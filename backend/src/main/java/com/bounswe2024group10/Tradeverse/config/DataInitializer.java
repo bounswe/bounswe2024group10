@@ -19,11 +19,12 @@ import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Configuration
 public class DataInitializer {
+
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
     private static final PostType FORUM = PostType.FORUM;
     private static final PostType SUBFORUM = PostType.SUBFORUM;
     private static final PostType POST = PostType.POST;
-    private static final PostType COMMENT = PostType.COMMENT;    
+    private static final PostType COMMENT = PostType.COMMENT;
 
     @Autowired
     private PostRepository postRepository;
@@ -67,16 +68,16 @@ public class DataInitializer {
                 subforum2 = new Post("admin", "Subforum 2", null, List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
                 postRepository.save(subforum1);
                 postRepository.save(subforum2);
-    
+
                 post1 = new Post("admin", "Post 1", subforum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
                 post2 = new Post("admin", "Post 2", subforum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
                 postRepository.save(post1);
                 postRepository.save(post2);
                 comment1 = new Post("admin", "Comment 1", post1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
                 comment2 = new Post("admin", "Comment 2", post1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
-                comment3 = new Post("admin", "Comment 3", comment1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
                 postRepository.save(comment1);
                 postRepository.save(comment2);
+                comment3 = new Post("admin", "Comment 3", comment1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
                 postRepository.save(comment3);
 
             } else {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
@@ -13,14 +14,16 @@ import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
+@Service
 public class PostWSpecs {
+
     @Autowired
     private PostRepository postRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired 
+    @Autowired
     private LikeRepository likeRepository;
 
     @Autowired
@@ -59,7 +62,7 @@ public class PostWSpecs {
         this.lastEditDate = post.getLastEditDate();
         this.lastUpdateDate = post.getLastUpdateDate();
         this.postType = post.getPostType();
-        
+
         this.nofComments = postRepository.countByParentID(post.getId());
         this.isLiked = likeRepository.existsByUsernameAndPostID(username, post.getId());
         this.isDisliked = dislikeRepository.existsByUsernameAndPostID(username, post.getId());
@@ -94,7 +97,7 @@ public class PostWSpecs {
         this.lastEditDate = post.getLastEditDate();
         this.lastUpdateDate = post.getLastUpdateDate();
         this.postType = post.getPostType();
-        
+
         this.nofComments = postRepository.countByParentID(post.getId());
         this.isLiked = likeRepository.existsByUsernameAndPostID(username, post.getId());
         this.isDisliked = dislikeRepository.existsByUsernameAndPostID(username, post.getId());

@@ -4,18 +4,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 
+@Service
 public class SubforumWSpecs {
+
     @Autowired
     private FollowSubforumRepository followSubforumRepository;
 
     @Autowired
     private PostRepository postRepository;
-    
+
     private Long id;
     private String title;
     private Long num_of_posts;

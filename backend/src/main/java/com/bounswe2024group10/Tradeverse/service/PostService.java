@@ -50,6 +50,7 @@ import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Service
 public class PostService {
+
     private static final PostType FORUM = PostType.FORUM;
     private static final PostType SUBFORUM = PostType.SUBFORUM;
     private static final PostType POST = PostType.POST;
@@ -83,7 +84,6 @@ public class PostService {
     //     List<Post> forums = postRepository.findByPostType(FORUM);
     //     return new GetForumsResponse(true, "Forums fetched successfully", forums);
     // }
-
     public GetSubforumsResponse getSubForums(GeneralGetRequest request) {
         List<SubforumWSpecs> subForums = postRepository.findByPostType(SUBFORUM).stream()
                 .map(subforum -> new SubforumWSpecs(subforum.getId(), request.getUsername())).collect(Collectors.toList());
@@ -108,7 +108,7 @@ public class PostService {
         if (post == null) {
             return new GeneralGetResponse(false, "Post does not exist", null);
         }
-        if (post.getPostType() != POST || post.getPostType() != COMMENT) {
+        if (post.getPostType() != POST && post.getPostType() != COMMENT) {
             return new GeneralGetResponse(false, "Post is not a post or comment", null);
         }
         List<PostWSpecs> comments = postRepository.findByParentID(request.getParentId()).stream()
@@ -126,7 +126,6 @@ public class PostService {
     //     }
     //     return new GetPostResponse(true, "Comment fetched successfully", comment);
     // }
-
     public GetPostResponse getPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         PostWSpecs postWSpecs = new PostWSpecs(post, request.getUsername());
@@ -148,7 +147,7 @@ public class PostService {
         if (parentSubforum == null) {
             return new CreatePostResponse(false, "Parent post does not exist");
         }
-        if(parentSubforum.getPostType() != SUBFORUM) {
+        if (parentSubforum.getPostType() != SUBFORUM) {
             return new CreatePostResponse(false, "Parent post is not a subforum");
         }
         Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), LocalDateTime.now(), POST);
@@ -165,7 +164,6 @@ public class PostService {
     //     postRepository.save(post);
     //     return new CreateForumResponse(true, "Forum created successfully");
     // }
-    
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public CreateSubforumResponse createSubforum(CreateSubforumRequest request) {
         Post post = new Post(request.getUsername(), request.getTitle(), null, null, LocalDateTime.now(), SUBFORUM);
@@ -182,14 +180,17 @@ public class PostService {
         if (parentPost == null) {
             return new CreateCommentResponse(false, "Parent post does not exist");
         }
-        if(parentPost.getPostType() != POST || parentPost.getPostType() != COMMENT) {
+        if (parentPost.getPostType() != POST && parentPost.getPostType() != COMMENT) {
             return new CreateCommentResponse(false, "Parent post is not a post");
         }
         Post comment = new Post(request.getUsername(), null, request.getParentID(), null, LocalDateTime.now(), COMMENT);
         postRepository.save(comment);
-        while (parentPost != null) {
+        while (true) {
             parentPost.setLastUpdateDate(LocalDateTime.now());
             postRepository.save(parentPost);
+            if (parentPost.getPostType() == SUBFORUM || parentPost.getParentID() == null) {
+                break;
+            }
             parentPost = postRepository.findById(parentPost.getParentID()).orElse(null);
         }
         return new CreateCommentResponse(true, "Comment created successfully");
@@ -218,7 +219,6 @@ public class PostService {
         }
         return new EditCommentResponse(true, "Comment edited successfully");
     }
-
 
     public EditPostResponse editPost(EditPostRequest request) {
         Post post = postRepository.findById(request.getPostID()).orElse(null);
@@ -254,7 +254,7 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new EditForumResponse(false, "You are not authorized to edit this subforum");
         }
-        if(post.getPostType() != SUBFORUM) {
+        if (post.getPostType() != SUBFORUM) {
             return new EditForumResponse(false, "Post is not a subforum");
         }
         post.setTitle(request.getTitle());
@@ -285,7 +285,6 @@ public class PostService {
     //     postRepository.save(post);
     //     return new EditForumResponse(true, "Forum edited successfully");
     // }
-
     public GeneralDeleteResponse deletePost(GeneralDeleteRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
@@ -294,7 +293,7 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new GeneralDeleteResponse(false, "You are not authorized to delete this post");
         }
-        if(post.getPostType() != POST) {
+        if (post.getPostType() != POST) {
             return new GeneralDeleteResponse(false, "Post is not a post");
         }
         postRepository.delete(post);
@@ -316,14 +315,13 @@ public class PostService {
     //     postRepository.delete(post);
     //     return new GeneralDeleteResponse(true, "Forum deleted successfully");
     // }
-
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
     public GeneralDeleteResponse deleteSubforum(GeneralDeleteRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
             return new GeneralDeleteResponse(false, "Subforum does not exist");
         }
-        if(post.getPostType() != SUBFORUM) {
+        if (post.getPostType() != SUBFORUM) {
             return new GeneralDeleteResponse(false, "Post is not a subforum");
         }
         postRepository.delete(post);
@@ -338,13 +336,12 @@ public class PostService {
         if (!post.getUsername().equals(request.getUsername())) {
             return new GeneralDeleteResponse(false, "You are not authorized to delete this comment");
         }
-        if(post.getPostType() != COMMENT) {
+        if (post.getPostType() != COMMENT) {
             return new GeneralDeleteResponse(false, "Post is not a comment");
         }
         postRepository.delete(post);
         return new GeneralDeleteResponse(true, "Comment deleted successfully");
     }
-
 
     public SearchAndListPostsResponse searchAndListPosts(SearchAndListPostsRequest request) {
         Pageable pageable = PageRequest.of(request.getOffset(), request.getLimit());
