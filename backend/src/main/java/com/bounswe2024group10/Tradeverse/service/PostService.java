@@ -529,6 +529,9 @@ public class PostService {
                 .collect(Collectors.toList());
         HashMap<String, List<SuperPost>> followedSubforumPosts = new HashMap<>();
         for (Post subforum : followedSubforums) {
+            if (subforum == null) {
+                continue;
+            }
             List<SuperPost> posts = postRepository.findByParentID(subforum.getId()).stream()
                     .map(post -> post2SuperPost(post, user.getUsername())).collect(Collectors.toList());
             followedSubforumPosts.put(subforum.getTitle(), posts);
@@ -538,6 +541,9 @@ public class PostService {
 
         HashMap<String, List<SuperPost>> followedUserPosts = new HashMap<>();
         for (String username : followedUsernames) {
+            if (username == null) {
+                continue;
+            }
             List<SuperPost> posts = postRepository.findByUsername(username).stream()
                     .map(post -> post2SuperPost(post, user.getUsername())).collect(Collectors.toList());
             followedUserPosts.put(username, posts);
