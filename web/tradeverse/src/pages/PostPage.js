@@ -1,49 +1,104 @@
 import React, { useState, useEffect } from "react";
 import Post from "../components/structure/Post";
 import Comment from "../components/structure/comment";
-import mockData from "../data/mockData";
+import { getPost, createComment } from "../services/post";
 import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
+import { AuthData } from "../auth/AuthWrapper";
+
 
 const PostPage = () => {
-    const { name, postId } = useParams();  // Get the name and postId from the URL
+    const { user } = AuthData();
+    const { parentId, postId } = useParams();
     const [post, setPost] = useState(null);
+    const [newComment, setNewComment] = useState("");
 
     useEffect(() => {
-        let allPosts = mockData.subforums.flatMap(subforum => subforum.posts);
-        
-        if (name) {
-            // Filter posts based on the subforum name if provided
-            const filteredPosts = mockData.subforums
-                .filter(subforum => subforum.name.toLowerCase() === name.toLowerCase())
-                .flatMap(subforum => subforum.posts);
-            allPosts = filteredPosts;
+        const fetchPost = async () => {
+            const data = await getPost(postId);
+            if (data.isSuccessful) {
+                setPost(data.post);
+            }
+        };
+        fetchPost();
+
+    }, [postId]);
+
+    const handleNewCommentChange = (e) => {
+        setNewComment(e.target.value);
+    };
+
+    const parseContent = (content) => {
+        const parts = content.split(/(@\w+)/); // Split by '@' followed by a word
+        const result = [];
+    
+        parts.forEach((part) => {
+          if (part.startsWith("@")) {
+            // Handle tags
+            result.push({ type: "tag", value: part });
+          } else if (part.trim() !== "") {
+            // Handle regular text
+            result.push({ type: "text", value: part.trim() });
+          }
+        });
+    
+        return result;
+      };
+
+
+    const handleNewCommentSubmit = async () => {
+        if (!newComment.trim()) return;
+
+        const commentPayload = {
+            username: user.name,
+            parentID: postId,
+            content: [...parseContent(newComment)]
+        };
+
+
+        try {
+            const response = await createComment(commentPayload); // Add comment via API
+            if (response.successful) {
+                setNewComment(""); // Clear the input field
+            } else {
+                alert("Failed to add comment.");
+            }
+        } catch (error) {
+            console.error("Error adding comment:", error);
+            alert("Error adding comment.");
         }
-        
-        // Find the post based on the postId
-        const foundPost = allPosts.find(p => p.id === parseInt(postId));
-        setPost(foundPost);  // Set the post state with the found post
-    }, [name, postId]);
+    };
 
     // Add a condition to handle when the post is still being fetched or not found
     if (!post) {
-        return <h3>Loading post or post not found...</h3>;
+        return <h3 style={{ paddingLeft: "200px" }}
+        >Loading post or post not found...</h3>;
     }
 
     return (
         <div className={styles.postPage}>
             <Post post={post} />  {/* Render the Post component with the specific post */}
-                {post.comments && post.comments.length > 0 ? (
-                    post.comments.map((comment, index) => (
-                        <Comment
-                            key={index}
-                            username={comment.username}
-                            text={comment.content}
-                        />
-                    ))
-                ) : (
-                    <p>No comments yet. Be the first to comment!</p>
-                )}
+            <div className={styles.newCommentSection}>
+                <textarea
+                    value={newComment}
+                    onChange={handleNewCommentChange}
+                    placeholder="Write a comment..."
+                    className={styles.newCommentInput}
+                />
+                <button
+                    onClick={handleNewCommentSubmit}
+                    className={styles.newCommentButton}
+                >
+                    Comment
+                </button>
+            </div>
+            {post.comments && post.comments.length > 0 ? (
+                post.comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} level={0} />
+                ))
+            ) : (
+                <p>No comments yet. Be the first to comment!</p>
+            )}
         </div>
     );
 };

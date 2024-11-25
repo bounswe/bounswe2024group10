@@ -1,51 +1,64 @@
 import React from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ChartContainer from "./TradingViewWidget";
 import { Link } from "react-router-dom";
 import styles from "../styles/postHeader.module.css";
 
 const PostHeader = ({ post }) => {
 
+  const createPostContent = (content) => {
+    const postContent = content
+      .filter((item) => item.type === "text" || item.type === "tag") // Filter for 'text' and 'tag' types
+      .map((item) => item.value) // Extract the value of these fields
+      .join(" "); // Concatenate them with a space
+
+    return postContent;
+  };
+
+
   return (
     <div className={styles.postHeader}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-          <Link to={'/user'} className={styles.userDetailsLink}>
-            <img src={post.author.avatar} className={styles.userImage} alt="User Avatar" />
-            <div className={styles.userDetails}>
-              <h3>{`${post.author.name} ${post.author.surname}`}</h3>
-              <p>{`@${post.username}`}</p>
-            </div>
-          </Link>
+          <img src={post.author.profilePhoto} className={styles.userImage} />
+          <div className={styles.userDetails}>
+            <h3>{`${post.author.name}`}</h3>
+            <p>{`@${post.author.username}`}</p>
+          </div>
         </div>
         <div className={styles.postHeaderTag}>
-          <p>{post.tags[1]}</p>
+          <p>{post.content.find((item) => item.type === "tag")?.value}</p>
         </div>
       </div>
-      <Link to={`/${post.forumName.toLowerCase()}/${post.id}`} className={styles.postLink}>
+
       <div className={styles.postHeaderDetails}>
-        <h2>{post.description}</h2>
-        <p>{post.content}</p>
+        <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
+          <h2>{post.title}</h2>
+          <p>{createPostContent(post.content)}</p>
+          <div className={styles.postImageContainer}>
+            <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+          </div>
+        </Link>
+        <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
-      <div className={styles.bottomContainer}>
-        <div className={styles.viewStats}>
-          <p className="fa fa-eye" aria-hidden="true"></p>
-          <p>{post.viewCount}</p>
+      <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
+        <div className={styles.bottomContainer}>
+          <div className={styles.viewStats}>
+          </div>
+          <div className={styles.commentLikeDislikeStats}>
+            <div className={styles.stat}>
+              <p className="fa fa-comment" aria-hidden="true"></p>
+              <p>{post.nofComments}</p>
+            </div>
+            <div className={styles.stat}>
+              <p className="fa fa-thumbs-up" aria-hidden="true"></p>
+              <p>{post.nofLikes}</p>
+            </div>
+            <div className={styles.stat}>
+              <p className="fa fa-thumbs-down" aria-hidden="true"></p>
+              <p>{post.nofDislikes}</p>
+            </div>
+          </div>
         </div>
-        <div className={styles.commentLikeDislikeStats}>
-          <div className={styles.stat}>
-            <p className="fa fa-comment" aria-hidden="true"></p>
-            <p>{post.commentCount}</p>
-          </div>
-          <div className={styles.stat}>
-            <p className="fa fa-thumbs-up" aria-hidden="true"></p>
-            <p>{post.likeCount}</p>
-          </div>
-          <div className={styles.stat}>
-            <p className="fa fa-thumbs-down" aria-hidden="true"></p>
-            <p>{post.dislikeCount}</p>
-          </div>
-        </div>
-      </div>
       </Link>
     </div>
   );
