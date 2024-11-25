@@ -7,7 +7,7 @@ import java.util.List;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
 
-public class PostWSpecs {
+public class SuperPost {
 
     private Long id;
     private String title;
@@ -28,7 +28,7 @@ public class PostWSpecs {
     private Post parentSubforum;
 
     private User author;
-    List<PostWSpecs> comments;
+    List<Long> comments;
 
     // public PostWSpecs(Long postID, String username) {
     //     Post post = postRepository.findById(postID).get();
@@ -191,11 +191,11 @@ public class PostWSpecs {
         this.author = author;
     }
 
-    public List<PostWSpecs> getComments() {
+    public List<Long> getComments() {
         return comments;
     }
 
-    public void setComments(List<PostWSpecs> comments) {
+    public void setComments(List<Long> comments) {
         this.comments = comments;
     }
 }

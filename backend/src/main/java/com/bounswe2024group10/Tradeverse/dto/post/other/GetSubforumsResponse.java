@@ -1,19 +1,19 @@
-package com.bounswe2024group10.Tradeverse.dto.followSubforum;
+package com.bounswe2024group10.Tradeverse.dto.post.other;
 
 import java.util.List;
 
 import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
 
-public class GetFollowingsResponse {
+public class GetSubforumsResponse {
 
     private boolean isSuccessful;
     private String message;
-    private List<SubforumWSpecs> followings;
+    private List<SubforumWSpecs> subforums;
 
-    public GetFollowingsResponse(boolean isSuccessful, String message, List<SubforumWSpecs> followings) {
+    public GetSubforumsResponse(boolean isSuccessful, String message, List<SubforumWSpecs> subforums) {
         this.isSuccessful = isSuccessful;
         this.message = message;
-        this.followings = followings;
+        this.subforums = subforums;
     }
 
     public boolean isSuccessful() {
@@ -32,11 +32,11 @@ public class GetFollowingsResponse {
         this.message = message;
     }
 
-    public List<SubforumWSpecs> getFollowings() {
-        return followings;
+    public List<SubforumWSpecs> getSubforums() {
+        return subforums;
     }
 
-    public void setFollowings(List<SubforumWSpecs> followings) {
-        this.followings = followings;
+    public void setSubforums(List<SubforumWSpecs> subforums) {
+        this.subforums = subforums;
     }
 }

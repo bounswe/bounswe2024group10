@@ -15,10 +15,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "forums")
+@Table(name = "posts")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -144,7 +144,7 @@ public class Post {
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
-    
+
     public LocalDateTime getLastEditDate() {
         return lastEditDate;
     }
