@@ -2,7 +2,7 @@ import { Link, Route, Routes, Navigate } from "react-router-dom";
 import { AuthData } from "../../auth/AuthWrapper";
 import { nav } from "./navigation";
 import styles from "../styles/style.module.css";
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import Home from "../../pages/Home";
 import PostPage from "../../pages/PostPage";
 import SubforumNavbar from "./subforumNavbar";
@@ -77,7 +77,22 @@ export const RenderMenu = () => {
   const { user, logout } = AuthData();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [subforums, setSubforums] = useState([]); // State for subforums
 
+  useEffect(() => {
+    fetch("http://35.246.188.121:8080/api/post/get-subforums/non-recursive")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.successful) {
+          const formattedSubforums = data.subforums.map((subforum) => ({
+            id: subforum.id,
+            name: subforum.title,
+          }));
+          setSubforums(formattedSubforums.slice(0, 5)); // Take the first 5 or fewer
+        }
+      })
+      .catch((error) => console.error("Error fetching subforums:", error));
+  }, []);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -244,7 +259,7 @@ export const RenderMenu = () => {
           )}
         </div>
       </div>
-      <SubforumNavbar subforums={mockData.subforums} />
+      <SubforumNavbar subforums={subforums} />
     </div>
   );
 };

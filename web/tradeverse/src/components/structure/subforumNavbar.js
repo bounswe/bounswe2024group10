@@ -9,19 +9,13 @@ const SubforumNavbar = ({ subforums }) => {
     return (
         <nav className={styles.subforumNavbar}>
             <ul>
-                {subforums.map((subforum, i) => {
-                    const formattedName = subforum.name.toLowerCase().replace(/\s+/g, "%20");
-                    const isSelected = currentPath === `/${formattedName}`;
 
-                    return (
-                        <li
-                            key={i}
-                            className={isSelected ? `${styles.selected}` : ""}
-                        >
-                            <Link to={`/${formattedName}`}>{subforum.name}</Link>
-                        </li>
-                    );
-                })}
+                {subforums.map((subforum, i) => (
+                    <li key={i}>
+                        <Link to={`/${subforum.id}`}>{subforum.name}</Link>
+                    </li>
+                ))}
+
             </ul>
         </nav>
     );
