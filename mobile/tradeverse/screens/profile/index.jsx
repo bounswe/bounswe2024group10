@@ -42,7 +42,7 @@ const ProfileHeader = () => {
 
     setPostsData(postsResult);
     setProfile(profileResult);
-  }, [username]);
+  }, [username, isAlreadyFollowed]);
 
   if (!profile || !postsData) {
     return <GlobalScreen />;
