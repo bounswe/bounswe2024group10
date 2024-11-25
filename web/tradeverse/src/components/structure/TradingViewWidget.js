@@ -51,6 +51,7 @@ function ChartContainer({ symbol }) {
 
   return (
     <div>
+      {(symbol) && (
       <button
         type="button"
         onClick={() => setShowChart((prev) => !prev)}
@@ -65,7 +66,7 @@ function ChartContainer({ symbol }) {
         }}
       >
         {showChart ? "Hide Chart" : "See the Chart"}
-      </button>
+      </button>)}
 
       {showChart && symbol && <TradingViewWidget symbol={symbol} />}
     </div>
