@@ -109,16 +109,16 @@ public class PostServiceTests {
         Post comment1 = new Post("admin", "Comment 1", post.getId(), List.of(), LocalDateTime.now(), PostType.COMMENT);
         Post comment2 = new Post("admin", "Comment 2", post.getId(), List.of(), LocalDateTime.now(), PostType.COMMENT);
         Post comment3 = new Post("admin", "Comment 1", comment2.getId(), List.of(), LocalDateTime.now(), PostType.COMMENT);
-        request.setParentId(1L);
+        request.setParentId(post.getId());
         request.setUsername("admin");
 
-        when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-        when(postRepository.findByParentID(1L)).thenReturn(List.of(comment));
+        when(postRepository.findById(post.getId())).thenReturn(Optional.of(post));
+        when(postRepository.findByParentID(post.getId())).thenReturn(List.of(comment1, comment2));
 
         GeneralRecursiveGetResponse response = postService.getComments(request);
 
         assertEquals(true, response.isSuccessful());
         assertEquals("Comments fetched successfully", response.getMessage());
-        assertEquals(1, response.getComments().size());
+        assertEquals(2, response.getComments().size());
     }
 }
