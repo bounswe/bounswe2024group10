@@ -242,7 +242,7 @@ public class PostService {
         if (parentPost.getPostType() != POST && parentPost.getPostType() != COMMENT) {
             return new CreateCommentResponse(false, "Parent post is not a post");
         }
-        Post comment = new Post(request.getUsername(), null, request.getParentID(), null, LocalDateTime.now(), COMMENT);
+        Post comment = new Post(request.getUsername(), null, request.getParentID(), request.getContent(), LocalDateTime.now(), COMMENT);
         postRepository.save(comment);
         while (true) {
             parentPost.setLastUpdateDate(LocalDateTime.now());
