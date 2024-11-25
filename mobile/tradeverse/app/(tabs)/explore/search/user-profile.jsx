@@ -3,7 +3,5 @@ import React from 'react'
 import UserProfileScreen from '../../../../screens/profile'
 
 export default function UserProfile() {
-  return (
-    <UserProfileScreen />
-  )
+  return <UserProfileScreen />
 }
