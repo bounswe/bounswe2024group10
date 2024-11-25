@@ -18,27 +18,7 @@ import paths from '../../../../config/screen-paths'
 import SubforumLink from '../../../../components/links/subforum-link'
 import PostLink from '../../../../components/links/post-link'
 
-// {
-//     title: 'Title',
-//     content: 'Content',
-//     date: '2021-01-01',
-//     likes: 10,
-//     dislikes: 2,
-//     comments: 5,
-//     views: 1200,
-//     subforum: {
-//       name: 'Future Investment',
-//       id: 1
-//     },
-//     author: {
-//       name: 'Daron',
-//       surname: 'Acemoglu',
-//       username: '@daronacemoglu',
-//       avatar:
-//       id: 1,
-//     },
-//   }
-
+// Author Info Component
 const AuthorInfo = ({ author }) => {
   if (!author) return <></>;
   return (
@@ -51,12 +31,7 @@ const AuthorInfo = ({ author }) => {
           alignItems: "center",
         }}
       >
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <View style={{ display: "flex", flexDirection: "column" }}>
           <Text
             style={{
               fontSize: SIZES.xxSmall,
@@ -78,23 +53,23 @@ const AuthorInfo = ({ author }) => {
             @{author.username}
           </Text>
         </View>
-        <View>
-          <ProfileImage
-            style={{
-              width: SIZE_CONSTANT * 2.4,
-              height: SIZE_CONSTANT * 2.4,
-              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-            }}
-            src={author.avatar}
-          />
-        </View>
+        <ProfileImage
+          style={{
+            width: SIZE_CONSTANT * 2.4,
+            height: SIZE_CONSTANT * 2.4,
+            borderRadius: SIZE_CONSTANT * 1.2,
+          }}
+          src={author.avatar}
+        />
       </View>
     </UserLink>
   );
 };
 
+// Subforum Info Component
 const SubforumInfo = ({ subforum }) => {
   if (!subforum) return <></>;
+
   return (
     <SubforumLink subForum={subforum} target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
       <View
@@ -113,71 +88,20 @@ const SubforumInfo = ({ subforum }) => {
         <Text
           style={{
             fontSize: SIZES.xxSmall,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.black,
+            fontWeight: FONT_WEIGHTS.medium,
+            color: "#107E64",
             letterSpacing: -0.03,
           }}
         >
-          {author.name} {author.surname}
-        </Text>
-        <Text
-          style={{
-            fontSize: SIZE_CONSTANT * 0.8,
-            color: '#A1A1A1',
-            letterSpacing: -0.03,
-            lineHeight: SIZE_CONSTANT * 0.9,
-          }}
-        >
-          @{author.username}
+          {subforum.title}
         </Text>
       </View>
-      <View>
-        <ProfileImage
-          style={{
-            width: SIZE_CONSTANT * 2.4,
-            height: SIZE_CONSTANT * 2.4,
-            borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-          }}
-          src={author.avatar}
-        />
-      </View>
-    </View>
-  </UserLink>
-)
+    </SubforumLink>
+  );
+};
 
-const SubforumInfo = ({ subforum }) => (
-  <SubforumLink
-    subForum={subforum}
-    target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}
-  >
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: SIZE_CONSTANT * 1.2,
-        height: SIZE_CONSTANT * 1.6,
-        backgroundColor: '#D4FFE7',
-        borderWidth: 0.5,
-        borderColor: '#EDFDFF',
-        borderRadius: SIZE_CONSTANT * 1.2,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: SIZE_CONSTANT * 0.64,
-          fontWeight: FONT_WEIGHTS.medium,
-          color: '#107E64',
-          letterSpacing: -0.03,
-        }}
-      >
-        {subforum.title}
-      </Text>
-    </View>
-  </SubforumLink>
-)
-
-const TagText = ({ tag, index = 0, isLast = false }) => (
+// Tag Text Component
+const TagText = ({ tag, index = 0 }) => (
   <Text
     style={{
       display: 'inline',
@@ -188,8 +112,9 @@ const TagText = ({ tag, index = 0, isLast = false }) => (
   >
     {index === 0 ? '' : ' '}@{tag.value}
   </Text>
-)
+);
 
+// Default Text Component
 const DefaultText = ({ text, index = 0 }) => (
   <Text
     style={{
@@ -201,8 +126,9 @@ const DefaultText = ({ text, index = 0 }) => (
     {index === 0 ? '' : ' '}
     {text.value}
   </Text>
-)
+);
 
+// Interaction Info Component
 const InteractionInfo = ({ icon = () => {}, value }) => (
   <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
     <View>{icon({ prop: { color: '#444' } })}</View>
@@ -219,8 +145,9 @@ const InteractionInfo = ({ icon = () => {}, value }) => (
       </Text>
     </View>
   </View>
-)
+);
 
+// Main Post Result Component
 export default function PostResult({ style, post }) {
   return (
     <PostLink target={paths.EXPLORE.SEARCH_RESULTS.POST_DETAIL} post={post}>
@@ -247,6 +174,7 @@ export default function PostResult({ style, post }) {
             {post.title}
           </Text>
         </View>
+
         <View
           style={{
             display: 'flex',
@@ -258,7 +186,43 @@ export default function PostResult({ style, post }) {
           <SubforumInfo subforum={post.parentSubforum} />
           <AuthorInfo author={post.author} />
         </View>
+
+        <View
+          style={{
+            marginTop: SIZE_CONSTANT * 1.2,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+          }}
+        >
+          <View>
+            <InteractionInfo
+              icon={(params) => <IconEye color="#444" size={12} />}
+              value={post.views}
+            />
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: SIZE_CONSTANT * 1.4,
+            }}
+          >
+            <InteractionInfo
+              icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
+              value={post.nofComments ?? 0}
+            />
+            <InteractionInfo
+              icon={(params) => <IconThumbUp color="#444" size={12} />}
+              value={post.nofLikes ?? 0}
+            />
+            <InteractionInfo
+              icon={(params) => <IconThumbDown color="#444" size={12} />}
+              value={post.nofDislikes ?? 0}
+            />
+          </View>
+        </View>
       </View>
     </PostLink>
-  )
+  );
 }
