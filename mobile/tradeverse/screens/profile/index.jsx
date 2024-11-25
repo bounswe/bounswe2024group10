@@ -38,7 +38,7 @@ const ProfileHeader = () => {
   }, [followings, profile.username]);
   
   useEffect(() => {
-    const profileResult = getUserByUsername({username});
+    const profileResult = getUserByUsername(username);
     const postsResult = getPostsByUser(username);
 
     setPostsData(postsResult);

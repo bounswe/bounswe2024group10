@@ -20,7 +20,7 @@ export default function AuthProvider({ children }) {
       if (res.data['isSuccessful'] === true) {
         await Storage.setItem('authToken', res.data?.token ?? "");
         await Storage.setItem('username', res.data['username'] ?? "");
-        const userProfile = await getUserByUsername({ username, token: res.data?.token });
+        const userProfile = await getUserByUsername({ username });
 
         setUser(userProfile);
         setIsLoggedIn(true);
@@ -36,7 +36,7 @@ export default function AuthProvider({ children }) {
 
   const signUp = useCallback(async ({ email, password, name, tag = 0, profilePhoto, username }) => {
     try {
-      setLoading(true); 
+      setLoading(true); // You might want to show a loading indicator
       const res = await register({
         email,
         password,
@@ -49,7 +49,7 @@ export default function AuthProvider({ children }) {
       if (res.status === 200) {
         await Storage.setItem('authToken', res.data?.token);
         await Storage.setItem('username', username);
-        const userProfile = await getUserByUsername({ username, token: res.data?.token });
+        const userProfile = await getUserByUsername({ username });
 
         setUser(userProfile);
         setIsLoggedIn(true);

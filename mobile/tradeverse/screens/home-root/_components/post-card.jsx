@@ -102,7 +102,7 @@ const SubforumInfo = ({ subforum }) => {
             letterSpacing: -0.03,
           }}
         >
-          {subforum.name} {subforum.surname}
+          {author.name} {author.surname}
         </Text>
       </View>
     </SubforumLink>
