@@ -9,11 +9,13 @@ const PostHeader = ({ post }) => {
     <div className={styles.postHeader}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-          <img src={post.author.avatar} className={styles.userImage} />
-          <div className={styles.userDetails}>
-            <h3>{`${post.author.name} ${post.author.surname}`}</h3>
-            <p>{`@${post.username}`}</p>
-          </div>
+          <Link to={'/user'} className={styles.userDetailsLink}>
+            <img src={post.author.avatar} className={styles.userImage} alt="User Avatar" />
+            <div className={styles.userDetails}>
+              <h3>{`${post.author.name} ${post.author.surname}`}</h3>
+              <p>{`@${post.username}`}</p>
+            </div>
+          </Link>
         </div>
         <div className={styles.postHeaderTag}>
           <p>{post.tags[1]}</p>
