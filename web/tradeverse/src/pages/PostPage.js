@@ -27,7 +27,8 @@ const PostPage = () => {
 
     // Add a condition to handle when the post is still being fetched or not found
     if (!post) {
-        return <h3>Loading post or post not found...</h3>;
+        return <h3 style={{paddingLeft: "200px"}}
+        >Loading post or post not found...</h3>;
     }
 
     return (

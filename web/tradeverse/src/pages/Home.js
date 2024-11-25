@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Feed from "../components/structure/feed";
-import mockData from "../data/mockData";
 import styles from "./styles/Home.module.css";
 import { useParams } from "react-router-dom";
+import { explore } from "../services/post";
 
 const Home = () => {
   const { name } = useParams();
-  const [posts, setPosts] = useState(
-    mockData.subforums.flatMap((subforum) => subforum.posts)
-  );
+  const [posts, setPosts] = useState([]);
   const [filterType, setFilterType] = useState("For You");
 
   useEffect(() => {
-    if (name) {
-      const filteredPosts = mockData.subforums
-        .filter(
-          (subforum) => subforum.name.toLowerCase() === name.toLowerCase()
-        )
-        .flatMap((subforum) => subforum.posts);
-      setPosts(filteredPosts);
-    } else {
-      setPosts(mockData.subforums.flatMap((subforum) => subforum.posts));
+    const fetchExporePosts = async () => {
+      const data = await explore();
+      console.log(data);
+      if (data.isSuccessful) {
+        setPosts(data.popularPosts);
+      }
     }
-  }, [name]);
+    fetchExporePosts();
+    
+  }, []);
 
 
   const handleFilterChange = (type) => {
@@ -34,25 +31,22 @@ const Home = () => {
     <div className={styles.homePage}>
       <div className={styles.filterButtons}>
         <button
-          className={`${styles.filterButton} ${
-            filterType === "For You" ? styles.active : ""
-          }`}
+          className={`${styles.filterButton} ${filterType === "For You" ? styles.active : ""
+            }`}
           onClick={() => handleFilterChange("For You")}
         >
           For You
         </button>
         <button
-          className={`${styles.filterButton} ${
-            filterType === "Followed Topics" ? styles.active : ""
-          }`}
+          className={`${styles.filterButton} ${filterType === "Followed Topics" ? styles.active : ""
+            }`}
           onClick={() => handleFilterChange("Followed Topics")}
         >
           Followed Topics
         </button>
         <button
-          className={`${styles.filterButton} ${
-            filterType === "Followed People" ? styles.active : ""
-          }`}
+          className={`${styles.filterButton} ${filterType === "Followed People" ? styles.active : ""
+            }`}
           onClick={() => handleFilterChange("Followed People")}
         >
           Followed People

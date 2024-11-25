@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Feed = ({ posts }) => {
+
   const { user } = AuthData();
   const [postTitle, setPostTitle] = useState(""); // New state for title
   const [postContent, setPostContent] = useState("");
@@ -19,10 +20,11 @@ const Feed = ({ posts }) => {
   useEffect(() => {
     const fetchSubforums = async () => {
       try {
-        const response = await fetch("http://35.246.188.121:8080/api/post/get-subforums");
+        const response = await fetch("http://localhost:8080/api/post/get-subforums");
         const data = await response.json();
+        console.log(data);
         if (data.successful) {
-          const subforumList = data.comments.map((subforum) => ({
+          const subforumList = data.subforums.map((subforum) => ({
             id: subforum.id,
             title: subforum.title,
           }));
@@ -126,7 +128,7 @@ const Feed = ({ posts }) => {
   
     // Make the API call
     try {
-      const response = await fetch("http://35.246.188.121:8080/api/post/create-post", {
+      const response = await fetch("http://localhost:8080/api/post/create-post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
