@@ -200,7 +200,7 @@ export default function PostResult({ style, post }) {
             alignItems: 'center',
           }}
         >
-          <SubforumInfo subforum={post.subforum} />
+          <SubforumInfo subforum={post.parentSubforum} />
           <AuthorInfo author={post.author} />
         </View>
       </View>

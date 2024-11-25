@@ -62,6 +62,7 @@ export default function PostModal({ post, isOpened, onClose }) {
     console.log(actionDetails);
     setIsLiked(actionDetails.liked);
     setIsDisliked(actionDetails.disliked);
+    i;
     setIsBookmarked(actionDetails.bookmarked);
     try {
       setCommentsLoading(true);

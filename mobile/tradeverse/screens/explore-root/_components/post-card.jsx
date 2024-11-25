@@ -107,7 +107,8 @@ const TagText = ({ tag, index = 0, isLast = false }) => (
       letterSpacing: -0.03,
     }}
   >
-    {index === 0 ? '' : ' '}@{tag.value}
+    {index === 0 ? '' : ' '}
+    {tag.value}
   </Text>
 )
 
@@ -163,7 +164,7 @@ export default function PostCard({ style, post }) {
           }}
         >
           <AuthorInfo author={post.author} />
-          <SubforumInfo subforum={post.subforum} />
+          <SubforumInfo subforum={post.parentSubforum} />
         </View>
 
         <View>
@@ -215,15 +216,15 @@ export default function PostCard({ style, post }) {
           >
             <InteractionInfo
               icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
-              value={post.views}
+              value={post.nofComments ?? 0}
             />
             <InteractionInfo
               icon={(params) => <IconThumbUp color="#444" size={12} />}
-              value={post.views}
+              value={post.nofLikes ?? 0}
             />
             <InteractionInfo
               icon={(params) => <IconThumbDown color="#444" size={12} />}
-              value={post.views}
+              value={post.nofDislikes ?? 0}
             />
           </View>
         </View>
