@@ -1,6 +1,6 @@
 package com.bounswe2024group10.Tradeverse.extra;
 
-import java.util.List;
+import java.util.List
 
 public class SubforumWSpecs {
 

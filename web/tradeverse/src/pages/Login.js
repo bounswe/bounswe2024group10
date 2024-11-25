@@ -18,31 +18,31 @@ const Login = () => {
 
     const doLogin = async () => {
 
-          if (!formData.userName) {
-               setErrorMessage('Username cannot be null'); // Warning message for blank username
-               return;
-          }
-     
-          if (!formData.password) {
-               setErrorMessage('Password cannot be null'); // Warning message for blank password
-               return;
-          }
+        if (!formData.userName) {
+            setErrorMessage('Username cannot be null'); // Warning message for blank username
+            return;
+        }
+
+        if (!formData.password) {
+            setErrorMessage('Password cannot be null'); // Warning message for blank password
+            return;
+        }
         setErrorMessage(null); // Clear previous error message
         await delay(1000); // Wait for 1 second
         try {
             const response = await login(formData.userName, formData.password);
-            
+
             // Check the response for success or error
             if (response.success) {
-               toast("Login successful!");
-               
-                
+                toast("Login successful!");
+
+
             }
             navigate("/home"); // Redirect after success message
         } catch (error) {
-          // Display the error message sent from the backend
-          setErrorMessage(error);
-     }
+            // Display the error message sent from the backend
+            setErrorMessage(error);
+        }
     };
 
     const handleKeyDown = (event) => {
@@ -53,12 +53,18 @@ const Login = () => {
 
     return (
         <div className={styles.page}>
+            <div className={styles.imageContainer}>
+                <div style={{ objectFit: "cover", width: "100%" }}>
+                    <img
+                        src="/background.jpg"
+                    />
+                </div>
+            </div>
             <div className={styles.inputs}>
-                <div>
                 <h2>We’ve missed you!</h2>
-                <span>More than 150 subforums are waiting for your wise suggestions!</span> 
+                <span>More than 150 subforums are waiting for your wise suggestions!</span>
                 <div className={styles.input}>
-                    
+
                     <input
                         value={formData.userName}
                         onChange={(e) => setFormData({ userName: e.target.value })}
@@ -90,15 +96,8 @@ const Login = () => {
                         {errorMessage}
                     </div>
                 )}
-                </div>
             </div>
-            <div className={styles.imageContainer}>
-                <div style={{objectFit:"cover",width:"100%"}}>
-                <img 
-                src="/background.jpg" 
-                />
-                </div>
-            </div>
+
             <ToastContainer />
         </div>
     );

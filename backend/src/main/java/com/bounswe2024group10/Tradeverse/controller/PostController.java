@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.bounswe2024group10.Tradeverse.dto.post.create.CreateCommentRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.create.CreateCommentResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.create.CreatePostRequest;
@@ -443,7 +444,7 @@ public class PostController {
         ExploreSearchNonRecursiveResponse response = postService.exploreSearchNonRecursive(request);
         return ResponseEntity.ok(response);
     }
-
+  
     // @CrossOrigin(origins = "*", allowedHeaders = "*")
     // @GetMapping("/explore/search")
     // public ResponseEntity<SearchAndListPostsResponse> exploreSearch(@RequestParam String username, @RequestParam String keyword) {

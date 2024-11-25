@@ -196,11 +196,6 @@ export const RenderMenu = () => {
         </div>
 
         <div className={styles.rightMenu}>
-          <div className={styles.imgContainer}>
-            <Link to={"/search"} className={styles.searchButton}>
-              <i className="fas fa-search"></i>
-            </Link>
-          </div>
           {user.isAuthenticated ? (
             <div className={styles.menuItem}>
               <div className={styles.userDropdown} onClick={toggleDropdown}>

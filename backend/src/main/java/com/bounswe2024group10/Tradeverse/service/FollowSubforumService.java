@@ -39,7 +39,7 @@ public class FollowSubforumService {
 
     @Autowired
     private DislikeRepository dislikeRepository;
-
+  
     public GeneralFollowSubforumResponse followSubforum(GeneralFollowSubforumRequest request) {
         User follower = userRepository.findByUsername(request.getFollowerUsername());
         Post followedSubforum = postRepository.findById(request.getFollowedSubforumID()).orElse(null);
