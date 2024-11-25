@@ -14,9 +14,13 @@ import PostsView from './views/posts-view'
 import UsersView from './views/users-view'
 import AssetsView from './views/asset-view'
 import { searchOnExplore } from '../../mock-services/explore'
+import { search } from '../../services/explore'
+import { useContext } from 'react'
+import AuthContext from '../../auth/context/auth-context'
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState('popular')
+  const { user } = useContext(AuthContext)
 
   const [updatedSearchKey, setUpdatedSearchKey] = useState('')
 
@@ -36,15 +40,25 @@ export default function ExploreRootScreen() {
   }, [searchKey])
 
   useEffect(() => {
-    const data = searchOnExplore(updatedSearchKey ?? searchKey)
-    setData({
-      popular: data.popular,
-      assets: data.assets,
-      tags: data.tags,
-      sub_forums: data.subforums,
-      posts: data.posts,
-      people: data.users,
-    })
+    const fetchData = async () => {
+      const data = await search({
+        keyword: updatedSearchKey,
+        username: user?.username ?? '',
+      })
+      console.log(data)
+
+      console.log('fetching data')
+
+      setData({
+        popular: data.popular,
+        assets: data.assets,
+        tags: data.tags,
+        sub_forums: data.subforums,
+        posts: data.posts,
+        people: data.users,
+      })
+    }
+    fetchData()
   }, [searchKey, updatedSearchKey])
 
   return (
@@ -91,14 +105,22 @@ export default function ExploreRootScreen() {
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       {data && (
         <>
-          {selectedTab === 'popular' && <PopularView data={data.popular} />}
-          {selectedTab === 'assets' && <AssetsView data={data.assets} />}
-          {selectedTab === 'tags' && <TagsView data={data.tags} />}
-          {selectedTab === 'sub_forums' && (
+          {selectedTab === 'popular' && data.popular && (
+            <PopularView data={data.popular} />
+          )}
+          {selectedTab === 'assets' && data.assets && (
+            <AssetsView data={data.assets} />
+          )}
+          {selectedTab === 'tags' && data.tags && <TagsView data={data.tags} />}
+          {selectedTab === 'sub_forums' && data.tags && (
             <SubForumsView data={data.sub_forums} />
           )}
-          {selectedTab === 'posts' && <PostsView data={data.posts} />}
-          {selectedTab === 'people' && <UsersView data={data.people} />}
+          {selectedTab === 'posts' && data.posts && (
+            <PostsView data={data.posts} />
+          )}
+          {selectedTab === 'people' && data.people && (
+            <UsersView data={data.people} />
+          )}
         </>
       )}
     </GlobalScreen>

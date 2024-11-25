@@ -6,20 +6,28 @@ import GlobalScreen from '../../components/ui/global-screen'
 import Tabs from './_components/tabs'
 import PaddedContainer from '../../components/ui/padded-container'
 import PopularView from './views/popular-view'
-import { getExploreFeed } from '../../mock-services/explore'
+import { getExploreFeed } from '../../services/explore'
+import { useContext } from 'react'
+import AuthContext from '../../auth/context/auth-context'
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState('popular')
+  const { user } = useContext(AuthContext)
   const [data, setData] = useState({
     popularPosts: [],
     recentPosts: [],
   })
   useEffect(() => {
-    const result = getExploreFeed()
-    setData({
-      popularPosts: result.popular,
-      recentPosts: result.recent,
-    })
+    const fetchFeed = async () => {
+      const result = await getExploreFeed({
+        username: user?.username,
+      })
+      setData({
+        popularPosts: result.popularPosts,
+        recentPosts: result.recentPosts,
+      })
+    }
+    fetchFeed()
   }, [])
   return (
     <GlobalScreen
@@ -31,14 +39,11 @@ export default function ExploreRootScreen() {
         <SearchBar />
       </PaddedContainer>
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      {data && (
-        <>
-          {selectedTab === 'popular' && (
-            <PopularView data={data.popularPosts} />
-          )}
-          {selectedTab === 'recent' && <PopularView data={data.recentPosts} />}
-        </>
-      )}
+
+      <>
+        {selectedTab === 'popular' && <PopularView data={data?.popularPosts} />}
+        {selectedTab === 'recent' && <PopularView data={data?.recentPosts} />}
+      </>
     </GlobalScreen>
   )
 }
