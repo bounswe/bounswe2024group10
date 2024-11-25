@@ -76,34 +76,7 @@
       let filteredResults = [];
       switch (category) {
         case 'popular':
-          filteredResults = [
-            // Subforums first
-            ...mockData.subforums
-              .filter(subforum => subforum.name.toLowerCase().includes(lowerTerm))
-              .map(subforum => ({ ...subforum, type: 'subforum' })),
-            // Posts next
-            ...mockData.subforums
-              .flatMap(subforum =>
-                subforum.posts.filter(post =>
-                  post.content.toLowerCase().includes(lowerTerm) ||
-                  post.description.toLowerCase().includes(lowerTerm)
-                )
-              )
-              .map(post => ({ ...post, type: 'post' })),
-            // Users after that
-            ...mockData.allUsers
-              .filter(user =>
-                user.name.toLowerCase().includes(lowerTerm) ||
-                user.surname.toLowerCase().includes(lowerTerm) ||
-                user.username.toLowerCase().includes(lowerTerm)
-              )
-              .map(user => ({ ...user, type: 'user' })),
-            // Tags last
-            ...mockData.allTags
-              .filter(tag => tag.label.toLowerCase().includes(lowerTerm))
-              .map(tag => ({ ...tag, type: 'tag' })),
-          ];
-          break;
+          
 
         case 'tags':
           filteredResults = mockData.allTags

@@ -95,10 +95,10 @@
     background-color: rgb(197, 208, 230);
     
 }
-.tagCard:hover .tag-label,
-.tagCard:hover .tag-info {
+.tagCard:hover .tagLabel,
+.tagCard:hover .tagInfo {
     color: rgb(44, 53, 61); /* Change text color on hover */
-}
+}   
 
 .tagLabel {
     font-size: 16px;
