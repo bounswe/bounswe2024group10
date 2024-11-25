@@ -541,6 +541,12 @@ public class PostService {
     }
 
     public PostWSpecs post2PostWSpecs(Post post, String username) {
+        if (post == null) {
+            return null;
+        }
+        if (post.getId() == null) {
+            return null;
+        }
         PostWSpecs postWSpecs = new PostWSpecs();
         postWSpecs.setId(post.getId());
         postWSpecs.setTitle(post.getTitle());
@@ -562,14 +568,22 @@ public class PostService {
             case FORUM ->
                 postWSpecs.setParentSubforum(null);
             default -> {
-                Post parent = postRepository.findById(post.getParentID()).get();
-                while (parent.getPostType() != PostType.SUBFORUM) {
-                    parent = postRepository.findById(parent.getParentID()).get();
+                if (post.getParentID() == null) {
+                    postWSpecs.setParentSubforum(null);
+                } else {
+                    Post parent = postRepository.findById(post.getParentID()).get();
+                    while (parent.getPostType() != PostType.SUBFORUM && parent.getParentID() != null) {
+                        parent = postRepository.findById(parent.getParentID()).get();
+                    }
+                    postWSpecs.setParentSubforum(parent);
                 }
-                postWSpecs.setParentSubforum(parent);
             }
         }
-        postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));
+        if (post.getUsername() == null) {
+            postWSpecs.setAuthor(null);
+        } else {
+            postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));
+        }
         postWSpecs.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> post2PostWSpecs(p, username)).toList());
         return postWSpecs;
     }
@@ -609,6 +623,9 @@ public class PostService {
     }
 
     public SubforumWSpecs subforum2SubforumWSpecs(Long subforumID, String username) {
+        if (subforumID == null) {
+            return null;
+        }
         Post subforum = postRepository.findById(subforumID).get();
         if (subforum == null) {
             return null;

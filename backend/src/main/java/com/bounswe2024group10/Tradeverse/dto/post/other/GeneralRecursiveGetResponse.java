@@ -1,6 +1,7 @@
 package com.bounswe2024group10.Tradeverse.dto.post.other;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 
@@ -14,6 +15,15 @@ public class GeneralRecursiveGetResponse {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "GeneralRecursiveGetResponse{"
+                + "isSuccessful=" + isSuccessful
+                + ", message='" + message + '\''
+                + ", comments=" + comments.stream().map(PostWSpecs::toString).collect(Collectors.joining(", "))
+                + '}';
     }
 
     public boolean isSuccessful() {
