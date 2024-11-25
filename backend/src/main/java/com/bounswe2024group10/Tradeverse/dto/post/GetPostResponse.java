@@ -1,9 +1,6 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
-import java.util.List;
-import java.util.ArrayList;
-import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.Asset;
-
+import com.bounswe2024group10.Tradeverse.model.Post;
 
 public class GetPostResponse {
     private boolean isSuccessful;
@@ -11,16 +8,20 @@ public class GetPostResponse {
     private Post post;
     private boolean isLiked = false;
     private boolean isDisliked = false;
-    private List<Asset> relatedAssets = new ArrayList<>();
 
-    public GetPostResponse(boolean isSuccessful, String message, Post post, boolean isLiked, boolean isDisliked, List<Asset> relatedAssets) {
+    public GetPostResponse(boolean isSuccessful, String message, Post post) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.post = post;
-        this.isLiked = isLiked;
-        this.isDisliked = isDisliked;
-        this.relatedAssets = relatedAssets;
     }
+
+     public GetPostResponse(boolean isSuccessful, String message, Post post, boolean isLiked, boolean isDisliked) {
+         this.isSuccessful = isSuccessful;
+         this.message = message;
+         this.post = post;
+         this.isLiked = isLiked;
+         this.isDisliked = isDisliked;
+     }
 
     public boolean getIsSuccessful() {
         return isSuccessful;
@@ -60,13 +61,5 @@ public class GetPostResponse {
 
     public void setIsDisliked(boolean disliked) {
         isDisliked = disliked;
-    }
-
-    public List<Asset> getRelatedAssets() {
-        return relatedAssets;
-    }
-
-    public void setRelatedAssets(List<Asset> relatedAssets) {
-        this.relatedAssets = relatedAssets;
     }
 }
