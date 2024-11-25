@@ -1,10 +1,8 @@
 package com.bounswe2024group10.Tradeverse.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +22,33 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.FeedNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GeneralRecursiveGetResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse2;
+import com.bounswe2024group10.Tradeverse.dto.post.GetSuperPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetSuperSubforumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
-import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs2;
+import com.bounswe2024group10.Tradeverse.extra.SuperPost;
+import com.bounswe2024group10.Tradeverse.extra.SuperSubforum;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
@@ -80,10 +84,10 @@ public class PostService {
     @Autowired
     private FollowRepository followUserRepository;
 
-    public GeneralGetResponse getChilderen(GeneralGetRequest request) {
+    public GeneralRecursiveGetResponse getChilderen(GeneralGetRequest request) {
         List<PostWSpecs> childeren = postRepository.findByParentID(request.getParentId()).stream()
                 .map(post -> post2PostWSpecs(post, request.getUsername())).collect(Collectors.toList());
-        return new GeneralGetResponse(true, "Comments fetched successfully", childeren);
+        return new GeneralRecursiveGetResponse(true, "Comments fetched successfully", childeren);
     }
 
     // public GetForumsResponse getForums() {
@@ -96,13 +100,26 @@ public class PostService {
         return new GetSubforumsResponse(true, "Subforums fetched successfully", subForums);
     }
 
-    public GetSubforumsResponse2 getSubForums2(GeneralGetRequest request) {
-        List<SubforumWSpecs2> subForums = postRepository.findByPostType(SUBFORUM).stream()
-                .map(subforum -> subforum2SubforumWSpecs2(subforum.getId(), request.getUsername())).collect(Collectors.toList());
-        return new GetSubforumsResponse2(true, "Subforums fetched successfully", subForums);
+    public GetSuperSubforumResponse getSubForumsNonRecursive(GeneralGetRequest request) {
+        List<SuperSubforum> subForums = postRepository.findByPostType(SUBFORUM).stream()
+                .map(subforum -> subforum2SuperSubforum(subforum.getId(), request.getUsername())).collect(Collectors.toList());
+        return new GetSuperSubforumResponse(true, "Subforums fetched successfully", subForums);
     }
 
-    public GeneralGetResponse getPosts(GeneralGetRequest request) {
+    public GeneralRecursiveGetResponse getPosts(GeneralGetRequest request) {
+        Post subforum = postRepository.findById(request.getParentId()).orElse(null);
+        if (subforum == null) {
+            return new GeneralRecursiveGetResponse(false, "Subforum does not exist", null);
+        }
+        if (subforum.getPostType() != SUBFORUM) {
+            return new GeneralRecursiveGetResponse(false, "Given post is not a subforum", null);
+        }
+        List<PostWSpecs> posts = postRepository.findByParentID(request.getParentId()).stream()
+                .map(post -> post2PostWSpecs(post, request.getUsername())).collect(Collectors.toList());
+        return new GeneralRecursiveGetResponse(true, "Subforum posts fetched successfully", posts);
+    }
+
+    public GeneralGetResponse getPostsNonRecursive(GeneralGetRequest request) {
         Post subforum = postRepository.findById(request.getParentId()).orElse(null);
         if (subforum == null) {
             return new GeneralGetResponse(false, "Subforum does not exist", null);
@@ -110,12 +127,30 @@ public class PostService {
         if (subforum.getPostType() != SUBFORUM) {
             return new GeneralGetResponse(false, "Given post is not a subforum", null);
         }
-        List<PostWSpecs> posts = postRepository.findByParentID(request.getParentId()).stream()
-                .map(post -> post2PostWSpecs(post, request.getUsername())).collect(Collectors.toList());
+        List<SuperPost> posts = postRepository.findByParentID(request.getParentId()).stream()
+                .map(post -> post2SuperPost(post, request.getUsername())).collect(Collectors.toList());
         return new GeneralGetResponse(true, "Subforum posts fetched successfully", posts);
     }
 
-    public GeneralGetResponse getComments(GeneralGetRequest request) {
+    public GeneralRecursiveGetResponse getComments(GeneralGetRequest request) {
+        Post post = postRepository.findById(request.getParentId()).orElse(null);
+        if (post == null) {
+            return new GeneralRecursiveGetResponse(false, "Post does not exist", null);
+        }
+        if (post.getPostType() != POST && post.getPostType() != COMMENT) {
+            return new GeneralRecursiveGetResponse(false, "Post is not a post or comment", null);
+        }
+        // List<Post> commentIds = postRepository.findByParentID(request.getParentId());
+        // ArrayList<PostWSpecs> comments = new ArrayList<>();
+        // for (Post comment : commentIds) {
+        //     comments.add(post2PostWSpecs(comment, request.getUsername()));
+        // }
+        List<PostWSpecs> comments = postRepository.findByParentID(request.getParentId()).stream()
+                .map(comment -> post2PostWSpecs(comment, request.getUsername())).collect(Collectors.toList());
+        return new GeneralRecursiveGetResponse(true, "Comments fetched successfully", comments);
+    }
+
+    public GeneralGetResponse getCommentsNonRecursive(GeneralGetRequest request) {
         Post post = postRepository.findById(request.getParentId()).orElse(null);
         if (post == null) {
             return new GeneralGetResponse(false, "Post does not exist", null);
@@ -123,13 +158,13 @@ public class PostService {
         if (post.getPostType() != POST && post.getPostType() != COMMENT) {
             return new GeneralGetResponse(false, "Post is not a post or comment", null);
         }
-        List<Post> commentIds = postRepository.findByParentID(request.getParentId());
-        ArrayList<PostWSpecs> comments = new ArrayList<>();
-        for (Post comment : commentIds) {
-            comments.add(post2PostWSpecs(comment, request.getUsername()));
-        }
-        // List<PostWSpecs> comments = postRepository.findByParentID(request.getParentId()).stream()
-        //         .map(comment -> post2PostWSpecs(comment, request.getUsername())).collect(Collectors.toList());
+        // List<Post> commentIds = postRepository.findByParentID(request.getParentId());
+        // ArrayList<PostWSpecs> comments = new ArrayList<>();
+        // for (Post comment : commentIds) {
+        //     comments.add(post2PostWSpecs(comment, request.getUsername()));
+        // }
+        List<SuperPost> comments = postRepository.findByParentID(request.getParentId()).stream()
+                .map(comment -> post2SuperPost(comment, request.getUsername())).collect(Collectors.toList());
         return new GeneralGetResponse(true, "Comments fetched successfully", comments);
     }
 
@@ -145,14 +180,26 @@ public class PostService {
     // }
     public GetPostResponse getPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
-        PostWSpecs postWSpecs = post2PostWSpecs(post, request.getUsername());
         if (post == null) {
             return new GetPostResponse(false, "Post does not exist", null);
         }
         if (post.getPostType() != POST) {
             return new GetPostResponse(false, "Post is not a post", null);
         }
+        PostWSpecs postWSpecs = post2PostWSpecs(post, request.getUsername());
         return new GetPostResponse(true, "Post fetched successfully", postWSpecs);
+    }
+
+    public GetSuperPostResponse getPostNonRecursive(GetPostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new GetSuperPostResponse(false, "Post does not exist", null);
+        }
+        if (post.getPostType() != POST) {
+            return new GetSuperPostResponse(false, "Post is not a post", null);
+        }
+        SuperPost superPost = post2SuperPost(post, request.getUsername());
+        return new GetSuperPostResponse(true, "Post fetched successfully", superPost);
     }
 
     public CreatePostResponse createPost(CreatePostRequest request) {
@@ -378,14 +425,23 @@ public class PostService {
         return new GetPostResponse(true, "Post fetched successfully", postWSpecs);
     }
 
-    public GeneralGetResponse generalGetChilderen(GeneralGetRequest request) {
+    public GetSuperPostResponse generalGetPostNonRecursive(GetPostRequest request) {
+        Post post = postRepository.findById(request.getPostId()).orElse(null);
+        if (post == null) {
+            return new GetSuperPostResponse(false, "Post does not exist", null);
+        }
+        SuperPost superPost = post2SuperPost(post, request.getUsername());
+        return new GetSuperPostResponse(true, "Post fetched successfully", superPost);
+    }
+
+    public GeneralRecursiveGetResponse generalGetChilderen(GeneralGetRequest request) {
         Post post = postRepository.findById(request.getParentId()).orElse(null);
         if (post == null) {
-            return new GeneralGetResponse(false, "Post does not exist", null);
+            return new GeneralRecursiveGetResponse(false, "Post does not exist", null);
         }
         List<PostWSpecs> childeren = postRepository.findByParentID(request.getParentId()).stream()
                 .map(p -> post2PostWSpecs(p, request.getUsername())).collect(Collectors.toList());
-        return new GeneralGetResponse(true, "Comments fetched successfully", childeren);
+        return new GeneralRecursiveGetResponse(true, "Comments fetched successfully", childeren);
     }
 
     public GeneralDeleteResponse generalDelete(GeneralDeleteRequest request) {
@@ -411,6 +467,13 @@ public class PostService {
         return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts);
     }
 
+    public ExploreNonRecursiveResponse exploreNonRecursive(ExploreRequest request) {
+        String username = request.getUsername();
+        List<SuperPost> recentPosts = postRepository.findRecentPosts().stream().map(post -> post2SuperPost(post, username)).collect(Collectors.toList());
+        List<SuperPost> popularPosts = postRepository.findPopularPosts().stream().map(post -> post2SuperPost(post, username)).collect(Collectors.toList());
+        return new ExploreNonRecursiveResponse(true, "Posts fetched successfully", recentPosts, popularPosts);
+    }
+
     public ExploreSearchResponse exploreSearch(ExploreSearchRequest request) {
         String username = request.getUsername();
         List<PostWSpecs> posts = postRepository.findByKeywordAndPostType(request.getKeyword(), POST).stream()
@@ -418,6 +481,15 @@ public class PostService {
         List<SubforumWSpecs> subforums = postRepository.findByKeywordAndPostType(request.getKeyword(), SUBFORUM).stream()
                 .map(subforum -> subforum2SubforumWSpecs(subforum.getId(), username)).collect(Collectors.toList());
         return new ExploreSearchResponse(null, posts, null, null, subforums, null, true, "Search results fetched successfully");
+    }
+
+    public ExploreSearchNonRecursiveResponse exploreSearchNonRecursive(ExploreSearchRequest request) {
+        String username = request.getUsername();
+        List<SuperPost> posts = postRepository.findByKeywordAndPostType(request.getKeyword(), POST).stream()
+                .map(post -> post2SuperPost(post, username)).collect(Collectors.toList());
+        List<SuperSubforum> subforums = postRepository.findByKeywordAndPostType(request.getKeyword(), SUBFORUM).stream()
+                .map(subforum -> subforum2SuperSubforum(subforum.getId(), username)).collect(Collectors.toList());
+        return new ExploreSearchNonRecursiveResponse(null, posts, null, null, subforums, null, true, "Search results fetched successfully");
     }
 
     public FeedResponse feed(FeedRequest request) {
@@ -445,13 +517,36 @@ public class PostService {
         }
         // TO DO: Implement forYou
         return new FeedResponse(null, followedSubforumPosts, followedUserPosts, true, "Feed fetched successfully");
+    }
 
+    public FeedNonRecursiveResponse feedNonRecursive(FeedRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            return new FeedNonRecursiveResponse(null, null, null, false, "User does not exist");
+        }
+        List<Post> followedSubforums = followSubforumRepository.findByFollowerUsername(user.getUsername()).stream()
+                .map(follow -> postRepository.findById(follow.getFollowedSubforumID()).orElse(null))
+                .collect(Collectors.toList());
+        HashMap<String, List<SuperPost>> followedSubforumPosts = new HashMap<>();
+        for (Post subforum : followedSubforums) {
+            List<SuperPost> posts = postRepository.findByParentID(subforum.getId()).stream()
+                    .map(post -> post2SuperPost(post, user.getUsername())).collect(Collectors.toList());
+            followedSubforumPosts.put(subforum.getTitle(), posts);
+        }
+        List<String> followedUsernames = followUserRepository.findByFollowerUsername(user.getUsername()).stream()
+                .map(follow -> follow.getFollowedUsername()).collect(Collectors.toList());
+
+        HashMap<String, List<SuperPost>> followedUserPosts = new HashMap<>();
+        for (String username : followedUsernames) {
+            List<SuperPost> posts = postRepository.findByUsername(username).stream()
+                    .map(post -> post2SuperPost(post, user.getUsername())).collect(Collectors.toList());
+            followedUserPosts.put(username, posts);
+        }
+        // TO DO: Implement forYou
+        return new FeedNonRecursiveResponse(null, followedSubforumPosts, followedUserPosts, true, "Feed fetched successfully");
     }
 
     public PostWSpecs post2PostWSpecs(Post post, String username) {
-        if (post == null) {
-            return null;
-        }
         PostWSpecs postWSpecs = new PostWSpecs();
         postWSpecs.setId(post.getId());
         postWSpecs.setTitle(post.getTitle());
@@ -473,35 +568,50 @@ public class PostService {
             case FORUM ->
                 postWSpecs.setParentSubforum(null);
             default -> {
-                Post parent;
-                Optional<Post> parentOptional = postRepository.findById(post.getParentID());
-                if (parentOptional.isPresent()) {
-                    parent = parentOptional.get();
-                    while (parent.getPostType() != PostType.SUBFORUM) {
-                        parentOptional = postRepository.findById(parent.getParentID());
-                        if (parentOptional.isPresent()) {
-                            parent = parentOptional.get();
-                        } else {
-                            parent = null;
-                            break;
-                        }
-                    }
-                    postWSpecs.setParentSubforum(parent);
-                } else {
-                    postWSpecs.setParentSubforum(null);
+                Post parent = postRepository.findById(post.getParentID()).get();
+                while (parent.getPostType() != PostType.SUBFORUM) {
+                    parent = postRepository.findById(parent.getParentID()).get();
                 }
-
+                postWSpecs.setParentSubforum(parent);
             }
         }
         postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));
-        List<Long> commentIds = postRepository.findByParentID(post.getId()).stream().map(p -> p.getId()).collect(Collectors.toList());
-        ArrayList<PostWSpecs> comments = new ArrayList<>();
-        for (Long commentId : commentIds) {
-            comments.add(post2PostWSpecs(postRepository.findById(commentId).get(), username));
-        }
-        postWSpecs.setComments(comments);
-        // postWSpecs.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> post2PostWSpecs(p, username)).toList());
+        postWSpecs.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> post2PostWSpecs(p, username)).toList());
         return postWSpecs;
+    }
+
+    public SuperPost post2SuperPost(Post post, String username) {
+        SuperPost superPost = new SuperPost();
+        superPost.setId(post.getId());
+        superPost.setTitle(post.getTitle());
+        superPost.setParentID(post.getParentID());
+        superPost.setContent(post.getContent());
+        superPost.setNofLikes(post.getNofLikes());
+        superPost.setNofDislikes(post.getNofDislikes());
+        superPost.setLikable(post.getLikable());
+        superPost.setCreationDate(post.getCreationDate());
+        superPost.setLastEditDate(post.getLastEditDate());
+        superPost.setLastUpdateDate(post.getLastUpdateDate());
+        superPost.setPostType(post.getPostType());
+        superPost.setNofComments(postRepository.countByParentID(post.getId()));
+        superPost.setIsLiked(likeRepository.existsByUsernameAndPostID(username, post.getId()));
+        superPost.setIsDisliked(dislikeRepository.existsByUsernameAndPostID(username, post.getId()));
+        switch (post.getPostType()) {
+            case SUBFORUM ->
+                superPost.setParentSubforum(post);
+            case FORUM ->
+                superPost.setParentSubforum(null);
+            default -> {
+                Post parent = postRepository.findById(post.getParentID()).get();
+                while (parent.getPostType() != PostType.SUBFORUM) {
+                    parent = postRepository.findById(parent.getParentID()).get();
+                }
+                superPost.setParentSubforum(parent);
+            }
+        }
+        superPost.setAuthor(userRepository.findByUsername(post.getUsername()));
+        superPost.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> p.getId()).toList());
+        return superPost;
     }
 
     public SubforumWSpecs subforum2SubforumWSpecs(Long subforumID, String username) {
@@ -519,12 +629,12 @@ public class PostService {
         return subforumWSpecs;
     }
 
-    public SubforumWSpecs2 subforum2SubforumWSpecs2(Long subforumID, String username) {
+    public SuperSubforum subforum2SuperSubforum(Long subforumID, String username) {
         Post subforum = postRepository.findById(subforumID).get();
         if (subforum == null) {
             return null;
         }
-        SubforumWSpecs2 subforumWSpecs = new SubforumWSpecs2();
+        SuperSubforum subforumWSpecs = new SuperSubforum();
         subforumWSpecs.setId(subforumID);
         subforumWSpecs.setTitle(subforum.getTitle());
         subforumWSpecs.setNum_of_posts(postRepository.countByParentID(subforumID));

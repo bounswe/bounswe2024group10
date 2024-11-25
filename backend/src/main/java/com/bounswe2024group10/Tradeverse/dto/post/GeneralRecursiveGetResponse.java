@@ -2,15 +2,15 @@ package com.bounswe2024group10.Tradeverse.dto.post;
 
 import java.util.List;
 
-import com.bounswe2024group10.Tradeverse.extra.SuperPost;
+import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 
-public class GeneralGetResponse {
+public class GeneralRecursiveGetResponse {
 
     private boolean isSuccessful;
     private String message;
-    private List<SuperPost> comments;
+    private List<PostWSpecs> comments;
 
-    public GeneralGetResponse(boolean isSuccessful, String message, List<SuperPost> comments) {
+    public GeneralRecursiveGetResponse(boolean isSuccessful, String message, List<PostWSpecs> comments) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.comments = comments;
@@ -32,11 +32,11 @@ public class GeneralGetResponse {
         this.message = message;
     }
 
-    public List<SuperPost> getComments() {
+    public List<PostWSpecs> getComments() {
         return comments;
     }
 
-    public void setComments(List<SuperPost> comments) {
+    public void setComments(List<PostWSpecs> comments) {
         this.comments = comments;
     }
 }

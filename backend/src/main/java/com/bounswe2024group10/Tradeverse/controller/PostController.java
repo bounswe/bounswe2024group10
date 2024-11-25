@@ -22,20 +22,25 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.FeedNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GeneralRecursiveGetResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse2;
+import com.bounswe2024group10.Tradeverse.dto.post.GetSuperPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetSuperSubforumResponse;
 import com.bounswe2024group10.Tradeverse.service.PostService;
 
 /**
@@ -98,40 +103,66 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/get-subforums2")
-    public ResponseEntity<GetSubforumsResponse2> getSubForums2(@RequestParam(required = false) String username) {
+    @GetMapping("/get-subforums/non-recursive")
+    public ResponseEntity<GetSuperSubforumResponse> getSubForumsNonRecursive(@RequestParam(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
         if (username == null) {
             username = "reserved";
         }
         request.setUsername(username);
-        GetSubforumsResponse2 response = postService.getSubForums2(request);
+        GetSuperSubforumResponse response = postService.getSubForumsNonRecursive(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-posts-of-subforum")
-    public ResponseEntity<GeneralGetResponse> getPosts(@RequestParam Long postId, @RequestParam(required = false) String username) {
+    public ResponseEntity<GeneralRecursiveGetResponse> getPosts(@RequestParam Long postId, @RequestParam(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
         if (username == null) {
             username = "reserved";
         }
         request.setParentId(postId);
         request.setUsername(username);
-        GeneralGetResponse response = postService.getPosts(request);
+        GeneralRecursiveGetResponse response = postService.getPosts(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-posts-of-subforum/non-recursive")
+    public ResponseEntity<GeneralGetResponse> getPosts2(@RequestParam Long postId, @RequestParam(required = false) String username) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        if (username == null) {
+            username = "reserved";
+        }
+        request.setParentId(postId);
+        request.setUsername(username);
+        GeneralGetResponse response = postService.getPostsNonRecursive(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-comments-of-post-or-comment")
-    public ResponseEntity<GeneralGetResponse> getComments(@RequestParam Long postId, @RequestParam(required = false) String username) {
+    public ResponseEntity<GeneralRecursiveGetResponse> getComments(@RequestParam Long postId, @RequestParam(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
         request.setParentId(postId);
         if (username == null) {
             username = "reserved";
         }
         request.setUsername(username);
-        GeneralGetResponse response = postService.getComments(request);
+        GeneralRecursiveGetResponse response = postService.getComments(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-comments-of-post-or-comment/non-recursive")
+    public ResponseEntity<GeneralGetResponse> getCommentsNonRecursive(@RequestParam Long postId, @RequestParam(required = false) String username) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        request.setParentId(postId);
+        if (username == null) {
+            username = "reserved";
+        }
+        request.setUsername(username);
+        GeneralGetResponse response = postService.getCommentsNonRecursive(request);
         return ResponseEntity.ok(response);
     }
 
@@ -145,6 +176,19 @@ public class PostController {
         }
         request.setUsername(username);
         GetPostResponse response = postService.getPost(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-post/non-recursive")
+    public ResponseEntity<GetSuperPostResponse> getPostNonRecursive(@RequestParam Long postId, @RequestParam(required = false) String username) {
+        GetPostRequest request = new GetPostRequest();
+        request.setPostId(postId);
+        if (username == null) {
+            username = "reserved";
+        }
+        request.setUsername(username);
+        GetSuperPostResponse response = postService.getPostNonRecursive(request);
         return ResponseEntity.ok(response);
     }
 
@@ -280,33 +324,52 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    // @CrossOrigin(origins = "*", allowedHeaders = "*")
-    // @GetMapping("/general-get-post")
-    // public ResponseEntity<GetPostResponse> generalGetPost(@RequestParam Long postId, @RequestBody(required = false) String username) {
-    //     GetPostRequest request = new GetPostRequest();
-    //     request.setPostId(postId);
-    //     request.setUsername(username);
-    //     GetPostResponse response = postService.generalGetPost(request);
-    //     return ResponseEntity.ok(response);
-    // }
-    // @CrossOrigin(origins = "*", allowedHeaders = "*")
-    // @GetMapping("/general-get-childeren")
-    // public ResponseEntity<GeneralGetResponse> generalGetChilderen(@RequestParam Long parentId, @RequestBody(required = false) String username) {
-    //     GeneralGetRequest request = new GeneralGetRequest();
-    //     request.setParentId(parentId);
-    //     request.setUsername(username);
-    //     GeneralGetResponse response = postService.generalGetChilderen(request);
-    //     return ResponseEntity.ok(response);
-    // }
-    // @CrossOrigin(origins = "*", allowedHeaders = "*")
-    // @GetMapping("/general-delete")
-    // public ResponseEntity<GeneralDeleteResponse> generalDelete(@RequestParam Long postId, @RequestParam String username) {
-    //     GeneralDeleteRequest request = new GeneralDeleteRequest();
-    //     request.setPostId(postId);
-    //     request.setUsername(username);
-    //     GeneralDeleteResponse response = postService.generalDelete(request);
-    //     return ResponseEntity.ok(response);
-    // }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/general-get-post")
+    public ResponseEntity<GetPostResponse> generalGetPost(@RequestParam Long postId, @RequestBody(required = false) String username) {
+        GetPostRequest request = new GetPostRequest();
+        if (username == null) {
+            username = "reserved";
+        }
+        request.setPostId(postId);
+        request.setUsername(username);
+        GetPostResponse response = postService.generalGetPost(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/general-get-post\non-recursive")
+    public ResponseEntity<GetSuperPostResponse> generalGetPostNonRecursive(@RequestParam Long postId, @RequestBody(required = false) String username) {
+        GetPostRequest request = new GetPostRequest();
+        if (username == null) {
+            username = "reserved";
+        }
+        request.setPostId(postId);
+        request.setUsername(username);
+        GetSuperPostResponse response = postService.generalGetPostNonRecursive(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/general-get-childeren")
+    public ResponseEntity<GeneralRecursiveGetResponse> generalGetChilderen(@RequestParam Long parentId, @RequestBody(required = false) String username) {
+        GeneralGetRequest request = new GeneralGetRequest();
+        request.setParentId(parentId);
+        request.setUsername(username);
+        GeneralRecursiveGetResponse response = postService.generalGetChilderen(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/general-delete")
+    public ResponseEntity<GeneralDeleteResponse> generalDelete(@RequestParam Long postId, @RequestParam String username) {
+        GeneralDeleteRequest request = new GeneralDeleteRequest();
+        request.setPostId(postId);
+        request.setUsername(username);
+        GeneralDeleteResponse response = postService.generalDelete(request);
+        return ResponseEntity.ok(response);
+    }
+
     // @CrossOrigin(origins = "*", allowedHeaders = "*")
     // @PostMapping("/general-search")
     // public String generalSearch(@RequestBody GeneralSearchRequest request) {
@@ -325,6 +388,17 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/explore/non-recursive")
+    public ResponseEntity<ExploreNonRecursiveResponse> exploreNonRecursive(@RequestParam(required = false) String username) {
+        if (username == null) {
+            username = "reserved";
+        }
+        ExploreRequest request = new ExploreRequest(username);
+        ExploreNonRecursiveResponse response = postService.exploreNonRecursive(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/feed")
     public ResponseEntity<FeedResponse> feed(@RequestParam String username) {
         if (username == null) {
@@ -337,6 +411,18 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/feed/non-recursive")
+    public ResponseEntity<FeedNonRecursiveResponse> feedNonRecursive(@RequestParam String username) {
+        if (username == null) {
+            username = "reserved";
+        }
+        FeedRequest request = new FeedRequest();
+        request.setUsername(username);
+        FeedNonRecursiveResponse response = postService.feedNonRecursive(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/explore/search")
     public ResponseEntity<ExploreSearchResponse> exploreSearch(@RequestParam(required = false) String username, @RequestParam String keyword) {
         if (username == null) {
@@ -344,6 +430,17 @@ public class PostController {
         }
         ExploreSearchRequest request = new ExploreSearchRequest(username, keyword);
         ExploreSearchResponse response = postService.exploreSearch(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/explore/search/non-recursive")
+    public ResponseEntity<ExploreSearchNonRecursiveResponse> exploreSearchNonRecursive(@RequestParam(required = false) String username, @RequestParam String keyword) {
+        if (username == null) {
+            username = "reserved";
+        }
+        ExploreSearchRequest request = new ExploreSearchRequest(username, keyword);
+        ExploreSearchNonRecursiveResponse response = postService.exploreSearchNonRecursive(request);
         return ResponseEntity.ok(response);
     }
 

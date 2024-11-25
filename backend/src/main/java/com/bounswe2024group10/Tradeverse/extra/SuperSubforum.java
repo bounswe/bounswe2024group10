@@ -2,7 +2,7 @@ package com.bounswe2024group10.Tradeverse.extra;
 
 import java.util.List;
 
-public class SubforumWSpecs2 {
+public class SuperSubforum {
 
     private Long id;
     private String title;
