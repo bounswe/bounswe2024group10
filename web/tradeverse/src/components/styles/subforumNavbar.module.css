@@ -4,7 +4,6 @@
 }
 
 .subforumNavbar ul {
-    /* list-style-type: none; */
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -24,6 +23,13 @@
 .subforumNavbar ul li:hover {
     background-color: #575757;
     border-radius: 5px;
+}
+
+.subforumNavbar ul li.selected {
+    background-color: #444; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); 
+    border-radius: 5px;
+    color: #e0f7fa; 
 }
 
 .subforumNavbar a {
