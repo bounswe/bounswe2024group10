@@ -40,3 +40,24 @@ export async function feed(username) {
         console.error("Error fetching feed:", error);
     }
 }
+
+export async function getPost(postId) {
+    try {
+        const response = await api.get(`/post/get-post?postId=${postId}`);
+        console.log(response.data);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error fetching post:", error);
+    }
+}
+
+export async function createComment(commentPayload) {
+    try {
+        const response = await api.post('/post/create-comment', commentPayload);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error creating comment:", error);
+    }
+}

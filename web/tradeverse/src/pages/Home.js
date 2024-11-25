@@ -26,10 +26,9 @@ const Home = () => {
     }
     const fetchFeedPosts = async () => {
       const data = await feed(user.name);
-      console.log("hebele", data);
       if (data.successful) {
-        setFollowedSubforumsPosts(data.followedSubforumPosts["Post 1"]);
-        setFollowedUserPosts(data.followedUserPosts[user.name]);
+        setFollowedSubforumsPosts(data.followedSubforumPosts["Post 1"].filter((post) => post.postType == "POST"));
+        setFollowedUserPosts(data.followedUserPosts[user.name].filter((post) => post.postType == "POST"));
       }
     }
     fetchFeedPosts();

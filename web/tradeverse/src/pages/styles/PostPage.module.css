@@ -4,3 +4,38 @@
     align-items: center;
     margin: 20px;
 }
+
+.newCommentSection {
+    margin: 20px 0;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.newCommentInput {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.newCommentButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.newCommentButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.commentsSection {
+    margin-top: 20px;
+}

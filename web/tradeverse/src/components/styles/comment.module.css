@@ -1,24 +1,64 @@
 .comment {
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px;
-    padding: 10px;
     border: 1px solid #ddd;
+    padding: 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
     background-color: #f9f9f9;
-    width: 80%;
 }
 
 .commentUserDetails {
-    display: flex;
-    align-items: center;
-}
-
-.commentUserInfo h5 {
-    margin: 0;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .commentText {
-    margin-top: 10px;
-    font-size: 16px;
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
 }
+
+.replyButton {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.replyButton:hover {
+    text-decoration: underline;
+}
+
+.replyBox {
+    margin-top: 10px;
+}
+
+.replyInput {
+    width: 100%;
+    min-height: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.submitReplyButton {
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submitReplyButton:hover {
+    background-color: #0056b3;
+}
+
+.nestedComments {
+    border-left: 2px solid #ddd;
+    padding-left: 10px;
+}
+
+

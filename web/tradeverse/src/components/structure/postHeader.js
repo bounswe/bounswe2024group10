@@ -1,5 +1,5 @@
 import React from "react";
-import CharContainer from "./TradingViewWidget";
+import ChartContainer from "./TradingViewWidget";
 import { Link } from "react-router-dom";
 import styles from "../styles/postHeader.module.css";
 
@@ -31,14 +31,14 @@ const PostHeader = ({ post }) => {
       </div>
 
       <div className={styles.postHeaderDetails}>
-        <Link to={`/${post.parentSubforum.title.toLowerCase()}/${post.id}`} className={styles.postLink}>
+        <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
           <h2>{post.title}</h2>
           <p>{createPostContent(post.content)}</p>
           <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
         </Link>
-        <CharContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
+        <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
-      <Link to={`/${post.parentSubforum.title.toLowerCase()}/${post.id}`} className={styles.postLink}>
+      <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
         <div className={styles.bottomContainer}>
           <div className={styles.viewStats}>
           </div>
