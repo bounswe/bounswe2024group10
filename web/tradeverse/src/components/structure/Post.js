@@ -3,7 +3,6 @@ import React from "react";
 import { AuthData } from "../../auth/AuthWrapper";
 
 const Post = ({ post }) => {
-  console.log(post);
   const { user } = AuthData();
 
   const handleLike = () => {

@@ -11,14 +11,14 @@ const Login = () => {
     const { login } = AuthData();
     const [formData, setFormData] = useReducer((formData, newItem) => {
         return { ...formData, ...newItem };
-    }, { userName: "", password: "" });
+    }, { username: "", password: "" });
     const [errorMessage, setErrorMessage] = useState(null);
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const doLogin = async () => {
 
-        if (!formData.userName) {
+        if (!formData.username) {
             setErrorMessage('Username cannot be null'); // Warning message for blank username
             return;
         }
@@ -30,15 +30,14 @@ const Login = () => {
         setErrorMessage(null); // Clear previous error message
         await delay(1000); // Wait for 1 second
         try {
-            const response = await login(formData.userName, formData.password);
+            const response = await login(formData.username, formData.password);
 
             // Check the response for success or error
-            if (response.success) {
+            if (response.isSuccessful) {
                 toast("Login successful!");
-
-
+                navigate("/home");
             }
-            navigate("/home"); // Redirect after success message
+             // Redirect after success message
         } catch (error) {
             // Display the error message sent from the backend
             setErrorMessage(error);
@@ -66,8 +65,8 @@ const Login = () => {
                 <div className={styles.input}>
 
                     <input
-                        value={formData.userName}
-                        onChange={(e) => setFormData({ userName: e.target.value })}
+                        value={formData.username}
+                        onChange={(e) => setFormData({ username: e.target.value })}
                         onKeyDown={handleKeyDown}
                         type="text"
                         placeholder="Enter your username"

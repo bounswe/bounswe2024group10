@@ -123,7 +123,6 @@ const Feed = ({ posts }) => {
       content: contentArray,
     };
   
-    console.log("Post payload:", postPayload);
   
     // Make the API call
     try {

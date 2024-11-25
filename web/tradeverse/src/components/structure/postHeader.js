@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styles from "../styles/postHeader.module.css";
 
 const PostHeader = ({ post }) => {
-  console.log("POST:", post);
 
   return (
     <div className={styles.postHeader}>
