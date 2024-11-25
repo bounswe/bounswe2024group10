@@ -1,6 +1,6 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 import com.bounswe2024group10.Tradeverse.model.Post;
- 
+
 
 public class GetPostResponse {
     private boolean isSuccessful;
