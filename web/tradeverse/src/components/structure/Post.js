@@ -105,7 +105,9 @@ const Post = ({ post }) => {
       <div className={styles.postDetails}>
         <h2>{post.title}</h2>
         <p>{createPostContent(post.content)}</p>
-        <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+        <div className={styles.postImageContainer}>
+          <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+        </div>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
       <div className={styles.bottomContainer}>

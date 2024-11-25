@@ -50,25 +50,31 @@ function ChartContainer({ symbol }) {
   const [showChart, setShowChart] = useState(false);
 
   return (
-    <div>
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: "20px",
+    }}>
       {(symbol) && (
-      <button
-        type="button"
-        onClick={() => setShowChart((prev) => !prev)}
-        style={{
-          padding: "10px 20px",
-          marginBottom: "20px",
-          backgroundColor: "#5d5fef",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        {showChart ? "Hide Chart" : "See the Chart"}
-      </button>)}
-
+        <button
+          type="button"
+          onClick={() => setShowChart((prev) => !prev)}
+          style={{
+            padding: "10px 20px",
+            marginBottom: "20px",
+            backgroundColor: "#5d5fef",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          {showChart ? "Hide Chart" : "See the Chart"}
+        </button>)}
       {showChart && symbol && <TradingViewWidget symbol={symbol} />}
+
     </div>
   );
 }

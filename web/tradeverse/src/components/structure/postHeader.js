@@ -34,7 +34,9 @@ const PostHeader = ({ post }) => {
         <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
           <h2>{post.title}</h2>
           <p>{createPostContent(post.content)}</p>
-          <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+          <div className={styles.postImageContainer}>
+            <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+          </div>
         </Link>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>

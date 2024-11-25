@@ -131,3 +131,9 @@
 .activeDislike {
   color: #dc3545; /* Red for dislike */
 }
+
+.postImageContainer {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
