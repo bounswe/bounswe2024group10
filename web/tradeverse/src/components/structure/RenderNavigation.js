@@ -7,6 +7,8 @@ import Home from "../../pages/Home";
 import PostPage from "../../pages/PostPage";
 import SubforumNavbar from "./subforumNavbar";
 import mockData from "../../data/mockData";
+import Account from "../../pages/Account";
+import User from "../../pages/User";
 
 export const RenderRoutes = () => {
   const { user } = AuthData();
@@ -63,6 +65,8 @@ export const RenderRoutes = () => {
                     )*/}
       <Route path="/:name" element={<Home />} />
       <Route path="/:name/:postId" element={<PostPage />} />
+      <Route path="/account" element={<Account />} />
+      <Route path="/user" element={<User />} />
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
   );
@@ -148,7 +152,7 @@ export const RenderMenu = () => {
                 )}
               </div>
             </Link>
-            <Link to={"/"} className={styles.link}>
+            <Link to={"/account"} className={styles.link}>
             <div className={styles.sidebarElement}>
               <div className={styles.iconContainer}>
                 <i className="fas fa-user"></i>
@@ -196,27 +200,26 @@ export const RenderMenu = () => {
         </div>
 
         <div className={styles.rightMenu}>
-          <div className={styles.imgContainer}>
-            <Link to={"/search"} className={styles.searchButton}>
-              <i className="fas fa-search"></i>
-            </Link>
-          </div>
           {user.isAuthenticated ? (
             <div className={styles.menuItem}>
               <div className={styles.userDropdown} onClick={toggleDropdown}>
                 <h5>{user.name}</h5>
                 {isDropdownOpen && (
                   <div className={styles.dropdownContent}>
-                    <p
+                    <Link
+                      className={styles.clickableLink}
+                      to="/account"
                       style={{
                         color: "black",
                         fontWeight: "bold",
                         marginBottom: "5",
+                        display: "block",
                       }}
                     >
                       {user.name}
-                    </p>
+                    </Link>
                     <Link
+                      className={styles.clickableLink}
                       to={"#"}
                       onClick={logout}
                       style={{ color: "red", fontWeight: "lighter" }}

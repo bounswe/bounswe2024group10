@@ -15,10 +15,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "forums")
+@Table(name = "posts")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +32,7 @@ public class Post {
     private Long parentID;
 
     @Convert(converter = ListHashMapConverter.class)
-    @Column(nullable = true, columnDefinition = "TEXT")
+    @Column(nullable = true, columnDefinition = "LONGTEXT")
     private List<HashMap<String, String>> content;
 
     @Column(nullable = false)
@@ -144,7 +144,7 @@ public class Post {
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
-    
+
     public LocalDateTime getLastEditDate() {
         return lastEditDate;
     }

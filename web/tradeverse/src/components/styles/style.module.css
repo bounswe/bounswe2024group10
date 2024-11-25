@@ -238,3 +238,13 @@
   height: 40px;
   margin-left: 5px;
 }
+
+.clickableLink {
+  text-decoration: none;
+  color: inherit; /* Matches current text color */
+}
+
+.clickableLink:hover {
+  text-decoration: underline; /* Add underline on hover */
+  color: #007bff; /* Optional: Change color on hover */
+}
