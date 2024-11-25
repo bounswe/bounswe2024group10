@@ -71,7 +71,7 @@ public class FollowSubforumService {
             return new GeneralFollowSubforumResponse(false, "User does not follow the subforum");
         }
         followSubforumRepository.delete(follow);
-        return new GeneralFollowSubforumResponse(true, "Followed successfully");
+        return new GeneralFollowSubforumResponse(true, "Unfollowed successfully");
     }
 
     public GetFollowingsResponse getFollowings(GetFollowingsRequest request) {

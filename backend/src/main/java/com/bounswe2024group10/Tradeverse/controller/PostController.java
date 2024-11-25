@@ -36,8 +36,6 @@ import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse2;
-import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
 import com.bounswe2024group10.Tradeverse.service.PostService;
 
 /**
@@ -158,34 +156,33 @@ public class PostController {
     //     GetPostResponse response = postService.getComment(request);
     //     return ResponseEntity.ok(response);
     // }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/search-posts")
-    public ResponseEntity<SearchAndListPostsResponse> searchPosts(
-            @RequestParam(required = false) String queryType,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) Integer offset,
-            @RequestParam(required = false) Integer limit) {
-        SearchAndListPostsRequest request = new SearchAndListPostsRequest();
-        if (queryType == null) {
-            queryType = "date";
-        }
-        if (keyword == null) {
-            keyword = "";
-        }
-        if (offset == null) {
-            offset = 0;
-        }
-        if (limit == null) {
-            limit = 10;
-        }
-        request.setQueryType(queryType);
-        request.setKeyword(keyword);
-        request.setOffset(offset);
-        request.setLimit(limit);
-        SearchAndListPostsResponse response = postService.searchAndListPosts(request);
-        return ResponseEntity.ok(response);
-    }
-
+    // @CrossOrigin(origins = "*", allowedHeaders = "*")
+    // @GetMapping("/search-posts")
+    // public ResponseEntity<SearchAndListPostsResponse> searchPosts(
+    //         @RequestParam(required = false) String queryType,
+    //         @RequestParam(required = false) String keyword,
+    //         @RequestParam(required = false) Integer offset,
+    //         @RequestParam(required = false) Integer limit) {
+    //     SearchAndListPostsRequest request = new SearchAndListPostsRequest();
+    //     if (queryType == null) {
+    //         queryType = "date";
+    //     }
+    //     if (keyword == null) {
+    //         keyword = "";
+    //     }
+    //     if (offset == null) {
+    //         offset = 0;
+    //     }
+    //     if (limit == null) {
+    //         limit = 10;
+    //     }
+    //     request.setQueryType(queryType);
+    //     request.setKeyword(keyword);
+    //     request.setOffset(offset);
+    //     request.setLimit(limit);
+    //     SearchAndListPostsResponse response = postService.searchAndListPosts(request);
+    //     return ResponseEntity.ok(response);
+    // }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/create-post")
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {
@@ -283,26 +280,24 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/general-get-post")
-    public ResponseEntity<GetPostResponse> generalGetPost(@RequestParam Long postId, @RequestBody(required = false) String username) {
-        GetPostRequest request = new GetPostRequest();
-        request.setPostId(postId);
-        request.setUsername(username);
-        GetPostResponse response = postService.generalGetPost(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/general-get-childeren")
-    public ResponseEntity<GeneralGetResponse> generalGetChilderen(@RequestParam Long parentId, @RequestBody(required = false) String username) {
-        GeneralGetRequest request = new GeneralGetRequest();
-        request.setParentId(parentId);
-        request.setUsername(username);
-        GeneralGetResponse response = postService.generalGetChilderen(request);
-        return ResponseEntity.ok(response);
-    }
-
+    // @CrossOrigin(origins = "*", allowedHeaders = "*")
+    // @GetMapping("/general-get-post")
+    // public ResponseEntity<GetPostResponse> generalGetPost(@RequestParam Long postId, @RequestBody(required = false) String username) {
+    //     GetPostRequest request = new GetPostRequest();
+    //     request.setPostId(postId);
+    //     request.setUsername(username);
+    //     GetPostResponse response = postService.generalGetPost(request);
+    //     return ResponseEntity.ok(response);
+    // }
+    // @CrossOrigin(origins = "*", allowedHeaders = "*")
+    // @GetMapping("/general-get-childeren")
+    // public ResponseEntity<GeneralGetResponse> generalGetChilderen(@RequestParam Long parentId, @RequestBody(required = false) String username) {
+    //     GeneralGetRequest request = new GeneralGetRequest();
+    //     request.setParentId(parentId);
+    //     request.setUsername(username);
+    //     GeneralGetResponse response = postService.generalGetChilderen(request);
+    //     return ResponseEntity.ok(response);
+    // }
     // @CrossOrigin(origins = "*", allowedHeaders = "*")
     // @GetMapping("/general-delete")
     // public ResponseEntity<GeneralDeleteResponse> generalDelete(@RequestParam Long postId, @RequestParam String username) {
