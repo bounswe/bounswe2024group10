@@ -2,7 +2,6 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import {
   IconEye,
-  IconMessage,
   IconMessageCircle2,
   IconThumbDown,
   IconThumbUp,
@@ -14,26 +13,7 @@ import paths from '../../../config/screen-paths'
 import PostLink from '../../../components/links/post-link'
 import SubforumLink from '../../../components/links/subforum-link'
 
-// {
-//     title: 'Title',
-//     content: 'Content',
-//     date: '2021-01-01',
-//     likes: 10,
-//     dislikes: 2,
-//     comments: 5,
-//     views: 1200,
-//     subforum: {
-//       name: 'Future Investment',
-//       id: 1
-//     },
-//     author: {
-//       name: 'Daron',
-//       surname: 'Acemoglu',
-//       username: '@daronacemoglu',
-//       avatar:
-//       id: 1,
-//     },
-//   }
+// Constants for sizes
 const SIZE_CONSTANT = 14
 const SIZES = {
   xxSmall: SIZE_CONSTANT * 1,
@@ -44,73 +24,51 @@ const SIZES = {
   xLarge: SIZE_CONSTANT * 2,
 }
 
+// Author info component
 const AuthorInfo = ({ author }) => {
-  if (!author) return <></>;
+  if (!author) return null
   return (
     <UserLink user={author} target={paths.HOME.USER_PROFILE}>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: SIZE_CONSTANT * 0.6,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <ProfileImage
-            style={{
-              width: SIZE_CONSTANT * 2.1,
-              height: SIZE_CONSTANT * 2.1,
-              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-            }}
-            src={author.avatar}
-          />
-        </View>
-        <View
+      <View style={{ flexDirection: 'row', gap: SIZE_CONSTANT * 0.6, alignItems: 'center' }}>
+        <ProfileImage
           style={{
             width: SIZE_CONSTANT * 2.1,
             height: SIZE_CONSTANT * 2.1,
-            borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+            borderRadius: SIZE_CONSTANT * 2.1 / 2,
           }}
           src={author.avatar}
         />
+        <View style={{ flexDirection: 'column' }}>
+          <Text
+            style={{
+              fontSize: SIZES.xxSmall,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.black,
+              letterSpacing: -0.03,
+            }}
+          >
+            {author.name} {author.surname}
+          </Text>
+          <Text
+            style={{
+              fontSize: SIZE_CONSTANT * 0.8,
+              color: '#A1A1A1',
+              letterSpacing: -0.03,
+            }}
+          >
+            @{author.username}
+          </Text>
+        </View>
       </View>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: SIZES.xxSmall,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.black,
-            letterSpacing: -0.03,
-          }}
-        >
-          {author.name} {author.surname}
-        </Text>
-        <Text
-          style={{
-            fontSize: SIZE_CONSTANT * 0.8,
-            color: '#A1A1A1',
-            letterSpacing: -0.03,
-            lineHeight: SIZE_CONSTANT * 0.9,
-          }}
-        >
-          @{author.username}
-        </Text>
-      </View>
-    </View>
-  </UserLink>
-)
+    </UserLink>
+  )
+}
 
+// Subforum info component
 const SubforumInfo = ({ subforum }) => (
   <SubforumLink subForum={subforum} target={paths.HOME.SUBFORUM_DETAIL}>
     <View
       style={{
-        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: SIZE_CONSTANT * 1.2,
@@ -135,7 +93,8 @@ const SubforumInfo = ({ subforum }) => (
   </SubforumLink>
 )
 
-const TagText = ({ tag, index = 0, isLast = false }) => (
+// Tag text component
+const TagText = ({ tag, index = 0 }) => (
   <Text
     style={{
       display: 'inline',
@@ -148,6 +107,7 @@ const TagText = ({ tag, index = 0, isLast = false }) => (
   </Text>
 )
 
+// Default text component for post content
 const DefaultText = ({ text, index = 0 }) => (
   <Text
     style={{
@@ -161,21 +121,20 @@ const DefaultText = ({ text, index = 0 }) => (
   </Text>
 )
 
-const InteractionInfo = ({ icon = () => {}, value }) => (
-  <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-    <View>{icon({ prop: { color: '#444' } })}</View>
-    <View>
-      <Text
-        style={{
-          fontSize: SIZE_CONSTANT * 0.8,
-          color: '#444',
-          letterSpacing: -0.03,
-          fontWeight: FONT_WEIGHTS.medium,
-        }}
-      >
-        {value}
-      </Text>
-    </View>
+// Interaction info component (views, likes, comments, etc.)
+const InteractionInfo = ({ icon, value }) => (
+  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View>{icon}</View>
+    <Text
+      style={{
+        fontSize: SIZE_CONSTANT * 0.8,
+        color: '#444',
+        letterSpacing: -0.03,
+        fontWeight: FONT_WEIGHTS.medium,
+      }}
+    >
+      {value}
+    </Text>
   </View>
 )
 
@@ -193,7 +152,6 @@ export default function PostHeader({ style, post }) {
       >
         <View
           style={{
-            display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -217,50 +175,45 @@ export default function PostHeader({ style, post }) {
             {post.title}
           </Text>
         </View>
+
         <View>
           <Text>
-            {post && post.content && post.content.map((content, index) => {
-              if (content.type === "text") {
-                return <DefaultText key={index} index={index} text={content} />;
-              }
-              if (content.type === 'tag') {
-                return <TagText key={index} index={index} tag={content} />
-              }
-            })}
+            {post.content &&
+              post.content.map((content, index) => {
+                if (content.type === 'text') {
+                  return <DefaultText key={index} index={index} text={content} />
+                }
+                if (content.type === 'tag') {
+                  return <TagText key={index} index={index} tag={content} />
+                }
+              })}
           </Text>
         </View>
+
         <View
           style={{
             marginTop: SIZE_CONSTANT * 1.2,
-            display: 'flex',
-            justifyContent: 'space-between',
             flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          <View>
+          <InteractionInfo
+            icon={<IconEye color="#444" size={12} />}
+            value={post.views}
+          />
+
+          <View style={{ flexDirection: 'row', gap: SIZE_CONSTANT * 1.4 }}>
             <InteractionInfo
-              icon={(params) => <IconEye color="#444" size={12} />}
-              value={post.views}
-            />
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: SIZE_CONSTANT * 1.4,
-            }}
-          >
-            <InteractionInfo
-              icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
-              value={post.views}
+              icon={<IconMessageCircle2 color="#444" size={12} />}
+              value={post.comments}
             />
             <InteractionInfo
-              icon={(params) => <IconThumbUp color="#444" size={12} />}
-              value={post.views}
+              icon={<IconThumbUp color="#444" size={12} />}
+              value={post.likes}
             />
             <InteractionInfo
-              icon={(params) => <IconThumbDown color="#444" size={12} />}
-              value={post.views}
+              icon={<IconThumbDown color="#444" size={12} />}
+              value={post.dislikes}
             />
           </View>
         </View>

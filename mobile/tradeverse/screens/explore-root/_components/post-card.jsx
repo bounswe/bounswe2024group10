@@ -18,107 +18,89 @@ import SubforumLink from '../../../components/links/subforum-link'
 import PostLink from '../../../components/links/post-link'
 import paths from '../../../config/screen-paths'
 
+// Author Info Component
 const AuthorInfo = ({ author }) => {
-  if (!author) return <></>;
+  if (!author) return null
 
   return (
     <UserLink user={author}>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
+          flexDirection: 'row',
           gap: SIZE_CONSTANT * 0.6,
-          alignItems: "center",
+          alignItems: 'center',
         }}
       >
-        <View>
-          <ProfileImage
-            style={{
-              width: SIZE_CONSTANT * 2.1,
-              height: SIZE_CONSTANT * 2.1,
-              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-            }}
-            src={author.avatar}
-          />
-        </View>
-        <View
+        <ProfileImage
           style={{
             width: SIZE_CONSTANT * 2.1,
             height: SIZE_CONSTANT * 2.1,
-            borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+            borderRadius: SIZE_CONSTANT * 2.1 / 2,
           }}
           src={author.avatar}
         />
+        <View>
+          <Text
+            style={{
+              fontSize: SIZES.xxSmall,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.black,
+              letterSpacing: -0.03,
+            }}
+          >
+            {author.name} {author.surname}
+          </Text>
+          <Text
+            style={{
+              fontSize: SIZE_CONSTANT * 0.8,
+              color: '#A1A1A1',
+              letterSpacing: -0.03,
+              lineHeight: SIZE_CONSTANT * 0.9,
+            }}
+          >
+            @{author.username}
+          </Text>
+        </View>
       </View>
     </UserLink>
-  );
-};
+  )
+}
 
+// Subforum Info Component
 const SubforumInfo = ({ subforum }) => {
-  if (!subforum) return <></>;
+  if (!subforum) return null
+
   return (
     <SubforumLink subForum={subforum}>
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: SIZE_CONSTANT * 1.2,
+          height: SIZE_CONSTANT * 1.6,
+          backgroundColor: '#D4FFE7',
+          borderWidth: 0.5,
+          borderColor: '#EDFDFF',
+          borderRadius: SIZE_CONSTANT * 1.2,
         }}
       >
         <Text
           style={{
-            fontSize: SIZES.xxSmall,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.black,
+            fontSize: SIZE_CONSTANT * 0.64,
+            fontWeight: FONT_WEIGHTS.medium,
+            color: '#107E64',
             letterSpacing: -0.03,
           }}
         >
-          {author.name} {author.surname}
-        </Text>
-        <Text
-          style={{
-            fontSize: SIZE_CONSTANT * 0.8,
-            color: '#A1A1A1',
-            letterSpacing: -0.03,
-            lineHeight: SIZE_CONSTANT * 0.9,
-          }}
-        >
-          @{author.username}
+          {subforum.title}
         </Text>
       </View>
-    </View>
-  </UserLink>
-)
+    </SubforumLink>
+  )
+}
 
-const SubforumInfo = ({ subforum }) => (
-  <SubforumLink subForum={subforum}>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: SIZE_CONSTANT * 1.2,
-        height: SIZE_CONSTANT * 1.6,
-        backgroundColor: '#D4FFE7',
-        borderWidth: 0.5,
-        borderColor: '#EDFDFF',
-        borderRadius: SIZE_CONSTANT * 1.2,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: SIZE_CONSTANT * 0.64,
-          fontWeight: FONT_WEIGHTS.medium,
-          color: '#107E64',
-          letterSpacing: -0.03,
-        }}
-      >
-        {subforum.title}
-      </Text>
-    </View>
-  </SubforumLink>
-)
-
-const TagText = ({ tag, index = 0, isLast = false }) => (
+// Tag Text Component
+const TagText = ({ tag, index = 0 }) => (
   <Text
     style={{
       display: 'inline',
@@ -128,10 +110,11 @@ const TagText = ({ tag, index = 0, isLast = false }) => (
     }}
   >
     {index === 0 ? '' : ' '}
-    {tag.value}
+    @{tag.value}
   </Text>
 )
 
+// Default Text Component for post content
 const DefaultText = ({ text, index = 0 }) => (
   <Text
     style={{
@@ -145,21 +128,20 @@ const DefaultText = ({ text, index = 0 }) => (
   </Text>
 )
 
-const InteractionInfo = ({ icon = () => {}, value }) => (
-  <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-    <View>{icon({ prop: { color: '#444' } })}</View>
-    <View>
-      <Text
-        style={{
-          fontSize: SIZE_CONSTANT * 0.8,
-          color: '#444',
-          letterSpacing: -0.03,
-          fontWeight: FONT_WEIGHTS.medium,
-        }}
-      >
-        {value}
-      </Text>
-    </View>
+// Interaction Info Component (views, likes, comments, etc.)
+const InteractionInfo = ({ icon, value }) => (
+  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View>{icon}</View>
+    <Text
+      style={{
+        fontSize: SIZE_CONSTANT * 0.8,
+        color: '#444',
+        letterSpacing: -0.03,
+        fontWeight: FONT_WEIGHTS.medium,
+      }}
+    >
+      {value}
+    </Text>
   </View>
 )
 
@@ -177,7 +159,6 @@ export default function PostCard({ style, post }) {
       >
         <View
           style={{
-            display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -203,47 +184,41 @@ export default function PostCard({ style, post }) {
         </View>
         <View>
           <Text>
-            {post && post.content && post.content.map((content, index) => {
-              if (content.type === "text") {
-                return <DefaultText key={index} index={index} text={content} />;
-              }
-              if (content.type === 'tag') {
-                return <TagText key={index} index={index} tag={content} />
-              }
-            })}
+            {post.content &&
+              post.content.map((content, index) => {
+                if (content.type === 'text') {
+                  return <DefaultText key={index} index={index} text={content} />
+                }
+                if (content.type === 'tag') {
+                  return <TagText key={index} index={index} tag={content} />
+                }
+              })}
           </Text>
         </View>
+
         <View
           style={{
             marginTop: SIZE_CONSTANT * 1.2,
-            display: 'flex',
-            justifyContent: 'space-between',
             flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          <View>
+          <InteractionInfo
+            icon={<IconEye color="#444" size={12} />}
+            value={post.views}
+          />
+
+          <View style={{ flexDirection: 'row', gap: SIZE_CONSTANT * 1.4 }}>
             <InteractionInfo
-              icon={(params) => <IconEye color="#444" size={12} />}
-              value={post.views}
-            />
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: SIZE_CONSTANT * 1.4,
-            }}
-          >
-            <InteractionInfo
-              icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
+              icon={<IconMessageCircle2 color="#444" size={12} />}
               value={post.nofComments ?? 0}
             />
             <InteractionInfo
-              icon={(params) => <IconThumbUp color="#444" size={12} />}
+              icon={<IconThumbUp color="#444" size={12} />}
               value={post.nofLikes ?? 0}
             />
             <InteractionInfo
-              icon={(params) => <IconThumbDown color="#444" size={12} />}
+              icon={<IconThumbDown color="#444" size={12} />}
               value={post.nofDislikes ?? 0}
             />
           </View>
