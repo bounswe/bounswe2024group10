@@ -1,16 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../styles/subforumNavbar.module.css'; 
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import styles from "../styles/subforumNavbar.module.css";
 
 const SubforumNavbar = ({ subforums }) => {
+    const location = useLocation(); 
+    const currentPath = location.pathname.toLowerCase();
+
     return (
         <nav className={styles.subforumNavbar}>
             <ul>
-                {subforums.map((subforum, i) => (
-                    <li key={i}>
-                        <Link to={`/${subforum.name.toLowerCase()}`}>{subforum.name}</Link>
-                    </li>
-                ))}
+                {subforums.map((subforum, i) => {
+                    const formattedName = subforum.name.toLowerCase().replace(/\s+/g, "%20");
+                    const isSelected = currentPath === `/${formattedName}`;
+
+                    return (
+                        <li
+                            key={i}
+                            className={isSelected ? `${styles.selected}` : ""}
+                        >
+                            <Link to={`/${formattedName}`}>{subforum.name}</Link>
+                        </li>
+                    );
+                })}
             </ul>
         </nav>
     );
