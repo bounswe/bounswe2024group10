@@ -6,44 +6,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreateSubforumResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.EditCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.EditCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.EditForumRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.EditForumResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreNonRecursiveResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchNonRecursiveResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.FeedNonRecursiveResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralGetResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralRecursiveGetResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GeneralSearchRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetSubforumsResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetSuperPostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetSuperSubforumResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.SearchAndListPostsResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.create.CreateCommentRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.create.CreateCommentResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.create.CreatePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.create.CreatePostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.create.CreateSubforumRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.create.CreateSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.delete.GeneralDeleteRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.delete.GeneralDeleteResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.edit.EditCommentRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.edit.EditCommentResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.edit.EditForumRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.edit.EditForumResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.edit.EditPostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.edit.EditPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.ExploreNonRecursiveResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.ExploreRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.ExploreSearchNonRecursiveResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.ExploreSearchRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.ExploreSearchResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.explore.GeneralSearchRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.feed.FeedNonRecursiveResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.feed.FeedRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.feed.FeedResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GeneralGetRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GeneralGetResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GeneralRecursiveGetResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GetPostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GetSubforumsResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GetSuperPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GetSuperSubforumResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
@@ -61,7 +57,6 @@ import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 @Service
 public class PostService {
 
-    private static final PostType FORUM = PostType.FORUM;
     private static final PostType SUBFORUM = PostType.SUBFORUM;
     private static final PostType POST = PostType.POST;
     private static final PostType COMMENT = PostType.COMMENT;
@@ -407,15 +402,14 @@ public class PostService {
         return new GeneralDeleteResponse(true, "Comment deleted successfully");
     }
 
-    public SearchAndListPostsResponse searchAndListPosts(SearchAndListPostsRequest request) {
-        Pageable pageable = PageRequest.of(request.getOffset(), request.getLimit());
-        if (request.getQueryType().equals("date")) {
-            List<Post> posts = postRepository.findByTitleContaining(request.getKeyword(), pageable);
-            return new SearchAndListPostsResponse(true, "Posts fetched successfully", posts);
-        }
-        return new SearchAndListPostsResponse(false, "Invalid query type", null);
-    }
-
+    // public SearchAndListPostsResponse searchAndListPosts(SearchAndListPostsRequest request) {
+    //     Pageable pageable = PageRequest.of(request.getOffset(), request.getLimit());
+    //     if (request.getQueryType().equals("date")) {
+    //         List<Post> posts = postRepository.findByTitleContaining(request.getKeyword(), pageable);
+    //         return new SearchAndListPostsResponse(true, "Posts fetched successfully", posts);
+    //     }
+    //     return new SearchAndListPostsResponse(false, "Invalid query type", null);
+    // }
     public GetPostResponse generalGetPost(GetPostRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElse(null);
         if (post == null) {
