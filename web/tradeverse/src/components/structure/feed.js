@@ -19,10 +19,10 @@ const Feed = ({ posts }) => {
   useEffect(() => {
     const fetchSubforums = async () => {
       try {
-        const response = await fetch("http://35.246.188.121:8080/api/post/get-subforums");
+        const response = await fetch("http://35.246.188.121:8080/api/post/get-subforums/non-recursive");
         const data = await response.json();
         if (data.successful) {
-          const subforumList = data.comments.map((subforum) => ({
+          const subforumList = data.subforums.map((subforum) => ({
             id: subforum.id,
             title: subforum.title,
           }));
