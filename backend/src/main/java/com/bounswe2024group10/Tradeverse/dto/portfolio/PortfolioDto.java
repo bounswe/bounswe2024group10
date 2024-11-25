@@ -1,17 +1,15 @@
 package com.bounswe2024group10.Tradeverse.dto.portfolio;
 
-import java.math.BigDecimal;
+import com.bounswe2024group10.Tradeverse.model.Asset;
 
 public class PortfolioDto {
     private Long id;
-    private String username;
-    private String name;
-    private BigDecimal amount;
+    private Asset asset;
+    private double amount;
 
-    public PortfolioDto(Long id, String username, String name, BigDecimal amount) {
+    public PortfolioDto(Long id, Asset asset, double amount) {
         this.id = id;
-        this.username = username;
-        this.name = name;
+        this.asset = asset;
         this.amount = amount;
     }
 
@@ -19,15 +17,11 @@ public class PortfolioDto {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public Asset getAsset() {
+        return asset;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 }

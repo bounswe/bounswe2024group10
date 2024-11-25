@@ -1,28 +1,28 @@
-import { View, Text } from "react-native";
-import React from "react";
-import ProfileImage from "../../../../components/images/profile-image";
+import { View, Text } from 'react-native'
+import React from 'react'
+import ProfileImage from '../../../../components/images/profile-image'
 import {
   COLORS,
   FONT_WEIGHTS,
   SIZE_CONSTANT,
   SIZES,
-} from "../../../../constants/theme";
-import UserLink from "../../../../components/links/user-link";
-import paths from "../../../../config/screen-paths";
+} from '../../../../constants/theme'
+import UserLink from '../../../../components/links/user-link'
+import paths from '../../../../config/screen-paths'
 
 export default function UserResult({ user }) {
   return (
     <UserLink user={user} target={paths.EXPLORE.SEARCH_RESULTS.USER_PROFILE}>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
+          display: 'flex',
+          flexDirection: 'row',
           gap: SIZE_CONSTANT * 0.6,
           paddingHorizontal: SIZES.small,
           paddingTop: SIZE_CONSTANT * 1.2,
           paddingBottom: SIZE_CONSTANT * 1.4,
           borderBottomWidth: 0.5,
-          borderBottomColor: "#E5E5E5",
+          borderBottomColor: '#E5E5E5',
         }}
       >
         <View>
@@ -37,8 +37,8 @@ export default function UserResult({ user }) {
         </View>
         <View
           style={{
-            display: "flex",
-            flexDirection: "column",
+            display: 'flex',
+            flexDirection: 'column',
             paddingTop: SIZE_CONSTANT * 0.2,
           }}
         >
@@ -56,7 +56,7 @@ export default function UserResult({ user }) {
           <Text
             style={{
               fontSize: SIZES.xxSmall,
-              color: "#A1A1A1",
+              color: '#A1A1A1',
               letterSpacing: -0.03,
               lineHeight: SIZE_CONSTANT * 0.9,
             }}
@@ -66,5 +66,5 @@ export default function UserResult({ user }) {
         </View>
       </View>
     </UserLink>
-  );
+  )
 }

@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+  ],
+  "plugins": ["prettier", "react", "react-hooks"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "eqeqeq": "off",
+    "comma-dangle": "off",
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "warn",
+    "no-use-before-define": "off",
+    "react/prop-types": "off",
+    "eslint-plugin-import/no-named-as-default": "off",
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+      },
+      "babel-module": {},
+    },
+  },
+}

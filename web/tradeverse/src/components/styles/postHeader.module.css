@@ -37,28 +37,39 @@
 .userDetailsContainer {
   display: flex;
   flex-direction: row;
+  align-items: center; /* Ensure avatar and text align vertically */
   margin: 5px;
-  height: 30px;
 }
 
-.userDetails {
+.userDetailsLink {
   display: flex;
-  flex-direction: column;
-  padding: 4px;
-  padding-left: 10px;
-}
-.userDetails h3 {
-  margin: 0;
-}
-.userDetails p {
-  margin: 0;
-  font-size: 14px;
+  align-items: center; /* Align the avatar and text */
+  text-decoration: none; /* Remove underline from link */
+  color: inherit; /* Keep text color consistent */
 }
 
 .userImage {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px; /* Add spacing between avatar and text */
+}
+
+.userDetails h3 {
+  margin: 0;
+  font-size: 16px; /* Ensure a consistent font size */
+}
+
+.userDetails p {
+  margin: 0;
+  font-size: 14px;
+  color: #555; /* Subtle color for username */
 }
 
 .postHeaderDetails {
@@ -68,7 +79,9 @@
 
 .postHeaderDetails h2 {
   margin-left: 15px;
+  margin-top: 0; /* Ensure no top margin */
 }
+
 .postHeaderDetails p {
   margin-left: 15px;
   margin-right: 15px;
@@ -104,6 +117,7 @@
 .stat {
   display: flex;
   flex-direction: row;
+  align-items: center; /* Align icons and text */
   margin: 0 10px;
 }
 

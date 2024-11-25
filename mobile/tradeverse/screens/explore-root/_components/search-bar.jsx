@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { IconSearch } from '@tabler/icons-react-native';
-import { View, TextInput, StyleSheet } from 'react-native';
-import { router } from 'expo-router';
-import { COLORS, SIZE_CONSTANT } from '../../../constants/theme';
-import paths from '../../../config/screen-paths';
+import React, { useState } from 'react'
+import { IconSearch } from '@tabler/icons-react-native'
+import { View, TextInput, StyleSheet } from 'react-native'
+import { router } from 'expo-router'
+import { COLORS, SIZE_CONSTANT } from '../../../constants/theme'
+import paths from '../../../config/screen-paths'
 
 export default function SearchBar() {
-  const [searchKey, setSearchKey] = useState('');
+  const [searchKey, setSearchKey] = useState('')
   return (
     <View style={styles.searchContainer}>
       <View style={styles.searchWrapper}>
@@ -15,26 +15,26 @@ export default function SearchBar() {
           placeholder="Search for anything.."
           placeholderTextColor="#A8ADD9"
           onChangeText={(e) => {
-            setSearchKey(e);
+            setSearchKey(e)
           }}
           onSubmitEditing={() => {
-            router.push(`/${paths.EXPLORE.SEARCH}?searchKey=${searchKey}`);
+            router.push(`/${paths.EXPLORE.SEARCH}?searchKey=${searchKey}`)
           }}
         />
         <IconSearch color={COLORS.primary800} strokeWidth={1.5} />
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%'
+    width: '100%',
   },
   searchContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
-  searchInput:{
+  searchInput: {
     width: '80%',
     color: COLORS.primary950,
   },
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
     borderRadius: SIZE_CONSTANT * 1,
     paddingVertical: 10,
     backgroundColor: `${COLORS.primary50}80`,
-    paddingHorizontal: 16
-  }
-});
+    paddingHorizontal: 16,
+  },
+})

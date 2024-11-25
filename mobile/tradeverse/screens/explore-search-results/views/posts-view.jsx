@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import PostResult from "../_components/result-cards/post-result";
+import { View, Text, ScrollView } from 'react-native'
+import React from 'react'
+import PostResult from '../_components/result-cards/post-result'
 
 export default function PostsView({ data }) {
   return (
@@ -9,5 +9,5 @@ export default function PostsView({ data }) {
         <PostResult key={index} post={post} />
       ))}
     </ScrollView>
-  );
+  )
 }

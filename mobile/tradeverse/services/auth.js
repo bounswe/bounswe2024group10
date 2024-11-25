@@ -1,64 +1,55 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Storage } from "../util/storage";
+
 import api from "./_axios";
 
-export async function getMe({ authToken = "", username = "" }) {
+export async function getMe({ username = '' }) {
   try {
     const response = await api({
-      url: "/auth/get-user-details",
-      method: "POST",
-    //   method: "GET", // In future
-      headers: {
-        Authorization: authToken ? `Bearer ${authToken}` : null,
-      },
-      data: username ? { username } : {}, //TODO:/ Delete later
-    });
+      url: `/user/get-user-details/${username}`,
+      method: 'GET',
+    })
 
-    return response.data;
+    return response.data
   } catch (error) {
-    console.error("Get me failed", error);
+    throw new Error(error.message || 'Kullanıcı bilgileri alınamadı')
   }
-  return null;
 }
 
 export async function login({ username, password }) {
-  console.log(username, password);
-
   try {
-    await AsyncStorage.removeItem("authToken");
+    // await Storage.removeItem("authToken");
     const response = await api({
-      url: "/auth/login",
-      method: "POST",
+      url: '/auth/login',
+      method: 'POST',
       headers: {
         Authorization: undefined,
       },
       data: { username, password },
     });
-    await AsyncStorage.removeItem("authToken");
-    console.log(response.data);
 
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-    AsyncStorage.setItem("authToken", response.data.token);
+    
     return response;
   } catch (error) {
-    throw new Error(error.message ?? "Giriş başarısız");
+    throw new Error(`Failed: ${error.message}` ?? "Giriş başarısız");
   }
 }
 
 export async function register({
   email,
   password,
-  name = "",
+  name = '',
   username,
   tag = 0,
-  profilePhoto = "",
+  profilePhoto = '',
 }) {
   try {
     console.log(email, password, name, username, tag, profilePhoto);
 
-    await AsyncStorage.removeItem("authToken");
+    await Storage.removeItem("authToken");
     const response = await api({
-      url: "/auth/register",
-      method: "POST",
+      url: '/auth/register',
+      method: 'POST',
       data: {
         email,
         password,
@@ -71,16 +62,31 @@ export async function register({
         Authorization: undefined,
       },
     });
-    await AsyncStorage.removeItem("authToken");
+    await Storage.removeItem("authToken");
     console.log(response.data);
 
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-    AsyncStorage.setItem("authToken", response.data.token);
+    Storage.setItem("authToken", response.data.token);
     return response;
   } catch (error) {
-    console.log("basarisiz");
-    console.log(error);
+    console.log('Register Error ->', error.message)
+    throw new Error(error.message || 'Kayıt başarısız')
+  }
+}
 
-    throw new Error(error.message ?? "Kayıt başarısız");
+export async function validateToken({ token }) {
+  try {
+    const response = await api({
+      url: '/auth/validate-token',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return response.data
+  } catch (error) {
+    console.log('Validate Token Error ->', error.message)
+    throw new Error(error.message || 'Token doğrulama başarısız')
   }
 }

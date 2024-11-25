@@ -1,2 +1,5 @@
 .DS_Store
 .idea/
+mobile/tradeverse/ios/*
+mobile/tradeverse/android/*
+mobile/tradeverse/android/build.gradle

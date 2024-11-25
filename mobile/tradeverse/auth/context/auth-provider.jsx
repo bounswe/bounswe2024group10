@@ -1,58 +1,38 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import api from '../../services/_axios';
 import AuthContext from './auth-context';
 import { getMe, register, login } from '../../services/auth';
 import { getUserByUsername } from '../../services/user';
 
+import { Storage } from '../../util/storage';
+
 export default function AuthProvider({ children }) {
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isLoggedin, setIsLoggedIn] = useState(false);
-
-  const [isTagSelected, setIsTagSelected] = useState(false);
-
-  useEffect(() => {
-    isAuthenticated();
-  }, [isAuthenticated]);
-
-  useEffect(()=>{
-    console.log('====================================');
-    console.log('isTagSelected',isTagSelected);
-    console.log('====================================');
-    if(isAuthenticated){
-      if(isTagSelected){
-        router.replace('(tabs)');
-      }
-      else{
-        router.replace('splash');
-      }
-    }
-    else{
-      router.replace('auth');
-    }
-  },[isTagSelected,isAuthenticated]);
+  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(null)
+  const [isLoggedin, setIsLoggedIn] = useState(false)
+  const [isTagSelected, setIsTagSelected] = useState(false)
 
   const signIn = useCallback(async ({ username, password }) => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const res = await login({ username, password });
-      if (res.status === 200) {
-        await AsyncStorage.setItem('authToken', res.data?.token);
-        await AsyncStorage.setItem('username', username);
+      if (res.data['isSuccessful'] === true) {
+        await Storage.setItem('authToken', res.data?.token ?? "");
+        await Storage.setItem('username', res.data['username']?? "");
         const userProfile = await getUserByUsername({ username });
-        
+
         setUser(userProfile);
         setIsLoggedIn(true);
         router.replace('(tabs)');
       }
     } catch (error) {
+      console.error(error.message)
       throw new Error(error.message);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
-  }, []);
+  }, [])
 
   const signUp = useCallback(async ({ email, password, name, tag=0,profilePhoto, username }) => {
     try {
@@ -66,8 +46,8 @@ export default function AuthProvider({ children }) {
         username
       });
       if (res.status === 200) {
-        await AsyncStorage.setItem('authToken', res.data?.token);
-        await AsyncStorage.setItem('username', username);
+        await Storage.setItem('authToken', res.data?.token);
+        await Storage.setItem('username', username);
         const userProfile = await getUserByUsername({ username });
 
         setUser(userProfile);
@@ -75,53 +55,62 @@ export default function AuthProvider({ children }) {
         router.replace('(tabs)');
         // setUser(res.data?.user);
       }
-    } catch (error) {
-      throw new Error(error.message ?? 'Giriş başarısız');
-    } finally {
-      // setLoading(false);
-    }
-  }, []);
+    },
+    []
+  )
 
   const logout = useCallback(async () => {
     setLoading(true);
     setIsLoggedIn(false);
     setUser(null);
     router.replace('auth');
-    await AsyncStorage.removeItem('authToken');
-    await AsyncStorage.removeItem('username');
+    await Storage.removeItem('authToken');
+    await Storage.removeItem('username');
     setLoading(false);
   }, []);
 
   const refetchUser = useCallback(async () => {
-    setLoading(true);
+    setLoading(true)
 
-    const token = await AsyncStorage.getItem('authToken');
-    const username = await AsyncStorage.getItem('username');
+    const token = await Storage.getItem('authToken');
+    const username = await Storage.getItem('username');
 
-    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-    const loggedinUser = await getMe({ authToken: token,username });
+    const loggedinUser = await getMe({ authToken: token, username })
 
     if (loggedinUser) {
-      setIsLoggedIn(true);
-      setUser(loggedinUser);
+      setIsLoggedIn(true)
+      setUser(loggedinUser)
     } else {
-      setUser(null);
+      setUser(null)
     }
-    setLoading(false);
-  }, []);
+    setLoading(false)
+  }, [])
 
   const setUserProfile = useCallback((profile) => {
-    setUser((prevUser) => ({ ...prevUser, profile }));
-  }, []);
+    setUser((prevUser) => ({ ...prevUser, profile }))
+  }, [])
 
   const isAuthenticated = useCallback(async () => {
-    let result = false;
+    try {
+      let result = false
+      setLoading(true)
 
-    setLoading(true);
+      const token = await AsyncStorage.getItem('authToken')
+      if (token) {
+        const validateResponse = await validateToken({ token })
+        if (validateResponse?.username) {
+          console.log('Token is valid ->', validateResponse, token)
+          api.defaults.headers.common.Authorization = `Bearer ${token}`
+          const userProfile = await getUserByUsername({
+            username: validateResponse.username,
+            token,
+          })
+          console.log('userProfile', userProfile)
 
-    const token = await AsyncStorage.getItem('authToken');
-    const username = await AsyncStorage.getItem('username');
+    const token = await Storage.getItem('authToken');
+    const username = await Storage.getItem('username');
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -132,19 +121,24 @@ export default function AuthProvider({ children }) {
         setUser(loggedinUser);
         result = true;
       } else {
-        await AsyncStorage.removeItem('authToken');
+        await Storage.removeItem('authToken');
         setIsLoggedIn(false);
         setUser(null);
         result = false;
       }
-    } else {
-      setUser(null);
-      setIsLoggedIn(false);
-      result = false;
+    } catch (error) {
+      console.log('error on isAuthenticated', error)
+      await AsyncStorage.removeItem('authToken')
+      setIsLoggedIn(false)
+      setUser(null)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false);
-    return result;
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    isAuthenticated()
+  }, [isAuthenticated])
 
   const contextValue = useMemo(
     () => ({
@@ -158,9 +152,8 @@ export default function AuthProvider({ children }) {
       signUp,
       isTagSelected,
       userProfile: user?.profile,
-      isAuthenticated,
       logout,
-      setUser
+      setUser,
     }),
     [
       user,
@@ -173,11 +166,10 @@ export default function AuthProvider({ children }) {
       setIsTagSelected,
       signUp,
       logout,
-      isAuthenticated
     ]
-  );
+  )
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-  );
+  )
 }
