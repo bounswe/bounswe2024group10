@@ -1,27 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native'
 import { router, Stack } from 'expo-router'
 import FullScrollView from '../../components/ui/full-scroll-view'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, FONT_WEIGHTS, SIZE_CONSTANT } from '../../constants/theme'
 import paths from '../../config/screen-paths'
-import { searchAssets } from '../../mock-services/assets'
+import { getPortfolio } from '../../services/portfolio'
+import AuthContext from '../../auth/context/auth-context'
 // Mock Data
 
 const PortfolioScreen = () => {
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    const data = searchAssets('')
-      .slice(0, 5)
-      .map((a) => ({ ...a, value: Math.floor(Math.random() * 10000) }))
-    setData(data)
+    const fetchPortfolio = async () => {
+      try {
+        setLoading(true)
+        const response = await getPortfolio({ username: user?.username })
+        console.log(data)
+        console.log(data)
+        console.log(data)
+
+        setData(response)
+      } catch (error) {
+        console.error('Get Portfolio failed', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPortfolio()
+    setLoading(false)
   }, [])
 
   return (
@@ -48,6 +65,9 @@ const PortfolioScreen = () => {
 
           {/* Scrollable Portfolio Block */}
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            {loading ? (
+              <ActivityIndicator size="large" color={COLORS.primary500} />
+            ) : null}
             {data && (
               <View style={styles.portfolioBlock}>
                 {data.map((asset, index) => (
