@@ -201,21 +201,23 @@ export const RenderMenu = () => {
           {user.isAuthenticated ? (
             <div className={styles.menuItem}>
               <div className={styles.userDropdown} onClick={toggleDropdown}>
-                <Link to="/account" className={styles.usernameLink}>
-                  <h5>{user.name}</h5>
-                </Link>
+                <h5>{user.name}</h5>
                 {isDropdownOpen && (
                   <div className={styles.dropdownContent}>
-                    <p
+                    <Link
+                      className={styles.clickableLink}
+                      to="/account"
                       style={{
                         color: "black",
                         fontWeight: "bold",
                         marginBottom: "5",
+                        display: "block",
                       }}
                     >
                       {user.name}
-                    </p>
+                    </Link>
                     <Link
+                      className={styles.clickableLink}
                       to={"#"}
                       onClick={logout}
                       style={{ color: "red", fontWeight: "lighter" }}
