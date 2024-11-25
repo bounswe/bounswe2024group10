@@ -24,10 +24,19 @@ export async function createPost(postPayload) {
 export async function explore() {
     try {
         const response = await api.get('/post/explore');
-        console.log(response);
         return response.data;
     }
     catch (error) {
         console.error("Error fetching explore posts:", error);
+    }
+}
+
+export async function feed(username) {
+    try {
+        const response = await api.get(`/post/feed?username=${username}`);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error fetching feed:", error);
     }
 }

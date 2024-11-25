@@ -2,29 +2,54 @@ import React, { useState, useEffect } from "react";
 import Feed from "../components/structure/feed";
 import styles from "./styles/Home.module.css";
 import { useParams } from "react-router-dom";
-import { explore } from "../services/post";
+import { explore, feed } from "../services/post";
+import { AuthData } from "../auth/AuthWrapper";
 
 const Home = () => {
-  const { name } = useParams();
+  const { user, logout } = AuthData();
   const [posts, setPosts] = useState([]);
+  const [forYouPosts, setForYouPosts] = useState([]);
+  const [followedSubforumPosts, setFollowedSubforumsPosts] = useState([]);
+  const [followedUserPosts, setFollowedUserPosts] = useState([]);
   const [filterType, setFilterType] = useState("For You");
 
   useEffect(() => {
     const fetchExporePosts = async () => {
       const data = await explore();
-      console.log(data);
+
       if (data.isSuccessful) {
-        setPosts(data.popularPosts);
+        setForYouPosts(data.popularPosts);
+        if (filterType === "For You") {
+          setPosts(data.popularPosts);
+        }
       }
     }
+    const fetchFeedPosts = async () => {
+      const data = await feed(user.name);
+      console.log("hebele", data);
+      if (data.successful) {
+        setFollowedSubforumsPosts(data.followedSubforumPosts["Post 1"]);
+        setFollowedUserPosts(data.followedUserPosts[user.name]);
+      }
+    }
+    fetchFeedPosts();
     fetchExporePosts();
-    
-  }, []);
+
+  }, [filterType]);
+
 
 
   const handleFilterChange = (type) => {
     setFilterType(type);
-    console.log(`Filter changed to: ${type}`);
+
+    if (type === "For You") {
+      setPosts(forYouPosts);
+    } else if (type === "Followed Topics") {
+      setPosts(followedSubforumPosts);
+    } else if (type === "Followed People") {
+      setPosts(followedUserPosts);
+    }
+
   };
 
   return (

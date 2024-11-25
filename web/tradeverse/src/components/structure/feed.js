@@ -20,9 +20,10 @@ const Feed = ({ posts }) => {
   useEffect(() => {
     const fetchSubforums = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/post/get-subforums");
+        const response = await fetch("http://35.246.188.121:8080/api/post/get-subforums");
+        console.log(response);
         const data = await response.json();
-        console.log(data);
+        
         if (data.successful) {
           const subforumList = data.subforums.map((subforum) => ({
             id: subforum.id,
@@ -128,7 +129,7 @@ const Feed = ({ posts }) => {
   
     // Make the API call
     try {
-      const response = await fetch("http://localhost:8080/api/post/create-post", {
+      const response = await fetch("http://35.246.188.121:8080/api/post/create-post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
