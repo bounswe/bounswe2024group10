@@ -7,6 +7,7 @@ import Home from "../../pages/Home";
 import PostPage from "../../pages/PostPage";
 import SubforumNavbar from "./subforumNavbar";
 import mockData from "../../data/mockData";
+import Account from "../../pages/Account";
 
 export const RenderRoutes = () => {
   const { user } = AuthData();
@@ -63,6 +64,7 @@ export const RenderRoutes = () => {
                     )*/}
       <Route path="/:name" element={<Home />} />
       <Route path="/:name/:postId" element={<PostPage />} />
+      <Route path="/account" element={<Account />} />
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
   );
@@ -148,7 +150,7 @@ export const RenderMenu = () => {
                 )}
               </div>
             </Link>
-            <Link to={"/"} className={styles.link}>
+            <Link to={"/account"} className={styles.link}>
             <div className={styles.sidebarElement}>
               <div className={styles.iconContainer}>
                 <i className="fas fa-user"></i>
@@ -199,7 +201,9 @@ export const RenderMenu = () => {
           {user.isAuthenticated ? (
             <div className={styles.menuItem}>
               <div className={styles.userDropdown} onClick={toggleDropdown}>
-                <h5>{user.name}</h5>
+                <Link to="/account" className={styles.usernameLink}>
+                  <h5>{user.name}</h5>
+                </Link>
                 {isDropdownOpen && (
                   <div className={styles.dropdownContent}>
                     <p
