@@ -213,3 +213,35 @@
     color: #007BFF;
     transition: color 0.3s ease;
 }
+.postCard {
+    border: 1px solid #ddd; /* Light border for visual separation */
+    border-radius: 8px; /* Rounded corners */
+    padding: 16px; /* Spacing inside the card */
+    margin-bottom: 16px; /* Space between cards */
+    background-color: #f9f9f9; /* Subtle background for better contrast */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    overflow-wrap: break-word; /* Breaks long words to prevent overflow */
+  word-wrap: break-word; /* Ensures long text wraps properly */
+  word-break: break-word;
+  }
+  
+  .postCard h4 {
+    margin: 0 0 8px; /* Remove top margin, add bottom space */
+    font-size: 1.5rem; /* Slightly larger font for titles */
+    color: #333; /* Darker color for readability */
+  }
+  
+  .postCard p {
+    margin: 0 0 12px; /* Space between description and other elements */
+    font-size: 1rem; /* Standard font size for description */
+    color: #555; /* Medium gray for description text */
+    line-height: 1.5; /* Better readability for longer text */
+  }
+  
+  .postCard small {
+    display: block; /* Force to a new line */
+    font-size: 0.875rem; /* Smaller font size for metadata */
+    color: #777; /* Light gray for secondary text */
+    margin-top: 8px; /* Space above the author information */
+  }
+  
