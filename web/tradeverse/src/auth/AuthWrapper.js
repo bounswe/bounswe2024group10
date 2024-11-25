@@ -20,14 +20,15 @@ export const AuthWrapper = () => {
             if (token) {
                 try {
                     const response = await apiValidateToken(token);
+                    console.log(response);
 
-                    if (!response.ok) {
-                        throw new Error('Token validation failed');
-                    }
+                    // if (!response.ok) {
+                    //     throw new Error('Token validation failed');
+                    // }
 
-                    const data = await response.json();
+                    // const data = await response.json();
                     setUser({
-                        name: data.username,
+                        name: response.username,
                         isAuthenticated: true,
                         role: "USER",
                         img: "",
