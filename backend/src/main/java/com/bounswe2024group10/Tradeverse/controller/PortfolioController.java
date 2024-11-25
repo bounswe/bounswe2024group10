@@ -14,23 +14,23 @@ public class PortfolioController {
     private PortfolioService portfolioService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/create")
-    public ResponseEntity<CreatePortfolioResponse> createPortfolio(@RequestBody CreatePortfolioRequest request) {
-        CreatePortfolioResponse response = portfolioService.createPortfolio(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-portfolio")
-    public ResponseEntity<GetAllPortfoliosResponse> getAllPortfolios(@RequestBody GetAllPortfoliosRequest request) {
-        GetAllPortfoliosResponse response = portfolioService.getAllPortfolios(request);
+    public ResponseEntity<GetPortfolioResponse> getPortfolio(@RequestBody GetPortfolioRequest request) {
+        GetPortfolioResponse response = portfolioService.getPortfolio(request);
         return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/update")
-    public ResponseEntity<UpdatePortfolioResponse> updatePortfolio(@RequestBody UpdatePortfolioRequest request) {
-        UpdatePortfolioResponse response = portfolioService.updatePortfolio(request);
+    @PostMapping("/add-asset")
+    public ResponseEntity<AddAssetToPortfolioResponse> addAssetToPortfolio(@RequestBody AddAssetToPortfolioRequest request) {
+        AddAssetToPortfolioResponse response = portfolioService.addAssetToPortfolio(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/by-asset/{assetId}")
+    public ResponseEntity<GetPortfolioResponse> getPortfoliosByAsset(@PathVariable Long assetId) {
+        GetPortfolioResponse response = portfolioService.getPortfoliosByAsset(assetId);
         return ResponseEntity.ok(response);
     }
 }

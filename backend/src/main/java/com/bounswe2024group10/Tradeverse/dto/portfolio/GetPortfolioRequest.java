@@ -1,10 +1,6 @@
 package com.bounswe2024group10.Tradeverse.dto.portfolio;
 
-import com.bounswe2024group10.Tradeverse.model.Portfolio;
-
-import java.util.List;
-
-public class GetAllPortfoliosRequest {
+public class GetPortfolioRequest {
     private String username;
 
     public String getUsername() {
