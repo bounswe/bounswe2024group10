@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumRequest;
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsRequest;
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
 import com.bounswe2024group10.Tradeverse.extra.PostWSpecs;
 import com.bounswe2024group10.Tradeverse.extra.SubforumWSpecs;
+import com.bounswe2024group10.Tradeverse.extra.SuperPost;
+import com.bounswe2024group10.Tradeverse.extra.SuperSubforum;
 import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
@@ -39,7 +42,7 @@ public class FollowSubforumService {
 
     @Autowired
     private DislikeRepository dislikeRepository;
-  
+
     public GeneralFollowSubforumResponse followSubforum(GeneralFollowSubforumRequest request) {
         User follower = userRepository.findByUsername(request.getFollowerUsername());
         Post followedSubforum = postRepository.findById(request.getFollowedSubforumID()).orElse(null);
@@ -87,7 +90,26 @@ public class FollowSubforumService {
         return new GetFollowingsResponse(true, "Followings retrieved successfully", followedSubforums);
     }
 
+    public GetFollowingsNonRecursiveResponse getFollowingsNonRecursive(GetFollowingsRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            return new GetFollowingsNonRecursiveResponse(false, "User does not exist", null);
+        }
+        List<FollowSubforum> followings = followSubforumRepository.findByFollowerUsername(user.getUsername());
+        List<SuperSubforum> followedSubforums = followings.stream()
+                .map(follow -> subforum2SuperSubforum(
+                follow.getFollowedSubforumID(), request.getUsername())).collect(Collectors.toList());
+
+        return new GetFollowingsNonRecursiveResponse(true, "Followings retrieved successfully", followedSubforums);
+    }
+
     public PostWSpecs post2PostWSpecs(Post post, String username) {
+        if (post == null) {
+            return null;
+        }
+        if (post.getId() == null) {
+            return null;
+        }
         PostWSpecs postWSpecs = new PostWSpecs();
         postWSpecs.setId(post.getId());
         postWSpecs.setTitle(post.getTitle());
@@ -109,20 +131,83 @@ public class FollowSubforumService {
             case FORUM ->
                 postWSpecs.setParentSubforum(null);
             default -> {
-                Post parent = postRepository.findById(post.getParentID()).get();
-                while (parent.getPostType() != PostType.SUBFORUM) {
-                    parent = postRepository.findById(parent.getParentID()).get();
+                if (post.getParentID() == null) {
+                    postWSpecs.setParentSubforum(null);
+                } else {
+                    Post parent = postRepository.findById(post.getParentID()).get();
+                    while (parent.getPostType() != PostType.SUBFORUM && parent.getParentID() != null) {
+                        parent = postRepository.findById(parent.getParentID()).get();
+                    }
+                    postWSpecs.setParentSubforum(parent);
                 }
-                postWSpecs.setParentSubforum(parent);
             }
         }
-        postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));
+        if (post.getUsername() == null) {
+            postWSpecs.setAuthor(null);
+        } else {
+            postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));
+        }
         postWSpecs.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> post2PostWSpecs(p, username)).toList());
         return postWSpecs;
     }
 
+    public SuperPost post2SuperPost(Post post, String username) {
+        if (post == null) {
+            return null;
+        }
+        if (post.getId() == null) {
+            return null;
+        }
+        SuperPost superPost = new SuperPost();
+        superPost.setId(post.getId());
+        superPost.setTitle(post.getTitle());
+        superPost.setParentID(post.getParentID());
+        superPost.setContent(post.getContent());
+        superPost.setNofLikes(post.getNofLikes());
+        superPost.setNofDislikes(post.getNofDislikes());
+        superPost.setLikable(post.getLikable());
+        superPost.setCreationDate(post.getCreationDate());
+        superPost.setLastEditDate(post.getLastEditDate());
+        superPost.setLastUpdateDate(post.getLastUpdateDate());
+        superPost.setPostType(post.getPostType());
+        superPost.setNofComments(postRepository.countByParentID(post.getId()));
+        superPost.setIsLiked(likeRepository.existsByUsernameAndPostID(username, post.getId()));
+        superPost.setIsDisliked(dislikeRepository.existsByUsernameAndPostID(username, post.getId()));
+        switch (post.getPostType()) {
+            case SUBFORUM ->
+                superPost.setParentSubforum(post);
+            case FORUM ->
+                superPost.setParentSubforum(null);
+            default -> {
+                if (post.getParentID() == null) {
+                    superPost.setParentSubforum(null);
+                } else {
+                    Post parent = postRepository.findById(post.getParentID()).get();
+                    while (parent.getPostType() != PostType.SUBFORUM && parent.getParentID() != null) {
+                        parent = postRepository.findById(parent.getParentID()).get();
+                    }
+                    superPost.setParentSubforum(parent);
+                }
+            }
+        }
+        if (post.getUsername() == null) {
+            superPost.setAuthor(null);
+        } else {
+            superPost.setAuthor(userRepository.findByUsername(post.getUsername()));
+        }
+        superPost.setAuthor(userRepository.findByUsername(post.getUsername()));
+        superPost.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> p.getId()).toList());
+        return superPost;
+    }
+
     public SubforumWSpecs subforum2SubforumWSpecs(Long subforumID, String username) {
+        if (subforumID == null) {
+            return null;
+        }
         Post subforum = postRepository.findById(subforumID).get();
+        if (subforum == null) {
+            return null;
+        }
         SubforumWSpecs subforumWSpecs = new SubforumWSpecs();
         subforumWSpecs.setId(subforumID);
         subforumWSpecs.setTitle(subforum.getTitle());
@@ -130,6 +215,24 @@ public class FollowSubforumService {
         subforumWSpecs.setNum_of_followers(followSubforumRepository.countByFollowedSubforumID(subforumID));
         subforumWSpecs.setIs_followed(followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID(username, subforumID) != null);
         subforumWSpecs.setPosts(postRepository.findByParentID(subforumID).stream().map(p -> post2PostWSpecs(p, username)).collect(Collectors.toList()));
+        return subforumWSpecs;
+    }
+
+    public SuperSubforum subforum2SuperSubforum(Long subforumID, String username) {
+        if (subforumID == null) {
+            return null;
+        }
+        Post subforum = postRepository.findById(subforumID).get();
+        if (subforum == null) {
+            return null;
+        }
+        SuperSubforum subforumWSpecs = new SuperSubforum();
+        subforumWSpecs.setId(subforumID);
+        subforumWSpecs.setTitle(subforum.getTitle());
+        subforumWSpecs.setNum_of_posts(postRepository.countByParentID(subforumID));
+        subforumWSpecs.setNum_of_followers(followSubforumRepository.countByFollowedSubforumID(subforumID));
+        subforumWSpecs.setIs_followed(followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID(username, subforumID) != null);
+        subforumWSpecs.setPosts(postRepository.findByParentID(subforumID).stream().map(p -> p.getId()).collect(Collectors.toList()));
         return subforumWSpecs;
     }
 }

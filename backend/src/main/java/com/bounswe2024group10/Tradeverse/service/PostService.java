@@ -496,6 +496,9 @@ public class PostService {
                 .collect(Collectors.toList());
         HashMap<String, List<PostWSpecs>> followedSubforumPosts = new HashMap<>();
         for (Post subforum : followedSubforums) {
+            if (subforum == null) {
+                continue;
+            }
             List<PostWSpecs> posts = postRepository.findByParentID(subforum.getId()).stream()
                     .map(post -> post2PostWSpecs(post, user.getUsername())).collect(Collectors.toList());
             followedSubforumPosts.put(subforum.getTitle(), posts);
@@ -505,6 +508,9 @@ public class PostService {
 
         HashMap<String, List<PostWSpecs>> followedUserPosts = new HashMap<>();
         for (String username : followedUsernames) {
+            if (username == null) {
+                continue;
+            }
             List<PostWSpecs> posts = postRepository.findByUsername(username).stream()
                     .map(post -> post2PostWSpecs(post, user.getUsername())).collect(Collectors.toList());
             followedUserPosts.put(username, posts);
@@ -589,6 +595,12 @@ public class PostService {
     }
 
     public SuperPost post2SuperPost(Post post, String username) {
+        if (post == null) {
+            return null;
+        }
+        if (post.getId() == null) {
+            return null;
+        }
         SuperPost superPost = new SuperPost();
         superPost.setId(post.getId());
         superPost.setTitle(post.getTitle());
@@ -610,12 +622,21 @@ public class PostService {
             case FORUM ->
                 superPost.setParentSubforum(null);
             default -> {
-                Post parent = postRepository.findById(post.getParentID()).get();
-                while (parent.getPostType() != PostType.SUBFORUM) {
-                    parent = postRepository.findById(parent.getParentID()).get();
+                if (post.getParentID() == null) {
+                    superPost.setParentSubforum(null);
+                } else {
+                    Post parent = postRepository.findById(post.getParentID()).get();
+                    while (parent.getPostType() != PostType.SUBFORUM && parent.getParentID() != null) {
+                        parent = postRepository.findById(parent.getParentID()).get();
+                    }
+                    superPost.setParentSubforum(parent);
                 }
-                superPost.setParentSubforum(parent);
             }
+        }
+        if (post.getUsername() == null) {
+            superPost.setAuthor(null);
+        } else {
+            superPost.setAuthor(userRepository.findByUsername(post.getUsername()));
         }
         superPost.setAuthor(userRepository.findByUsername(post.getUsername()));
         superPost.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> p.getId()).toList());
@@ -641,6 +662,9 @@ public class PostService {
     }
 
     public SuperSubforum subforum2SuperSubforum(Long subforumID, String username) {
+        if (subforumID == null) {
+            return null;
+        }
         Post subforum = postRepository.findById(subforumID).get();
         if (subforum == null) {
             return null;

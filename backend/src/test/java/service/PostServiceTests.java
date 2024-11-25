@@ -12,11 +12,17 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
+import com.bounswe2024group10.Tradeverse.dto.post.feed.FeedRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.feed.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.other.GeneralGetRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.other.GeneralRecursiveGetResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.other.GetSubforumsResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.other.GetSuperSubforumResponse;
 import com.bounswe2024group10.Tradeverse.extra.PostType;
+import com.bounswe2024group10.Tradeverse.model.Follow;
+import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
 import com.bounswe2024group10.Tradeverse.model.Post;
+import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
 import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
@@ -120,5 +126,55 @@ public class PostServiceTests {
         assertEquals(true, response.isSuccessful());
         assertEquals("Comments fetched successfully", response.getMessage());
         assertEquals(2, response.getComments().size());
+    }
+
+    @Test
+    public void testGetSubForumsNonRecursive() {
+        GeneralGetRequest request = new GeneralGetRequest();
+        request.setUsername("admin");
+
+        Post subforum = new Post("admin", "Subforum 1", null, List.of(), LocalDateTime.now(), PostType.SUBFORUM);
+        when(postRepository.findByPostType(PostType.SUBFORUM)).thenReturn(List.of(subforum));
+
+        GetSuperSubforumResponse response = postService.getSubForumsNonRecursive(request);
+
+        assertEquals(true, response.isSuccessful());
+        assertEquals("Subforums fetched successfully", response.getMessage());
+        assertEquals(1, response.getSubforums().size());
+    }
+
+    @Test
+    public void testFeed() {
+        FeedRequest request = new FeedRequest();
+        request.setUsername("admin");
+
+        User user = new User();
+        user.setUsername("admin");
+        Post subforum1 = new Post("admin", "Subforum 1", null, List.of(), LocalDateTime.now(), PostType.SUBFORUM);
+        Post subforum2 = new Post("admin", "Subforum 2", null, List.of(), LocalDateTime.now(), PostType.SUBFORUM);
+
+        Post post1 = new Post("admin", "Post 1", subforum1.getId(), List.of(), LocalDateTime.now(), PostType.POST);
+        Post post2 = new Post("admin", "Post 2", subforum1.getId(), List.of(), LocalDateTime.now(), PostType.POST);
+        Post post3 = new Post("admin", "Post 3", subforum2.getId(), List.of(), LocalDateTime.now(), PostType.POST);
+        Post post4 = new Post("admin", "Post 4", subforum1.getId(), List.of(), LocalDateTime.now(), PostType.POST);
+
+        FollowSubforum followSubforum = new FollowSubforum("admin", subforum1.getId());
+        Follow follow = new Follow("admin", "admin");
+
+        when(userRepository.findByUsername("admin")).thenReturn(user);
+        when(postRepository.findByPostType(PostType.SUBFORUM)).thenReturn(List.of(subforum1, subforum2));
+        when(postRepository.findByParentID(subforum1.getId())).thenReturn(List.of(post1, post2, post4));
+        when(postRepository.findByParentID(subforum2.getId())).thenReturn(List.of(post3));
+        when(postRepository.findById(subforum1.getId())).thenReturn(Optional.of(subforum1));
+        when(postRepository.findById(subforum2.getId())).thenReturn(Optional.of(subforum2));
+        when(followSubforumRepository.findByFollowerUsername("admin")).thenReturn(List.of(followSubforum));
+        when(followRepository.findByFollowerUsername("admin")).thenReturn(List.of(follow));
+
+        FeedResponse response = postService.feed(request);
+
+        assertEquals("Feed fetched successfully", response.getMessage());
+        assertEquals(true, response.isSuccessful());
+        assertEquals(1, response.getFollowedUserPosts().size());
+        assertEquals(1, response.getFollowedSubforumPosts().size());
     }
 }
