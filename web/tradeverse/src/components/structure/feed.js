@@ -21,7 +21,6 @@ const Feed = ({ posts }) => {
     const fetchSubforums = async () => {
       try {
         const response = await fetch("http://35.246.188.121:8080/api/post/get-subforums");
-        console.log(response);
         const data = await response.json();
         
         if (data.successful) {

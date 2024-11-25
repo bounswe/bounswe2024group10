@@ -10,7 +10,6 @@ import { AuthData } from "../auth/AuthWrapper";
 const PostPage = () => {
     const { user } = AuthData();
     const { parentId, postId } = useParams();
-    console.log(parentId, postId);
     const [post, setPost] = useState(null);
     const [newComment, setNewComment] = useState("");
 
@@ -46,23 +45,20 @@ const PostPage = () => {
         return result;
       };
 
+
     const handleNewCommentSubmit = async () => {
         if (!newComment.trim()) return;
 
         const commentPayload = {
             username: user.name,
             parentID: postId,
-            content: parseContent(newComment),
-          };
+            content: [...parseContent(newComment)]
+        };
 
 
         try {
             const response = await createComment(commentPayload); // Add comment via API
-            if (response.isSuccessful) {
-                setPost((prevPost) => ({
-                    ...prevPost,
-                    comments: [...prevPost.comments, response.comment], // Append new comment
-                }));
+            if (response.successful) {
                 setNewComment(""); // Clear the input field
             } else {
                 alert("Failed to add comment.");
@@ -70,7 +66,6 @@ const PostPage = () => {
         } catch (error) {
             console.error("Error adding comment:", error);
             alert("Error adding comment.");
-        } finally {
         }
     };
 
@@ -79,8 +74,6 @@ const PostPage = () => {
         return <h3 style={{ paddingLeft: "200px" }}
         >Loading post or post not found...</h3>;
     }
-
-    console.log(post)
 
     return (
         <div className={styles.postPage}>
@@ -93,7 +86,7 @@ const PostPage = () => {
                     className={styles.newCommentInput}
                 />
                 <button
-                    // onClick={handleNewCommentSubmit}
+                    onClick={handleNewCommentSubmit}
                     className={styles.newCommentButton}
                 >
                     Comment

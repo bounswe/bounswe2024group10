@@ -26,9 +26,18 @@ const Home = () => {
     }
     const fetchFeedPosts = async () => {
       const data = await feed(user.name);
+      console.log(data);
       if (data.successful) {
-        setFollowedSubforumsPosts(data.followedSubforumPosts["Post 1"].filter((post) => post.postType == "POST"));
-        setFollowedUserPosts(data.followedUserPosts[user.name].filter((post) => post.postType == "POST"));
+        if (data.followedSubforumPosts?.["Post 1"]) {
+          setFollowedSubforumsPosts(
+            data.followedSubforumPosts["Post 1"].filter((post) => post.postType === "POST")
+          );
+        }
+        if (data.followedUserPosts?.[user.name]) {
+          setFollowedUserPosts(
+            data.followedUserPosts[user.name].filter((post) => post.postType === "POST")
+          );
+        }
       }
     }
     fetchFeedPosts();
