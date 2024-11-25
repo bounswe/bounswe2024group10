@@ -80,6 +80,7 @@
 
 .postDetails {
   padding-top: 15px;
+  margin: 10px;
 }
 
 .postDetails h2 {
@@ -121,4 +122,12 @@
   border: none;
   cursor: pointer;
   font-size: 18px;
+}
+
+.activeLike {
+  color: #007bff; /* Blue for like */
+}
+
+.activeDislike {
+  color: #dc3545; /* Red for dislike */
 }
