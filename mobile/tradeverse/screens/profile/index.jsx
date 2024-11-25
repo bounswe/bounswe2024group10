@@ -1,24 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import GlobalScreen from '../../components/ui/global-screen'
-import { Stack, useLocalSearchParams } from 'expo-router'
-import PostCard from '../home-root/_components/post-card'
-import PaddedContainer from '../../components/ui/padded-container'
-import { getUserByUsername } from '../../mock-services/users'
-import { getPostsByUser } from '../../mock-services/post'
-import formatInteractionNumber from '../../util/format-number'
-import ProfileImage from '../../components/images/profile-image'
+
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import GlobalScreen from "../../components/ui/global-screen";
+import { Stack, useLocalSearchParams } from "expo-router";
+import PostCard from "../home-root/_components/post-card";
+import PaddedContainer from "../../components/ui/padded-container";
+import { getUserByUsername } from "../../mock-services/users";
+import { getPostsByUser } from "../../mock-services/post";
+import formatInteractionNumber from "../../util/format-number";
+import ProfileImage from "../../components/images/profile-image";
+import { followUser, unfollowUser, getFollowings } from "../../services/follow";  
 
 const ProfileHeader = () => {
-  const [activeTab, setActiveTab] = useState('Recent') // State for tab selection
-  const [postsData, setPostsData] = useState([])
-  const [profile, setProfile] = useState({})
-
-  const { username } = useLocalSearchParams()
+  const [activeTab, setActiveTab] = useState("Recent"); 
+  const [postsData, setPostsData] = useState([]);
+  const [profile, setProfile] = useState({});
+  const [followings, setFollowings] = useState([]);
+  const [isAlreadyFollowed, setIsAlreadyFollowed] = useState(false);
+  const { username } = useLocalSearchParams();
 
   useEffect(() => {
-    const profileResult = getUserByUsername(username)
-    const postsResult = getPostsByUser(username)
+    const fetchFollowings = async () => {
+      const followingsData = await getFollowings({ username });
+      if (Array.isArray(followingsData)) {
+        setFollowings(followingsData);
+      }
+    };
+
+    fetchFollowings();
+  }, [username]);
+  
+  useEffect(() => {
+    if (followings && Array.isArray(followings) && followings.length > 0) {
+      const isFound = followings.includes(profile.username);
+      setIsAlreadyFollowed(isFound);
+    }
+  }, [followings, profile.username]);
+  
+  useEffect(() => {
+    const profileResult = getUserByUsername(username);
+    const postsResult = getPostsByUser(username);
 
     setPostsData(postsResult)
     setProfile(profileResult)
@@ -27,13 +48,37 @@ const ProfileHeader = () => {
   if (!profile || !postsData) {
     return <GlobalScreen />
   }
+  
+  const handleFollow = async () => {
+    try {
+      const success = await followUser({
+        followerUsername: username,
+        followedUsername: profile.username,
+      });
+      if (success) {
+        setIsAlreadyFollowed(true);
+      }
+    } catch (error) {
+      console.error("Error in handleFollow:", error.message);
+    }
+  };
+  
+  const handleUnfollow = async () => {
+    try {
+      const success = await unfollowUser({
+        followerUsername: username,
+        followedUsername: profile.username,
+      });
+      if (success) {
+        setIsAlreadyFollowed(false);
+      }
+    } catch (error) {
+      console.error("Error in handleUnfollow:", error.message);
+    }
+  };
 
   return (
-    <GlobalScreen
-      containerStyle={{
-        paddingHorizontal: 0,
-      }}
-    >
+    <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
       <Stack.Screen
         options={{
           headerBackTitleVisible: false,
@@ -70,9 +115,15 @@ const ProfileHeader = () => {
               </Text>
               <Text style={styles.statLabel}>Posts</Text>
             </View>
-            <TouchableOpacity style={styles.followButton}>
-              <Text style={styles.followButtonText}>Follow</Text>
-            </TouchableOpacity>
+            {isAlreadyFollowed ? (
+              <TouchableOpacity onPress={handleUnfollow} style={styles.followButton}>
+                <Text style={styles.followButtonText}>Unfollow</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={handleFollow} style={styles.followButton}>
+                <Text style={styles.followButtonText}>Follow</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </PaddedContainer>
         <View style={styles.tabSection}>
