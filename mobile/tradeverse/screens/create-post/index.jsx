@@ -5,25 +5,14 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { router, Stack } from 'expo-router'
 import { useDispatch } from 'react-redux'
-import {
-  IconCaretDown,
-  IconCaretDownFilled,
-  IconImageInPicture,
-  IconPaperclip,
-  IconPhotoPlus,
-} from '@tabler/icons-react-native'
+import { IconPaperclip, IconPhotoPlus } from '@tabler/icons-react-native'
 import GlobalScreen from '../../components/ui/global-screen'
 import FullScrollView from '../../components/ui/full-scroll-view'
 import RHFTextArea from '../../components/inputs/RHFTextArea'
 import RHFTextField from '../../components/inputs/RHFTextField'
 import { createPost } from '../../services/post'
 import { showToast } from '../../reduxStore/ui-slice'
-import {
-  COLORS,
-  FONT_WEIGHTS,
-  SIZE_CONSTANT,
-  SIZES,
-} from '../../constants/theme'
+import { SIZE_CONSTANT, SIZES } from '../../constants/theme'
 import MainButton from '../../components/buttons/main-button'
 import AutoSuggestInput from '../../components/inputs/AutoSuggestInput'
 import { AuthContext } from '../../auth/context'
