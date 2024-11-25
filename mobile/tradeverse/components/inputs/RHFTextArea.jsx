@@ -1,7 +1,7 @@
-import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import styles from './TextField.style';
-import TextField from './TextField';
+import React from 'react'
+import { Controller, useFormContext } from 'react-hook-form'
+import styles from './TextField.style'
+import TextField from './TextField'
 
 export default function RHFTextArea({
   placeholder,
@@ -14,8 +14,8 @@ export default function RHFTextArea({
   defaultValue,
   showErrorMessage,
 }) {
-  const selectedStyle = styles[variant];
-  const formContext = useFormContext();
+  const selectedStyle = styles[variant]
+  const formContext = useFormContext()
   return (
     <Controller
       control={formContext?.control}
@@ -37,5 +37,5 @@ export default function RHFTextArea({
         />
       )}
     />
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   View,
   TextInput,
@@ -8,58 +8,56 @@ import {
   StyleSheet,
   Alert,
   Platform,
-} from "react-native";
-import GlobalScreen from "../../components/ui/global-screen";
-import { Stack } from "expo-router";
+} from 'react-native'
+import { Stack } from 'expo-router'
+import GlobalScreen from '../../components/ui/global-screen'
 
 export default function AddAssetScreen() {
   // Sample list of assets
-  const assets = ["BTC", "ETH", "BNB", "ADA", "SOL", "XRP", "BCH"];
+  const assets = ['BTC', 'ETH', 'BNB', 'ADA', 'SOL', 'XRP', 'BCH']
 
-  const [input, setInput] = useState("");
-  const [amount, setAmount] = useState("");
-  const [filteredAssets, setFilteredAssets] = useState([]);
+  const [input, setInput] = useState('')
+  const [amount, setAmount] = useState('')
+  const [filteredAssets, setFilteredAssets] = useState([])
 
   // Handle input change and filter suggestions
   const handleInputChange = (text) => {
-    setInput(text);
+    setInput(text)
     if (text) {
       const filtered = assets.filter((asset) =>
         asset.toLowerCase().startsWith(text.toLowerCase())
-      );
-      setFilteredAssets(filtered);
+      )
+      setFilteredAssets(filtered)
     } else {
-      setFilteredAssets([]);
+      setFilteredAssets([])
     }
-  };
+  }
 
   // Handle asset selection
   const handleSelectAsset = (asset) => {
-    setInput(asset);
-    setFilteredAssets([]); // Hide suggestions once selected
-  };
+    setInput(asset)
+    setFilteredAssets([]) // Hide suggestions once selected
+  }
 
   // Handle Add to Portfolio with platform-specific alert
   const handleAddToPortfolio = () => {
-
-    const alertFunction = Platform.OS === "web" ? window.alert : Alert.alert;
+    const alertFunction = Platform.OS === 'web' ? window.alert : Alert.alert
 
     if (!amount || isNaN(amount)) {
       // Popup alert when amount is not entered or is invalid
       alertFunction(
-        "You cannot add without entering a valid amount.",
-        "You cannot add without entering a valid amount."
-      );
-      return;
+        'You cannot add without entering a valid amount.',
+        'You cannot add without entering a valid amount.'
+      )
     }
-  };
+  }
 
   return (
     <GlobalScreen>
       <Stack.Screen
         options={{
           headerBackTitleVisible: false,
-          headerTitle: "Add Asset",
+          headerTitle: 'Add Asset',
         }}
       />
       <View style={styles.container}>
@@ -104,15 +102,15 @@ export default function AddAssetScreen() {
         </TouchableOpacity>
       </View>
     </GlobalScreen>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {},
   title: {
     fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 20,
   },
   label: {
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 10,
@@ -129,18 +127,18 @@ const styles = StyleSheet.create({
   suggestion: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-    backgroundColor: "#ffffff", // Light background color for suggestion
+    borderBottomColor: '#ddd',
+    backgroundColor: '#ffffff', // Light background color for suggestion
   },
   button: {
-    backgroundColor: "#7b61ff",
+    backgroundColor: '#7b61ff',
     padding: 15,
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 5,
     marginTop: 20,
   },
   buttonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
   },
-});
+})

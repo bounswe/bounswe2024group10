@@ -1,26 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { COLORS, SIZE_CONSTANT } from "../../constants/theme";
-import SearchBar from "./_components/search-bar";
-import GlobalScreen from "../../components/ui/global-screen";
-import Tabs from "./_components/tabs";
-import PaddedContainer from "../../components/ui/padded-container";
-import PopularView from "./views/popular-view";
-import { getExploreFeed } from "../../mock-services/explore";
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
+import SearchBar from './_components/search-bar'
+import GlobalScreen from '../../components/ui/global-screen'
+import Tabs from './_components/tabs'
+import PaddedContainer from '../../components/ui/padded-container'
+import PopularView from './views/popular-view'
+import { getExploreFeed } from '../../services/explore'
+import { useContext } from 'react'
+import AuthContext from '../../auth/context/auth-context'
 
 export default function ExploreRootScreen() {
-  const [selectedTab, setSelectedTab] = useState("popular");
+  const [selectedTab, setSelectedTab] = useState('popular')
+  const { user } = useContext(AuthContext)
   const [data, setData] = useState({
     popularPosts: [],
     recentPosts: [],
-  });
+  })
   useEffect(() => {
-    const result = getExploreFeed();
-    setData({
-      popularPosts: result.popular,
-      recentPosts: result.recent,
-    });
-  }, []);
+    const fetchFeed = async () => {
+      const result = await getExploreFeed({
+        username: user?.username,
+      })
+      setData({
+        popularPosts: result.popularPosts,
+        recentPosts: result.recentPosts,
+      })
+    }
+    fetchFeed()
+  }, [])
   return (
     <GlobalScreen
       containerStyle={{
@@ -31,18 +39,13 @@ export default function ExploreRootScreen() {
         <SearchBar />
       </PaddedContainer>
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      {data && (
-        <>
-          {selectedTab === "popular" && (
-            <PopularView data={data.popularPosts} />
-          )}
-          {selectedTab === "recent" && (
-            <PopularView data={data.recentPosts} />
-          )}
-        </>
-      )}
+
+      <>
+        {selectedTab === 'popular' && <PopularView data={data?.popularPosts} />}
+        {selectedTab === 'recent' && <PopularView data={data?.recentPosts} />}
+      </>
     </GlobalScreen>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -53,4 +56,4 @@ const styles = StyleSheet.create({
     fontSize: SIZE_CONSTANT * 1,
     color: COLORS.graytext,
   },
-});
+})

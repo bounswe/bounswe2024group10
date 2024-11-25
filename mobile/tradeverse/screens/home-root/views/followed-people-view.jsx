@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
-import React from "react";
-import PostCard from "../_components/post-card";
+import { View, Text } from 'react-native'
+import React from 'react'
+import PostCard from '../_components/post-card'
 
 export default function FollowedPeopleView({ data }) {
   return (
@@ -9,5 +9,5 @@ export default function FollowedPeopleView({ data }) {
         <PostCard key={index} post={post} />
       ))}
     </View>
-  );
+  )
 }

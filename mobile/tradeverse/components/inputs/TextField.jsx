@@ -1,7 +1,7 @@
-import { View, Text, TextInput } from 'react-native';
-import React from 'react';
-import styles from './TextField.style';
-import { COLORS } from '../../constants/theme';
+import { View, Text, TextInput } from 'react-native'
+import React from 'react'
+import styles from './TextField.style'
+import { COLORS } from '../../constants/theme'
 
 export default function TextField({
   onChangeText = () => {},
@@ -17,16 +17,16 @@ export default function TextField({
   multiline = false,
   defaultValue = '',
   error = '',
-  showErrorMessage = false // helperText | container.
+  showErrorMessage = false, // helperText | container.
 }) {
-  const selectedStyle = styles[variant];
+  const selectedStyle = styles[variant]
   return (
     <View>
       {label && (
         <Text
           style={[
             styles[variant].label ?? {},
-            error && label && styles[variant].error.label
+            error && label && styles[variant].error.label,
           ]}
         >
           {label}
@@ -41,7 +41,7 @@ export default function TextField({
         onBlur={onBlur}
         name={name}
         defaultValue={defaultValue}
-        placeholderTextColor='#3C3B3B'
+        placeholderTextColor="#3C3B3B"
         value={value}
         placeholder={placeholder}
         autoCapitalize={autoCapitalize}
@@ -50,5 +50,5 @@ export default function TextField({
         style={[selectedStyle, style, error && styles[variant].error.container]}
       />
     </View>
-  );
+  )
 }

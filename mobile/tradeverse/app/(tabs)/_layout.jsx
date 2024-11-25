@@ -1,13 +1,17 @@
 /* eslint-disable react/self-closing-comp */
-import { Tabs } from "expo-router";
-import { COLORS } from "../../constants/theme";
-import { NAV_OPTIONS } from "../../config/navigation";
-import AuthGuard from "../../auth/context/auth-guard";
+import { Tabs } from 'expo-router'
+import { COLORS } from '../../constants/theme'
+import { NAV_OPTIONS } from '../../config/navigation'
+import AuthGuard from '../../auth/context/auth-guard'
+import CustomTabBar from '../../components/ui/tabbar/index'
 
 export default function Layout() {
   return (
     <AuthGuard>
-      <Tabs initialRouteName="home">
+      <Tabs
+        tabBar={(props) => <CustomTabBar {...props} />}
+        initialRouteName="home"
+      >
         {NAV_OPTIONS.map((option) => (
           <Tabs.Screen
             key={option.routeValue}
@@ -16,7 +20,7 @@ export default function Layout() {
               ...(option.headerOptions ?? {}),
               title: option.label,
               tabBarIcon: (opt) => {
-                return opt.focused ? option.activeIcon : option.icon;
+                return opt.focused ? option.activeIcon : option.icon
               },
               tabBarActiveTintColor: COLORS.primary,
             }}
@@ -24,5 +28,5 @@ export default function Layout() {
         ))}
       </Tabs>
     </AuthGuard>
-  );
+  )
 }

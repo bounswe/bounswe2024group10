@@ -1,14 +1,14 @@
-import { Text, View } from "react-native";
-import React from "react";
+import { Text, View } from 'react-native'
+import React from 'react'
 import {
   COLORS,
   FONT_WEIGHTS,
   SIZE_CONSTANT,
   SIZES,
-} from "../../../../constants/theme";
-import ContentImage from "../../../../components/images/content-image";
-import AssetLink from "../../../../components/links/asset-link";
-import paths from "../../../../config/screen-paths";
+} from '../../../../constants/theme'
+import ContentImage from '../../../../components/images/content-image'
+import AssetLink from '../../../../components/links/asset-link'
+import paths from '../../../../config/screen-paths'
 
 export default function AssetResult({ style, asset }) {
   return (
@@ -19,11 +19,11 @@ export default function AssetResult({ style, asset }) {
           paddingTop: SIZE_CONSTANT * 1.2,
           paddingBottom: SIZE_CONSTANT * 1.4,
           borderBottomWidth: 0.5,
-          borderBottomColor: "#E5E5E5",
-          display: "flex",
-          flexDirection: "row",
+          borderBottomColor: '#E5E5E5',
+          display: 'flex',
+          flexDirection: 'row',
           gap: SIZE_CONSTANT * 1.2,
-          alignItems: "center",
+          alignItems: 'center',
         }}
       >
         <ContentImage
@@ -33,13 +33,13 @@ export default function AssetResult({ style, asset }) {
             width: SIZE_CONSTANT * 2.4,
             borderRadius: SIZE_CONSTANT * 1.2,
             borderWidth: 0.5,
-            borderColor: "#E5E5E5",
+            borderColor: '#E5E5E5',
           }}
         />
         <View
           style={{
-            display: "flex",
-            flexDirection: "column",
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Text
@@ -61,5 +61,5 @@ export default function AssetResult({ style, asset }) {
         </View>
       </View>
     </AssetLink>
-  );
+  )
 }

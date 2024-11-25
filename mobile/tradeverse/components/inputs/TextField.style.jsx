@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
-import { SIZES, SIZE_CONSTANT } from '../../constants/theme';
+import { SIZE_CONSTANT, SIZES } from '@/constants/theme'
+import { StyleSheet } from 'react-native'
 
 const outlinedStyle = StyleSheet.create({
-  width: '100%'
-});
+  width: '100%',
+})
 
 const filledStyle = StyleSheet.create({
   width: '100%',
@@ -23,21 +23,21 @@ const filledStyle = StyleSheet.create({
     fontSize: SIZES.small,
     fontWeight: 'regular',
     marginBottom: SIZE_CONSTANT * 0.4,
-    paddingLeft: SIZE_CONSTANT * 0.4
+    paddingLeft: SIZE_CONSTANT * 0.4,
   },
   error: {
-    label:{
+    label: {
       color: '#D63A3A',
     },
     container: {
       backgroundColor: '#FEF6F6',
-      borderColor: "transparent",
+      borderColor: 'transparent',
     },
     helperText: {
-      color: '#D63A3A'
-    }
-  }
-});
+      color: '#D63A3A',
+    },
+  },
+})
 
 const borderedStyle = StyleSheet.create({
   width: '100%',
@@ -56,25 +56,25 @@ const borderedStyle = StyleSheet.create({
     fontSize: SIZES.small,
     fontWeight: 'regular',
     marginBottom: SIZE_CONSTANT * 0.4,
-    paddingLeft: SIZE_CONSTANT * 0.4
+    paddingLeft: SIZE_CONSTANT * 0.4,
   },
   error: {
-    label:{
+    label: {
       color: '#D63A3A',
     },
     container: {
       borderColor: '#D63A3A',
     },
     helperText: {
-      color: '#D63A3A'
-    }
-  }
-});
+      color: '#D63A3A',
+    },
+  },
+})
 
 const styles = {
   outlined: outlinedStyle,
   filled: filledStyle,
-  bordered: borderedStyle
-};
+  bordered: borderedStyle,
+}
 
-export default styles;
+export default styles

@@ -1,7 +1,7 @@
-import React from "react";
-import { Pressable } from "react-native";
-import paths from "../../config/screen-paths";
-import { router } from "expo-router";
+import React from 'react'
+import { Pressable } from 'react-native'
+import paths from '../../config/screen-paths'
+import { router } from 'expo-router'
 
 export default function SubforumLink({
   children,
@@ -11,10 +11,10 @@ export default function SubforumLink({
   return (
     <Pressable
       onPress={() => {
-        router.push(`${target}?subforumId=${subForum?.id}`);
+        router.push(`${target}?subforumId=${subForum?.id}`)
       }}
     >
       {children}
     </Pressable>
-  );
+  )
 }

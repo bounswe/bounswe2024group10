@@ -4,7 +4,5 @@ import AssetDetailScreen from '../../../screens/asset-detail'
 import FollowedUsersScreen from '../../../screens/followed-users'
 
 export default function AssetDetail() {
-  return (
-   <FollowedUsersScreen/>
-  )
+  return <FollowedUsersScreen />
 }

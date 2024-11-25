@@ -1,43 +1,44 @@
-import React, { useState,useEffect } from 'react';
-import axios from 'axios';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import pandaImage from '../components/images/pandaa.png';
-import logo from '../components/images/logo.png';
-import {login} from '../services/auth.js';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from "react-native";
+import pandaImage from "../components/images/pandaa.png";
+import logo from "../components/images/logo.png";
+import { login } from "../services/auth.js";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const handleLogin = async (navigation, userName, password) => {
-    try {
+  try {
     const response = await login({ userName, password });
 
     if (response.success) {
-            const { token } = response;
+      const { token } = response;
 
-            await AsyncStorage.setItem('authToken', token);
-            await AsyncStorage.setItem('userName', userName);
+      await AsyncStorage.setItem("authToken", token);
+      await AsyncStorage.setItem("userName", userName);
 
-            navigation.navigate('Home');
-          } else {
-            console.error(response.message);
-          }
-
+      navigation.navigate("Home");
+    } else {
+      console.error(response.message);
     }
-    catch (error) {
-      console.error('Login error:', error);
-    }
-    // Giriş işlemi burada gerçekleştirilebilir
-    console.log("Login button clicked");
-    //navigation.navigate('Home');
-
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+  // Giriş işlemi burada gerçekleştirilebilir
+  console.log("Login button clicked");
+  //navigation.navigate('Home');
 };
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   // Fill in this part
   const navigation = useNavigation();
@@ -52,10 +53,7 @@ const LoginScreen = () => {
         <Image source={logo} style={styles.logo} />
         <Text style={styles.headerText}>Animal Trove</Text>
       </View>
-      <Image
-        source={pandaImage}
-        style={styles.image}
-      />
+      <Image source={pandaImage} style={styles.image} />
       <TextInput
         style={styles.input}
         value={username}
@@ -71,10 +69,12 @@ const LoginScreen = () => {
         secureTextEntry
         autoCapatalize="none"
       />
-      <TouchableOpacity style={styles.loginButton} onPress={() => handleLogin(navigation, username, password)}>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={() => handleLogin(navigation, username, password)}
+      >
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
-
 
       <TouchableOpacity onPress={handleForgotPassword}>
         <Text style={styles.forgotPassword}>I Forgot My Password</Text>
@@ -86,14 +86,14 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'green',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "green",
     paddingHorizontal: 20,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   logo: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   image: {
     width: 200,
@@ -111,34 +111,33 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: '100%',
+    width: "100%",
     height: 40,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
-    color : 'white',
-   
+    color: "white",
   },
   loginButton: {
-    backgroundColor: 'white',
-    width: '100%',
+    backgroundColor: "white",
+    width: "100%",
     height: 50,
     width: 230,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
   },
   loginButtonText: {
     fontSize: 18,
-    color: 'green',
-    fontWeight: 'bold',
+    color: "green",
+    fontWeight: "bold",
   },
   forgotPassword: {
     marginTop: 10,
-    color: 'blue',
+    color: "blue",
   },
 });
 

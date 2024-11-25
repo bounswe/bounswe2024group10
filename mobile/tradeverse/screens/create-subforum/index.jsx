@@ -1,57 +1,58 @@
-import { View, Text } from "react-native";
-import React from "react";
-import GlobalScreen from "../../components/ui/global-screen";
-import FullScrollView from "../../components/ui/full-scroll-view";
-import RHFTextArea from "../../components/inputs/RHFTextArea";
-import RHFTextField from "../../components/inputs/RHFTextField";
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  COLORS,
-  FONT_WEIGHTS,
-  SIZE_CONSTANT,
-  SIZES,
-} from "../../constants/theme";
-import { Stack } from "expo-router";
+import { View, Text } from 'react-native'
+import React from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Stack } from 'expo-router'
 import {
   IconCaretDown,
   IconCaretDownFilled,
   IconImageInPicture,
   IconPaperclip,
   IconPhotoPlus,
-} from "@tabler/icons-react-native";
-import MainButton from "../../components/buttons/main-button";
-import TextField from "../../components/inputs/TextField";
+} from '@tabler/icons-react-native'
+import GlobalScreen from '../../components/ui/global-screen'
+import FullScrollView from '../../components/ui/full-scroll-view'
+import RHFTextArea from '../../components/inputs/RHFTextArea'
+import RHFTextField from '../../components/inputs/RHFTextField'
+import {
+  COLORS,
+  FONT_WEIGHTS,
+  SIZE_CONSTANT,
+  SIZES,
+} from '../../constants/theme'
+import MainButton from '../../components/buttons/main-button'
+import TextField from '../../components/inputs/TextField'
 
 export default function CreateSubForumScreen() {
   const validationSchema = z.object({
-    title: z.string().min(1, { message: "Bu alan gerekli." }),
-    content: z.string().min(1, { message: "Bu alan gerekli." }),
-  });
+    title: z.string().min(1, { message: 'Bu alan gerekli.' }),
+    content: z.string().min(1, { message: 'Bu alan gerekli.' }),
+  })
 
   const form = useForm({
     defaultValues: {
-      title: "",
-      content: "",
+      title: '',
+      content: '',
     },
     resolver: zodResolver(validationSchema),
-  });
+  })
 
   return (
     <GlobalScreen>
       <FullScrollView>
         <Stack.Screen
-          optio ns={{
+          optio
+          ns={{
             headerBackTitleVisible: false,
-            headerTitle: "Create SubForum",
+            headerTitle: 'Create SubForum',
           }}
         />
         <View
           style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
             gap: SIZE_CONSTANT * 0.4,
           }}
         >
@@ -74,15 +75,14 @@ export default function CreateSubForumScreen() {
           ></View>
           <View
             style={{
-              display: "flex",
-              flexDirection: "column",
-              
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
             <RHFTextField
-            style={{
-                marginBottom:SIZE_CONSTANT * 4
-            }}
+              style={{
+                marginBottom: SIZE_CONSTANT * 4,
+              }}
               label="Title"
               name="name"
             />
@@ -128,5 +128,5 @@ export default function CreateSubForumScreen() {
         </FormProvider>
       </FullScrollView>
     </GlobalScreen>
-  );
+  )
 }
