@@ -23,14 +23,14 @@ export default function UserCard({ user }) {
       }}
     >
       <View>
-        <ProfileImage
+        {user.avatar && <ProfileImage
           style={{
             width: SIZE_CONSTANT * 4,
             height: SIZE_CONSTANT * 4,
             borderRadius: (SIZE_CONSTANT * 4) / 2,
           }}
           src={user.avatar}
-        />
+        />}
       </View>
       <View
         style={{
@@ -48,9 +48,9 @@ export default function UserCard({ user }) {
             marginBottom: SIZE_CONSTANT * 0.2,
           }}
         >
-          {user.name} {user.surname}
+          {user.toString()}
         </Text>
-        <Text
+        {/* <Text
           style={{
             fontSize: SIZES.xxSmall,
             color: "#A1A1A1",
@@ -59,7 +59,7 @@ export default function UserCard({ user }) {
           }}
         >
           @{user.username}
-        </Text>
+        </Text> */}
       </View>
     </View>
   );
