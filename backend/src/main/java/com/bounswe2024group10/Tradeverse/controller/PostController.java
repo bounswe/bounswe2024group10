@@ -24,6 +24,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
@@ -87,8 +89,11 @@ public class PostController {
     // }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-subforums")
-    public ResponseEntity<GetSubforumsResponse> getSubForums(@RequestParam String username) {
+    public ResponseEntity<GetSubforumsResponse> getSubForums(@RequestParam(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
+        if (username == null) {
+            username = "reserved";
+        }
         request.setUsername(username);
         GetSubforumsResponse response = postService.getSubForums(request);
         return ResponseEntity.ok(response);
@@ -108,8 +113,11 @@ public class PostController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-posts-of-subforum")
-    public ResponseEntity<GeneralGetResponse> getPosts(@RequestParam Long postId, @RequestParam String username) {
+    public ResponseEntity<GeneralGetResponse> getPosts(@RequestParam Long postId, @RequestParam(required = false) String username) {
         GeneralGetRequest request = new GeneralGetRequest();
+        if (username == null) {
+            username = "reserved";
+        }
         request.setParentId(postId);
         request.setUsername(username);
         GeneralGetResponse response = postService.getPosts(request);
@@ -131,9 +139,12 @@ public class PostController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-post")
-    public ResponseEntity<GetPostResponse> getPost(@RequestParam Long postId, @RequestParam String username) {
+    public ResponseEntity<GetPostResponse> getPost(@RequestParam Long postId, @RequestParam(required = false) String username) {
         GetPostRequest request = new GetPostRequest();
         request.setPostId(postId);
+        if (username == null) {
+            username = "reserved";
+        }
         request.setUsername(username);
         GetPostResponse response = postService.getPost(request);
         return ResponseEntity.ok(response);
@@ -309,7 +320,10 @@ public class PostController {
     // }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/explore")
-    public ResponseEntity<ExploreResponse> explore(@RequestParam String username) {
+    public ResponseEntity<ExploreResponse> explore(@RequestParam(required = false) String username) {
+        if (username == null) {
+            username = "reserved";
+        }
         ExploreRequest request = new ExploreRequest(username);
         ExploreResponse response = postService.explore(request);
         return ResponseEntity.ok(response);
@@ -318,9 +332,23 @@ public class PostController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/feed")
     public ResponseEntity<FeedResponse> feed(@RequestParam String username) {
+        if (username == null) {
+            username = "reserved";
+        }
         FeedRequest request = new FeedRequest();
         request.setUsername(username);
         FeedResponse response = postService.feed(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/explore/search")
+    public ResponseEntity<ExploreSearchResponse> exploreSearch(@RequestParam(required = false) String username, @RequestParam String keyword) {
+        if (username == null) {
+            username = "reserved";
+        }
+        ExploreSearchRequest request = new ExploreSearchRequest(username, keyword);
+        ExploreSearchResponse response = postService.exploreSearch(request);
         return ResponseEntity.ok(response);
     }
 

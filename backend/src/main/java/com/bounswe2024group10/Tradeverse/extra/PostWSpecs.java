@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
 
 public class PostWSpecs {
@@ -24,7 +25,7 @@ public class PostWSpecs {
     private Boolean isLiked;
     private Boolean isDisliked;
 
-    private PostWSpecs parentSubforum;
+    private Post parentSubforum;
 
     private User author;
     List<PostWSpecs> comments;
@@ -174,11 +175,11 @@ public class PostWSpecs {
         this.isDisliked = isDisliked;
     }
 
-    public PostWSpecs getParentSubforum() {
+    public Post getParentSubforum() {
         return parentSubforum;
     }
 
-    public void setParentSubforum(PostWSpecs parentSubforum) {
+    public void setParentSubforum(Post parentSubforum) {
         this.parentSubforum = parentSubforum;
     }
 

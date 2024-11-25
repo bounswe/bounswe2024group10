@@ -14,20 +14,29 @@ import com.bounswe2024group10.Tradeverse.model.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+
     List<Post> findByUsername(String username);
+
     List<Post> findByParentID(Long parentID);
+
     List<Post> findByTitle(String title);
+
     Long countByParentID(Long parentID);
+
     List<Post> findByPostType(PostType postType);
+
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% ORDER BY p.lastEditDate DESC")
     List<Post> findByTitleContaining(@Param("keyword") String keyword, Pageable pageable);
+
     @Query("SELECT p FROM Post p WHERE p.id = :id")
     Optional<Post> findByIdForUpdate(@Param("id") Long id);
-    @Query("SELECT p FROM Post p WHERE p.postType = :postType AND (p.title LIKE %:keyword% OR p.content LIKE %:keyword%) ORDER BY p.lastEditDate DESC")
+
+    @Query(value = "SELECT * FROM posts p WHERE p.post_type = :postType AND (p.title LIKE %:keyword% OR p.content LIKE %:keyword%) ORDER BY p.last_edit_date DESC", nativeQuery = true)
     List<Post> findByKeywordAndPostType(@Param("keyword") String keyword, @Param("postType") PostType postType);
+
     @Query("SELECT p FROM Post p WHERE p.postType = PostType.POST ORDER BY p.creationDate DESC")
     List<Post> findRecentPosts();
+
     @Query("SELECT p FROM Post p WHERE p.postType = PostType.POST ORDER BY p.lastUpdateDate DESC")
     List<Post> findPopularPosts();
 }
-    

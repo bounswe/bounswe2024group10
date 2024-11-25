@@ -105,7 +105,7 @@ public class FollowSubforumService {
         postWSpecs.setIsDisliked(dislikeRepository.existsByUsernameAndPostID(username, post.getId()));
         switch (post.getPostType()) {
             case SUBFORUM ->
-                postWSpecs.setParentSubforum(postWSpecs);
+                postWSpecs.setParentSubforum(post);
             case FORUM ->
                 postWSpecs.setParentSubforum(null);
             default -> {
@@ -113,7 +113,7 @@ public class FollowSubforumService {
                 while (parent.getPostType() != PostType.SUBFORUM) {
                     parent = postRepository.findById(parent.getParentID()).get();
                 }
-                postWSpecs.setParentSubforum(post2PostWSpecs(parent, username));
+                postWSpecs.setParentSubforum(parent);
             }
         }
         postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));

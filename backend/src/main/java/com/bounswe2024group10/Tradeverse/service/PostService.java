@@ -1,8 +1,10 @@
 package com.bounswe2024group10.Tradeverse.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.EditPostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.EditPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.ExploreResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.ExploreSearchResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.FeedResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GeneralDeleteRequest;
@@ -119,8 +123,13 @@ public class PostService {
         if (post.getPostType() != POST && post.getPostType() != COMMENT) {
             return new GeneralGetResponse(false, "Post is not a post or comment", null);
         }
-        List<PostWSpecs> comments = postRepository.findByParentID(request.getParentId()).stream()
-                .map(comment -> post2PostWSpecs(comment, request.getUsername())).collect(Collectors.toList());
+        List<Post> commentIds = postRepository.findByParentID(request.getParentId());
+        ArrayList<PostWSpecs> comments = new ArrayList<>();
+        for (Post comment : commentIds) {
+            comments.add(post2PostWSpecs(comment, request.getUsername()));
+        }
+        // List<PostWSpecs> comments = postRepository.findByParentID(request.getParentId()).stream()
+        //         .map(comment -> post2PostWSpecs(comment, request.getUsername())).collect(Collectors.toList());
         return new GeneralGetResponse(true, "Comments fetched successfully", comments);
     }
 
@@ -402,6 +411,15 @@ public class PostService {
         return new ExploreResponse(true, "Posts fetched successfully", recentPosts, popularPosts);
     }
 
+    public ExploreSearchResponse exploreSearch(ExploreSearchRequest request) {
+        String username = request.getUsername();
+        List<PostWSpecs> posts = postRepository.findByKeywordAndPostType(request.getKeyword(), POST).stream()
+                .map(post -> post2PostWSpecs(post, username)).collect(Collectors.toList());
+        List<SubforumWSpecs> subforums = postRepository.findByKeywordAndPostType(request.getKeyword(), SUBFORUM).stream()
+                .map(subforum -> subforum2SubforumWSpecs(subforum.getId(), username)).collect(Collectors.toList());
+        return new ExploreSearchResponse(null, posts, null, null, subforums, null, true, "Search results fetched successfully");
+    }
+
     public FeedResponse feed(FeedRequest request) {
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
@@ -446,24 +464,43 @@ public class PostService {
         postWSpecs.setLastEditDate(post.getLastEditDate());
         postWSpecs.setLastUpdateDate(post.getLastUpdateDate());
         postWSpecs.setPostType(post.getPostType());
-        // postWSpecs.setNofComments(postRepository.countByParentID(post.getId()));
-        // postWSpecs.setIsLiked(likeRepository.existsByUsernameAndPostID(username, post.getId()));
-        // postWSpecs.setIsDisliked(dislikeRepository.existsByUsernameAndPostID(username, post.getId()));
+        postWSpecs.setNofComments(postRepository.countByParentID(post.getId()));
+        postWSpecs.setIsLiked(likeRepository.existsByUsernameAndPostID(username, post.getId()));
+        postWSpecs.setIsDisliked(dislikeRepository.existsByUsernameAndPostID(username, post.getId()));
         switch (post.getPostType()) {
             case SUBFORUM ->
-                postWSpecs.setParentSubforum(postWSpecs);
+                postWSpecs.setParentSubforum(post);
             case FORUM ->
                 postWSpecs.setParentSubforum(null);
             default -> {
-                Post parent = postRepository.findById(post.getParentID()).get();
-                while (parent.getPostType() != PostType.SUBFORUM) {
-                    parent = postRepository.findById(parent.getParentID()).get();
+                Post parent;
+                Optional<Post> parentOptional = postRepository.findById(post.getParentID());
+                if (parentOptional.isPresent()) {
+                    parent = parentOptional.get();
+                    while (parent.getPostType() != PostType.SUBFORUM) {
+                        parentOptional = postRepository.findById(parent.getParentID());
+                        if (parentOptional.isPresent()) {
+                            parent = parentOptional.get();
+                        } else {
+                            parent = null;
+                            break;
+                        }
+                    }
+                    postWSpecs.setParentSubforum(parent);
+                } else {
+                    postWSpecs.setParentSubforum(null);
                 }
-                postWSpecs.setParentSubforum(post2PostWSpecs(parent, username));
+
             }
         }
         postWSpecs.setAuthor(userRepository.findByUsername(post.getUsername()));
-        postWSpecs.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> post2PostWSpecs(p, username)).toList());
+        List<Long> commentIds = postRepository.findByParentID(post.getId()).stream().map(p -> p.getId()).collect(Collectors.toList());
+        ArrayList<PostWSpecs> comments = new ArrayList<>();
+        for (Long commentId : commentIds) {
+            comments.add(post2PostWSpecs(postRepository.findById(commentId).get(), username));
+        }
+        postWSpecs.setComments(comments);
+        // postWSpecs.setComments(postRepository.findByParentID(post.getId()).stream().map(p -> post2PostWSpecs(p, username)).toList());
         return postWSpecs;
     }
 
