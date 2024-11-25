@@ -8,7 +8,7 @@ const SubforumNavbar = ({ subforums }) => {
             <ul>
                 {subforums.map((subforum, i) => (
                     <li key={i}>
-                        <Link to={`/${subforum.name.toLowerCase()}`}>{subforum.name}</Link>
+                        <Link to={`/${subforum.id}`}>{subforum.name}</Link>
                     </li>
                 ))}
             </ul>
