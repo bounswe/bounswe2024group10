@@ -41,9 +41,9 @@ const ProfileHeader = () => {
     const profileResult = getUserByUsername(username);
     const postsResult = getPostsByUser(username);
 
-    setPostsData(postsResult)
-    setProfile(profileResult)
-  }, [username])
+    setPostsData(postsResult);
+    setProfile(profileResult);
+  }, [username, isAlreadyFollowed]);
 
   if (!profile || !postsData) {
     return <GlobalScreen />
