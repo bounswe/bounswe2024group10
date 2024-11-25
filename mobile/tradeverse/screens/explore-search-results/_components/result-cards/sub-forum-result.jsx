@@ -17,26 +17,50 @@ export default function SubForumResult({ style, subForum }) {
     return (
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'row',
+          display: "flex",
+          flexDirection: "row",
           gap: SIZE_CONSTANT * 0.2,
-          alignItems: 'center',
+          alignItems: "center",
+          
         }}
       >
         <View>{icon()}</View>
         <Text
           style={{
             fontSize: SIZES.xxSmall,
-            color: '#1D1B4B',
+            color: "#1D1B4B",
             letterSpacing: -0.03,
           }}
         >
           {formatInteractionNumber(value)}
         </Text>
       </View>
-    )
-  }
+    );
+  };
+  return (
+    <SubforumLink subForum={subForum} target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}>
 
+    
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: SIZE_CONSTANT * 0.2,
+        alignItems: 'center',
+      }}
+    >
+      <View>{icon()}</View>
+      <Text
+        style={{
+          fontSize: SIZES.xxSmall,
+          color: '#1D1B4B',
+          letterSpacing: -0.03,
+        }}
+      >
+        {formatInteractionNumber(value)}
+      </Text>
+    </View>
+  )
   return (
     <SubforumLink
       subForum={subForum}
@@ -62,7 +86,6 @@ export default function SubForumResult({ style, subForum }) {
         >
           {subForum.title}
         </Text>
-
         <View
           style={{
             display: 'flex',
