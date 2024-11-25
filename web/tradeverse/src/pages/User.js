@@ -47,7 +47,7 @@ const User = () => {
         <div className="profile">
           <img
             className="profilePhoto"
-            src={user.avatar || "default-profile.png"}
+            src={"default_profile_picture.png"}
             alt="Profile"
           />
         </div>
