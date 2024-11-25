@@ -1,7 +1,7 @@
 package com.bounswe2024group10.Tradeverse.dto.post;
 import com.bounswe2024group10.Tradeverse.model.Asset;
 import com.bounswe2024group10.Tradeverse.model.Post;
-
+ 
 public class GetPostResponse {
     private boolean isSuccessful;
     private String message;
@@ -15,13 +15,13 @@ public class GetPostResponse {
         this.post = post;
     }
 
-     public GetPostResponse(boolean isSuccessful, String message, Post post, boolean isLiked, boolean isDisliked) {
-         this.isSuccessful = isSuccessful;
-         this.message = message;
-         this.post = post;
-         this.isLiked = isLiked;
-         this.isDisliked = isDisliked;
-     }
+    public GetPostResponse(boolean isSuccessful, String message, Post post, boolean isLiked, boolean isDisliked) {
+        this.isSuccessful = isSuccessful;
+        this.message = message;
+        this.post = post;
+        this.isLiked = isLiked;
+        this.isDisliked = isDisliked;
+    }
 
     public boolean getIsSuccessful() {
         return isSuccessful;
