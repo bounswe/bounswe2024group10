@@ -79,81 +79,112 @@ public class DataInitializer {
                 userRepository.save(user11);
             }
             Post subforum1 = new Post("admin", "Market Trends & Analysis", null, List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
-            if (postRepository.findByTitle(subforum1.getTitle()) == null) {
+            if (postRepository.findByTitle(subforum1.getTitle()).isEmpty()) {
                 postRepository.save(subforum1);
+            } else {
+                subforum1 = postRepository.findByTitle(subforum1.getTitle()).get(0);
             }
             Post subforum2 = new Post("admin", "Investment Strategies & Advice", null, List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
-            if (postRepository.findByTitle(subforum2.getTitle()) == null) {
+            if (postRepository.findByTitle(subforum2.getTitle()).isEmpty()) {
                 postRepository.save(subforum2);
+            } else {
+                subforum2 = postRepository.findByTitle(subforum2.getTitle()).get(0);
             }
             Post subforum3 = new Post("admin", "Getting Started with Finance", null, List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
-            if (postRepository.findByTitle(subforum3.getTitle()) == null) {
+            if (postRepository.findByTitle(subforum3.getTitle()).isEmpty()) {
                 postRepository.save(subforum3);
+            } else {
+                subforum3 = postRepository.findByTitle(subforum3.getTitle()).get(0);
             }
             Post subforum4 = new Post("admin", "Day Trading Tips & Techniques", null, List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
-            if (postRepository.findByTitle(subforum4.getTitle()) == null) {
+            if (postRepository.findByTitle(subforum4.getTitle()).isEmpty()) {
                 postRepository.save(subforum4);
+            } else {
+                subforum4 = postRepository.findByTitle(subforum4.getTitle()).get(0);
             }
             Post subforum5 = new Post("admin", "Personal Finance & Resources", null, List.of(new HashMap<>()), LocalDateTime.now(), SUBFORUM);
-            if (postRepository.findByTitle(subforum5.getTitle()) == null) {
+            if (postRepository.findByTitle(subforum5.getTitle()).isEmpty()) {
                 postRepository.save(subforum5);
+            } else {
+                subforum5 = postRepository.findByTitle(subforum5.getTitle()).get(0);
             }
             Post post1 = new Post("kkaraman-Econ101", "Market Outlook: Emerging Markets", subforum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post1.getTitle()) == null) {
+            if (postRepository.findByTitle(post1.getTitle()).isEmpty()) {
                 postRepository.save(post1);
+            } else {
+                post1 = postRepository.findByTitle(post1.getTitle()).get(0);
             }
             Post post2 = new Post("odemirtas-odemirtas", "How Inflation Impacts Bond Markets", subforum1.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post2.getTitle()) == null) {
+            if (postRepository.findByTitle(post2.getTitle()).isEmpty()) {
                 postRepository.save(post2);
+            } else {
+                post2 = postRepository.findByTitle(post2.getTitle()).get(0);
             }
             Post post3 = new Post("sengin-engelleyincocuklar", "Should I Diversify with Gold?", subforum2.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post3.getTitle()) == null) {
+            if (postRepository.findByTitle(post3.getTitle()).isEmpty()) {
                 postRepository.save(post3);
+            } else {
+                post3 = postRepository.findByTitle(post3.getTitle()).get(0);
             }
             Post post4 = new Post("ahmet_cakar-ahmetcakariel", "Real Estate vs Stock Investments", subforum2.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post4.getTitle()) == null) {
+            Post comment3;
+            Post comment4;
+            if (postRepository.findByTitle(post4.getTitle()).isEmpty()) {
                 postRepository.save(post4);
+                comment3 = new Post("sengin-engelleyincocuklar", null, post4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
+                postRepository.save(comment3);
+                comment4 = new Post("marco.linarez-MarketGuru2024", null, comment3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
+                postRepository.save(comment4);
+            } else {
+                post4 = postRepository.findByTitle(post4.getTitle()).get(0);
+                comment3 = postRepository.findByParentID(post4.getId()).get(0);
+                comment4 = postRepository.findByParentID(comment3.getId()).get(0);
             }
             Post post5 = new Post("alicia.nav", "Where Should I Start Investing?", subforum3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post5.getTitle()) == null) {
+            if (postRepository.findByTitle(post5.getTitle()).isEmpty()) {
                 postRepository.save(post5);
+            } else {
+                post5 = postRepository.findByTitle(post5.getTitle()).get(0);
             }
             Post post6 = new Post("marco.linarez", "Understanding Crypto Basics", subforum3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post6.getTitle()) == null) {
+            if (postRepository.findByTitle(post6.getTitle()).isEmpty()) {
                 postRepository.save(post6);
+            } else {
+                post6 = postRepository.findByTitle(post6.getTitle()).get(0);
             }
             Post post7 = new Post("fastpacer", "Best Timeframes for Scalping", subforum4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post7.getTitle()) == null) {
+            if (postRepository.findByTitle(post7.getTitle()).isEmpty()) {
                 postRepository.save(post7);
+            } else {
+                post7 = postRepository.findByTitle(post7.getTitle()).get(0);
             }
             Post post8 = new Post("breakoutqueen", "Strategies for Breakout Trades", subforum4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post8.getTitle()) == null) {
+            if (postRepository.findByTitle(post8.getTitle()).isEmpty()) {
                 postRepository.save(post8);
+            } else {
+                post8 = postRepository.findByTitle(post8.getTitle()).get(0);
             }
             Post post9 = new Post("johan_jensen", "The Future of Decentralized Finance", subforum5.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post9.getTitle()) == null) {
+            if (postRepository.findByTitle(post9.getTitle()).isEmpty()) {
                 postRepository.save(post9);
+            } else {
+                post9 = postRepository.findByTitle(post9.getTitle()).get(0);
             }
             Post post10 = new Post("toshita001", "Books for Finance Enthusiasts", subforum5.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
-            if (postRepository.findByTitle(post10.getTitle()) == null) {
+            Post comment1;
+            Post comment2;
+            if (postRepository.findByTitle(post10.getTitle()).isEmpty()) {
                 postRepository.save(post10);
-            }
-            Post comment1 = new Post("johan_jensen-FinConvex#88", null, post10.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
-            if (postRepository.findByTitle(comment1.getTitle()) == null) {
+                comment1 = new Post("johan_jensen-FinConvex#88", null, post10.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
+                comment2 = new Post("odemirtas-odemirtas", null, post10.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
                 postRepository.save(comment1);
-            }
-            Post comment2 = new Post("odemirtas-odemirtas", null, post10.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
-            if (postRepository.findByTitle(comment2.getTitle()) == null) {
                 postRepository.save(comment2);
+            } else {
+                post10 = postRepository.findByTitle(post10.getTitle()).get(0);
+                comment1 = postRepository.findByParentID(post10.getId()).get(0);
+                comment2 = postRepository.findByParentID(post10.getId()).get(1);
             }
-            Post comment3 = new Post("sengin-engelleyincocuklar", null, post4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
-            if (postRepository.findByTitle(comment3.getTitle()) == null) {
-                postRepository.save(comment3);
-            }
-            Post comment4 = new Post("marco.linarez-MarketGuru2024", null, comment3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), COMMENT);
-            if (postRepository.findByTitle(comment4.getTitle()) == null) {
-                postRepository.save(comment4);
-            }
+
             logger.info("Subforum 1 ID: {}", subforum1.getId());
             logger.info("Subforum 2 ID: {}", subforum2.getId());
             logger.info("Subforum 3 ID: {}", subforum3.getId());
