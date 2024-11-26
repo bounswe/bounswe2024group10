@@ -12,8 +12,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bounswe2024group10.Tradeverse.extra.PostType;
+import com.bounswe2024group10.Tradeverse.model.Follow;
+import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
+import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
@@ -30,6 +34,12 @@ public class DataInitializer {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
+
+    @Autowired
+    private FollowSubforumRepository followSubforumRepository;
 
     @Bean
     public CommandLineRunner initData() {
@@ -140,37 +150,37 @@ public class DataInitializer {
                 comment3 = postRepository.findByParentID(post4.getId()).get(0);
                 comment4 = postRepository.findByParentID(comment3.getId()).get(0);
             }
-            Post post5 = new Post("alicia.nav", "Where Should I Start Investing?", subforum3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post5 = new Post("alicia.nav-MySecurePass123", "Where Should I Start Investing?", subforum3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             if (postRepository.findByTitle(post5.getTitle()).isEmpty()) {
                 postRepository.save(post5);
             } else {
                 post5 = postRepository.findByTitle(post5.getTitle()).get(0);
             }
-            Post post6 = new Post("marco.linarez", "Understanding Crypto Basics", subforum3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post6 = new Post("marco.linarez-MarketGuru2024", "Understanding Crypto Basics", subforum3.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             if (postRepository.findByTitle(post6.getTitle()).isEmpty()) {
                 postRepository.save(post6);
             } else {
                 post6 = postRepository.findByTitle(post6.getTitle()).get(0);
             }
-            Post post7 = new Post("fastpacer", "Best Timeframes for Scalping", subforum4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post7 = new Post("fastpacer-$4X_Profit!!", "Best Timeframes for Scalping", subforum4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             if (postRepository.findByTitle(post7.getTitle()).isEmpty()) {
                 postRepository.save(post7);
             } else {
                 post7 = postRepository.findByTitle(post7.getTitle()).get(0);
             }
-            Post post8 = new Post("breakoutqueen", "Strategies for Breakout Trades", subforum4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post8 = new Post("breakoutqueen-TradeMomentum99", "Strategies for Breakout Trades", subforum4.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             if (postRepository.findByTitle(post8.getTitle()).isEmpty()) {
                 postRepository.save(post8);
             } else {
                 post8 = postRepository.findByTitle(post8.getTitle()).get(0);
             }
-            Post post9 = new Post("johan_jensen", "The Future of Decentralized Finance", subforum5.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post9 = new Post("johan_jensen-FinConvex#88", "The Future of Decentralized Finance", subforum5.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             if (postRepository.findByTitle(post9.getTitle()).isEmpty()) {
                 postRepository.save(post9);
             } else {
                 post9 = postRepository.findByTitle(post9.getTitle()).get(0);
             }
-            Post post10 = new Post("toshita001", "Books for Finance Enthusiasts", subforum5.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
+            Post post10 = new Post("toshita001-confideinrobotUFO", "Books for Finance Enthusiasts", subforum5.getId(), List.of(new HashMap<>()), LocalDateTime.now(), POST);
             Post comment1;
             Post comment2;
             if (postRepository.findByTitle(post10.getTitle()).isEmpty()) {
@@ -183,6 +193,36 @@ public class DataInitializer {
                 post10 = postRepository.findByTitle(post10.getTitle()).get(0);
                 comment1 = postRepository.findByParentID(post10.getId()).get(0);
                 comment2 = postRepository.findByParentID(post10.getId()).get(1);
+            }
+
+            if (followRepository.findByFollowerUsernameAndFollowedUsername("kkaraman-Econ101", "breakoutqueen-TradeMomentum99") == null) {
+                followRepository.save(new Follow("kkaraman-Econ101", "breakoutqueen-TradeMomentum99"));
+            }
+            if (followRepository.findByFollowerUsernameAndFollowedUsername("kkaraman-Econ101", "fastpacer-$4X_Profit!!") == null) {
+                followRepository.save(new Follow("kkaraman-Econ101", "fastpacer-$4X_Profit!!"));
+            }
+
+            if (followRepository.findByFollowerUsernameAndFollowedUsername("admin", "johan_jensen-FinConvex#88") == null) {
+                followRepository.save(new Follow("admin", "johan_jensen-FinConvex#88"));
+            }
+            if (followRepository.findByFollowerUsernameAndFollowedUsername("admin", "toshita001-confideinrobotUFO") == null) {
+                followRepository.save(new Follow("admin", "toshita001-confideinrobotUFO"));
+            }
+
+            if (followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID("kkaraman-Econ101", subforum1.getId()) == null) {
+                followSubforumRepository.save(new FollowSubforum("kkaraman-Econ101", subforum1.getId()));
+            }
+            if (followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID("kkaraman-Econ101", subforum2.getId()) == null) {
+                followSubforumRepository.save(new FollowSubforum("kkaraman-Econ101", subforum2.getId()));
+            }
+            if (followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID("kkaraman-Econ101", subforum3.getId()) == null) {
+                followSubforumRepository.save(new FollowSubforum("kkaraman-Econ101", subforum3.getId()));
+            }
+            if (followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID("admin", subforum4.getId()) == null) {
+                followSubforumRepository.save(new FollowSubforum("admin", subforum4.getId()));
+            }
+            if (followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID("admin", subforum5.getId()) == null) {
+                followSubforumRepository.save(new FollowSubforum("admin", subforum5.getId()));
             }
 
             logger.info("Subforum 1 ID: {}", subforum1.getId());
