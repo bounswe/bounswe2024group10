@@ -3,6 +3,7 @@ package com.bounswe2024group10.Tradeverse.extra;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;
@@ -30,39 +31,29 @@ public class PostWSpecs {
     private User author;
     List<PostWSpecs> comments;
 
-    // public PostWSpecs(Long postID, String username) {
-    //     Post post = postRepository.findById(postID).get();
-    //     this.id = post.getId();
-    //     this.title = post.getTitle();
-    //     this.parentID = post.getParentID();
-    //     this.content = post.getContent();
-    //     this.nofLikes = post.getNofLikes();
-    //     this.nofDislikes = post.getNofDislikes();
-    //     this.likable = post.getLikable();
-    //     this.creationDate = post.getCreationDate();
-    //     this.lastEditDate = post.getLastEditDate();
-    //     this.lastUpdateDate = post.getLastUpdateDate();
-    //     this.postType = post.getPostType();
-    //     this.nofComments = postRepository.countByParentID(post.getId());
-    //     this.isLiked = likeRepository.existsByUsernameAndPostID(username, post.getId());
-    //     this.isDisliked = dislikeRepository.existsByUsernameAndPostID(username, post.getId());
-    //     switch (postType) {
-    //         case SUBFORUM:
-    //             this.parentSubforum = this;
-    //             break;
-    //         case FORUM:
-    //             this.parentSubforum = null;
-    //             break;
-    //         default:
-    //             Post parent = postRepository.findById(post.getParentID()).get();
-    //             while (parent.getPostType() != PostType.SUBFORUM) {
-    //                 parent = postRepository.findById(parent.getParentID()).get();
-    //             }
-    //             this.parentSubforum = new PostWSpecs(parent, username);
-    //     }
-    //     this.author = userRepository.findByUsername(post.getUsername());
-    //     this.comments = postRepository.findByParentID(post.getId()).stream().map(p -> new PostWSpecs(p, username)).toList();
-    // }
+    @Override
+    public String toString() {
+        return "PostWSpecs{"
+                + "id=" + id
+                + ", title='" + title + '\''
+                + ", parentID=" + parentID
+                + ", content=" + content
+                + ", nofLikes=" + nofLikes
+                + ", nofDislikes=" + nofDislikes
+                + ", likable=" + likable
+                + ", creationDate=" + creationDate
+                + ", lastEditDate=" + lastEditDate
+                + ", lastUpdateDate=" + lastUpdateDate
+                + ", postType=" + postType
+                + ", nofComments=" + nofComments
+                + ", isLiked=" + isLiked
+                + ", isDisliked=" + isDisliked
+                + ", parentSubforum=" + (parentSubforum != null ? parentSubforum.getId() : null)
+                + ", author=" + (author != null ? author.getUsername() : null)
+                + ", comments=" + comments.stream().map(PostWSpecs::toString).collect(Collectors.joining(", "))
+                + '}';
+    }
+
     public Long getId() {
         return id;
     }

@@ -14,6 +14,16 @@ public class GetSubforumsResponse {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.subforums = subforums;
+
+    }
+
+    @Override
+    public String toString() {
+        return "GetSubforumsResponse{"
+                + "isSuccessful=" + isSuccessful
+                + ", message='" + message + '\''
+                + ", subforums=" + subforums
+                + '}';
     }
 
     public boolean isSuccessful() {

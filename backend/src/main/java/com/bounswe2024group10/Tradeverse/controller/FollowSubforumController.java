@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumRequest;
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GeneralFollowSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsNonRecursiveResponse;
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsRequest;
 import com.bounswe2024group10.Tradeverse.dto.followSubforum.GetFollowingsResponse;
 import com.bounswe2024group10.Tradeverse.service.FollowSubforumService;
@@ -17,6 +18,7 @@ import com.bounswe2024group10.Tradeverse.service.FollowSubforumService;
 @RestController
 @RequestMapping("/api/follow-subforum")
 public class FollowSubforumController {
+
     @Autowired
     private FollowSubforumService followSubforumService;
 
@@ -46,6 +48,15 @@ public class FollowSubforumController {
         GetFollowingsRequest request = new GetFollowingsRequest();
         request.setUsername(username);
         GetFollowingsResponse response = followSubforumService.getFollowings(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-followings/non-recursive")
+    public ResponseEntity<GetFollowingsNonRecursiveResponse> getFollowingsNonRecursive(@RequestParam String username) {
+        GetFollowingsRequest request = new GetFollowingsRequest();
+        request.setUsername(username);
+        GetFollowingsNonRecursiveResponse response = followSubforumService.getFollowingsNonRecursive(request);
         return ResponseEntity.ok(response);
     }
 }

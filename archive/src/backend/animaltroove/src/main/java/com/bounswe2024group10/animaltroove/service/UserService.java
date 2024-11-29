@@ -1,15 +1,12 @@
 package com.bounswe2024group10.animaltroove.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.bounswe2024group10.animaltroove.dto.GetUserDetailsRequest;
 import com.bounswe2024group10.animaltroove.dto.GetUserDetailsResponse;
 import com.bounswe2024group10.animaltroove.model.RegisteredUser;
 import com.bounswe2024group10.animaltroove.repository.RegisteredUserRepository;
-
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
