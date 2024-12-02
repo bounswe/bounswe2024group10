@@ -1,73 +1,77 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Pressable, Image } from 'react-native'
+import React, { useState } from 'react'
 import {
   IconEye,
   IconMessageCircle2,
   IconThumbDown,
+  IconThumbDownFilled,
   IconThumbUp,
+  IconThumbUpFilled,
 } from '@tabler/icons-react-native'
+import PostLink from '../links/post-link'
+import paths from '../../config/screen-paths'
 import {
+  SIZES,
+  SIZE_CONSTANT,
   COLORS,
   FONT_WEIGHTS,
-  SIZE_CONSTANT,
-  SIZES,
-} from '../../../constants/theme'
-import ProfileImage from '../../../components/images/profile-image'
-import UserLink from '../../../components/links/user-link'
-import SubforumLink from '../../../components/links/subforum-link'
-import PostLink from '../../../components/links/post-link'
-import paths from '../../../config/screen-paths'
+} from '../../constants/theme'
+import UserLink from '../links/user-link'
+import ProfileImage from '../images/profile-image'
+import SubforumLink from '../links/subforum-link'
 
-const AuthorInfo = ({ author }) => (
-  <UserLink user={author}>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: SIZE_CONSTANT * 0.6,
-        alignItems: 'center',
-      }}
-    >
-      <View>
-        <ProfileImage
-          style={{
-            width: SIZE_CONSTANT * 2.1,
-            height: SIZE_CONSTANT * 2.1,
-            borderRadius: (SIZE_CONSTANT * 2.1) / 2,
-          }}
-          src={author.avatar}
-        />
-      </View>
+const AuthorInfo = ({ author }) => {
+  return (
+    <UserLink user={author}>
       <View
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
+          gap: SIZE_CONSTANT * 0.6,
+          alignItems: 'center',
         }}
       >
-        <Text
+        <View>
+          <ProfileImage
+            style={{
+              width: SIZE_CONSTANT * 2.1,
+              height: SIZE_CONSTANT * 2.1,
+              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+            }}
+            src={author.profilePhoto}
+          />
+        </View>
+        <View
           style={{
-            fontSize: SIZES.xxSmall,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.black,
-            letterSpacing: -0.03,
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
-          {author.name} {author.surname}
-        </Text>
-        <Text
-          style={{
-            fontSize: SIZE_CONSTANT * 0.8,
-            color: '#A1A1A1',
-            letterSpacing: -0.03,
-            lineHeight: SIZE_CONSTANT * 0.9,
-          }}
-        >
-          @{author.username}
-        </Text>
+          <Text
+            style={{
+              fontSize: SIZES.xxSmall,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.black,
+              letterSpacing: -0.03,
+            }}
+          >
+            {author.name} {author.surname}
+          </Text>
+          <Text
+            style={{
+              fontSize: SIZE_CONSTANT * 0.8,
+              color: '#A1A1A1',
+              letterSpacing: -0.03,
+              lineHeight: SIZE_CONSTANT * 0.9,
+            }}
+          >
+            @{author.username}
+          </Text>
+        </View>
       </View>
-    </View>
-  </UserLink>
-)
+    </UserLink>
+  )
+}
 
 const SubforumInfo = ({ subforum }) => (
   <SubforumLink subForum={subforum}>
@@ -144,6 +148,14 @@ const InteractionInfo = ({ icon = () => {}, value }) => (
 )
 
 export default function PostCard({ style, post }) {
+  const [isLiked, setIsLiked] = useState(isLiked)
+  const [isDisliked, setIsDisliked] = useState(false)
+  const handleLike = () => {
+    setIsLiked(!isLiked)
+  }
+  const handleDislike = () => {
+    setIsDisliked(!isDisliked)
+  }
   return (
     <PostLink target={`${paths.EXPLORE.POST_DETAIL}?postId=${post.id}`}>
       <View
@@ -190,6 +202,20 @@ export default function PostCard({ style, post }) {
               if (content.type === 'tag') {
                 return <TagText key={index} index={index} tag={content} />
               }
+              //   if (content.type === 'image') {
+              //     return (
+              //       <Image
+              //         style={{
+              //           marginVertical: 10,
+              //           backgroundColor: 'red',
+              //           width: 200,
+              //           height: 200,
+              //         }}
+              //         key={index}
+              //         source={content.value}
+              //       />
+              //     )
+              //   }
             })}
           </Text>
         </View>
@@ -218,14 +244,38 @@ export default function PostCard({ style, post }) {
               icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
               value={post.nofComments ?? 0}
             />
-            <InteractionInfo
-              icon={(params) => <IconThumbUp color="#444" size={12} />}
-              value={post.nofLikes ?? 0}
-            />
-            <InteractionInfo
-              icon={(params) => <IconThumbDown color="#444" size={12} />}
-              value={post.nofDislikes ?? 0}
-            />
+            <Pressable onPress={handleLike}>
+              <InteractionInfo
+                icon={(params) =>
+                  isLiked ? (
+                    <IconThumbUpFilled
+                      fill={COLORS.primary900}
+                      size={12}
+                      strokeWidth={0}
+                    />
+                  ) : (
+                    <IconThumbUp color="#444" size={12} />
+                  )
+                }
+                value={post.nofLikes ?? 0}
+              />
+            </Pressable>
+            <Pressable onPress={handleDislike}>
+              <InteractionInfo
+                icon={(params) =>
+                  isDisliked ? (
+                    <IconThumbDownFilled
+                      fill={COLORS.primary900}
+                      size={12}
+                      strokeWidth={0}
+                    />
+                  ) : (
+                    <IconThumbDown color="#444" size={12} />
+                  )
+                }
+                value={post.nofDislikes ?? 0}
+              />
+            </Pressable>
           </View>
         </View>
       </View>

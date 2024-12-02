@@ -6,11 +6,10 @@ export async function getPortfolio({ username }) {
     const response = await api({
       url: '/portfolio/get-portfolio',
       method: 'GET',
-      params: {
+      data: {
         username,
       },
     })
-    console.log(response.data)
 
     return response.data
   } catch (error) {
@@ -35,8 +34,6 @@ export async function getAllAssets() {
 
 export async function addAsset({ username, assetId, amount }) {
   try {
-    console.log('Adding asset', username, assetId, amount)
-
     const response = await api({
       url: '/portfolio/add-asset',
       method: 'POST',

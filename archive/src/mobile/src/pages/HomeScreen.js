@@ -1,7 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { getFeed } from '../services/feed.js';
+import React, { useContext, useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { getFeed } from "../services/feed.js";
 
 function HomeScreen({ navigation }) {
   // State variables for like, dislike, comment counts, and flag status
@@ -18,7 +25,6 @@ function HomeScreen({ navigation }) {
         if (!response.success) {
           throw new Error(response.message);
         }
-        console.log("here");
         setPosts(response.posts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
@@ -61,24 +67,34 @@ function HomeScreen({ navigation }) {
   };
 
   const renderPost = ({ item }) => (
-    <View style={{ marginBottom: 20, backgroundColor:  'white' }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-        <Text style={{ fontWeight: 'bold', marginRight: 10 }}>{item.username}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('UserP', { username: item.username })}>
-          <Text style={{ color: 'blue' }}>View Profile</Text>
+    <View style={{ marginBottom: 20, backgroundColor: "white" }}>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
+      >
+        <Text style={{ fontWeight: "bold", marginRight: 10 }}>
+          {item.username}
+        </Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("UserP", { username: item.username })
+          }
+        >
+          <Text style={{ color: "blue" }}>View Profile</Text>
         </TouchableOpacity>
       </View>
       {item.media && (
         <Image
           source={{ uri: `data:image/jpeg;base64,${item.media}` }}
-          style={{ width: '100%', height: 300 }}
+          style={{ width: "100%", height: 300 }}
         />
       )}
-      <Text style={{ marginVertical: 10 }}>{item.animalName || 'No Animal Name'}</Text>
+      <Text style={{ marginVertical: 10 }}>
+        {item.animalName || "No Animal Name"}
+      </Text>
       <Text style={{ marginVertical: 10 }}>{item.caption}</Text>
       <Text style={{ marginVertical: 10 }}>Posted on: {item.postDate}</Text>
       <Text style={{ marginVertical: 10 }}>Location: {item.location}</Text>
-      <View style={{ flexDirection: 'row', marginTop: 10 }}>
+      <View style={{ flexDirection: "row", marginTop: 10 }}>
         <TouchableOpacity onPress={() => incrementLike(item.postID)}>
           <Icon name="thumbs-up" size={30} color="green" />
         </TouchableOpacity>
@@ -92,7 +108,11 @@ function HomeScreen({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.iconText}>{commentCounts[item.postID] || 0}</Text>
         <TouchableOpacity onPress={() => toggleBookmark(item.postID)}>
-          <Icon name={bookmarkedPosts[item.postID] ? "bookmark" : "bookmark-o"} size={30} color="pink" />
+          <Icon
+            name={bookmarkedPosts[item.postID] ? "bookmark" : "bookmark-o"}
+            size={30}
+            color="pink"
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -103,20 +123,20 @@ function HomeScreen({ navigation }) {
       <FlatList
         data={posts}
         renderItem={renderPost}
-        keyExtractor={item => item.postID.toString()} // Use postID instead of id
+        keyExtractor={(item) => item.postID.toString()} // Use postID instead of id
       />
       {/* Bottom navigation bar */}
       <View style={styles.bottomNavBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Icon name="home" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Search")}>
           <Icon name="search" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>
+        <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
           <Icon name="plus" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
+        <TouchableOpacity onPress={() => navigation.navigate("MyProfile")}>
           <Icon name="user" size={30} color="green" />
         </TouchableOpacity>
       </View>
@@ -126,11 +146,11 @@ function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   bottomNavBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     height: 50,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   iconText: {
     marginLeft: 3,

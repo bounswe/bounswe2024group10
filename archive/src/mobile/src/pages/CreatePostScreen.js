@@ -66,7 +66,6 @@ const CreatePost = () => {
         photoDate: date ?? "",
         animalName,
       });
-      console.log("Post created:", response);
       setTimeout(() => {
         navigation.navigate("Home");
       }, 2000); // 2000 milliseconds delay (2 seconds)

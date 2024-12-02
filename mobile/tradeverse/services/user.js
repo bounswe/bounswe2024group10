@@ -15,3 +15,23 @@ export default async function getUserByUsername({ username, token }) {
   }
   return null
 }
+
+export async function setProfile({ email, profilePhoto, bio, tag, username }) {
+  try {
+    const response = await api({
+      url: `/user/set-user-details/${username}`,
+      method: 'POST',
+      data: {
+        email,
+        profilePhoto,
+        bio,
+        tag,
+      },
+      maxBodyLength: Infinity,
+    })
+    return response.data
+  } catch (error) {
+    console.error('Set profile failed', error)
+  }
+  return null
+}

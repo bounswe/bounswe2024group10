@@ -1,6 +1,6 @@
 import { ScrollView } from 'react-native'
 import React from 'react'
-import PostCard from '../_components/post-card'
+import PostCard from '../../../components/cards/post-card'
 import PostLink from '../../../components/links/post-link'
 
 export default function PopularView({ data }) {

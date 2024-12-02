@@ -1,18 +1,9 @@
 // Import necessary components and libraries
 import React from 'react'
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  SafeAreaView,
-} from 'react-native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { Stack } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
 import FullScrollView from '../../components/ui/full-scroll-view'
-import ProfileImage from '../../components/images/profile-image'
 import UserCard from './_components/UserCard'
 
 // Mock data: 14 users with username, followers, and profile picture

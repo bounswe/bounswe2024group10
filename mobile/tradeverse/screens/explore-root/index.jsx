@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 import SearchBar from './_components/search-bar'
 import GlobalScreen from '../../components/ui/global-screen'
@@ -12,6 +12,7 @@ import AuthContext from '../../auth/context/auth-context'
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState('popular')
+  const [loading, setLoading] = useState(true)
   const { user } = useContext(AuthContext)
   const [data, setData] = useState({
     popularPosts: [],
@@ -19,6 +20,7 @@ export default function ExploreRootScreen() {
   })
   useEffect(() => {
     const fetchFeed = async () => {
+      setLoading(true)
       const result = await getExploreFeed({
         username: user?.username,
       })
@@ -27,6 +29,7 @@ export default function ExploreRootScreen() {
         recentPosts: result.recentPosts,
       })
     }
+    setLoading(false)
     fetchFeed()
   }, [])
   return (

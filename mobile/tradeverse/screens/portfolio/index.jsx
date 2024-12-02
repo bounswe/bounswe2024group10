@@ -26,10 +26,6 @@ const PortfolioScreen = () => {
       try {
         setLoading(true)
         const response = await getPortfolio({ username: user?.username })
-        console.log(data)
-        console.log(data)
-        console.log(data)
-
         setData(response)
       } catch (error) {
         console.error('Get Portfolio failed', error)

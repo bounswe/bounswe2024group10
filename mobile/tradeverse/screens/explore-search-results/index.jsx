@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 import GlobalScreen from '../../components/ui/global-screen'
 import Tabs from './_components/tabs'
@@ -19,7 +25,8 @@ import { useContext } from 'react'
 import AuthContext from '../../auth/context/auth-context'
 
 export default function ExploreRootScreen() {
-  const [selectedTab, setSelectedTab] = useState('popular')
+  const [selectedTab, setSelectedTab] = useState('posts')
+  const [loading, setLoading] = useState(true)
   const { user } = useContext(AuthContext)
 
   const [updatedSearchKey, setUpdatedSearchKey] = useState('')
@@ -41,22 +48,24 @@ export default function ExploreRootScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       const data = await search({
         keyword: updatedSearchKey,
         username: user?.username ?? '',
       })
       console.log(data)
 
-      console.log('fetching data')
-
       setData({
         popular: data.popular,
         assets: data.assets,
         tags: data.tags,
         sub_forums: data.subforums,
-        posts: data.posts,
+        posts: data.posts.filter((post) =>
+          post.title.toLowerCase().includes(updatedSearchKey.toLowerCase())
+        ),
         people: data.users,
       })
+      setLoading(false)
     }
     fetchData()
   }, [searchKey, updatedSearchKey])
@@ -103,7 +112,8 @@ export default function ExploreRootScreen() {
         </Pressable>
       </PaddedContainer>
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      {data && (
+      {loading && <ActivityIndicator />}
+      {data && !loading && (
         <>
           {selectedTab === 'popular' && data.popular && (
             <PopularView data={data.popular} />

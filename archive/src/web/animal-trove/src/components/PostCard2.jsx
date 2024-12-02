@@ -59,7 +59,6 @@ function PostCard2({ post }) {
           username: username,
           postID: post.postID,
         });
-        console.log(actionDetails);
         setIsLiked(actionDetails.liked);
         setIsDisliked(actionDetails.disliked);
         setIsBookmarked(actionDetails.bookmarked);
