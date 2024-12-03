@@ -14,7 +14,7 @@ const Home = () => {
   const [filterType, setFilterType] = useState("For You");
 
   useEffect(() => {
-    const fetchExporePosts = async () => {
+    const fetchExplorePosts = async () => {
       const data = await explore();
 
       if (data.isSuccessful) {
@@ -24,24 +24,24 @@ const Home = () => {
         }
       }
     }
-    const fetchFeedPosts = async () => {
-      const data = await feed(user.name);
-      console.log(data);
-      if (data.successful) {
-        if (data.followedSubforumPosts?.["Post 1"]) {
-          setFollowedSubforumsPosts(
-            data.followedSubforumPosts["Post 1"].filter((post) => post.postType === "POST")
-          );
-        }
-        if (data.followedUserPosts?.[user.name]) {
-          setFollowedUserPosts(
-            data.followedUserPosts[user.name].filter((post) => post.postType === "POST")
-          );
-        }
-      }
-    }
-    fetchFeedPosts();
-    fetchExporePosts();
+    // const fetchFeedPosts = async () => {
+    //   const data = await feed(user.name);
+    //   console.log(data);
+    //   if (data.successful) {
+    //     if (data.followedSubforumPosts?.["Post 1"]) {
+    //       setFollowedSubforumsPosts(
+    //         data.followedSubforumPosts["Post 1"].filter((post) => post.postType === "POST")
+    //       );
+    //     }
+    //     if (data.followedUserPosts?.[user.name]) {
+    //       setFollowedUserPosts(
+    //         data.followedUserPosts[user.name].filter((post) => post.postType === "POST")
+    //       );
+    //     }
+    //   }
+    // }
+    // fetchFeedPosts();
+    fetchExplorePosts();
 
   }, [filterType]);
 
