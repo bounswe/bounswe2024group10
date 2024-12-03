@@ -49,7 +49,7 @@ public class PortfolioServiceUnitTest {
     @Test
     public void testAddAssetToPortfolio_AssetFound() {
         AddAssetToPortfolioRequest request = new AddAssetToPortfolioRequest();
-        when(assetRepository.existsById(1L)).thenReturn(false);
+        when(assetRepository.existsById(1L)).thenReturn(true);
 
         AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(request);
 
