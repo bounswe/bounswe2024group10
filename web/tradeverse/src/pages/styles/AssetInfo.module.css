@@ -1,0 +1,55 @@
+/* General page styling */
+.assetInfoPage {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    border-radius: 8px;
+}
+
+/* Title styling */
+.pageTitle {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #0056b3;
+    margin-bottom: 30px;
+}
+
+/* Layout container */
+.contentContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+/* Main content styling */
+.mainContent {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Sidebar styling */
+.sidebar {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: fit-content;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .contentContainer {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        max-width: 100%;
+    }
+}
