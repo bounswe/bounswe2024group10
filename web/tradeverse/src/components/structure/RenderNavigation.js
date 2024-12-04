@@ -9,6 +9,7 @@ import SubforumNavbar from "./subforumNavbar";
 import mockData from "../../data/mockData";
 import Account from "../../pages/Account";
 import User from "../../pages/User";
+import AssetInfo from "../../pages/AssetInfo";
 
 export const RenderRoutes = () => {
   const { user } = AuthData();
@@ -68,6 +69,7 @@ export const RenderRoutes = () => {
       <Route path="/:parentId/:postId" element={<PostPage />} />
       <Route path="/account" element={<Account />} />
       <Route path="/user" element={<User />} />
+      <Route path="/assets/:id" element={<AssetInfo />} />
 
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
