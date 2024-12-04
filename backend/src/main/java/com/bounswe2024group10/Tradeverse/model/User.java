@@ -18,6 +18,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String name;
+    @Column(nullable = true, columnDefinition = "LONGTEXT")
     private String profilePhoto;
     private int portfolioPrivacyLevel = 0; // Default value
     private int tag;
