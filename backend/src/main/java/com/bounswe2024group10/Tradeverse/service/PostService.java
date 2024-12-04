@@ -1,8 +1,14 @@
 package com.bounswe2024group10.Tradeverse.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +214,23 @@ public class PostService {
         }
         if (parentSubforum.getPostType() != SUBFORUM) {
             return new CreatePostResponse(false, "Parent post is not a subforum");
+        }
+        for (HashMap<String, String> content : request.getContent()) {
+            if (content.get("type").equals("image")) {
+                String image = content.get("value");
+                byte[] imageBytes = Base64.getDecoder().decode(image);
+                try {
+                    File file = new File("images/" + UUID.randomUUID() + ".jpg");
+                    file.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(file);
+                    fos.write(imageBytes);
+                    fos.close();
+                    content.put("value", file.getAbsolutePath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return new CreatePostResponse(false, "Error while saving image");
+                }
+            }
         }
         Post post = new Post(request.getUsername(), request.getTitle(), request.getParentID(), request.getContent(), LocalDateTime.now(), POST);
         postRepository.save(post);
