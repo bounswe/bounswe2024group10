@@ -39,8 +39,9 @@ export default function SubForumCard({ style, subForum }) {
     >
       <View
         style={{
-          borderBottomWidth: 0.5,
-          borderBottomColor: '#E5E5E5',
+          borderColor: '#E5E5E5',
+          borderRadius: SIZE_CONSTANT * 1,
+          backgroundColor: COLORS.primary50,
           paddingTop: SIZE_CONSTANT * 1.2,
           paddingBottom: SIZE_CONSTANT * 1.4,
           paddingHorizontal: SIZE_CONSTANT * 1.2,
@@ -49,7 +50,7 @@ export default function SubForumCard({ style, subForum }) {
         <Text
           style={{
             fontSize: SIZES.small,
-            color: COLORS.primary950,
+            color: COLORS.primary800,
             letterSpacing: -0.03,
             fontWeight: FONT_WEIGHTS.medium,
             marginBottom: SIZE_CONSTANT * 0.8,

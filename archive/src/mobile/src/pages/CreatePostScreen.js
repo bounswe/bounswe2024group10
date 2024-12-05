@@ -71,7 +71,7 @@ const CreatePost = () => {
       }, 2000); // 2000 milliseconds delay (2 seconds)
       // You can show a success message or navigate to another screen here
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.log("Error creating post:", error);
       // You can show an error message here
     }
   };

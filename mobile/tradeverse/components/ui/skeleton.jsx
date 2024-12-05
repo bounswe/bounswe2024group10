@@ -1,7 +1,12 @@
 import React from 'react'
 import { View, StyleSheet, Animated, Dimensions } from 'react-native'
+import { SIZE_CONSTANT } from '../../constants/theme'
 
-const SkeletonBox = ({ width = 100, height = 40, borderRadius = 4 }) => {
+const SkeletonBox = ({
+  width = 100,
+  height = 40,
+  borderRadius = SIZE_CONSTANT * 1,
+}) => {
   const screenWidth = Dimensions.get('window').width
   const animatedValue = React.useRef(new Animated.Value(0)).current
 
@@ -36,7 +41,7 @@ const SkeletonBox = ({ width = 100, height = 40, borderRadius = 4 }) => {
 
 const styles = StyleSheet.create({
   skeleton: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: 'rgb(240,240,240)',
     overflow: 'hidden',
     position: 'relative',
   },

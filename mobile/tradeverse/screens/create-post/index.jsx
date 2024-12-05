@@ -14,7 +14,7 @@ import { createPost } from '../../services/post'
 import { showToast } from '../../reduxStore/ui-slice'
 import { SIZE_CONSTANT, SIZES } from '../../constants/theme'
 import MainButton from '../../components/buttons/main-button'
-import AutoSuggestInput from '../../components/inputs/AutoSuggestInput'
+import AutoSuggestInput from './_components/SubforumSuggestion'
 import { AuthContext } from '../../auth/context'
 
 export default function CreatePostScreen() {
@@ -71,7 +71,7 @@ export default function CreatePostScreen() {
           onSelect={(option) => {
             setSelectedSubforum(option)
           }}
-          endpoint={'/post/create-post'}
+          endpoint={'/post/search-post'}
         />
         <FormProvider {...form}>
           <View

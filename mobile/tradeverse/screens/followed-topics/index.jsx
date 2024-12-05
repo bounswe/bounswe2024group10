@@ -35,9 +35,9 @@ const FollowedTagsScreen = () => {
   const router = useRouter()
 
   const renderSkeleton = (
-    <View style={styles.container}>
+    <View style={[styles.container, { marginTop: 44 }]}>
       {Array.from({ length: 10 }).map((_, index) => (
-        <SkeletonBox height={56} width="100%" key={index} />
+        <SkeletonBox height={72} width="100%" key={index} />
       ))}
     </View>
   )
@@ -76,7 +76,7 @@ const FollowedTagsScreen = () => {
         }
       } catch (err) {
         setError(err)
-        console.error('Failed to fetch data', err)
+        console.log('Failed to fetch data', err)
       } finally {
         setLoading(false)
       }
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 4,
   },
   tagList: {
     paddingBottom: 60, // Extra padding for the bottom nav bar

@@ -12,7 +12,7 @@ export async function getExploreFeed({ username }) {
 
     return response.data
   } catch (error) {
-    console.error('Create Post failed', error)
+    console.log('Create Post failed', error)
   }
   return null
 }
@@ -30,7 +30,7 @@ export async function search({ username, keyword = '' }) {
 
     return response.data
   } catch (error) {
-    console.error('Create Post failed', error)
+    console.log('Create Post failed', error)
   }
   return null
 }

@@ -63,7 +63,7 @@ function PostCard2({ post }) {
         setIsDisliked(actionDetails.disliked);
         setIsBookmarked(actionDetails.bookmarked);
       } catch (error) {
-        console.error("Error fetching post data", error);
+        console.log("Error fetching post data", error);
       }
     }
 

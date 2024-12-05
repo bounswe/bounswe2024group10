@@ -11,7 +11,7 @@ export default async function getUserByUsername({ username, token }) {
     })
     return response.data
   } catch (error) {
-    console.error('Get user by username failed', error)
+    console.log('Get user by username failed', error)
   }
   return null
 }
@@ -31,7 +31,7 @@ export async function setProfile({ email, profilePhoto, bio, tag, username }) {
     })
     return response.data
   } catch (error) {
-    console.error('Set profile failed', error)
+    console.log('Set profile failed', error)
   }
   return null
 }

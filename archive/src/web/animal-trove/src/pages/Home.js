@@ -25,7 +25,7 @@ export default function Home() {
         }
         setPosts(response.posts);
       } catch (error) {
-        console.error("Failed to fetch posts:", error);
+        console.log("Failed to fetch posts:", error);
       }
     };
 

@@ -4,8 +4,24 @@ import { COLORS } from '../../constants/theme'
 import { NAV_OPTIONS } from '../../config/navigation'
 import AuthGuard from '../../auth/context/auth-guard'
 import CustomTabBar from '../../components/ui/tabbar/index'
-
+import { setAssets } from '@/reduxStore/data-slice'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { getAllAssets } from '@/services/asset'
 export default function Layout() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const fetchAssets = async () => {
+      try {
+        const allAssets = await getAllAssets()
+        dispatch(setAssets(allAssets))
+      } catch (error) {
+        console.log('Error fetching assets:', error)
+      }
+    }
+    fetchAssets()
+  }, [])
+
   return (
     <AuthGuard>
       <Tabs

@@ -6,28 +6,14 @@ export async function getPortfolio({ username }) {
     const response = await api({
       url: '/portfolio/get-portfolio',
       method: 'GET',
-      data: {
+      params: {
         username,
       },
     })
 
     return response.data
   } catch (error) {
-    console.error('Create Post failed', error)
-  }
-  return null
-}
-
-export async function getAllAssets() {
-  try {
-    const response = await api({
-      url: '/asset/all',
-      method: 'GET',
-    })
-
-    return response.data
-  } catch (error) {
-    console.error('Create Post failed', error)
+    console.log('Get Portfolio Failed', error)
   }
   return null
 }
@@ -46,7 +32,7 @@ export async function addAsset({ username, assetId, amount }) {
 
     return response.data
   } catch (error) {
-    console.error('Create Post failed', error)
+    console.log('Create Post failed', error)
   }
   return null
 }

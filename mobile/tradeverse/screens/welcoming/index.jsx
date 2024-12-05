@@ -29,9 +29,7 @@ export default function WelcomingScreen() {
   const params = useLocalSearchParams()
 
   useEffect(() => {
-    console.log('====================================')
     console.log(params)
-    console.log('====================================')
   }, [params])
 
   const { setIsTagSelected, isTagSelected } = useContext(AuthContext)
@@ -58,7 +56,7 @@ export default function WelcomingScreen() {
       })
       return base64
     } catch (error) {
-      console.error('Error converting image to base64:', error)
+      console.log('Error converting image to base64:', error)
       throw error
     }
   }
@@ -68,12 +66,13 @@ export default function WelcomingScreen() {
       setCurrentStep('user_tag')
     } else {
       try {
-        const base64 = await convertImageToBase64(selectedImage.uri)
+        const base64 = selectedImage
+          ? await convertImageToBase64(selectedImage?.uri)
+          : ''
         const res = await setProfile({
           username: params?.username,
           email: params?.email,
           bio: '',
-          // profilePhoto: base64,
           profilePhoto: 'test',
           tag: selectedUserTag,
         })
@@ -186,7 +185,7 @@ export default function WelcomingScreen() {
         onPress={handleNext}
         style={{ marginTop: SIZE_CONSTANT * 2 }}
         text="Continue"
-        disabled={!selectedUserTag}
+        disabled={selectedUserTag === null}
       />
     </View>
   )
