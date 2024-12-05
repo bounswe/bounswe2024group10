@@ -27,7 +27,7 @@ export default function MyProfile() {
         });
         setUserDetails(responseUserDetails.user);
       } catch (error) {
-        console.error("Failed to fetch user details:", error);
+        console.log("Failed to fetch user details:", error);
       }
     };
     fetchUserDetails();

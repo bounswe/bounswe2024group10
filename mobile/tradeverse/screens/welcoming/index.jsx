@@ -8,6 +8,7 @@ import {
   Pressable,
 } from 'react-native'
 import { launchImageLibraryAsync } from 'expo-image-picker'
+import { router, useLocalSearchParams } from 'expo-router'
 import {
   COLORS,
   FONT_WEIGHTS,
@@ -18,12 +19,18 @@ import GlobalScreen from '../../components/ui/global-screen'
 import MainButton from '../../components/buttons/main-button'
 import ProfileImage from '../../components/images/profile-image'
 import { AuthContext } from '../../auth/context'
-import { router } from 'expo-router'
-
+import * as FileSystem from 'expo-file-system'
+import { setProfile } from '../../services/user'
+import { TAGS } from '../../constants'
 export default function WelcomingScreen() {
   const [currentStep, setCurrentStep] = useState('profile') // user_tag, profile
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedUserTag, setSelectedUserTag] = useState(null)
+  const params = useLocalSearchParams()
+
+  useEffect(() => {
+    console.log(params)
+  }, [params])
 
   const { setIsTagSelected, isTagSelected } = useContext(AuthContext)
 
@@ -40,27 +47,44 @@ export default function WelcomingScreen() {
     }
   }
 
-  const options = [
-    { label: 'Beginner', icon: '🏁', value: 'beginner' },
-    { label: 'Day Trader', icon: '📊', value: 'day_trader' },
-    { label: 'Investor', icon: '💼', value: 'investor' },
-    { label: 'Finance Enthusiast', icon: '💸', value: 'finance_enthusiast' },
-    { label: 'Financial Analyst', icon: '📈', value: 'finance_analyst' },
-  ]
-
-  const handleNext = () => {
-    if (currentStep === 'profile') {
-      setCurrentStep('user_tag')
-    } else {
-      setIsTagSelected(true)
+  const convertImageToBase64 = async (imageUri) => {
+    if (!imageUri) return ''
+    try {
+      // Read the file and encode as base64
+      const base64 = await FileSystem.readAsStringAsync(imageUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      })
+      return base64
+    } catch (error) {
+      console.log('Error converting image to base64:', error)
+      throw error
     }
   }
 
-  useEffect(() => {
-    if (isTagSelected) {
-      router.replace('tabs')
+  const handleNext = async () => {
+    if (currentStep === 'profile') {
+      setCurrentStep('user_tag')
+    } else {
+      try {
+        const base64 = selectedImage
+          ? await convertImageToBase64(selectedImage?.uri)
+          : ''
+        const res = await setProfile({
+          username: params?.username,
+          email: params?.email,
+          bio: '',
+          profilePhoto: 'test',
+          tag: selectedUserTag,
+        })
+
+        if (res?.email) {
+          router.replace('tabs')
+        }
+      } catch (error) {
+        console.log('Error setting profile:', error)
+      }
     }
-  }, [isTagSelected])
+  }
 
   const ProfileView = () => (
     <View>
@@ -144,7 +168,7 @@ export default function WelcomingScreen() {
         What is your experience with finance ?
       </Text>
 
-      {options.map((option, index) => (
+      {TAGS.map((option, index) => (
         <TouchableOpacity
           onPress={() => setSelectedUserTag(option.value)}
           key={index}
@@ -161,14 +185,14 @@ export default function WelcomingScreen() {
         onPress={handleNext}
         style={{ marginTop: SIZE_CONSTANT * 2 }}
         text="Continue"
-        disabled={!selectedUserTag}
+        disabled={selectedUserTag === null}
       />
     </View>
   )
 
   return (
     <GlobalScreen>
-      <Text style={styles.welcomeText}>Welcome Huseyin !</Text>
+      <Text style={styles.welcomeText}>{`Welcome ${params?.name}!`}</Text>
       {currentStep === 'user_tag' && <UserTagView />}
       {currentStep === 'profile' && <ProfileView />}
     </GlobalScreen>

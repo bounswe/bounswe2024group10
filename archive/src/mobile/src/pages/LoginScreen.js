@@ -26,10 +26,10 @@ const handleLogin = async (navigation, userName, password) => {
 
       navigation.navigate("Home");
     } else {
-      console.error(response.message);
+      console.log(response.message);
     }
   } catch (error) {
-    console.error("Login error:", error);
+    console.log("Login error:", error);
   }
   // Giriş işlemi burada gerçekleştirilebilir
   console.log("Login button clicked");

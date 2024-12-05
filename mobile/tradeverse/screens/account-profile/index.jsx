@@ -13,6 +13,7 @@ import { IconPencil } from '@tabler/icons-react-native'
 import { Stack } from 'expo-router'
 import { useContext } from 'react'
 import { AuthContext } from '../../auth/context'
+import { TAGS } from '../../constants'
 
 export default function AccountProfileScreen() {
   const validationSchema = z.object({
@@ -104,7 +105,9 @@ export default function AccountProfileScreen() {
               }}
               label="Tag"
               name="tag"
-              placeholder={'Beginner'}
+              placeholder={
+                TAGS.filter((tag) => tag.value === user?.tag)[0].label
+              }
               defaultValue={user?.tag ?? 'Beginner'}
             />
             <RHFTextField
@@ -115,8 +118,8 @@ export default function AccountProfileScreen() {
             />
             <RHFTextArea
               placeholder={'Create a description'}
-              label="Description"
-              name="description"
+              label="Bio"
+              name="bio"
               defaultValue={user?.description ?? ''}
             />
           </View>

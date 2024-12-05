@@ -42,16 +42,24 @@ export default function AuthProvider({ children }) {
           profilePhoto,
           username,
         })
-        if (res.status === 200) {
+        console.log(res)
+        console.log(res)
+        console.log(res)
+
+        if (res?.status === 200 && res?.data?.token) {
           await AsyncStorage.setItem('authToken', res.data?.token)
           await AsyncStorage.setItem('username', username)
           const userProfile = await getUserByUsername({ username })
           setUser(userProfile)
           setIsLoggedIn(true)
-          router.replace('splash')
+          router.replace(
+            `splash?username=${username}&email=${email}&name=${name}`
+          )
+        } else {
+          throw new Error(res?.data.message)
         }
       } catch (error) {
-        throw new Error(error.message ?? 'Giriş başarısız')
+        throw new Error(error.message ?? 'Register failed')
       } finally {
         setLoading(false)
       }
@@ -101,14 +109,11 @@ export default function AuthProvider({ children }) {
       if (token) {
         const validateResponse = await validateToken({ token })
         if (validateResponse?.username) {
-          console.log('Token is valid ->', validateResponse, token)
           api.defaults.headers.common.Authorization = `Bearer ${token}`
           const userProfile = await getUserByUsername({
             username: validateResponse.username,
             token,
           })
-          console.log('userProfile', userProfile)
-
           setUser(userProfile)
           setIsLoggedIn(true)
         } else {

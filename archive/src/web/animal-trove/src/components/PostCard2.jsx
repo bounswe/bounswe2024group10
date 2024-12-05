@@ -59,12 +59,11 @@ function PostCard2({ post }) {
           username: username,
           postID: post.postID,
         });
-        console.log(actionDetails);
         setIsLiked(actionDetails.liked);
         setIsDisliked(actionDetails.disliked);
         setIsBookmarked(actionDetails.bookmarked);
       } catch (error) {
-        console.error("Error fetching post data", error);
+        console.log("Error fetching post data", error);
       }
     }
 

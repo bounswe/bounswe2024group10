@@ -32,7 +32,7 @@ export async function createPost({
 
     return response.data
   } catch (error) {
-    console.error('Create Post failed', error)
+    console.log('Create Post failed', error)
   }
   return null
 }

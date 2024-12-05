@@ -1,10 +1,17 @@
-import React, {  useContext, useEffect, useState} from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Renamed import
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'; // Renamed import
-import { getFeed } from '../services/feed.js';
+import React, { useContext, useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome"; // Renamed import
+import MaterialIcon from "react-native-vector-icons/MaterialIcons"; // Renamed import
+import { getFeed } from "../services/feed.js";
 // Dummy data for posts
-
 
 function HomeScreen({ navigation }) {
   // State variables for like, dislike, comment counts, and flag status
@@ -21,10 +28,9 @@ function HomeScreen({ navigation }) {
         if (!response.success) {
           throw new Error(response.message);
         }
-        console.log("here");
         setPosts(response.posts);
       } catch (error) {
-        console.error("Failed to fetch posts:", error);
+        console.log("Failed to fetch posts:", error);
       }
     };
 
@@ -97,32 +103,42 @@ function HomeScreen({ navigation }) {
   // Function to display an alert for guest users
   const displayGuestAlert = () => {
     Alert.alert(
-      'Guest User',
-      'You cannot do this action, you are a guest user.',
-      [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      "Guest User",
+      "You cannot do this action, you are a guest user.",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
       { cancelable: false }
     );
   };
 
   const renderPost = ({ item }) => (
-    <View style={{ marginBottom: 20, backgroundColor:  'white' }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-        <Text style={{ fontWeight: 'bold', marginRight: 10 }}>{item.username}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('UserP', { username: item.username })}>
-          <Text style={{ color: 'blue' }}>View Profile</Text>
+    <View style={{ marginBottom: 20, backgroundColor: "white" }}>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
+      >
+        <Text style={{ fontWeight: "bold", marginRight: 10 }}>
+          {item.username}
+        </Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("UserP", { username: item.username })
+          }
+        >
+          <Text style={{ color: "blue" }}>View Profile</Text>
         </TouchableOpacity>
       </View>
       {item.media && (
         <Image
           source={{ uri: `data:image/jpeg;base64,${item.media}` }}
-          style={{ width: '100%', height: 300 }}
+          style={{ width: "100%", height: 300 }}
         />
       )}
-      <Text style={{ marginVertical: 10 }}>{item.animalName || 'No Animal Name'}</Text>
+      <Text style={{ marginVertical: 10 }}>
+        {item.animalName || "No Animal Name"}
+      </Text>
       <Text style={{ marginVertical: 10 }}>{item.caption}</Text>
       <Text style={{ marginVertical: 10 }}>Posted on: {item.postDate}</Text>
       <Text style={{ marginVertical: 10 }}>Location: {item.location}</Text>
-      <View style={{ flexDirection: 'row', marginTop: 10 }}>
+      <View style={{ flexDirection: "row", marginTop: 10 }}>
         <TouchableOpacity onPress={() => incrementLike(item.id)}>
           <FontAwesomeIcon name="thumbs-up" size={30} color="green" />
         </TouchableOpacity>
@@ -136,32 +152,33 @@ function HomeScreen({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.iconText}>{commentCounts[item.id] || 0}</Text>
         <TouchableOpacity onPress={() => toggleBookmark(item.id)}>
-          <FontAwesomeIcon name={bookmarkedPosts[item.id] ? "bookmark" : "bookmark-o"} size={30} color="pink" />
+          <FontAwesomeIcon
+            name={bookmarkedPosts[item.id] ? "bookmark" : "bookmark-o"}
+            size={30}
+            color="pink"
+          />
         </TouchableOpacity>
-        <View style={styles.iconContainer}>
-          
-        </View>
+        <View style={styles.iconContainer}></View>
       </View>
     </View>
   );
-
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
       <FlatList
         data={posts}
         renderItem={renderPost}
-        keyExtractor={item => item.postID.toString()}
+        keyExtractor={(item) => item.postID.toString()}
       />
       {/* Bottom navigation bar */}
       <View style={styles.bottomNavBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('Guest')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Guest")}>
           <MaterialIcon name="home" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('GuestS')}>
+        <TouchableOpacity onPress={() => navigation.navigate("GuestS")}>
           <MaterialIcon name="search" size={30} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Sign-Up')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Sign-Up")}>
           <MaterialIcon name="person-add" size={30} color="green" />
         </TouchableOpacity>
       </View>
@@ -171,11 +188,11 @@ function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   bottomNavBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     height: 50,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   iconText: {
     marginLeft: 3,

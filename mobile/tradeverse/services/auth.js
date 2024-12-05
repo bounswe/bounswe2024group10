@@ -66,7 +66,6 @@ export async function register({
     if (!response.data.isSuccessful) {
       throw new Error(response.data.message)
     }
-    console.log('Register Response ->', response.data)
 
     await AsyncStorage.removeItem('authToken')
     api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
@@ -74,7 +73,6 @@ export async function register({
     return response
   } catch (error) {
     console.log('Register Error ->', error.message)
-    throw new Error(error.message || 'Kayıt başarısız')
   }
 }
 
