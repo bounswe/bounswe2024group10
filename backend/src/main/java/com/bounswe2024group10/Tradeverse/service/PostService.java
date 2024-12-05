@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.bounswe2024group10.Tradeverse.dto.post.other.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +90,42 @@ public class PostService {
         List<PostWSpecs> childeren = postRepository.findByParentID(request.getParentId()).stream()
                 .map(post -> post2PostWSpecs(post, request.getUsername())).collect(Collectors.toList());
         return new GeneralRecursiveGetResponse(true, "Comments fetched successfully", childeren);
+    }
+    public SubforumDetailsDTO getSubforumDetails(Long subforumId, String username) {
+        Post subforum = postRepository.findById(subforumId).orElse(null);
+
+        if (subforum == null || subforum.getPostType() != PostType.SUBFORUM) {
+            throw new IllegalArgumentException("Subforum not found or invalid type");
+        }
+
+        Boolean isFollowedByUser = followSubforumRepository.findByFollowerUsernameAndFollowedSubforumID(username, subforumId) != null;
+        Long numberOfPosts = postRepository.countByParentID(subforumId);
+        Long numberOfFollowers = followSubforumRepository.countByFollowedSubforumID(subforumId);
+
+        List<PostSummaryDTO> posts = postRepository.findByParentID(subforumId).stream()
+                .map(post -> {
+                    User creator = userRepository.findByUsername(post.getUsername());
+                    return new PostSummaryDTO(
+                            post.getId(),
+                            post.getTitle(),
+                            post.getContent() != null ? post.getContent().toString() : null,
+                            post.getUsername(),
+                            creator != null ? creator.getProfilePhoto() : null, // Fetch profile photo
+                            post.getNofLikes(),
+                            post.getNofDislikes(),
+                            post.getCreationDate(),
+                            postRepository.countByParentID(post.getId()) // Count comments
+                    );
+                })
+                .collect(Collectors.toList());
+
+        return new SubforumDetailsDTO(
+                subforum.getTitle(),
+                isFollowedByUser,
+                posts,
+                numberOfPosts,
+                numberOfFollowers
+        );
     }
 
     // public GetForumsResponse getForums() {
@@ -325,6 +362,9 @@ public class PostService {
         parentForum.setLastUpdateDate(LocalDateTime.now());
         postRepository.save(parentForum);
         return new EditPostResponse(true, "Post edited successfully");
+    }
+    public List<SubforumSummaryDTO> getSubforumsByKeyword(String keyword) {
+        return postRepository.findSubforumsWithKeywordAndPostCount(keyword, PostType.SUBFORUM);
     }
 
     // TO DO: Check if the user is admin if necessary? and if admin delete username check
