@@ -1,7 +1,9 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
+import com.bounswe2024group10.Tradeverse.dto.post.other.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import com.bounswe2024group10.Tradeverse.dto.post.create.CreateCommentRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.create.CreateCommentResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.create.CreatePostRequest;
@@ -43,6 +43,8 @@ import com.bounswe2024group10.Tradeverse.dto.post.other.GetSubforumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.other.GetSuperPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.other.GetSuperSubforumResponse;
 import com.bounswe2024group10.Tradeverse.service.PostService;
+
+import java.util.List;
 
 /**
  * PostController handles all HTTP requests related to posts, forums, subforums,
@@ -339,7 +341,7 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/general-get-post\non-recursive")
+    @GetMapping("/general-get-post/non-recursive")
     public ResponseEntity<GetSuperPostResponse> generalGetPostNonRecursive(@RequestParam Long postId, @RequestBody(required = false) String username) {
         GetPostRequest request = new GetPostRequest();
         if (username == null) {
@@ -453,4 +455,14 @@ public class PostController {
     //     SearchAndListPostsResponse response = postService.exploreSearch(request);
     //     return ResponseEntity.ok(response);
     // }
+    @GetMapping("/subforum/searchKeyword")
+    public List<SubforumSummaryDTO> searchSubforumsByKeyword(@RequestParam("keyword") String keyword) {
+        return postService.getSubforumsByKeyword(keyword);
+    }
+    @GetMapping("/subforum/{id}")
+    public SubforumDetailsDTO getSubforumById(
+            @PathVariable Long id,
+            @RequestParam String username) {
+        return postService.getSubforumDetails(id, username);
+    }
 }
