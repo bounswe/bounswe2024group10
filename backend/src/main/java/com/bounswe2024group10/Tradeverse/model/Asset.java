@@ -18,12 +18,16 @@ public class Asset {
     @Column(nullable = false)
     private String tradingViewSymbol;
 
+    @Column(nullable = true)
+    private String imageUrl;
+
     public Asset() {}
 
-    public Asset(String name, String yahooFinanceSymbol, String tradingViewSymbol) {
+    public Asset(String name, String yahooFinanceSymbol, String tradingViewSymbol, String imageUrl) {
         this.name = name;
         this.yahooFinanceSymbol = yahooFinanceSymbol;
         this.tradingViewSymbol = tradingViewSymbol;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -56,5 +60,13 @@ public class Asset {
 
     public void setTradingViewSymbol(String tradingViewSymbol) {
         this.tradingViewSymbol = tradingViewSymbol;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

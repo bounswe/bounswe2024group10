@@ -5,6 +5,7 @@ public class AddAssetResponse {
     private String name;
     private String yahooFinanceSymbol;
     private String tradingViewSymbol;
+    private String imageUrl;
 
     public Long getId() {
         return id;
@@ -36,5 +37,13 @@ public class AddAssetResponse {
 
     public void setTradingViewSymbol(String tradingViewSymbol) {
         this.tradingViewSymbol = tradingViewSymbol;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 } 
