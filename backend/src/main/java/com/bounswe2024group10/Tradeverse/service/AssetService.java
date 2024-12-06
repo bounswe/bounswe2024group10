@@ -105,4 +105,9 @@ public class AssetService {
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
+    public Asset getAssetById(Long id) {
+        return assetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asset with ID " + id + " not found."));
+    }
+
 }
