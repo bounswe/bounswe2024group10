@@ -1,15 +1,21 @@
 package com.bounswe2024group10.Tradeverse.model;
 
-import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Use auto-generated ID
     private Long id;
@@ -23,6 +29,14 @@ public class User implements UserDetails {
     private int portfolioPrivacyLevel = 0; // Default value
     private int tag;
     private String bio; // New field for user bio
+
+    public User() {
+    }
+
+    public User(String username, int tag) {
+        this.username = username;
+        this.tag = tag;
+    }
 
     // Getters and setters
     public Long getId() {
