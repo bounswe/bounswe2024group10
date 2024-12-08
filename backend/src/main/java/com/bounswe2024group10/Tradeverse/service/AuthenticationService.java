@@ -1,5 +1,10 @@
 package com.bounswe2024group10.Tradeverse.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +42,19 @@ public class AuthenticationService {
         }
         if (userRepository.findByUsername(registerRequest.getUsername()) != null) {
             return new RegisterResponse(false, "Username is already in use", null, null);
+        }
+        if (registerRequest.getProfilePhoto() != null) {
+            try {
+                File file = new File("images/" + UUID.randomUUID() + ".jpg");
+                file.createNewFile();
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(Base64.getDecoder().decode(registerRequest.getProfilePhoto()));
+                fos.close();
+                registerRequest.setProfilePhoto(file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new RegisterResponse(false, "Error while saving profile photo", null, null);
+            }
         }
         User user = new User(); 
         user.setEmail(registerRequest.getEmail());

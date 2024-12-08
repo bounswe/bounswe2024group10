@@ -4,6 +4,13 @@ import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
 import com.bounswe2024group10.Tradeverse.dto.SetUserDetailsRequest;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +37,17 @@ public class UserService {
             user.setEmail(userDetailsRequest.getEmail());
         }
         if (userDetailsRequest.getProfilePhoto() != null) {
-            user.setProfilePhoto(userDetailsRequest.getProfilePhoto());
+            try {
+                File file = new File("images/" + UUID.randomUUID() + ".jpg");
+                file.createNewFile();
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(Base64.getDecoder().decode(userDetailsRequest.getProfilePhoto()));
+                fos.close();
+                user.setProfilePhoto(file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
         if (userDetailsRequest.getBio() != null) {
             user.setBio(userDetailsRequest.getBio());
