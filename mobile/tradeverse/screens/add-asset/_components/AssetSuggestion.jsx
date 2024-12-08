@@ -90,7 +90,7 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
               size="small"
               color="#000"
             />
-          ) : suggestions.length > 0 ? (
+          ) : suggestions?.length > 0 ? (
             <View>
               {suggestions.map((item, index) => (
                 <TouchableOpacity

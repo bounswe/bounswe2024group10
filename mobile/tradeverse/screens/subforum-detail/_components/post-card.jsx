@@ -68,15 +68,15 @@ const AuthorInfo = ({ author }) => (
       >
         <Text
           style={{
-            fontSize: SIZES.xxSmall,
+            fontSize: SIZES.xSmall,
             fontWeight: FONT_WEIGHTS.semibold,
             color: COLORS.black,
             letterSpacing: -0.03,
           }}
         >
-          {author.name} {author.surname}
+          @{author.username}
         </Text>
-        <Text
+        {/* <Text
           style={{
             fontSize: SIZE_CONSTANT * 0.8,
             color: '#A1A1A1',
@@ -85,7 +85,7 @@ const AuthorInfo = ({ author }) => (
           }}
         >
           @{author.username}
-        </Text>
+        </Text> */}
       </View>
     </View>
   </UserLink>
@@ -165,9 +165,8 @@ const InteractionInfo = ({ icon = () => {}, value }) => (
 )
 
 export default function PostCard({ style, post }) {
-  console.log(post.content.length)
   return (
-    <PostLink target={paths.HOME.POST_DETAIL} post={post}>
+    <PostLink target={paths.EXPLORE.POST_DETAIL} post={post}>
       <View
         style={{
           paddingHorizontal: SIZES.small,
@@ -186,7 +185,7 @@ export default function PostCard({ style, post }) {
           }}
         >
           <AuthorInfo author={post.author} />
-          <SubforumInfo subforum={post.subforum} />
+          {/* <SubforumInfo subforum={post.subforum} /> */}
         </View>
 
         <View>
@@ -238,15 +237,15 @@ export default function PostCard({ style, post }) {
           >
             <InteractionInfo
               icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
-              value={post.views}
+              value={post.nofComments}
             />
             <InteractionInfo
               icon={(params) => <IconThumbUp color="#444" size={12} />}
-              value={post.views}
+              value={post.nofLikes}
             />
             <InteractionInfo
               icon={(params) => <IconThumbDown color="#444" size={12} />}
-              value={post.views}
+              value={post.nofDislikes}
             />
           </View>
         </View>

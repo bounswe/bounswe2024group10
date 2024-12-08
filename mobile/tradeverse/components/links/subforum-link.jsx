@@ -11,7 +11,9 @@ export default function SubforumLink({
   return (
     <Pressable
       onPress={() => {
-        router.push(`${target}?subforumId=${subForum?.id}`)
+        router.push(
+          `${target}?subforumId=${subForum?.id}&subforumTitle=${subForum?.title}`
+        )
       }}
     >
       {children}

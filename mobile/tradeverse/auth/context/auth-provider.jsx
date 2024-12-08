@@ -42,9 +42,6 @@ export default function AuthProvider({ children }) {
           profilePhoto,
           username,
         })
-        console.log(res)
-        console.log(res)
-        console.log(res)
 
         if (res?.status === 200 && res?.data?.token) {
           await AsyncStorage.setItem('authToken', res.data?.token)
