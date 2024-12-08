@@ -4,6 +4,7 @@ public class AddAssetRequest {
     private String name;
     private String yahooFinanceSymbol;
     private String tradingViewSymbol;
+    private String imageUrl;
 
     public String getName() {
         return name;
@@ -27,5 +28,13 @@ public class AddAssetRequest {
 
     public void setTradingViewSymbol(String tradingViewSymbol) {
         this.tradingViewSymbol = tradingViewSymbol;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 } 
