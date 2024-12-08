@@ -56,6 +56,9 @@ public class Post {
     @Column(nullable = false)
     private PostType postType;
 
+    @Column(nullable = false)
+    private Long viewCount;
+
     public Post() {
     }
 
@@ -71,6 +74,7 @@ public class Post {
         this.postType = postType;
         this.nofLikes = 0L;
         this.nofDislikes = 0L;
+        this.viewCount = 0L;
     }
 
     public Long getId() {
@@ -167,5 +171,13 @@ public class Post {
 
     public void setPostType(PostType postType) {
         this.postType = postType;
+    }
+
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
     }
 }
