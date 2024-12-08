@@ -9,9 +9,10 @@ import PopularView from './views/popular-view'
 import { getExploreFeed } from '../../services/explore'
 import { useContext } from 'react'
 import AuthContext from '../../auth/context/auth-context'
+import SubforumsView from './views/subforums-view'
 
 export default function ExploreRootScreen() {
-  const [selectedTab, setSelectedTab] = useState('popular')
+  const [selectedTab, setSelectedTab] = useState('subforums')
   const [loading, setLoading] = useState(true)
   const { user } = useContext(AuthContext)
   const [data, setData] = useState({
@@ -44,6 +45,7 @@ export default function ExploreRootScreen() {
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 
       <>
+        {selectedTab === 'subforums' && <SubforumsView />}
         {selectedTab === 'popular' && <PopularView data={data?.popularPosts} />}
         {selectedTab === 'recent' && <PopularView data={data?.recentPosts} />}
       </>

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Pressable, View, Text } from 'react-native'
+import { useLocalSearchParams } from 'expo-router'
 import {
   COLORS,
   FONT_WEIGHTS,
@@ -8,7 +9,13 @@ import {
 } from '../../../constants/theme'
 
 export default function Tabs({ selectedTab, setSelectedTab }) {
+  const { tab } = useLocalSearchParams()
+
   const TABS = [
+    {
+      label: 'Subforums',
+      value: 'subforums',
+    },
     {
       label: 'Popular',
       value: 'popular',
@@ -18,6 +25,10 @@ export default function Tabs({ selectedTab, setSelectedTab }) {
       value: 'recent',
     },
   ]
+
+  useEffect(() => {
+    if (tab) setSelectedTab(tab)
+  }, [tab, setSelectedTab])
 
   return (
     <View

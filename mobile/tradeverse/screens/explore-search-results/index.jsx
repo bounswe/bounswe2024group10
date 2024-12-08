@@ -53,7 +53,6 @@ export default function ExploreRootScreen() {
         keyword: updatedSearchKey,
         username: user?.username ?? '',
       })
-      console.log(data)
 
       setData({
         popular: data.popular,
