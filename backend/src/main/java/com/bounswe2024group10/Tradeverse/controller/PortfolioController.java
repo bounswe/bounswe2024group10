@@ -15,9 +15,8 @@ public class PortfolioController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-portfolio")
-    public ResponseEntity<GetPortfolioResponse> getPortfolio(@RequestBody GetPortfolioRequest request) {
-        GetPortfolioResponse response = portfolioService.getPortfolio(request);
-        return ResponseEntity.ok(response);
+    public GetPortfolioResponse getPortfolio(@RequestParam("username") String username) {
+        return portfolioService.getPortfolio(username);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -28,9 +27,8 @@ public class PortfolioController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/by-asset/{assetId}")
-    public ResponseEntity<GetPortfolioResponse> getPortfoliosByAsset(@PathVariable Long assetId) {
-        GetPortfolioResponse response = portfolioService.getPortfoliosByAsset(assetId);
-        return ResponseEntity.ok(response);
+    @GetMapping("/by-asset")
+    public GetPortfolioResponse getPortfoliosByAsset(@RequestParam("assetId") Long assetId) {
+        return portfolioService.getPortfoliosByAsset(assetId);
     }
 }
