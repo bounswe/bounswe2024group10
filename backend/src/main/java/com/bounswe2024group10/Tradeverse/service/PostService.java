@@ -224,6 +224,8 @@ public class PostService {
         if (post.getPostType() != POST) {
             return new GetPostResponse(false, "Post is not a post", null);
         }
+        post.setViewCount(post.getViewCount() + 1); // Increment view count
+        postRepository.save(post); // Save updated view count
         PostWSpecs postWSpecs = post2PostWSpecs(post, request.getUsername());
         return new GetPostResponse(true, "Post fetched successfully", postWSpecs);
     }
@@ -236,6 +238,8 @@ public class PostService {
         if (post.getPostType() != POST) {
             return new GetSuperPostResponse(false, "Post is not a post", null);
         }
+        post.setViewCount(post.getViewCount() + 1); // Increment view count
+        postRepository.save(post); // Save updated view count
         SuperPost superPost = post2SuperPost(post, request.getUsername());
         return new GetSuperPostResponse(true, "Post fetched successfully", superPost);
     }
@@ -478,6 +482,8 @@ public class PostService {
         if (post == null) {
             return new GetPostResponse(false, "Post does not exist", null);
         }
+        post.setViewCount(post.getViewCount() + 1); // Increment view count
+        postRepository.save(post); // Save updated view count
         PostWSpecs postWSpecs = post2PostWSpecs(post, request.getUsername());
         return new GetPostResponse(true, "Post fetched successfully", postWSpecs);
     }
@@ -487,6 +493,8 @@ public class PostService {
         if (post == null) {
             return new GetSuperPostResponse(false, "Post does not exist", null);
         }
+        post.setViewCount(post.getViewCount() + 1); // Increment view count
+        postRepository.save(post); // Save updated view count
         SuperPost superPost = post2SuperPost(post, request.getUsername());
         return new GetSuperPostResponse(true, "Post fetched successfully", superPost);
     }
