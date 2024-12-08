@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -46,4 +47,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "WHERE p.postType = :postType AND p.title LIKE %:keyword% " +
             "GROUP BY p.id, p.title")
     List<SubforumSummaryDTO> findSubforumsWithKeywordAndPostCount(@Param("keyword") String keyword, @Param("postType") PostType postType);
+
+
+    @Query("UPDATE Post p SET p.viewCount = p.viewCount + 1 WHERE p.id = :id")
+    @Modifying
+    void incrementViewCount(@Param("id") Long id);
+
 }
