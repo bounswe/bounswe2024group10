@@ -27,6 +27,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - images-data:/images
   web:
     build:
       context: ./web/tradeverse
@@ -38,3 +40,4 @@ services:
 
 volumes:
   db-data:
+  images-data:
