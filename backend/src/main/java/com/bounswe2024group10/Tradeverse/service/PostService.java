@@ -89,6 +89,7 @@ public class PostService {
             content,
             username,
             request.getSubforumID(),
+            0,
             LocalDateTime.now(),
             null
         );
@@ -120,6 +121,7 @@ public class PostService {
     }
 
     private GetPostResponse convertToGetPostResponse(Post post, String username) {
+        post.setViewCount(post.getViewCount() + 1);
         int likeCount = likeRepository.countByPostID(post.getId());
         int dislikeCount = dislikeRepository.countByPostID(post.getId());
         int commentCount = commentRepository.countByPostID(post.getId());

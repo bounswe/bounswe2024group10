@@ -33,6 +33,9 @@ public class Post {
     private Long subforumID;
 
     @Column(nullable = false)
+    private int viewCount;
+
+    @Column(nullable = false)
     private LocalDateTime creationDate;
 
     @Column(nullable = true)
@@ -41,11 +44,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, List<Content> content, String createdBy, Long subforumID, LocalDateTime creationDate, LocalDateTime lastEditDate) {
+    public Post(String title, List<Content> content, String createdBy, Long subforumID, int viewCount, LocalDateTime creationDate, LocalDateTime lastEditDate) {
         this.title = title;
         this.content = content;
         this.createdBy = createdBy;
         this.subforumID = subforumID;
+        this.viewCount = viewCount;
         this.creationDate = creationDate;
         this.lastEditDate = lastEditDate;
     }
@@ -88,6 +92,14 @@ public class Post {
 
     public void setSubforumID(Long subforumID) {
         this.subforumID = subforumID;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public LocalDateTime getCreationDate() {
