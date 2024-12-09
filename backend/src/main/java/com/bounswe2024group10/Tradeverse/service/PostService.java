@@ -1,21 +1,8 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.DeletePostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.DeletePostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
-import com.bounswe2024group10.Tradeverse.model.Comment;
-import com.bounswe2024group10.Tradeverse.model.Content;
-import com.bounswe2024group10.Tradeverse.model.Post;
-import com.bounswe2024group10.Tradeverse.model.Subforum;
-import com.bounswe2024group10.Tradeverse.model.User;
-import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
-import com.bounswe2024group10.Tradeverse.repository.CommentRepository;
-import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
-import com.bounswe2024group10.Tradeverse.repository.PostRepository;
-import com.bounswe2024group10.Tradeverse.repository.SubforumRepository;
-import com.bounswe2024group10.Tradeverse.repository.UserRepository;
+import com.bounswe2024group10.Tradeverse.dto.post.*;
+import com.bounswe2024group10.Tradeverse.model.*;
+import com.bounswe2024group10.Tradeverse.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +38,9 @@ public class PostService {
 
     @Autowired
     private DislikeRepository dislikeRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
 
     public CreatePostResponse createPost(CreatePostRequest request, String username) {
         if (username == null) {
@@ -130,31 +120,32 @@ public class PostService {
         return new DeletePostResponse(true, "Post deleted successfully");
     }
 
+    private GetPostResponse convertToGetPostResponse(Post post, String username) {
+        int likeCount = likeRepository.countByPostID(post.getId());
+        int dislikeCount = dislikeRepository.countByPostID(post.getId());
+        int commentCount = commentRepository.countByPostID(post.getId());
+        boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
+        boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
+        return new GetPostResponse(
+            post.getId(),
+            post.getTitle(),
+            post.getContent(),
+            post.getCreatedBy(),
+            post.getCreationDate(),
+            likeCount,
+            dislikeCount,
+            commentCount,
+            isLikedByUser,
+            isDislikedByUser
+        );
+    }
+
     public List<GetPostResponse> getPostsBySubforum(Long subforumID, String username) {
         List<Post> posts = postRepository.findAllBySubforumIDOrderByCreationDateDesc(subforumID);
         List<GetPostResponse> response = new ArrayList<>();
-
         for (Post post : posts) {
-            int commentCount = commentRepository.countByPostID(post.getId());
-            int likeCount = likeRepository.countByPostID(post.getId());
-            int dislikeCount = dislikeRepository.countByPostID(post.getId());
-            boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
-            boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
-
-            response.add(new GetPostResponse(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getCreatedBy(),
-                post.getCreationDate(),
-                likeCount,
-                dislikeCount,
-                commentCount,
-                isLikedByUser,
-                isDislikedByUser
-            ));
+            response.add(convertToGetPostResponse(post, username));
         }
-
         return response;
     }
 
@@ -169,7 +160,6 @@ public class PostService {
         int userTag = user.getTag();
 
         Map<Long, Integer> postScoreMap = new HashMap<>();
-
         for (Post post : posts) {
             int score = 0;
             User creator = userRepository.findByUsername(post.getCreatedBy());
@@ -197,24 +187,7 @@ public class PostService {
             .collect(Collectors.toList());
 
         for (Post post : sortedPosts) {
-            int commentCount = commentRepository.countByPostID(post.getId());
-            int likeCount = likeRepository.countByPostID(post.getId());
-            int dislikeCount = dislikeRepository.countByPostID(post.getId());
-            boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
-            boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
-
-            response.add(new GetPostResponse(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getCreatedBy(),
-                post.getCreationDate(),
-                likeCount,
-                dislikeCount,
-                commentCount,
-                isLikedByUser,
-                isDislikedByUser
-            ));
+            response.add(convertToGetPostResponse(post, username));
         }
         return response;
     }
@@ -222,27 +195,9 @@ public class PostService {
     public List<GetPostResponse> getRecentPosts(String username) {
         List<Post> posts = postRepository.findTop100ByOrderByCreationDateDesc();
         List<GetPostResponse> response = new ArrayList<>();
-
         for (Post post : posts) {
-            int commentCount = commentRepository.countByPostID(post.getId());
-            int likeCount = likeRepository.countByPostID(post.getId());
-            int dislikeCount = dislikeRepository.countByPostID(post.getId());
-            boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
-            boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
-            response.add(new GetPostResponse(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getCreatedBy(),
-                post.getCreationDate(),
-                likeCount,
-                dislikeCount,
-                commentCount,
-                isLikedByUser,
-                isDislikedByUser
-            ));
+            response.add(convertToGetPostResponse(post, username));
         }
-
         return response;
     }
 
@@ -252,7 +207,14 @@ public class PostService {
     }
 
     public List<GetPostResponse> getFollowedPeoplePosts(String username) {
+        List<Follow> follows = followRepository.findByFollowerUsername(username);
         List<GetPostResponse> response = new ArrayList<>();
+        for (Follow follow : follows) {
+            List<Post> posts = postRepository.findByCreatedBy(follow.getFollowedUsername());
+            for (Post post : posts) {
+                response.add(convertToGetPostResponse(post, username));
+            }
+        }
         return response;
     }
 }

@@ -94,4 +94,26 @@ public class PostController {
         List<GetPostResponse> posts = postService.getRecentPosts(username);
         return ResponseEntity.ok(posts);
     }
+
+    @GetMapping("/followed-topics")
+    public ResponseEntity<List<GetPostResponse>> getFollowedTopicsPosts(@RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        List<GetPostResponse> posts = postService.getFollowedTopicsPosts(username);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/followed-people")
+    public ResponseEntity<List<GetPostResponse>> getFollowedPeoplePosts(@RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        List<GetPostResponse> posts = postService.getFollowedPeoplePosts(username);
+        return ResponseEntity.ok(posts);
+    }
 }
