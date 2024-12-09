@@ -14,15 +14,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.ElementCollection;
 
 @Entity
-@Table(name = "posts")
-public class Post {
+@Table(name = "comments")
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String title;
 
     @ElementCollection
     @Column(nullable = true)
@@ -32,25 +29,28 @@ public class Post {
     private String createdBy;
 
     @Column(nullable = false)
-    private Long subforumID;
+    private String postID;
+
+    @Column(nullable = true)
+    private Long commentID;
 
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime lastEditDate;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime lastUpdateDate;
 
-    public Post() {
+    public Comment() {
     }
 
-    public Post(String createdBy, String title, List<Content> content, Long subforumID, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
+    public Comment(String createdBy, String postID, Long commentID, List<Content> content, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
         this.createdBy = createdBy;
-        this.title = title;
+        this.postID = postID;
+        this.commentID = commentID;
         this.content = content;
-        this.subforumID = subforumID;
         this.creationDate = creationDate;
         this.lastEditDate = lastEditDate;
         this.lastUpdateDate = lastUpdateDate;
@@ -62,14 +62,6 @@ public class Post {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public List<Content> getContent() {
@@ -88,12 +80,20 @@ public class Post {
         this.createdBy = createdBy;
     }
 
-    public Long getSubforumID() {
-        return subforumID;
+    public String getPostID() {
+        return postID;
     }
 
-    public void setSubforumID(Long subforumID) {
-        this.subforumID = subforumID;
+    public void setPostID(String postID) {
+        this.postID = postID;
+    }
+
+    public Long getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(Long commentID) {
+        this.commentID = commentID;
     }
 
     public LocalDateTime getCreationDate() {

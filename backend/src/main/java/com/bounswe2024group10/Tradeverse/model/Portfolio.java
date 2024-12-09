@@ -16,7 +16,7 @@ public class Portfolio {
     private Long assetId;
 
     @Column(nullable = false)
-    private double amount; //
+    private double amount;
 
     public Portfolio() {
     }
