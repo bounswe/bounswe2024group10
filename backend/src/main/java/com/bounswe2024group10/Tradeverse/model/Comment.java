@@ -27,7 +27,7 @@ public class Comment {
     private String createdBy;
 
     @Column(nullable = false)
-    private String postID;
+    private Long postID;
 
     @Column(nullable = true)
     private Long parentCommentID;
@@ -44,7 +44,7 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String createdBy, String postID, Long parentCommentID, List<Content> content, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
+    public Comment(String createdBy, Long postID, Long parentCommentID, List<Content> content, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
         this.createdBy = createdBy;
         this.postID = postID;
         this.parentCommentID = parentCommentID;
@@ -78,11 +78,11 @@ public class Comment {
         this.createdBy = createdBy;
     }
 
-    public String getPostID() {
+    public Long getPostID() {
         return postID;
     }
 
-    public void setPostID(String postID) {
+    public void setPostID(Long postID) {
         this.postID = postID;
     }
 

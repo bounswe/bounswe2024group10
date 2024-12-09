@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Post findBySubforumID(Long subforumID);
     List<Post> findByCreatedBy(String createdBy);
+    List<Post> findAllBySubforumIDOrderByCreationDateDesc(Long subforumID);
+    List<Post> findTop100ByOrderByCreationDateDesc();
 }

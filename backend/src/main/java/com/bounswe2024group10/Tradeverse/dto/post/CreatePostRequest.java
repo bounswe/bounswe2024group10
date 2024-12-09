@@ -4,18 +4,9 @@ import com.bounswe2024group10.Tradeverse.model.Content;
 import java.util.List;
 
 public class CreatePostRequest {
-    private String username;
     private String title;
     private List<Content> content;
     private Long subforumID;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getTitle() {
         return title;

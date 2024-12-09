@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByParentCommentID(Long parentCommentID);
-    List<Comment> findByPostID(String postID);
+    List<Comment> findByPostID(Long postID);
     List<Comment> findByCreatedBy(String createdBy);
+    int countByPostID(Long postID);
 } 
