@@ -35,19 +35,19 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime lastEditDate;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime lastUpdateDate;
 
     public Post() {
     }
 
-    public Post(String createdBy, String title, List<Content> content, Long subforumID, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
-        this.createdBy = createdBy;
+    public Post(String title, List<Content> content, String createdBy, Long subforumID, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
         this.title = title;
         this.content = content;
+        this.createdBy = createdBy;
         this.subforumID = subforumID;
         this.creationDate = creationDate;
         this.lastEditDate = lastEditDate;
