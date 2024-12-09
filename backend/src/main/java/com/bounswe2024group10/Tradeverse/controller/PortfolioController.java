@@ -15,7 +15,7 @@ public class PortfolioController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-portfolio")
-    public GetPortfolioResponse getPortfolio(@RequestParam("username") String username) {
+    public GetPortfolioResponse getPortfolio(@RequestParam String username) {
         return portfolioService.getPortfolio(username);
     }
 
@@ -28,7 +28,7 @@ public class PortfolioController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/by-asset")
-    public GetPortfolioResponse getPortfoliosByAsset(@RequestParam("assetId") Long assetId) {
+    public GetPortfolioResponse getPortfoliosByAsset(@RequestParam Long assetId) {
         return portfolioService.getPortfoliosByAsset(assetId);
     }
 }
