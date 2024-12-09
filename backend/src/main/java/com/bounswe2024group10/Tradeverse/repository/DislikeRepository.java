@@ -14,5 +14,5 @@ public interface DislikeRepository extends JpaRepository<Dislike, Long> {
     Boolean existsByUsernameAndPostID(String username, Long postID);
     List<Dislike> findByUsername(String username);
     List<Dislike> findByPostID(Long postID);
-    Long countByPostID(Long postID);
+    int countByPostID(Long postID);
 }

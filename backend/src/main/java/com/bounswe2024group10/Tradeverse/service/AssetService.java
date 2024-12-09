@@ -3,8 +3,6 @@ package com.bounswe2024group10.Tradeverse.service;
 import com.bounswe2024group10.Tradeverse.dto.asset.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;

@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.bounswe2024group10.Tradeverse.dto.LoginRequest;
-import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
-import com.bounswe2024group10.Tradeverse.dto.RegisterRequest;
-import com.bounswe2024group10.Tradeverse.dto.RegisterResponse;
+import com.bounswe2024group10.Tradeverse.dto.authentication.*;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
@@ -30,7 +27,7 @@ public class AuthenticationService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$"; // Simple email regex
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     public RegisterResponse register(RegisterRequest registerRequest) {
@@ -56,7 +53,7 @@ public class AuthenticationService {
                 return new RegisterResponse(false, "Error while saving profile photo", null, null);
             }
         }
-        User user = new User(); 
+        User user = new User();
         user.setEmail(registerRequest.getEmail());
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -64,7 +61,6 @@ public class AuthenticationService {
         user.setProfilePhoto(registerRequest.getProfilePhoto());
         user.setTag(registerRequest.getTag());
         userRepository.save(user);
-        
         String token = jwtUtil.generateToken(user);
         return new RegisterResponse(true, "User registered successfully", token, user.getUsername());
     }

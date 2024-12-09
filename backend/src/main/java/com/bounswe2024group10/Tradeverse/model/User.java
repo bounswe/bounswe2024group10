@@ -11,20 +11,51 @@ import java.util.List;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use auto-generated ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String name;
+
     @Column(nullable = true, columnDefinition = "LONGTEXT")
     private String profilePhoto;
-    private int portfolioPrivacyLevel = 0; // Default value
-    private int tag;
-    private String bio; // New field for user bio
 
-    // Getters and setters
+    @Column(nullable = false)
+    private int portfolioPrivacyLevel = 0;
+
+    @Column(nullable = false)
+    private int tag;
+
+    @Column(nullable = true, columnDefinition = "LONGTEXT")
+    private String bio;
+
+    @Column(nullable = false)
+    private boolean isAdmin = false;
+    
+    public User() {
+    }
+
+    public User(String email, String username, String password, String name, String profilePhoto, int portfolioPrivacyLevel, int tag, String bio, boolean isAdmin) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.profilePhoto = profilePhoto;
+        this.portfolioPrivacyLevel = portfolioPrivacyLevel;
+        this.tag = tag;
+        this.bio = bio;
+        this.isAdmin = isAdmin;
+    }
+
     public Long getId() {
         return id;
     }
@@ -95,6 +126,14 @@ public class User implements UserDetails {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     // UserDetails interface methods

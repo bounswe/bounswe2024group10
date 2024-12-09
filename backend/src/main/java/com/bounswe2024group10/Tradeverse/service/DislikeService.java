@@ -42,19 +42,14 @@ public class DislikeService {
         if (post == null) {
             return new DislikePostResponse(false, "Post does not exist");
         }
-        if (!post.getLikable()) {
-            return new DislikePostResponse(false, "Post is not likable");
-        }
         if (dislikeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId()) != null) {
             return new DislikePostResponse(false, "You have already disliked this post");
         }
         Dislike dislike = new Dislike(request.getUsername(), request.getPostId());
         dislikeRepository.save(dislike);
-        post.setNofDislikes(post.getNofDislikes() + 1);
         Like like = likeRepository.findByUsernameAndPostID(user.getUsername(), request.getPostId());
         if (like != null) {
             likeRepository.delete(like);
-            post.setNofLikes(post.getNofLikes() - 1);
         }
         postRepository.save(post);
         return new DislikePostResponse(true, "Post liked successfully");

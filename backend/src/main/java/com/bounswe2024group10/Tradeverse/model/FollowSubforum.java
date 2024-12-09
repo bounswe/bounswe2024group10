@@ -1,14 +1,9 @@
 package com.bounswe2024group10.Tradeverse.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "follows-subforum")
+@Table(name = "follow_subforums")
 public class FollowSubforum {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +13,13 @@ public class FollowSubforum {
     private String followerUsername;
 
     @Column(nullable = false)
-    private Long followedSubforumID;
+    private Long subforumID;
 
     public FollowSubforum() {}
 
-    public FollowSubforum(String followerUsername, Long followedSubforumID) {
+    public FollowSubforum(String followerUsername, Long subforumID) {
         this.followerUsername = followerUsername;
-        this.followedSubforumID = followedSubforumID;
+        this.subforumID = subforumID;
     }
 
     public Long getId() {
@@ -43,11 +38,11 @@ public class FollowSubforum {
         this.followerUsername = followerUsername;
     }
 
-    public Long getFollowedSubforumID() {
-        return followedSubforumID;
+    public Long getSubforumID() {
+        return subforumID;
     }
 
-    public void setFollowedSubforumID(Long followedSubforum) {
-        this.followedSubforumID = followedSubforum;
+    public void setSubforumID(Long subforumID) {
+        this.subforumID = subforumID;
     }
 }

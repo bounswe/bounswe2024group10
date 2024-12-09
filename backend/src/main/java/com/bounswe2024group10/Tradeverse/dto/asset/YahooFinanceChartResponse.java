@@ -7,7 +7,6 @@ public class YahooFinanceChartResponse {
 
     public static class Chart {
         private Result[] result;
-        private String error;
         
         public Result[] getResult() {
             return result;
