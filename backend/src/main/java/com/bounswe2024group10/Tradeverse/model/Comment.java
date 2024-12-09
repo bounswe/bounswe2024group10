@@ -3,8 +3,6 @@ package com.bounswe2024group10.Tradeverse.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.bounswe2024group10.Tradeverse.model.Content;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
