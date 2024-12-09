@@ -1,9 +1,6 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
-import com.bounswe2024group10.Tradeverse.dto.LoginRequest;
-import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
-import com.bounswe2024group10.Tradeverse.dto.RegisterRequest;
-import com.bounswe2024group10.Tradeverse.dto.RegisterResponse;
+import com.bounswe2024group10.Tradeverse.dto.authentication.*;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 import com.bounswe2024group10.Tradeverse.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

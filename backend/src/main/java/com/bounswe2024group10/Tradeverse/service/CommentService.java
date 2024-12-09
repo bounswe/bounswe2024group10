@@ -1,10 +1,6 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.comment.GetCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.comment.CreateCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.comment.CreateCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.comment.DeleteCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.comment.DeleteCommentResponse;
+import com.bounswe2024group10.Tradeverse.dto.comment.*;
 import com.bounswe2024group10.Tradeverse.model.Comment;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.User;

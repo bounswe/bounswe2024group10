@@ -1,7 +1,6 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
-import com.bounswe2024group10.Tradeverse.dto.SetUserDetailsRequest;
+import com.bounswe2024group10.Tradeverse.dto.user.*;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
@@ -22,7 +21,7 @@ public class UserService {
     public GetUserDetailsResponse getUserDetails(String username) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
-            return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio());
+            return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio(), user.getIsAdmin());
         }
         return null;
     }
@@ -32,7 +31,6 @@ public class UserService {
         if (user == null) {
             return null;
         }
-
         if (userDetailsRequest.getEmail() != null) {
             user.setEmail(userDetailsRequest.getEmail());
         }
@@ -55,9 +53,7 @@ public class UserService {
         if (userDetailsRequest.getTag() != null) {
             user.setTag(userDetailsRequest.getTag());
         }
-
         userRepository.save(user);
-
-        return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio());
+        return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio(), user.getIsAdmin());
     }
 }

@@ -1,12 +1,9 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
+import com.bounswe2024group10.Tradeverse.dto.comment.*;
 import com.bounswe2024group10.Tradeverse.dto.comment.GetCommentResponse;
 import com.bounswe2024group10.Tradeverse.service.CommentService;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
-import com.bounswe2024group10.Tradeverse.dto.comment.CreateCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.comment.CreateCommentResponse;
-import com.bounswe2024group10.Tradeverse.dto.comment.DeleteCommentRequest;
-import com.bounswe2024group10.Tradeverse.dto.comment.DeleteCommentResponse;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
+import com.bounswe2024group10.Tradeverse.dto.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,8 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.bounswe2024group10.Tradeverse.dto.GetUserDetailsResponse;
-import com.bounswe2024group10.Tradeverse.dto.SetUserDetailsRequest;
+
 import com.bounswe2024group10.Tradeverse.service.UserService;
 
 @RestController

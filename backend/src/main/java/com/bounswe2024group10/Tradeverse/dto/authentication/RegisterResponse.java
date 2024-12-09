@@ -1,4 +1,4 @@
-package com.bounswe2024group10.Tradeverse.dto;
+package com.bounswe2024group10.Tradeverse.dto.authentication;
 
 public class RegisterResponse {
     private boolean isSuccessful;

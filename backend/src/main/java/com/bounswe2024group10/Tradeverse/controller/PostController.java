@@ -1,10 +1,6 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.DeletePostRequest;
-import com.bounswe2024group10.Tradeverse.dto.post.DeletePostResponse;
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.*;
 import com.bounswe2024group10.Tradeverse.service.PostService;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
 

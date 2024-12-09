@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.bounswe2024group10.Tradeverse.dto.LoginRequest;
-import com.bounswe2024group10.Tradeverse.dto.LoginResponse;
-import com.bounswe2024group10.Tradeverse.dto.RegisterRequest;
-import com.bounswe2024group10.Tradeverse.dto.RegisterResponse;
+import com.bounswe2024group10.Tradeverse.dto.authentication.*;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
