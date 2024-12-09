@@ -152,13 +152,11 @@ public class PostService {
     public List<GetPostResponse> getForYouPosts(String username) {
         List<Post> posts = postRepository.findTop100ByOrderByCreationDateDesc();
         List<GetPostResponse> response = new ArrayList<>();
-
         User user = userRepository.findByUsername(username);
         if (user == null) {
             return new ArrayList<>();
         }
         int userTag = user.getTag();
-
         Map<Long, Integer> postScoreMap = new HashMap<>();
         for (Post post : posts) {
             int score = 0;
@@ -181,7 +179,6 @@ public class PostService {
             score -= dislikeRepository.countByPostID(post.getId());
             postScoreMap.put(post.getId(), score);
         }
-
         List<Post> sortedPosts = posts.stream()
             .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
             .collect(Collectors.toList());
@@ -193,6 +190,26 @@ public class PostService {
     }
 
     public List<GetPostResponse> getRecentPosts(String username) {
+        List<Post> posts = postRepository.findTop100ByOrderByCreationDateDesc();
+        List<GetPostResponse> response = new ArrayList<>();
+        Map<Long, Integer> postScoreMap = new HashMap<>();
+        for (Post post : posts) {
+            int score = 0;
+            score += likeRepository.countByPostID(post.getId());
+            score += dislikeRepository.countByPostID(post.getId());
+            score += 2 * commentRepository.countByPostID(post.getId());
+            postScoreMap.put(post.getId(), score);
+        }
+        List<Post> sortedPosts = posts.stream()
+            .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
+            .collect(Collectors.toList());
+        for (Post post : sortedPosts) {
+            response.add(convertToGetPostResponse(post, username));
+        }
+        return response;
+    }
+
+    public List<GetPostResponse> getPopularPosts(String username) {
         List<Post> posts = postRepository.findTop100ByOrderByCreationDateDesc();
         List<GetPostResponse> response = new ArrayList<>();
         for (Post post : posts) {

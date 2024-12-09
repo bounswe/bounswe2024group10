@@ -95,6 +95,17 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/popular")
+    public ResponseEntity<List<GetPostResponse>> getPopularPosts(@RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        List<GetPostResponse> posts = postService.getPopularPosts(username);
+        return ResponseEntity.ok(posts);
+    }
+
     @GetMapping("/followed-topics")
     public ResponseEntity<List<GetPostResponse>> getFollowedTopicsPosts(@RequestHeader("Authorization") String token) {
         String username = null;
