@@ -32,6 +32,9 @@ public class SubforumService {
         if (user == null) {
             return new CreateSubforumResponse(false, "User not found", null);
         }
+        if (!user.getIsAdmin()) {
+            return new CreateSubforumResponse(false, "User does not have permission to create a subforum", null);
+        }
         Subforum subforum = new Subforum(
                 request.getName(),
                 request.getDescription(),
@@ -48,6 +51,9 @@ public class SubforumService {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             return new DeleteSubforumResponse(false, "User not found");
+        }
+        if (!user.getIsAdmin()) {
+            return new DeleteSubforumResponse(false, "User does not have permission to delete a subforum");
         }
         Optional<Subforum> subforum = subforumRepository.findById(request.getId());
         if (subforum.isEmpty()) {

@@ -92,7 +92,7 @@ public class CommentService {
         if (comment.isEmpty()) {
             return new DeleteCommentResponse(false, "Comment not found");
         }
-        if (!comment.get().getCreatedBy().equals(username)) {
+        if (!comment.get().getCreatedBy().equals(username) && !userRepository.findByUsername(username).getIsAdmin()) {
             return new DeleteCommentResponse(false, "User does not have permission to delete this comment");
         }
         List<Comment> replies = commentRepository.findByParentCommentID(request.getCommentId());

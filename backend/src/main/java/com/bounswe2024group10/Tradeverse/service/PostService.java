@@ -102,7 +102,7 @@ public class PostService {
             return new DeletePostResponse(false, "Post not found");
         }
 
-        if (!post.get().getCreatedBy().equals(username)) {
+        if (!post.get().getCreatedBy().equals(username) && !userRepository.findByUsername(username).getIsAdmin()) {
             return new DeletePostResponse(false, "User does not have permission to delete this post");
         }
 
