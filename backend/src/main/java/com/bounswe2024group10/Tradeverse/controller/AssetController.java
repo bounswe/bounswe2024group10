@@ -41,6 +41,7 @@ public class AssetController {
         List<Asset> assets = assetService.getAllAssets();
         return ResponseEntity.ok(assets);
     }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<Asset> getAssetById(@PathVariable Long id) {

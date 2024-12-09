@@ -86,7 +86,8 @@ public class AssetService {
         Asset asset = new Asset(
             request.getName(),
             request.getYahooFinanceSymbol(),
-            request.getTradingViewSymbol()
+            request.getTradingViewSymbol(),
+            request.getImageUrl()
         );
 
         Asset savedAsset = assetRepository.save(asset);
@@ -96,13 +97,14 @@ public class AssetService {
         response.setName(savedAsset.getName());
         response.setYahooFinanceSymbol(savedAsset.getYahooFinanceSymbol());
         response.setTradingViewSymbol(savedAsset.getTradingViewSymbol());
-        
+        response.setImageUrl(savedAsset.getImageUrl());
         return response;
     }
 
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
+
     public Asset getAssetById(Long id) {
         return assetRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Asset with ID " + id + " not found."));
