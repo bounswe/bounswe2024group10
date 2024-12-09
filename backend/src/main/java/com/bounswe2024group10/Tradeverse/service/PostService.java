@@ -42,6 +42,9 @@ public class PostService {
     @Autowired
     private FollowRepository followRepository;
 
+    @Autowired
+    private FollowSubforumRepository followSubforumRepository;
+
     public CreatePostResponse createPost(CreatePostRequest request, String username) {
         if (username == null) {
             return new CreatePostResponse(false, "User not authenticated", null);
@@ -221,6 +224,14 @@ public class PostService {
 
     public List<GetPostResponse> getFollowedTopicsPosts(String username) {
         List<GetPostResponse> response = new ArrayList<>();
+        List<FollowSubforum> followedSubforums = followSubforumRepository.findByFollowerUsername(username);
+        for (FollowSubforum followedSubforum : followedSubforums) {
+            List<Post> posts = postRepository.findAllBySubforumIDOrderByCreationDateDesc(followedSubforum.getSubforumID());
+            for (Post post : posts) {
+                response.add(convertToGetPostResponse(post, username));
+            }
+        }
+        response.sort((p1, p2) -> p2.getCreationDate().compareTo(p1.getCreationDate()));
         return response;
     }
 

@@ -46,4 +46,37 @@ public class SubforumController {
         }
         return ResponseEntity.ok(subforumService.deleteSubforum(request, username));
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/follow")
+    public ResponseEntity<FollowSubforumResponse> followSubforum(@RequestBody FollowSubforumRequest request, @RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        return ResponseEntity.ok(subforumService.followSubforum(request, username));
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/unfollow")
+    public ResponseEntity<FollowSubforumResponse> unfollowSubforum(@RequestBody FollowSubforumRequest request, @RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        return ResponseEntity.ok(subforumService.unfollowSubforum(request, username));
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/followed")
+    public ResponseEntity<List<GetFollowedSubforumsResponse>> getFollowedSubforums(@RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        return ResponseEntity.ok(subforumService.getFollowedSubforums(username));
+    }
 } 

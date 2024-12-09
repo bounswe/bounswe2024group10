@@ -2,13 +2,17 @@ package com.bounswe2024group10.Tradeverse.service;
 
 import com.bounswe2024group10.Tradeverse.dto.subforum.*;
 import com.bounswe2024group10.Tradeverse.model.Subforum;
+import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.SubforumRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
+import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +23,11 @@ public class SubforumService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
+    @Autowired
+    private FollowSubforumRepository followSubforumRepository;
 
     public List<Subforum> getAllSubforums() {
         return subforumRepository.findAll();
@@ -61,5 +70,60 @@ public class SubforumService {
         }
         subforumRepository.delete(subforum.get());
         return new DeleteSubforumResponse(true, "Subforum deleted successfully");
+    }
+
+    public FollowSubforumResponse followSubforum(FollowSubforumRequest request, String username) {
+        if (username == null) {
+            return new FollowSubforumResponse(false, "User not found");
+        }
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return new FollowSubforumResponse(false, "User not found");
+        }
+        Optional<Subforum> subforum = subforumRepository.findById(request.getSubforumId());
+        if (subforum.isEmpty()) {
+            return new FollowSubforumResponse(false, "Subforum not found");
+        }
+        if (followSubforumRepository.findByFollowerUsernameAndSubforumID(user.getUsername(), subforum.get().getId()) != null) {
+            return new FollowSubforumResponse(false, "Already following this subforum");
+        }
+        FollowSubforum followSubforum = new FollowSubforum(user.getUsername(), subforum.get().getId());
+        followSubforumRepository.save(followSubforum);
+        return new FollowSubforumResponse(true, "Successfully followed subforum");
+    }
+
+    public FollowSubforumResponse unfollowSubforum(FollowSubforumRequest request, String username) {
+        if (username == null) {
+            return new FollowSubforumResponse(false, "User not found");
+        }
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return new FollowSubforumResponse(false, "User not found");
+        }
+        Optional<Subforum> subforum = subforumRepository.findById(request.getSubforumId());
+        if (subforum.isEmpty()) {
+            return new FollowSubforumResponse(false, "Subforum not found");
+        }
+        FollowSubforum followSubforum = followSubforumRepository.findByFollowerUsernameAndSubforumID(user.getUsername(), subforum.get().getId());
+        if (followSubforum == null) {
+            return new FollowSubforumResponse(false, "Not following this subforum");
+        }
+        followSubforumRepository.delete(followSubforum);
+        return new FollowSubforumResponse(true, "Successfully unfollowed subforum");
+    }
+
+    public List<GetFollowedSubforumsResponse> getFollowedSubforums(String username) {
+        if (username == null) {
+            return new ArrayList<GetFollowedSubforumsResponse>();
+        }
+        List<FollowSubforum> followedSubforums = followSubforumRepository.findByFollowerUsername(username);
+        List<GetFollowedSubforumsResponse> response = new ArrayList<>();
+        for (FollowSubforum followedSubforum : followedSubforums) {
+            Subforum subforum = subforumRepository.findById(followedSubforum.getSubforumID()).orElse(null);
+            if (subforum != null) {
+                response.add(new GetFollowedSubforumsResponse(subforum.getId(), subforum.getName(), subforum.getDescription(), subforum.getTagColor(), followSubforumRepository.countBySubforumID(subforum.getId()), postRepository.countBySubforumID(subforum.getId())));
+            }
+        }
+        return response;
     }
 }
