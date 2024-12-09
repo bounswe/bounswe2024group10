@@ -30,7 +30,7 @@ public class Comment {
     private String postID;
 
     @Column(nullable = true)
-    private Long commentID;
+    private Long parentCommentID;
 
     @Column(nullable = false)
     private LocalDateTime creationDate;
@@ -44,10 +44,10 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String createdBy, String postID, Long commentID, List<Content> content, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
+    public Comment(String createdBy, String postID, Long parentCommentID, List<Content> content, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
         this.createdBy = createdBy;
         this.postID = postID;
-        this.commentID = commentID;
+        this.parentCommentID = parentCommentID;
         this.content = content;
         this.creationDate = creationDate;
         this.lastEditDate = lastEditDate;
@@ -87,11 +87,11 @@ public class Comment {
     }
 
     public Long getCommentID() {
-        return commentID;
+        return parentCommentID;
     }
 
-    public void setCommentID(Long commentID) {
-        this.commentID = commentID;
+    public void setCommentID(Long parentCommentID) {
+        this.parentCommentID = parentCommentID;
     }
 
     public LocalDateTime getCreationDate() {
