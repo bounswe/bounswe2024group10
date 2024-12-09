@@ -26,10 +26,10 @@ public class UserService {
         return null;
     }
 
-    public GetUserDetailsResponse updateUserDetails(String username, SetUserDetailsRequest userDetailsRequest) {
+    public SetUserDetailsResponse setUserDetails(SetUserDetailsRequest userDetailsRequest, String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            return null;
+            return new SetUserDetailsResponse(false, "User not found");
         }
         if (userDetailsRequest.getEmail() != null) {
             user.setEmail(userDetailsRequest.getEmail());
@@ -44,7 +44,7 @@ public class UserService {
                 user.setProfilePhoto(file.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
-                return null;
+                return new SetUserDetailsResponse(false, "Error while saving profile photo");
             }
         }
         if (userDetailsRequest.getBio() != null) {
@@ -54,6 +54,6 @@ public class UserService {
             user.setTag(userDetailsRequest.getTag());
         }
         userRepository.save(user);
-        return new GetUserDetailsResponse(user.getEmail(), user.getUsername(), user.getName(), user.getProfilePhoto(), user.getTag(), user.getBio(), user.getIsAdmin());
+        return new SetUserDetailsResponse(true, "User details updated successfully");
     }
 }
