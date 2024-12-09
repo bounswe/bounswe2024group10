@@ -1,11 +1,11 @@
-package com.bounswe2024group10.Tradeverse.dto.subforum;
+package com.bounswe2024group10.Tradeverse.dto.comment;
 
-public class CreateSubforumResponse {
+public class CreateCommentResponse {
     private boolean isSuccessful;
     private String message;
     private Long id;
 
-    public CreateSubforumResponse(boolean isSuccessful, String message, Long id) {
+    public CreateCommentResponse(boolean isSuccessful, String message, Long id) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.id = id;

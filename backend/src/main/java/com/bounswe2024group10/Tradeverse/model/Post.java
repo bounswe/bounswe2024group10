@@ -38,20 +38,16 @@ public class Post {
     @Column(nullable = true)
     private LocalDateTime lastEditDate;
 
-    @Column(nullable = true)
-    private LocalDateTime lastUpdateDate;
-
     public Post() {
     }
 
-    public Post(String title, List<Content> content, String createdBy, Long subforumID, LocalDateTime creationDate, LocalDateTime lastEditDate, LocalDateTime lastUpdateDate) {
+    public Post(String title, List<Content> content, String createdBy, Long subforumID, LocalDateTime creationDate, LocalDateTime lastEditDate) {
         this.title = title;
         this.content = content;
         this.createdBy = createdBy;
         this.subforumID = subforumID;
         this.creationDate = creationDate;
         this.lastEditDate = lastEditDate;
-        this.lastUpdateDate = lastUpdateDate;
     }
 
     public Long getId() {
@@ -108,13 +104,5 @@ public class Post {
 
     public void setLastEditDate(LocalDateTime lastEditDate) {
         this.lastEditDate = lastEditDate;
-    }
-
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
     }
 }

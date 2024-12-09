@@ -30,7 +30,7 @@ public class AuthenticationService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$"; // Simple email regex
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     public RegisterResponse register(RegisterRequest registerRequest) {
@@ -56,7 +56,7 @@ public class AuthenticationService {
                 return new RegisterResponse(false, "Error while saving profile photo", null, null);
             }
         }
-        User user = new User(); 
+        User user = new User();
         user.setEmail(registerRequest.getEmail());
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -64,7 +64,6 @@ public class AuthenticationService {
         user.setProfilePhoto(registerRequest.getProfilePhoto());
         user.setTag(registerRequest.getTag());
         userRepository.save(user);
-        
         String token = jwtUtil.generateToken(user);
         return new RegisterResponse(true, "User registered successfully", token, user.getUsername());
     }

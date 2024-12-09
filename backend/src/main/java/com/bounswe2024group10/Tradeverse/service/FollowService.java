@@ -4,7 +4,6 @@ import com.bounswe2024group10.Tradeverse.dto.follow.*;
 import com.bounswe2024group10.Tradeverse.model.Follow;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
-import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

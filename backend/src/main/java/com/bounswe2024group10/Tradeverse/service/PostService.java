@@ -90,7 +90,6 @@ public class PostService {
             username,
             request.getSubforumID(),
             LocalDateTime.now(),
-            null,
             null
         );
         postRepository.save(post);

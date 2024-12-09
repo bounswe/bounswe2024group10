@@ -1,14 +1,12 @@
 package com.bounswe2024group10.Tradeverse.dto.subforum;
 
-public class CreateSubforumResponse {
+public class DeleteSubforumResponse {
     private boolean isSuccessful;
     private String message;
-    private Long id;
 
-    public CreateSubforumResponse(boolean isSuccessful, String message, Long id) {
+    public DeleteSubforumResponse(boolean isSuccessful, String message) {
         this.isSuccessful = isSuccessful;
         this.message = message;
-        this.id = id;
     }
 
     public boolean getIsSuccessful() {
@@ -25,13 +23,5 @@ public class CreateSubforumResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

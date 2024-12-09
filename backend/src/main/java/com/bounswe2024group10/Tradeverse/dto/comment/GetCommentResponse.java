@@ -1,53 +1,28 @@
-package com.bounswe2024group10.Tradeverse.model;
+package com.bounswe2024group10.Tradeverse.dto.comment;
 
+import com.bounswe2024group10.Tradeverse.model.Content;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.ElementCollection;
-
-@Entity
-@Table(name = "comments")
-public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GetCommentResponse {
     private Long id;
-
-    @ElementCollection
-    @Column(nullable = true)
     private List<Content> content;
-
-    @Column(nullable = false)
     private String createdBy;
-
-    @Column(nullable = false)
     private Long postID;
-
-    @Column(nullable = true)
     private Long parentCommentID;
-
-    @Column(nullable = false)
     private LocalDateTime creationDate;
+    private List<GetCommentResponse> replies;
 
-    @Column(nullable = true)
-    private LocalDateTime lastEditDate;
-
-    public Comment() {
-    }
-
-    public Comment(String createdBy, Long postID, Long parentCommentID, List<Content> content, LocalDateTime creationDate, LocalDateTime lastEditDate) {
+    public GetCommentResponse(Long id, List<Content> content, String createdBy, 
+                            Long postID, Long parentCommentID, LocalDateTime creationDate,
+                            List<GetCommentResponse> replies) {
+        this.id = id;
+        this.content = content;
         this.createdBy = createdBy;
         this.postID = postID;
         this.parentCommentID = parentCommentID;
-        this.content = content;
         this.creationDate = creationDate;
-        this.lastEditDate = lastEditDate;
+        this.replies = replies;
     }
 
     public Long getId() {
@@ -82,11 +57,11 @@ public class Comment {
         this.postID = postID;
     }
 
-    public Long getCommentID() {
+    public Long getParentCommentID() {
         return parentCommentID;
     }
 
-    public void setCommentID(Long parentCommentID) {
+    public void setParentCommentID(Long parentCommentID) {
         this.parentCommentID = parentCommentID;
     }
 
@@ -98,11 +73,11 @@ public class Comment {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getLastEditDate() {
-        return lastEditDate;
+    public List<GetCommentResponse> getReplies() {
+        return replies;
     }
 
-    public void setLastEditDate(LocalDateTime lastEditDate) {
-        this.lastEditDate = lastEditDate;
+    public void setReplies(List<GetCommentResponse> replies) {
+        this.replies = replies;
     }
-}
+} 

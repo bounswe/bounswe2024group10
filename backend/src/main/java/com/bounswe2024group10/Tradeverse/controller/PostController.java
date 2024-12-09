@@ -11,6 +11,7 @@ import com.bounswe2024group10.Tradeverse.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/create")
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request, @RequestHeader("Authorization") String token) {
         String username = null;
@@ -45,6 +47,7 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/delete")
     public ResponseEntity<DeletePostResponse> deletePost(@RequestBody DeletePostRequest request, @RequestHeader("Authorization") String token) {
         String username = null;
@@ -59,6 +62,7 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-posts-by-subforum")
     public ResponseEntity<List<GetPostResponse>> getPostsBySubforum(
         @RequestParam Long subforumId,
@@ -73,6 +77,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/for-you")
     public ResponseEntity<List<GetPostResponse>> getForYouPosts(@RequestHeader("Authorization") String token) {
         String username = null;
@@ -84,6 +89,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/recent")
     public ResponseEntity<List<GetPostResponse>> getRecentPosts(@RequestHeader("Authorization") String token) {
         String username = null;
@@ -95,6 +101,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/popular")
     public ResponseEntity<List<GetPostResponse>> getPopularPosts(@RequestHeader("Authorization") String token) {
         String username = null;
@@ -106,6 +113,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/followed-topics")
     public ResponseEntity<List<GetPostResponse>> getFollowedTopicsPosts(@RequestHeader("Authorization") String token) {
         String username = null;
@@ -117,6 +125,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/followed-people")
     public ResponseEntity<List<GetPostResponse>> getFollowedPeoplePosts(@RequestHeader("Authorization") String token) {
         String username = null;
