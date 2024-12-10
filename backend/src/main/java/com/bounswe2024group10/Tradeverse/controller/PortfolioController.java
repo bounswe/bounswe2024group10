@@ -6,14 +6,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioRequest;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioServiceRequest;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.GetPortfolioResponse;
 import com.bounswe2024group10.Tradeverse.service.PortfolioService;
+import com.bounswe2024group10.Tradeverse.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/portfolio")
@@ -21,6 +24,9 @@ public class PortfolioController {
 
     @Autowired
     private PortfolioService portfolioService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-portfolio")
@@ -30,8 +36,17 @@ public class PortfolioController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/add-asset")
-    public ResponseEntity<AddAssetToPortfolioResponse> addAssetToPortfolio(@RequestBody AddAssetToPortfolioRequest request) {
-        AddAssetToPortfolioResponse response = portfolioService.addAssetToPortfolio(request);
+    public ResponseEntity<AddAssetToPortfolioResponse> addAssetToPortfolio(@RequestBody AddAssetToPortfolioRequest request, @RequestHeader("Authorization") String token) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        AddAssetToPortfolioServiceRequest serviceRequest = new AddAssetToPortfolioServiceRequest();
+        serviceRequest.setAssetId(request.getAssetId());
+        serviceRequest.setAmount(request.getAmount());
+        serviceRequest.setUsername(username);
+        AddAssetToPortfolioResponse response = portfolioService.addAssetToPortfolio(serviceRequest);
         return ResponseEntity.ok(response);
     }
 
