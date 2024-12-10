@@ -1,16 +1,5 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
-import com.bounswe2024group10.Tradeverse.dto.user.*;
-import com.bounswe2024group10.Tradeverse.model.Post;
-import com.bounswe2024group10.Tradeverse.model.User;
-import com.bounswe2024group10.Tradeverse.repository.UserRepository;
-import com.bounswe2024group10.Tradeverse.repository.PostRepository;
-import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
-import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
-import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
-import com.bounswe2024group10.Tradeverse.repository.CommentRepository;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,14 +14,29 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.dto.user.GetProfileResponse;
+import com.bounswe2024group10.Tradeverse.dto.user.GetUserDetailsResponse;
+import com.bounswe2024group10.Tradeverse.dto.user.SetUserDetailsRequest;
+import com.bounswe2024group10.Tradeverse.dto.user.SetUserDetailsResponse;
+import com.bounswe2024group10.Tradeverse.model.Post;
+import com.bounswe2024group10.Tradeverse.model.User;
+import com.bounswe2024group10.Tradeverse.repository.CommentRepository;
+import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
+import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.PostRepository;
+import com.bounswe2024group10.Tradeverse.repository.UserRepository;
+
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PostRepository postRepository;
-    
+
     @Autowired
     private FollowRepository followRepository;
 
@@ -91,16 +95,16 @@ public class UserService {
         boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
         boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
         return new GetPostResponse(
-            post.getId(),
-            post.getTitle(),
-            post.getContent(),
-            post.getCreatedBy(),
-            post.getCreationDate(),
-            likeCount,
-            dislikeCount,
-            commentCount,
-            isLikedByUser,
-            isDislikedByUser
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getCreatedBy(),
+                post.getCreationDate(),
+                likeCount,
+                dislikeCount,
+                commentCount,
+                isLikedByUser,
+                isDislikedByUser
         );
     }
 
@@ -126,12 +130,12 @@ public class UserService {
             postScoreMap.put(post.getId(), score);
         }
         List<Post> sortedPosts = recentPosts.stream()
-            .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
-            .collect(Collectors.toList());
+                .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
+                .collect(Collectors.toList());
         List<GetPostResponse> popularPostResponses = new ArrayList<>();
         for (Post post : sortedPosts) {
             popularPostResponses.add(convertToGetPostResponse(post, requesterUsername));
         }
-        return new GetProfileResponse(user.getUsername(), user.getProfilePhoto(), postCount, followerCount, isFollowing, popularPostResponses, recentPostResponses);
+        return new GetProfileResponse(user.getUsername(), user.getName(), user.getProfilePhoto(), postCount, followerCount, isFollowing, popularPostResponses, recentPostResponses);
     }
 }

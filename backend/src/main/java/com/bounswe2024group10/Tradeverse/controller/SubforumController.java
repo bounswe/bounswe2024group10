@@ -1,19 +1,34 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
-import com.bounswe2024group10.Tradeverse.dto.subforum.*;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bounswe2024group10.Tradeverse.dto.subforum.CreateSubforumRequest;
+import com.bounswe2024group10.Tradeverse.dto.subforum.CreateSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.subforum.DeleteSubforumRequest;
+import com.bounswe2024group10.Tradeverse.dto.subforum.DeleteSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.subforum.FollowSubforumRequest;
+import com.bounswe2024group10.Tradeverse.dto.subforum.FollowSubforumResponse;
+import com.bounswe2024group10.Tradeverse.dto.subforum.GetFollowedSubforumsResponse;
+import com.bounswe2024group10.Tradeverse.dto.subforum.GetSubforumResponse;
 import com.bounswe2024group10.Tradeverse.model.Subforum;
 import com.bounswe2024group10.Tradeverse.service.SubforumService;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/subforum")
 public class SubforumController {
+
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
@@ -79,4 +94,15 @@ public class SubforumController {
         }
         return ResponseEntity.ok(subforumService.getFollowedSubforums(username));
     }
-} 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{id}")
+    public ResponseEntity<GetSubforumResponse> getSubforum(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        return ResponseEntity.ok(subforumService.getSubforum(username, id));
+    }
+}

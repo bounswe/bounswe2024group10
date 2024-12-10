@@ -142,7 +142,7 @@ public class PostService {
         return new DeletePostResponse(true, "Post deleted successfully");
     }
 
-    private GetPostResponse convertToGetPostResponse(Post post, String username) {
+    protected GetPostResponse convertToGetPostResponse(Post post, String username) {
         post.setViewCount(post.getViewCount() + 1);
         int likeCount = likeRepository.countByPostID(post.getId());
         int dislikeCount = dislikeRepository.countByPostID(post.getId());
