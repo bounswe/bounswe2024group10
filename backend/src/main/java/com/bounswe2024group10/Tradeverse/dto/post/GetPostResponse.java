@@ -50,6 +50,7 @@ public class GetPostResponse {
         this.commentCount = commentCount;
         this.isLikedByUser = isLikedByUser;
         this.isDislikedByUser = isDislikedByUser;
+        this.author = new UserResponse();
         this.author.setUserPhoto(userPhoto);
         this.author.setName(authorUserName);
         this.subforum = subforum;
