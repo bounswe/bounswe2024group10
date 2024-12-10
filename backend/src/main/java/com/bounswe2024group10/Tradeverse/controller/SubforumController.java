@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bounswe2024group10.Tradeverse.dto.subforum.AllSubforumResponse;
 import com.bounswe2024group10.Tradeverse.dto.subforum.CreateSubforumRequest;
 import com.bounswe2024group10.Tradeverse.dto.subforum.CreateSubforumResponse;
 import com.bounswe2024group10.Tradeverse.dto.subforum.DeleteSubforumRequest;
@@ -21,7 +22,6 @@ import com.bounswe2024group10.Tradeverse.dto.subforum.FollowSubforumRequest;
 import com.bounswe2024group10.Tradeverse.dto.subforum.FollowSubforumResponse;
 import com.bounswe2024group10.Tradeverse.dto.subforum.GetFollowedSubforumsResponse;
 import com.bounswe2024group10.Tradeverse.dto.subforum.GetSubforumResponse;
-import com.bounswe2024group10.Tradeverse.model.Subforum;
 import com.bounswe2024group10.Tradeverse.service.SubforumService;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
 
@@ -36,7 +36,7 @@ public class SubforumController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/all")
-    public ResponseEntity<List<Subforum>> getAllSubforums() {
+    public ResponseEntity<List<AllSubforumResponse>> getAllSubforums() {
         return ResponseEntity.ok(subforumService.getAllSubforums());
     }
 

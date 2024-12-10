@@ -36,8 +36,19 @@ public class SubforumService {
     @Autowired
     private PostService postService;
 
-    public List<Subforum> getAllSubforums() {
-        return subforumRepository.findAll();
+    public List<AllSubforumResponse> getAllSubforums() {
+        List<AllSubforumResponse> response = new ArrayList<>();
+        List<Subforum> subforums = subforumRepository.findAll();
+        for (Subforum subforum : subforums) {
+            response.add(convertToAllSubforumResponse(subforum));
+        }
+        return response;
+    }
+
+    private AllSubforumResponse convertToAllSubforumResponse(Subforum subforum) {
+        int followerCount = followSubforumRepository.countBySubforumID(subforum.getId());
+        int postCount = postRepository.countBySubforumID(subforum.getId());
+        return new AllSubforumResponse(subforum.getId(), subforum.getName(), subforum.getDescription(), subforum.getTagColor(), followerCount, postCount);
     }
 
     public CreateSubforumResponse createSubforum(CreateSubforumRequest request, String username) {
