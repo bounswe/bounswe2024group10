@@ -18,26 +18,23 @@ const Feed = ({ posts }) => {
   const [selectedSubforum, setSelectedSubforum] = useState("");
 
   useEffect(() => {
-    const fetchSubforums = async () => {
-      try {
-        const response = await fetch("http://35.246.188.121:8080/api/post/get-subforums/non-recursive");
-        const data = await response.json();
-        
-        if (data.successful) {
-          const subforumList = data.subforums.map((subforum) => ({
+    fetch("http://35.246.188.121:8080/api/subforum/all") // New endpoint
+      .then((response) => response.json())
+      .then((data) => {
+        // Assuming the API directly returns an array of subforums
+        if (Array.isArray(data)) {
+          const formattedSubforums = data.map((subforum) => ({
             id: subforum.id,
-            title: subforum.title,
+            name: subforum.name, // Adjusted to the 'name' field
+            description: subforum.description, // Including description if needed
+            tagColor: subforum.tagColor, // Including tag color if needed
           }));
-          setSubforums(subforumList);
+          setSubforums(formattedSubforums); // Take the first 5 subforums
         } else {
-          console.error("Failed to fetch subforums:", data.message);
+          console.error("Unexpected data format:", data);
         }
-      } catch (error) {
-        console.error("Error fetching subforums:", error);
-      }
-    };
-
-    fetchSubforums();
+      })
+      .catch((error) => console.error("Error fetching subforums:", error));
   }, []);
 
   const handleInputChange = (e) => {
@@ -93,7 +90,11 @@ const Feed = ({ posts }) => {
       new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => {
+          const base64String = reader.result;
+          console.log("Base64 String:", base64String); // Debugging
+          resolve(base64String);
+        };
         reader.onerror = (error) => reject(error);
       });
   
@@ -107,7 +108,8 @@ const Feed = ({ posts }) => {
     if (selectedImage) {
       try {
         const base64Image = await getBase64Image(selectedImage);
-        contentArray.push({ type: "image", value: base64Image });
+        const sanitizedBase64 = base64Image.split(",")[1]; // Removes metadata
+        contentArray.push({ type: "image", value: sanitizedBase64 });
       } catch (error) {
         toast.error("Error converting image to Base64.");
       }
@@ -119,19 +121,20 @@ const Feed = ({ posts }) => {
     }
   
     const postPayload = {
-      username: user.name,
       title: postTitle, // Use the new title input here
-      parentID: selectedSubforum,
+      subforumID: selectedSubforum,
       content: contentArray,
     };
   
   
     // Make the API call
     try {
-      const response = await fetch("http://35.246.188.121:8080/api/post/create-post", {
+      const token = localStorage.getItem("authToken"); 
+      const response = await fetch("http://35.246.188.121:8080/api/post/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(postPayload),
       });
@@ -179,7 +182,7 @@ const Feed = ({ posts }) => {
                 <option value="">-- Select Subforum --</option>
                 {subforums.map((subforum) => (
                   <option key={subforum.id} value={subforum.id}>
-                    {subforum.title}
+                    {subforum.name}
                   </option>
                 ))}
               </select>
