@@ -7,10 +7,10 @@ import { dislikePost, undislikePost } from "../../services/dislike";
 
 const Post = ({ post }) => {
   const { user } = AuthData();
-  const [isLiked, setIsLiked] = useState(post.isLiked);
-  const [isDisliked, setIsDisliked] = useState(post.isDisliked);
-  const [nofLikes, setNofLikes] = useState(post.nofLikes);
-  const [nofDislikes, setNofDislikes] = useState(post.nofDislikes);
+  const [isLiked, setIsLiked] = useState(post.isLikedByUser);
+  const [isDisliked, setIsDisliked] = useState(post.isDislikedByUser);
+  const [nofLikes, setNofLikes] = useState(post.likeCount);
+  const [nofDislikes, setNofDislikes] = useState(post.dislikeCount);
 
   const handleLike = async () => {
     if (!user.isAuthenticated) {
@@ -21,14 +21,16 @@ const Post = ({ post }) => {
     try {
       if (isLiked) {
         // Unlike the post
-        const response = await unlikePost({ username: user.name, postId: post.id });
+        const token = localStorage.getItem("authToken");
+        const response = await unlikePost(token, post.id);
         if (response?.successful) {
           setNofLikes((prev) => Math.max(prev - 1, 0)); // Ensure likes don't go below zero
           setIsLiked(false);
         }
       } else {
         // Like the post
-        const response = await likePost({ username: user.name, postId: post.id });
+        const token = localStorage.getItem("authToken");
+        const response = await likePost(token,post.id);
         if (response?.successful) {
           setNofLikes((prev) => prev + 1);
           setIsLiked(true);
@@ -54,14 +56,16 @@ const Post = ({ post }) => {
     try {
       if (isDisliked) {
         // Remove dislike
-        const response = await undislikePost({ username: user.name, postId: post.id });
+        const token = localStorage.getItem("authToken");
+        const response = await undislikePost(token,post.id);
         if (response?.successful) {
           setNofDislikes((prev) => prev - 1); // Ensure dislikes don't go below zero
           setIsDisliked(false);
         }
       } else {
         // Dislike the post
-        const response = await dislikePost({ username: user.name, postId: post.id });
+        const token = localStorage.getItem("authToken");
+        const response = await dislikePost(token,post.id);
         if (response?.successful) {
           setNofDislikes((prev) => prev + 1);
           setIsDisliked(true);
@@ -92,10 +96,10 @@ const Post = ({ post }) => {
     <div className={styles.post}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-          <img src={post.author.profilePhoto} className={styles.userImage} />
+          <img src={post.author.userPhoto} className={styles.userImage} />
           <div className={styles.userDetails}>
             <h3>{`${post.author.name}`}</h3>
-            <p>{`@${post.author.username}`}</p>
+            <p>{`@${post.createdBy}`}</p>
           </div>
         </div>
         <div className={styles.postTag}>

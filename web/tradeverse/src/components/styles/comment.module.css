@@ -17,6 +17,19 @@
     margin: 5px 0;
     color: #333;
 }
+.deleteButton {
+    position: relative  ;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.deleteButton:hover {
+    color: darkred;
+}
 
 .replyButton {
     background-color: transparent;

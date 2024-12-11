@@ -7,7 +7,7 @@ import com.bounswe2024group10.Tradeverse.dto.user.UserResponse;
 import com.bounswe2024group10.Tradeverse.model.Content;
 import com.bounswe2024group10.Tradeverse.model.Subforum;
 
-public class GetPostResponse {
+public class PostResponse {
 
     private Long id;
     private String title;
@@ -17,14 +17,12 @@ public class GetPostResponse {
     private int likeCount;
     private int dislikeCount;
     private int commentCount;
-    private boolean isLikedByUser;
-    private boolean isDislikedByUser;
     private UserResponse author;
     private Subforum subforum;
 
-    public GetPostResponse(Long id, String title, List<Content> content, String createdBy,
+    public PostResponse(Long id, String title, List<Content> content, String createdBy,
             LocalDateTime creationDate, int likeCount, int dislikeCount,
-            int commentCount, boolean isLikedByUser, boolean isDislikedByUser) {
+            int commentCount, UserResponse author, Subforum subforum) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -33,13 +31,13 @@ public class GetPostResponse {
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
         this.commentCount = commentCount;
-        this.isLikedByUser = isLikedByUser;
-        this.isDislikedByUser = isDislikedByUser;
+        this.author = author;
+        this.subforum = subforum;
     }
 
-    public GetPostResponse(Long id, String title, List<Content> content, String createdBy,
+    public PostResponse(Long id, String title, List<Content> content, String createdBy,
             LocalDateTime creationDate, int likeCount, int dislikeCount,
-            int commentCount, boolean isLikedByUser, boolean isDislikedByUser, String userPhoto, String authorUserName, Subforum subforum) {
+            int commentCount, String userPhoto, String authorUserName, Subforum subforum) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -48,12 +46,13 @@ public class GetPostResponse {
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
         this.commentCount = commentCount;
-        this.isLikedByUser = isLikedByUser;
-        this.isDislikedByUser = isDislikedByUser;
         this.author = new UserResponse();
         this.author.setUserPhoto(userPhoto);
         this.author.setName(authorUserName);
         this.subforum = subforum;
+    }
+
+    public PostResponse() {
     }
 
     public Long getId() {
@@ -118,22 +117,6 @@ public class GetPostResponse {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
-    }
-
-    public boolean getIsLikedByUser() {
-        return isLikedByUser;
-    }
-
-    public void setIsLikedByUser(boolean isLikedByUser) {
-        this.isLikedByUser = isLikedByUser;
-    }
-
-    public boolean getIsDislikedByUser() {
-        return isDislikedByUser;
-    }
-
-    public void setIsDislikedByUser(boolean isDislikedByUser) {
-        this.isDislikedByUser = isDislikedByUser;
     }
 
     public UserResponse getAuthor() {

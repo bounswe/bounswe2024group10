@@ -82,19 +82,25 @@ export const RenderMenu = () => {
   const [subforums, setSubforums] = useState([]); // State for subforums
 
   useEffect(() => {
-    fetch("http://35.246.188.121:8080/api/post/get-subforums/non-recursive")
+    fetch("http://35.246.188.121:8080/api/subforum/all") // New endpoint
       .then((response) => response.json())
       .then((data) => {
-        if (data.successful) {
-          const formattedSubforums = data.subforums.map((subforum) => ({
+        // Assuming the API directly returns an array of subforums
+        if (Array.isArray(data)) {
+          const formattedSubforums = data.map((subforum) => ({
             id: subforum.id,
-            name: subforum.title,
+            name: subforum.name, // Adjusted to the 'name' field
+            description: subforum.description, // Including description if needed
+            tagColor: subforum.tagColor, // Including tag color if needed
           }));
-          setSubforums(formattedSubforums.slice(0, 5)); // Take the first 5 or fewer
+          setSubforums(formattedSubforums.slice(0, 5)); // Take the first 5 subforums
+        } else {
+          console.error("Unexpected data format:", data);
         }
       })
       .catch((error) => console.error("Error fetching subforums:", error));
   }, []);
+  
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };

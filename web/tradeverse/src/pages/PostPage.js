@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Post from "../components/structure/Post";
 import Comment from "../components/structure/comment";
-import { getPost, createComment } from "../services/post";
+import { getPost, createComment ,getComments} from "../services/post";
 import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
@@ -11,18 +11,47 @@ const PostPage = () => {
     const { user } = AuthData();
     const { parentId, postId } = useParams();
     const [post, setPost] = useState(null);
+    const [comments, setComments] = useState([]); // State to store comments
     const [newComment, setNewComment] = useState("");
+    const [loadingPost, setLoadingPost] = useState(true); // Loading state for post
+    const [loadingComments, setLoadingComments] = useState(true); // Loading state for comments
 
     useEffect(() => {
         const fetchPost = async () => {
-            const data = await getPost(postId);
-            if (data.isSuccessful) {
-                setPost(data.post);
+            try {
+                const token = localStorage.getItem("authToken");
+                const data = await getPost(postId, token,user.isAuthenticated);
+                if (data && data.id && data.title && data.content) {
+                    setPost(data);
+                } else {
+                    console.error("Invalid post data received:", data);
+                }
+            } catch (error) {
+                console.error("Error fetching post:", error);
+            } finally {
+                setLoadingPost(false);
             }
         };
-        fetchPost();
 
-    }, [postId]);
+        const fetchComments = async () => {
+            try {
+                
+                const data = await getComments(postId); // Fetch comments
+                if (Array.isArray(data)) {
+                    setComments(data); // Set comments if the response is an array
+                } else {
+                    console.error("Invalid comments data received:", data);
+                }
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+            } finally {
+                setLoadingComments(false);
+            }
+        };
+
+        fetchPost();
+        fetchComments();
+    }, [postId,user.isAuthenticated]);
 
     const handleNewCommentChange = (e) => {
         setNewComment(e.target.value);
@@ -46,19 +75,29 @@ const PostPage = () => {
       };
 
 
-    const handleNewCommentSubmit = async () => {
+      const handleNewCommentSubmit = async () => {
         if (!newComment.trim()) return;
 
         const commentPayload = {
-            username: user.name,
-            parentID: postId,
-            content: [...parseContent(newComment)]
+            content: parseContent(newComment),
+            postID: postId,
+            parentCommentID: null, // Top-level comment
         };
 
-
         try {
-            const response = await createComment(commentPayload); // Add comment via API
-            if (response.successful) {
+            const token = localStorage.getItem("authToken");
+            const response = await createComment(commentPayload, token); // Add comment via API
+            if (response && response.isSuccessful) {
+                const newAddedComment = {
+                    id: response.id,
+                    content: commentPayload.content,
+                    createdBy: user.name,
+                    creationDate: new Date().toISOString(),
+                    replies: [],
+                    postID: postId,
+                    parentCommentID: null,
+                };
+                setComments((prevComments) => [...prevComments, newAddedComment]); // Add new comment to the list
                 setNewComment(""); // Clear the input field
             } else {
                 alert("Failed to add comment.");
@@ -68,33 +107,56 @@ const PostPage = () => {
             alert("Error adding comment.");
         }
     };
+    const refreshComments = async () => {
+        try {
+            const data = await getComments(postId); // Fetch updated comments from API
+            if (Array.isArray(data)) {
+                setComments(data); // Update comments state
+            } else {
+                console.error("Invalid comments data received:", data);
+            }
+        } catch (error) {
+            console.error("Error refreshing comments:", error);
+        }
+    };
 
     // Add a condition to handle when the post is still being fetched or not found
+    if (loadingPost) {
+        return <h3>Loading post...</h3>;
+    }
+
     if (!post) {
-        return <h3 style={{ paddingLeft: "200px" }}
-        >Loading post or post not found...</h3>;
+        return <h3>Post not found.</h3>;
     }
 
     return (
         <div className={styles.postPage}>
             <Post post={post} />  {/* Render the Post component with the specific post */}
-            <div className={styles.newCommentSection}>
-                <textarea
-                    value={newComment}
-                    onChange={handleNewCommentChange}
-                    placeholder="Write a comment..."
-                    className={styles.newCommentInput}
-                />
-                <button
-                    onClick={handleNewCommentSubmit}
-                    className={styles.newCommentButton}
-                >
-                    Comment
-                </button>
-            </div>
-            {post.comments && post.comments.length > 0 ? (
-                post.comments.map((comment) => (
-                    <Comment key={comment.id} comment={comment} level={0} />
+            {user.isAuthenticated ? (
+                <div className={styles.newCommentSection}>
+                    <textarea
+                        value={newComment}
+                        onChange={handleNewCommentChange}
+                        placeholder="Write a comment..."
+                        className={styles.newCommentInput}
+                    />
+                    <button
+                        onClick={handleNewCommentSubmit}
+                        className={styles.newCommentButton}
+                    >
+                        Comment
+                    </button>
+                </div>
+            ) : (
+                <p className={styles.authMessage}>
+                    
+                </p>
+            )}
+            {loadingComments ? (
+                <h3>Loading comments...</h3>
+            ) : comments.length > 0 ? (
+                comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments}  />
                 ))
             ) : (
                 <p>No comments yet. Be the first to comment!</p>

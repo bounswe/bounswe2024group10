@@ -1,26 +1,45 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.post.*;
-import com.bounswe2024group10.Tradeverse.model.*;
-import com.bounswe2024group10.Tradeverse.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bounswe2024group10.Tradeverse.dto.post.CreatePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.DeletePostRequest;
+import com.bounswe2024group10.Tradeverse.dto.post.DeletePostResponse;
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.model.Comment;
+import com.bounswe2024group10.Tradeverse.model.Content;
+import com.bounswe2024group10.Tradeverse.model.Follow;
+import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
+import com.bounswe2024group10.Tradeverse.model.Post;
+import com.bounswe2024group10.Tradeverse.model.Subforum;
+import com.bounswe2024group10.Tradeverse.model.User;
+import com.bounswe2024group10.Tradeverse.repository.CommentRepository;
+import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
+import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.PostRepository;
+import com.bounswe2024group10.Tradeverse.repository.SubforumRepository;
+import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Service
 public class PostService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -88,13 +107,13 @@ public class PostService {
         }
 
         Post post = new Post(
-            request.getTitle(),
-            content,
-            username,
-            request.getSubforumID(),
-            0,
-            LocalDateTime.now(),
-            null
+                request.getTitle(),
+                content,
+                username,
+                request.getSubforumID(),
+                0,
+                LocalDateTime.now(),
+                null
         );
         postRepository.save(post);
         return new CreatePostResponse(true, "Post created successfully", post.getId());
@@ -123,24 +142,31 @@ public class PostService {
         return new DeletePostResponse(true, "Post deleted successfully");
     }
 
-    private GetPostResponse convertToGetPostResponse(Post post, String username) {
+    protected GetPostResponse convertToGetPostResponse(Post post, String username) {
         post.setViewCount(post.getViewCount() + 1);
         int likeCount = likeRepository.countByPostID(post.getId());
         int dislikeCount = dislikeRepository.countByPostID(post.getId());
         int commentCount = commentRepository.countByPostID(post.getId());
         boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
         boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
+        User creatorUser = userRepository.findByUsername(post.getCreatedBy());
+        String userPhoto = creatorUser.getProfilePhoto();
+        String creatorUserName = creatorUser.getName();
+        Subforum subforum = subforumRepository.findById(post.getSubforumID()).orElse(null);
         return new GetPostResponse(
-            post.getId(),
-            post.getTitle(),
-            post.getContent(),
-            post.getCreatedBy(),
-            post.getCreationDate(),
-            likeCount,
-            dislikeCount,
-            commentCount,
-            isLikedByUser,
-            isDislikedByUser
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getCreatedBy(),
+                post.getCreationDate(),
+                likeCount,
+                dislikeCount,
+                commentCount,
+                isLikedByUser,
+                isDislikedByUser,
+                userPhoto,
+                creatorUserName,
+                subforum
         );
     }
 
@@ -184,8 +210,8 @@ public class PostService {
             postScoreMap.put(post.getId(), score);
         }
         List<Post> sortedPosts = posts.stream()
-            .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
-            .collect(Collectors.toList());
+                .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
+                .collect(Collectors.toList());
 
         for (Post post : sortedPosts) {
             response.add(convertToGetPostResponse(post, username));
@@ -205,8 +231,8 @@ public class PostService {
             postScoreMap.put(post.getId(), score);
         }
         List<Post> sortedPosts = posts.stream()
-            .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
-            .collect(Collectors.toList());
+                .sorted((p1, p2) -> postScoreMap.get(p2.getId()) - postScoreMap.get(p1.getId()))
+                .collect(Collectors.toList());
         for (Post post : sortedPosts) {
             response.add(convertToGetPostResponse(post, username));
         }
@@ -245,5 +271,13 @@ public class PostService {
             }
         }
         return response;
+    }
+
+    public GetPostResponse getPost(Long postId, String username) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return null;
+        }
+        return convertToGetPostResponse(post, username);
     }
 }
