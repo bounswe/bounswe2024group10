@@ -3,7 +3,7 @@ package com.bounswe2024group10.Tradeverse.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +26,7 @@ public class DislikeController {
     private JwtUtil jwtUtil;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/dislike-post")
+    @PostMapping("/dislike-post")
     public ResponseEntity<DislikePostResponse> dislikePost(@RequestParam Long postId, @RequestHeader("Authorization") String token) {
         String username = null;
         if (token != null && token.startsWith("Bearer ")) {
@@ -41,7 +41,7 @@ public class DislikeController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/undislike-post")
+    @PostMapping("/undislike-post")
     public ResponseEntity<UndislikePostResponse> undislikePost(@RequestParam Long postId, @RequestHeader("Authorization") String token) {
         String username = null;
         if (token != null && token.startsWith("Bearer ")) {

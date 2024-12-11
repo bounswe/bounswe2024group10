@@ -45,7 +45,7 @@ public class SubforumService {
         return response;
     }
 
-    private AllSubforumResponse convertToAllSubforumResponse(Subforum subforum) {
+    protected AllSubforumResponse convertToAllSubforumResponse(Subforum subforum) {
         int followerCount = followSubforumRepository.countBySubforumID(subforum.getId());
         int postCount = postRepository.countBySubforumID(subforum.getId());
         return new AllSubforumResponse(subforum.getId(), subforum.getName(), subforum.getDescription(), subforum.getTagColor(), followerCount, postCount);

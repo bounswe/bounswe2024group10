@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class FollowController {
     private JwtUtil jwtUtil;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/follow-user")
+    @PostMapping("/follow-user")
     public ResponseEntity<FollowUserResponse> followUser(@RequestParam String followedUsername, @RequestHeader("Authorization") String token) {
         String username = null;
         if (token != null && token.startsWith("Bearer ")) {
@@ -45,7 +46,7 @@ public class FollowController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/unfollow-user")
+    @PostMapping("/unfollow-user")
     public ResponseEntity<UnfollowUserResponse> unfollowUser(@RequestParam String unfollowedUsername, @RequestHeader("Authorization") String token) {
         String username = null;
         if (token != null && token.startsWith("Bearer ")) {

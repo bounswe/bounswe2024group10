@@ -26,7 +26,7 @@ public class DataInitializer {
                 user.setEmail("admin@tradeverse.com");
                 user.setUsername("admin");
                 user.setPassword(passwordEncoder.encode("admin"));
-                user.setName("admin");
+                user.setName("admin_name");
                 user.setTag(0);
                 user.setBio("admin");
                 user.setIsAdmin(true);
