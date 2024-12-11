@@ -1,19 +1,23 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.asset.*;
-import com.bounswe2024group10.Tradeverse.dto.portfolio.*;
-import com.bounswe2024group10.Tradeverse.model.Portfolio;
-import com.bounswe2024group10.Tradeverse.model.Asset;
-import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
-import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import com.bounswe2024group10.Tradeverse.dto.asset.YahooFinanceChartResponse;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioServiceRequest;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.GetPortfolioResponse;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.PortfolioDto;
+import com.bounswe2024group10.Tradeverse.model.Asset;
+import com.bounswe2024group10.Tradeverse.model.Portfolio;
+import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
+import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
 
 @Service
 public class PortfolioService {
@@ -23,7 +27,6 @@ public class PortfolioService {
 
     @Autowired
     private AssetRepository assetRepository;
-
 
     public GetPortfolioResponse getPortfolio(String username) {
         try {
@@ -63,7 +66,7 @@ public class PortfolioService {
         }
     }
 
-    public AddAssetToPortfolioResponse addAssetToPortfolio(AddAssetToPortfolioRequest request) {
+    public AddAssetToPortfolioResponse addAssetToPortfolio(AddAssetToPortfolioServiceRequest request) {
         try {
             // Check if asset exists
             if (!assetRepository.existsById(request.getAssetId())) {
@@ -117,10 +120,10 @@ public class PortfolioService {
 
             List<PortfolioDto> portfolioDtos = portfolios.stream()
                     .map(portfolio -> new PortfolioDto(
-                            portfolio.getId(),
-                            asset,
-                            portfolio.getAmount()
-                    ))
+                    portfolio.getId(),
+                    asset,
+                    portfolio.getAmount()
+            ))
                     .collect(Collectors.toList());
 
             return new GetPortfolioResponse(true, "Portfolios retrieved successfully", null, portfolioDtos, 0.0);
