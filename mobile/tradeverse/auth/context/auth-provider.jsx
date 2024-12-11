@@ -87,7 +87,6 @@ export default function AuthProvider({ children }) {
     if (loggedinUser) {
       setIsLoggedIn(true)
       setUser(loggedinUser)
-      await AsyncStorage.setItem('isAdmin', loggedinUser.admin)
     } else {
       setUser(null)
     }
