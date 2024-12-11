@@ -15,35 +15,49 @@ const Home = () => {
 
   useEffect(() => {
     const fetchExplorePosts = async () => {
-      const data = await explore();
-
-      if (data.isSuccessful) {
-        setForYouPosts(data.popularPosts);
-        if (filterType === "For You") {
-          setPosts(data.popularPosts);
+      try {
+        const headers = {
+          "Content-Type": "application/json",
+        };
+  
+        // Conditionally add Authorization header if the user is authenticated
+        if (user.isAuthenticated) {
+          const token = localStorage.getItem("authToken");
+          console.log("Retrieved Token:", token);
+          headers.Authorization = `Bearer ${token}`;
         }
+        else{
+          headers.Authorization = `Bearer `;
+        }
+  
+        const response = await fetch("http://35.246.188.121:8080/api/post/recent", {
+          method: "GET",
+          headers,
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+  
+        const data = await response.json();
+  
+        if (data && Array.isArray(data)) {
+          setForYouPosts(data); // Set fetched posts as "For You" posts
+          if (filterType === "For You") {
+            setPosts(data);
+          }
+        } else {
+          console.error("Unexpected response format", data);
+        }
+      } catch (error) {
+        console.error("Error fetching explore posts:", error);
       }
-    }
-    // const fetchFeedPosts = async () => {
-    //   const data = await feed(user.name);
-    //   console.log(data);
-    //   if (data.successful) {
-    //     if (data.followedSubforumPosts?.["Post 1"]) {
-    //       setFollowedSubforumsPosts(
-    //         data.followedSubforumPosts["Post 1"].filter((post) => post.postType === "POST")
-    //       );
-    //     }
-    //     if (data.followedUserPosts?.[user.name]) {
-    //       setFollowedUserPosts(
-    //         data.followedUserPosts[user.name].filter((post) => post.postType === "POST")
-    //       );
-    //     }
-    //   }
-    // }
-    // fetchFeedPosts();
+    };
+  
     fetchExplorePosts();
+  }, [filterType, user.isAuthenticated]); // Add user.isAuthenticated to dependencies
+  
 
-  }, [filterType]);
 
 
 
