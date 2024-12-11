@@ -41,9 +41,13 @@ export async function feed(username) {
     }
 }
 
-export async function getPost(postId) {
+export async function getPost(postId,token,userAuthenticated) {
     try {
-        const response = await api.get(`/post/get-post?postId=${postId}`);
+        const response = await api.get(`/post/${postId}` ,{
+            headers: {
+                Authorization: userAuthenticated ? `Bearer ${token}` : "",
+            },
+        });
         console.log(response.data);
         return response.data;
     }
@@ -51,13 +55,60 @@ export async function getPost(postId) {
         console.error("Error fetching post:", error);
     }
 }
-
-export async function createComment(commentPayload) {
+export async function getComments(postId) {
     try {
-        const response = await api.post('/post/create-comment', commentPayload);
-        return response.data;
+        const response = await api.get(`/comment/get-comments?postId=${postId}`);
+        if (response.status >= 200 && response.status < 300) {
+            return response.data;
+        } else {
+            console.error("Unexpected response status:", response.status);
+            throw new Error(`Failed to fetch comments. Status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+        throw error;
     }
-    catch (error) {
+}
+
+
+
+export async function createComment(commentPayload, token) {
+    try {
+        const response = await api.post("/comment/create", commentPayload, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (response.status >= 200 && response.status < 300) {
+            return response.data; // Return the API response directly
+        } else {
+            console.error("Unexpected response status:", response.status);
+            return { isSuccessful: false, message: "Unexpected response status" };
+        }
+    } catch (error) {
         console.error("Error creating comment:", error);
+        return { isSuccessful: false, message: error.message };
+    }
+}
+export async function deleteComment(commentPayload, token) {
+    try {
+        const response = await api.post("/comment/delete", commentPayload, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (response.status >= 200 && response.status < 300) {
+            return response.data; // Return the API response directly
+        } else {
+            console.error("Unexpected response status:", response.status);
+            return { isSuccessful: false, message: "Unexpected response status" };
+        }
+    } catch (error) {
+        console.error("Error creating comment:", error);
+        return { isSuccessful: false, message: error.message };
     }
 }
