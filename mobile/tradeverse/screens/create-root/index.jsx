@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import {
   IconMessage,
@@ -12,6 +12,17 @@ import FullScrollView from '../../components/ui/full-scroll-view'
 import paths from '../../config/screen-paths'
 
 export default function CreateRootScreen() {
+
+  let isAdmin = false;
+
+  useEffect(() => {
+    const c = async () => {
+      isAdmin = await AsyncStorage.getItem('isAdmin')
+    }
+    
+    c();
+  }, [])
+  
   return (
     <GlobalScreen>
       <FullScrollView>
@@ -30,7 +41,7 @@ export default function CreateRootScreen() {
               <IconArrowRight />
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {isAdmin && <TouchableOpacity
               onPress={() => {
                 router.push(paths.CREATE.ADD_SUBFORUM)
               }}
@@ -39,7 +50,7 @@ export default function CreateRootScreen() {
               <IconTextCaption />
               <Text style={styles.buttonText}>Create Sub Forum</Text>
               <IconArrowRight />
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
         </View>
       </FullScrollView>

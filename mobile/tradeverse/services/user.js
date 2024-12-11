@@ -1,4 +1,5 @@
 import api from './_axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default async function getUserByUsername({ username, token }) {
   try {
@@ -18,17 +19,20 @@ export default async function getUserByUsername({ username, token }) {
 
 export async function setProfile({ email, profilePhoto, bio, tag, username }) {
   try {
-    const response = await api({
-      url: `/user/set-user-details/${username}`,
-      method: 'POST',
-      data: {
+    const token = await AsyncStorage.getItem('authToken')
+    console.log(token)
+    const response = await api.post(`/user/set-user-details/${username}`, 
+      {
         email,
         profilePhoto,
         bio,
         tag,
-      },
-      maxBodyLength: Infinity,
-    })
+      }, 
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        maxBodyLength: Infinity,
+      })
+  
     return response.data
   } catch (error) {
     console.log('Set profile failed', error)
