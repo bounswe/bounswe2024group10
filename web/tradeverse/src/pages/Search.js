@@ -157,7 +157,7 @@ const Search = () => {
               case 'subforum':
                 return (
                   <div key={index} className={styles.subforumCard}>
-                    <Link to={`/${result.id}`} className={styles.subforumLink}>
+                    <Link to={`/subforum/${result.id}`} className={styles.subforumLink}>
                       <h3>{result.name}</h3>
                     </Link>
                   </div>
