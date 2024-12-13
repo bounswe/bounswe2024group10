@@ -1,0 +1,78 @@
+.subforumPage {
+  padding: 20px;
+}
+
+.subforumHeader {
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: #5d5fef; /* Theme color for the header background */
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: white; /* White text for better contrast */
+}
+
+.subforumHeader h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: #ffffff; /* Ensure main title text is white */
+}
+
+.subforumHeader p {
+  font-size: 1rem;
+  color: #e0e0ff; /* Slightly lighter shade of white for description */
+}
+
+.subforumStats {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #d4d4ff; /* Lighter text for stats to differentiate from the description */
+}
+
+.subforumStats span {
+  margin-right: 16px;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 50px;
+  color: #5d5fef; /* Theme color for loading and error messages */
+}
+.followButton, .unfollowButton {
+  margin-top: 12px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.followButton {
+  color: white;
+  background-color: #5d5fef; /* Theme color */
+}
+
+.followButton:hover {
+  background-color: #4c4ddb; /* Darker shade of theme color */
+  transform: scale(1.05);
+}
+
+.unfollowButton {
+  color: #5d5fef; /* Theme color */
+  background-color: white;
+  border: 2px solid #5d5fef; /* Theme color border */
+}
+
+.unfollowButton:hover {
+  background-color: #e8e8ff; /* Light shade for hover effect */
+  transform: scale(1.05);
+}
+
+.followButton i, .unfollowButton i {
+  margin-right: 8px;
+}
+

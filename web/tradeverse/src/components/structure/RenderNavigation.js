@@ -10,6 +10,7 @@ import mockData from "../../data/mockData";
 import Account from "../../pages/Account";
 import User from "../../pages/User";
 import AssetInfo from "../../pages/AssetInfo";
+import Subforum from "../../pages/Subforum";
 
 export const RenderRoutes = () => {
   const { user } = AuthData();
@@ -70,6 +71,7 @@ export const RenderRoutes = () => {
       <Route path="/account" element={<Account />} />
       <Route path="/user" element={<User />} />
       <Route path="/assets/:id" element={<AssetInfo />} />
+      <Route path="/subforum/:subforumId" element={<Subforum />} />
 
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
