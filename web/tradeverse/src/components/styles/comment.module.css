@@ -12,8 +12,21 @@
     margin-bottom: 5px;
 }
 
-.commentText {
+.commentHeader {
+    font-size: 20px;
+}
+
+.commentHeader h5 {
+    margin: 2px;
+}
+
+.commentHeader span {
     font-size: 14px;
+    color: #666;
+}
+
+.commentText {
+    font-size: 20px;
     margin: 5px 0;
     color: #333;
 }
