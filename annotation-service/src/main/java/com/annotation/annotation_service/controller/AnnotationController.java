@@ -17,12 +17,15 @@ public class AnnotationController {
     @Autowired
     private AnnotationService annotationService;
 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<AnnotationCreateResponse> createAnnotation(@RequestBody AnnotationRequest annotationRequest) {
         AnnotationCreateResponse createdAnnotation = annotationService.createAnnotation(annotationRequest);
         return ResponseEntity.ok(createdAnnotation);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public ResponseEntity<AnnotationListResponse> getAnnotationsForPostAndComments(
             @RequestParam(required = false) Long postId,
