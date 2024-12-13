@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Feed from "../components/structure/feed";
 import styles from "./styles/Home.module.css";
-import { useParams } from "react-router-dom";
-import { explore, feed } from "../services/post";
 import { AuthData } from "../auth/AuthWrapper";
+import {
+  fetchRecentPosts,
+  fetchFollowedTopicsPosts,
+  fetchFollowedPeoplePosts,
+} from "../services/post";
 
 const Home = () => {
-  const { user, logout } = AuthData();
+  const { user } = AuthData();
   const [posts, setPosts] = useState([]);
   const [forYouPosts, setForYouPosts] = useState([]);
   const [followedSubforumPosts, setFollowedSubforumsPosts] = useState([]);
@@ -14,52 +17,45 @@ const Home = () => {
   const [filterType, setFilterType] = useState("For You");
 
   useEffect(() => {
-    const fetchExplorePosts = async () => {
+    const fetchForYouPosts = async () => {
       try {
-        const headers = {
-          "Content-Type": "application/json",
-        };
-  
-        // Conditionally add Authorization header if the user is authenticated
-        if (user.isAuthenticated) {
-          const token = localStorage.getItem("authToken");
-          console.log("Retrieved Token:", token);
-          headers.Authorization = `Bearer ${token}`;
-        }
-        else{
-          headers.Authorization = `Bearer `;
-        }
-  
-        const response = await fetch("http://35.246.188.121:8080/api/post/recent", {
-          method: "GET",
-          headers,
-        });
-  
-        if (!response.ok) {
-          throw new Error("Failed to fetch posts");
-        }
-  
-        const data = await response.json();
-  
-        if (data && Array.isArray(data)) {
-          setForYouPosts(data); // Set fetched posts as "For You" posts
-          if (filterType === "For You") {
-            setPosts(data);
-          }
-        } else {
-          console.error("Unexpected response format", data);
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
+        const data = await fetchRecentPosts(token);
+        setForYouPosts(data);
+        if (filterType === "For You") {
+          setPosts(data);
         }
       } catch (error) {
-        console.error("Error fetching explore posts:", error);
+        console.error("Error fetching recent posts:", error);
       }
     };
-  
-    fetchExplorePosts();
-  }, [filterType, user.isAuthenticated]); // Add user.isAuthenticated to dependencies
-  
 
+    fetchForYouPosts();
+  }, [filterType, user.isAuthenticated]);
 
+  useEffect(() => {
+    const fetchPostsByType = async () => {
+      try {
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
 
+        if (filterType === "Followed Topics") {
+          const data = await fetchFollowedTopicsPosts(token);
+          setFollowedSubforumsPosts(data);
+          setPosts(data);
+        } else if (filterType === "Followed People") {
+          const data = await fetchFollowedPeoplePosts(token);
+          setFollowedUserPosts(data);
+          setPosts(data);
+        }
+      } catch (error) {
+        console.error(`Error fetching posts for ${filterType}:`, error);
+      }
+    };
+
+    if (filterType === "Followed Topics" || filterType === "Followed People") {
+      fetchPostsByType();
+    }
+  }, [filterType, user.isAuthenticated]);
 
   const handleFilterChange = (type) => {
     setFilterType(type);
@@ -71,34 +67,38 @@ const Home = () => {
     } else if (type === "Followed People") {
       setPosts(followedUserPosts);
     }
-
   };
 
   return (
     <div className={styles.homePage}>
-      <div className={styles.filterButtons}>
-        <button
-          className={`${styles.filterButton} ${filterType === "For You" ? styles.active : ""
+      {user.isAuthenticated && (
+        <div className={styles.filterButtons}>
+          <button
+            className={`${styles.filterButton} ${
+              filterType === "For You" ? styles.active : ""
             }`}
-          onClick={() => handleFilterChange("For You")}
-        >
-          For You
-        </button>
-        <button
-          className={`${styles.filterButton} ${filterType === "Followed Topics" ? styles.active : ""
+            onClick={() => handleFilterChange("For You")}
+          >
+            For You
+          </button>
+          <button
+            className={`${styles.filterButton} ${
+              filterType === "Followed Topics" ? styles.active : ""
             }`}
-          onClick={() => handleFilterChange("Followed Topics")}
-        >
-          Followed Topics
-        </button>
-        <button
-          className={`${styles.filterButton} ${filterType === "Followed People" ? styles.active : ""
+            onClick={() => handleFilterChange("Followed Topics")}
+          >
+            Followed Topics
+          </button>
+          <button
+            className={`${styles.filterButton} ${
+              filterType === "Followed People" ? styles.active : ""
             }`}
-          onClick={() => handleFilterChange("Followed People")}
-        >
-          Followed People
-        </button>
-      </div>
+            onClick={() => handleFilterChange("Followed People")}
+          >
+            Followed People
+          </button>
+        </div>
+      )}
       <div className={styles.feedContainer}>
         <Feed posts={posts} />
       </div>

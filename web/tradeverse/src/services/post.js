@@ -112,3 +112,44 @@ export async function deleteComment(commentPayload, token) {
         return { isSuccessful: false, message: error.message };
     }
 }
+export async function fetchRecentPosts(token) {
+    try {
+      const response = await api.get('/post/recent', {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : '',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching recent posts:', error);
+      throw error;
+    }
+  }
+  
+  export async function fetchFollowedTopicsPosts(token) {
+    try {
+      const response = await api.get('/post/followed-topics', {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : '',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching followed topics posts:', error);
+      throw error;
+    }
+  }
+  
+  export async function fetchFollowedPeoplePosts(token) {
+    try {
+      const response = await api.get('/post/followed-people', {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : '',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching followed people posts:', error);
+      throw error;
+    }
+  }
