@@ -1,22 +1,39 @@
 package com.bounswe2024group10.Tradeverse.controller;
 
-import com.bounswe2024group10.Tradeverse.dto.asset.*;
-import com.bounswe2024group10.Tradeverse.service.AssetService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bounswe2024group10.Tradeverse.dto.asset.AddAssetRequest;
+import com.bounswe2024group10.Tradeverse.dto.asset.AddAssetResponse;
+import com.bounswe2024group10.Tradeverse.dto.asset.GetAssetChartRequest;
+import com.bounswe2024group10.Tradeverse.dto.asset.GetAssetChartResponse;
+import com.bounswe2024group10.Tradeverse.dto.asset.GetAssetDetailsRequest;
+import com.bounswe2024group10.Tradeverse.dto.asset.GetAssetDetailsResponse;
 import com.bounswe2024group10.Tradeverse.model.Asset;
-import java.util.List;
+import com.bounswe2024group10.Tradeverse.service.AssetService;
 
 @RestController
 @RequestMapping("/api/asset")
 public class AssetController {
+
     @Autowired
     private AssetService assetService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/details")
-    public ResponseEntity<GetAssetDetailsResponse> getAssetDetails(@RequestBody GetAssetDetailsRequest request) {
+    public ResponseEntity<GetAssetDetailsResponse> getAssetDetails(@RequestParam String symbol) {
+        GetAssetDetailsRequest request = new GetAssetDetailsRequest();
+        request.setSymbol(symbol);
         GetAssetDetailsResponse response = assetService.getAssetDetails(request);
         return ResponseEntity.ok(response);
     }
