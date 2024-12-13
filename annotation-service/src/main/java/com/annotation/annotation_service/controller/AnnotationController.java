@@ -1,9 +1,8 @@
 package com.annotation.annotation_service.controller;
 
-import com.annotation.annotation_service.model.Annotation;
-import com.annotation.annotation_service.model.AnnotationRequest;
-import com.annotation.annotation_service.model.AnnotationCreateResponse;
-import com.annotation.annotation_service.model.AnnotationListResponse;
+import com.annotation.annotation_service.model.dto.AnnotationCreateResponse;
+import com.annotation.annotation_service.model.dto.AnnotationListResponse;
+import com.annotation.annotation_service.model.dto.AnnotationRequest;
 import com.annotation.annotation_service.service.AnnotationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +23,17 @@ public class AnnotationController {
         return ResponseEntity.ok(createdAnnotation);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<AnnotationListResponse> getAnnotationsForPostAndComments(
-            @RequestParam Long postId,
-            @RequestParam List<Long> commentIds) {
-        List<Annotation> annotations = annotationService.getAnnotationsForPostAndComments(postId, commentIds);
-        
+            @RequestParam(required = false) Long postId,
+            @RequestParam(required = false) List<Long> commentIds) {
+        AnnotationListResponse response = annotationService.getAnnotationsForPostAndComments(postId, commentIds);
+        return ResponseEntity.ok(response);
     }
 
     // @DeleteMapping("/{id}")
     // public ResponseEntity<Void> deleteAnnotation(@PathVariable Long id) {
-    //     annotationService.deleteAnnotation(id);
-    //     return ResponseEntity.noContent().build();
+    // annotationService.deleteAnnotation(id);
+    // return ResponseEntity.noContent().build();
     // }
 }
