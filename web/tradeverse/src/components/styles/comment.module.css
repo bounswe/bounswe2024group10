@@ -12,10 +12,36 @@
     margin-bottom: 5px;
 }
 
-.commentText {
+.commentHeader {
+    font-size: 20px;
+}
+
+.commentHeader h5 {
+    margin: 2px;
+}
+
+.commentHeader span {
     font-size: 14px;
+    color: #666;
+}
+
+.commentText {
+    font-size: 20px;
     margin: 5px 0;
     color: #333;
+}
+.deleteButton {
+    position: relative  ;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.deleteButton:hover {
+    color: darkred;
 }
 
 .replyButton {

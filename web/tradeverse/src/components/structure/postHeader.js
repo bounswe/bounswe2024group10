@@ -19,19 +19,25 @@ const PostHeader = ({ post }) => {
     <div className={styles.postHeader}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-          <img src={post.author.profilePhoto} className={styles.userImage} />
+        <img src={post.author.profilePhoto} className={styles.userImage} />
           <div className={styles.userDetails}>
-            <h3>{`${post.author.name}`}</h3>
-            <p>{`@${post.author.username}`}</p>
+            <h3>{post.author.name}</h3>
+            <p>{`@${post.createdBy}`}</p>
           </div>
         </div>
         <div className={styles.postHeaderTag}>
-          <p>{post.content.find((item) => item.type === "tag")?.value}</p>
+          {/* Display tag and subforum name next to each other */}
+          <p>
+            {post.content.find((item) => item.type === "tag")?.value}
+            <Link to={`/subforum/${post.subforum.id}`} className={styles.subforumLink}>
+              <span className={styles.subforumName}> | {post.subforum.name}</span>
+            </Link>
+          </p>
         </div>
       </div>
 
       <div className={styles.postHeaderDetails}>
-        <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
+        <Link to={`/${post.subforum.id}/${post.id}`} className={styles.postLink}>
           <h2>{post.title}</h2>
           <p>{createPostContent(post.content)}</p>
           <div className={styles.postImageContainer}>
@@ -40,22 +46,22 @@ const PostHeader = ({ post }) => {
         </Link>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
-      <Link to={`/${post.parentID}/${post.id}`} className={styles.postLink}>
+      <Link to={`/${post.subforum.id}/${post.id}`} className={styles.postLink}>
         <div className={styles.bottomContainer}>
           <div className={styles.viewStats}>
           </div>
           <div className={styles.commentLikeDislikeStats}>
             <div className={styles.stat}>
               <p className="fa fa-comment" aria-hidden="true"></p>
-              <p>{post.nofComments}</p>
+              <p>{post.commentCount}</p>
             </div>
             <div className={styles.stat}>
               <p className="fa fa-thumbs-up" aria-hidden="true"></p>
-              <p>{post.nofLikes}</p>
+              <p>{post.likeCount}</p>
             </div>
             <div className={styles.stat}>
               <p className="fa fa-thumbs-down" aria-hidden="true"></p>
-              <p>{post.nofDislikes}</p>
+              <p>{post.dislikeCount}</p>
             </div>
           </div>
         </div>

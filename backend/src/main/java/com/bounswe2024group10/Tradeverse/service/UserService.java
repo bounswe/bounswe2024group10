@@ -67,7 +67,7 @@ public class UserService {
         }
         if (userDetailsRequest.getProfilePhoto() != null) {
             try {
-                File file = new File("images/" + UUID.randomUUID() + ".jpg");
+                File file = new File("/images/" + UUID.randomUUID() + ".jpg");
                 file.createNewFile();
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(Base64.getDecoder().decode(userDetailsRequest.getProfilePhoto()));
