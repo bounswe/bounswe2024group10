@@ -5,6 +5,7 @@ import { getPost, createComment ,getComments} from "../services/post";
 import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
+import { getAnnotations } from "../services/annotation";
 
 
 const PostPage = () => {
@@ -15,6 +16,8 @@ const PostPage = () => {
     const [newComment, setNewComment] = useState("");
     const [loadingPost, setLoadingPost] = useState(true); // Loading state for post
     const [loadingComments, setLoadingComments] = useState(true); // Loading state for comments
+    const [commentIds, setCommentIds] = useState([]); // State to store comment IDs
+    const [annotations, setAnnotations] = useState([]); // State to store annotations
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -39,6 +42,8 @@ const PostPage = () => {
                 const data = await getComments(postId); // Fetch comments
                 if (Array.isArray(data)) {
                     setComments(data); // Set comments if the response is an array
+                    const commentIds = data.map((comment) => comment.id); // Extract comment IDs
+                    setCommentIds(commentIds); // Store comment IDs in state
                 } else {
                     console.error("Invalid comments data received:", data);
                 }
@@ -49,8 +54,19 @@ const PostPage = () => {
             }
         };
 
+        const fetchAnnotations = async () => {
+            try {
+                const data = await getAnnotations(postId, commentIds); // Fetch annotations
+                setAnnotations(data.items);
+                console.log("Annotations:", data.items);
+            } catch (error) {
+                console.error("Error fetching annotations:", error);
+            } 
+        }
+
         fetchPost();
         fetchComments();
+        fetchAnnotations();
     }, [postId,user.isAuthenticated]);
 
     const handleNewCommentChange = (e) => {

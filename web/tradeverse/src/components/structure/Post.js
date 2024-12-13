@@ -4,6 +4,7 @@ import ChartContainer from "./TradingViewWidget";
 import { AuthData } from "../../auth/AuthWrapper";
 import { likePost, unlikePost } from "../../services/like";
 import { dislikePost, undislikePost } from "../../services/dislike";
+import { createAnnotation } from "../../services/annotation";
 
 const Post = ({ post }) => {
   const { user } = AuthData();
@@ -11,6 +12,12 @@ const Post = ({ post }) => {
   const [isDisliked, setIsDisliked] = useState(post.isDislikedByUser);
   const [nofLikes, setNofLikes] = useState(post.likeCount);
   const [nofDislikes, setNofDislikes] = useState(post.dislikeCount);
+
+  const [selectedText, setSelectedText] = useState(""); // Selected text
+  const [annotationContent, setAnnotationContent] = useState(""); // Annotation content
+  const [selectionRange, setSelectionRange] = useState(null); // Text selection range
+  const [showAnnotationInput, setShowAnnotationInput] = useState(false); // To toggle annotation input
+  const [floatingPosition, setFloatingPosition] = useState({ top: 0, left: 0 }); // Position for the floating UI
 
   const handleLike = async () => {
     if (!user.isAuthenticated) {
@@ -30,7 +37,7 @@ const Post = ({ post }) => {
       } else {
         // Like the post
         const token = localStorage.getItem("authToken");
-        const response = await likePost(token,post.id);
+        const response = await likePost(token, post.id);
         if (response?.successful) {
           setNofLikes((prev) => prev + 1);
           setIsLiked(true);
@@ -57,7 +64,7 @@ const Post = ({ post }) => {
       if (isDisliked) {
         // Remove dislike
         const token = localStorage.getItem("authToken");
-        const response = await undislikePost(token,post.id);
+        const response = await undislikePost(token, post.id);
         if (response?.successful) {
           setNofDislikes((prev) => prev - 1); // Ensure dislikes don't go below zero
           setIsDisliked(false);
@@ -65,7 +72,7 @@ const Post = ({ post }) => {
       } else {
         // Dislike the post
         const token = localStorage.getItem("authToken");
-        const response = await dislikePost(token,post.id);
+        const response = await dislikePost(token, post.id);
         if (response?.successful) {
           setNofDislikes((prev) => prev + 1);
           setIsDisliked(true);
@@ -82,6 +89,70 @@ const Post = ({ post }) => {
     }
   };
 
+  const handleTextSelection = () => {
+    const selection = window.getSelection();
+    const text = selection.toString().trim();
+
+    if (text) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+
+      setSelectedText(text);
+      setSelectionRange({ start: range.startOffset, end: range.endOffset });
+      setFloatingPosition({ top: rect.bottom + window.scrollY, left: rect.right + window.scrollX });
+      setShowAnnotationInput(false); // Reset annotation input visibility
+    } else {
+      setSelectedText("");
+      setSelectionRange(null);
+    }
+  };
+
+  const handleAnnotationSubmit = async () => {
+    if (!annotationContent.trim()) {
+      alert("Annotation content cannot be empty.");
+      return;
+    }
+
+    if (!selectionRange) {
+      alert("No text selected for annotation.");
+      return;
+    }
+
+    const annotationPayload = {
+      type: "Annotation",
+      creator: user.name,
+      body: {
+        type: "TextualBody",
+        value: annotationContent,
+      },
+      target: {
+        type: "SpecificResource",
+        source: window.location.href,
+        postId: post.id,
+        commentId: null,
+        selector: {
+          type: "TextPositionSelector",
+          start: selectionRange.start,
+          end: selectionRange.end,
+        },
+      },
+    };
+
+    try {
+      const response = await createAnnotation(annotationPayload);
+      if (response) {
+        alert("Annotation created successfully!");
+        setAnnotationContent("");
+        setSelectedText("");
+        setSelectionRange(null);
+        setShowAnnotationInput(false);
+      }
+    } catch (error) {
+      console.error("Error creating annotation:", error);
+      alert("Failed to create annotation.");
+    }
+  };
+
 
   const createPostContent = (content) => {
     const postContent = content
@@ -93,7 +164,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className={styles.post}>
+    <div className={styles.post} onMouseUp={handleTextSelection}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
           <img src={post.author.userPhoto} className={styles.userImage} />
@@ -113,6 +184,40 @@ const Post = ({ post }) => {
           <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
         </div>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
+        {selectedText && (
+          <>
+            {/* Small symbol */}
+            <div
+              className={styles.annotationSymbol}
+              style={{ top: floatingPosition.top, left: floatingPosition.left }}
+            >
+              <button onClick={() => {setShowAnnotationInput(true); }}>
+                🖋
+                </button>
+
+            </div>
+            {showAnnotationInput && (
+              <div
+                className={styles.annotationInputContainer}
+                style={{
+                  top: floatingPosition.top + 20,
+                  left: floatingPosition.left - 150,
+                }}
+                onMouseUp={(e) => e.stopPropagation()}
+              >
+                <textarea
+                  placeholder="Write your annotation..."
+                  value={annotationContent}
+                  onChange={(e) => setAnnotationContent(e.target.value)}
+                  className={styles.annotationInput}
+                />
+                <button onClick={handleAnnotationSubmit} className={styles.annotationButton}>
+                  Submit
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.actionContainer}>
