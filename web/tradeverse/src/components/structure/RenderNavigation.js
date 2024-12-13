@@ -167,7 +167,7 @@ export const RenderMenu = () => {
         </Link>
         {user.isAuthenticated && (
           <div>
-            <Link to={"/"} className={styles.link}>
+            <Link to={"/portfolio"} className={styles.link}>
               <div className={styles.sidebarElement}>
                 <div className={styles.iconContainer}>
                   <i className="fas fa-chart-pie"></i>
