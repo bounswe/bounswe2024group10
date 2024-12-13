@@ -38,12 +38,12 @@ const PostPage = () => {
 
         const fetchComments = async () => {
             try {
-                
                 const data = await getComments(postId); // Fetch comments
                 if (Array.isArray(data)) {
                     setComments(data); // Set comments if the response is an array
-                    const commentIds = data.map((comment) => comment.id); // Extract comment IDs
-                    setCommentIds(commentIds); // Store comment IDs in state
+                    const tempCommentIds = data.map((comment) => comment.id); // Extract comment IDs
+                    console.log("Comment IDs:", tempCommentIds);
+                    setCommentIds(tempCommentIds); // Store comment IDs in state
                 } else {
                     console.error("Invalid comments data received:", data);
                 }
@@ -54,20 +54,26 @@ const PostPage = () => {
             }
         };
 
-        const fetchAnnotations = async () => {
-            try {
-                const data = await getAnnotations(postId, commentIds); // Fetch annotations
-                setAnnotations(data.items);
-                console.log("Annotations:", data.items);
-            } catch (error) {
-                console.error("Error fetching annotations:", error);
-            } 
-        }
-
         fetchPost();
         fetchComments();
-        fetchAnnotations();
     }, [postId,user.isAuthenticated]);
+
+    useEffect(() => {
+        const fetchAnnotations = async () => {
+            try {
+                if (commentIds.length > 0) {
+                    console.log("Fetching annotations for post:", postId, "with comment IDs:", commentIds);
+                    const data = await getAnnotations(postId, commentIds); // Fetch annotations
+                    setAnnotations(data.items);
+                    console.log("Annotations:", data.items);
+                }
+            } catch (error) {
+                console.error("Error fetching annotations:", error);
+            }
+        };
+    
+        fetchAnnotations();
+    }, [postId, commentIds]);
 
     const handleNewCommentChange = (e) => {
         setNewComment(e.target.value);

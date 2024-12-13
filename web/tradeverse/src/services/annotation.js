@@ -3,7 +3,8 @@ import annotation_api from "./annotation_api";
 
 export async function getAnnotations(postId, commentIds) {
     try {
-        const response = await annotation_api.get(`/annotations?postId=${postId}&commentIds=${commentIds}`);
+        const commentIdsQuery = commentIds.map(id => `commentIds=${id}`).join('&');
+        const response = await annotation_api.get(`/annotations?postId=${postId}&${commentIdsQuery}`);
         return response.data;
     }
     catch (error) {
