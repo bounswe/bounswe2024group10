@@ -1,5 +1,6 @@
 package com.bounswe2024group10.Tradeverse.service;
 
+import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 import com.bounswe2024group10.Tradeverse.dto.subforum.*;
 import com.bounswe2024group10.Tradeverse.model.Subforum;
 import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
@@ -16,8 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.bounswe2024group10.Tradeverse.model.Post;
+
 @Service
 public class SubforumService {
+
     @Autowired
     private SubforumRepository subforumRepository;
 
@@ -29,8 +33,22 @@ public class SubforumService {
     @Autowired
     private FollowSubforumRepository followSubforumRepository;
 
-    public List<Subforum> getAllSubforums() {
-        return subforumRepository.findAll();
+    @Autowired
+    private PostService postService;
+
+    public List<AllSubforumResponse> getAllSubforums() {
+        List<AllSubforumResponse> response = new ArrayList<>();
+        List<Subforum> subforums = subforumRepository.findAll();
+        for (Subforum subforum : subforums) {
+            response.add(convertToAllSubforumResponse(subforum));
+        }
+        return response;
+    }
+
+    protected AllSubforumResponse convertToAllSubforumResponse(Subforum subforum) {
+        int followerCount = followSubforumRepository.countBySubforumID(subforum.getId());
+        int postCount = postRepository.countBySubforumID(subforum.getId());
+        return new AllSubforumResponse(subforum.getId(), subforum.getName(), subforum.getDescription(), subforum.getTagColor(), followerCount, postCount);
     }
 
     public CreateSubforumResponse createSubforum(CreateSubforumRequest request, String username) {
@@ -124,6 +142,23 @@ public class SubforumService {
                 response.add(new GetFollowedSubforumsResponse(subforum.getId(), subforum.getName(), subforum.getDescription(), subforum.getTagColor(), followSubforumRepository.countBySubforumID(subforum.getId()), postRepository.countBySubforumID(subforum.getId())));
             }
         }
+        return response;
+    }
+
+    public GetSubforumResponse getSubforum(String username, Long id) {
+        Subforum subforum = subforumRepository.findById(id).orElse(null);
+        if (subforum == null) {
+            return new GetSubforumResponse();
+        }
+        boolean isFollowed = username != null && followSubforumRepository.existsByFollowerUsernameAndSubforumID(username, id);
+        int followerCount = followSubforumRepository.countBySubforumID(id);
+        int postCount = postRepository.countBySubforumID(id);
+        List<Post> posts = postRepository.findBySubforumID(id);
+        List<GetPostResponse> postResponses = new ArrayList<>();
+        for (Post post : posts) {
+            postResponses.add(postService.convertToGetPostResponse(post, username));
+        }
+        GetSubforumResponse response = new GetSubforumResponse(subforum.getId(), subforum.getName(), subforum.getDescription(), subforum.getTagColor(), isFollowed, followerCount, postCount, postResponses);
         return response;
     }
 }

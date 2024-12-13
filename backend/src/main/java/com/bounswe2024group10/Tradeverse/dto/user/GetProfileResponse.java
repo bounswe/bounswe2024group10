@@ -1,12 +1,15 @@
 package com.bounswe2024group10.Tradeverse.dto.user;
 
 import java.util.List;
+
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
 
 public class GetProfileResponse {
+
     private boolean success;
     private String message;
     private String username;
+    private String name;
     private String profilePhoto;
     private int postCount;
     private int followerCount;
@@ -19,11 +22,25 @@ public class GetProfileResponse {
         this.message = message;
     }
 
-    public GetProfileResponse(String username, String profilePhoto, int postCount, 
-                            int followerCount, boolean isFollowing, 
-                            List<GetPostResponse> popularPosts, List<GetPostResponse> recentPosts) {
+    public GetProfileResponse(String username, String profilePhoto, int postCount,
+            int followerCount, boolean isFollowing,
+            List<GetPostResponse> popularPosts, List<GetPostResponse> recentPosts) {
         this.success = true;
         this.username = username;
+        this.profilePhoto = profilePhoto;
+        this.postCount = postCount;
+        this.followerCount = followerCount;
+        this.isFollowing = isFollowing;
+        this.popularPosts = popularPosts;
+        this.recentPosts = recentPosts;
+    }
+
+    public GetProfileResponse(String username, String name, String profilePhoto, int postCount,
+            int followerCount, boolean isFollowing,
+            List<GetPostResponse> popularPosts, List<GetPostResponse> recentPosts) {
+        this.success = true;
+        this.username = username;
+        this.name = name;
         this.profilePhoto = profilePhoto;
         this.postCount = postCount;
         this.followerCount = followerCount;
@@ -54,6 +71,14 @@ public class GetProfileResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getProfilePhoto() {

@@ -1,18 +1,28 @@
 package com.bounswe2024group10.Tradeverse.service;
 
-import com.bounswe2024group10.Tradeverse.dto.follow.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bounswe2024group10.Tradeverse.dto.follow.FollowUserRequest;
+import com.bounswe2024group10.Tradeverse.dto.follow.FollowUserResponse;
+import com.bounswe2024group10.Tradeverse.dto.follow.GetFollowersRequest;
+import com.bounswe2024group10.Tradeverse.dto.follow.GetFollowersResponse;
+import com.bounswe2024group10.Tradeverse.dto.follow.GetFollowingsRequest;
+import com.bounswe2024group10.Tradeverse.dto.follow.GetFollowingsResponse;
+import com.bounswe2024group10.Tradeverse.dto.follow.UnfollowUserRequest;
+import com.bounswe2024group10.Tradeverse.dto.follow.UnfollowUserResponse;
+import com.bounswe2024group10.Tradeverse.dto.user.GetUserResponse;
 import com.bounswe2024group10.Tradeverse.model.Follow;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
 import com.bounswe2024group10.Tradeverse.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
+
     @Autowired
     private FollowRepository followRepository;
 
@@ -56,11 +66,14 @@ public class FollowService {
         }
 
         List<Follow> followings = followRepository.findByFollowerUsername(user.getUsername());
-        List<String> followedUsernames = followings.stream()
-                .map(Follow::getFollowedUsername)
+        List<User> followedUsers = followings.stream()
+                .map(follow -> userRepository.findByUsername(follow.getFollowedUsername()))
+                .collect(Collectors.toList());
+        List<GetUserResponse> followedUserResponses = followedUsers.stream()
+                .map(user1 -> new GetUserResponse(user1.getUsername(), user1.getName(), user1.getProfilePhoto()))
                 .collect(Collectors.toList());
 
-        return new GetFollowingsResponse(true, "Followings retrieved successfully", followedUsernames);
+        return new GetFollowingsResponse(true, "Followings retrieved successfully", followedUserResponses);
     }
 
     public GetFollowersResponse getFollowers(GetFollowersRequest request) {
@@ -70,10 +83,13 @@ public class FollowService {
         }
 
         List<Follow> followers = followRepository.findByFollowedUsername(user.getUsername());
-        List<String> followerUsernames = followers.stream()
-                .map(Follow::getFollowerUsername)
+        List<User> followerUsers = followers.stream()
+                .map(follow -> userRepository.findByUsername(follow.getFollowerUsername()))
+                .collect(Collectors.toList());
+        List<GetUserResponse> followerUserResponces = followerUsers.stream()
+                .map(user1 -> new GetUserResponse(user1.getUsername(), user1.getName(), user1.getProfilePhoto()))
                 .collect(Collectors.toList());
 
-        return new GetFollowersResponse(true, "Followers retrieved successfully", followerUsernames);
+        return new GetFollowersResponse(true, "Followers retrieved successfully", followerUserResponces);
     }
 }

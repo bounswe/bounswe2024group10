@@ -1,20 +1,21 @@
 package service;
 
-import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioRequest;
-import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
-import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
-import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
-import com.bounswe2024group10.Tradeverse.service.PortfolioService;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
+import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioServiceRequest;
+import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
+import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
+import com.bounswe2024group10.Tradeverse.service.PortfolioService;
 
 public class PortfolioServiceUnitTest {
 
@@ -37,7 +38,7 @@ public class PortfolioServiceUnitTest {
 
     @Test
     public void testAddAssetToPortfolio_AssetNotFound() {
-        AddAssetToPortfolioRequest request = new AddAssetToPortfolioRequest();
+        AddAssetToPortfolioServiceRequest request = new AddAssetToPortfolioServiceRequest();
         when(assetRepository.existsById(2L)).thenReturn(false);
 
         AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(request);
@@ -48,7 +49,7 @@ public class PortfolioServiceUnitTest {
 
     @Test
     public void testAddAssetToPortfolio_AssetFound() {
-        AddAssetToPortfolioRequest request = new AddAssetToPortfolioRequest();
+        AddAssetToPortfolioServiceRequest request = new AddAssetToPortfolioServiceRequest();
         when(assetRepository.existsById(1L)).thenReturn(true);
 
         AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(request);
