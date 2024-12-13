@@ -57,8 +57,7 @@ const ProfileConfig = {
           value: 'my_followers',
           title: 'Followers',
           icon: <IconUserDown {...defaultIconProps} />,
-          href: '#',
-          disabled: true,
+          href: paths.ACCOUNT.FOLLOWERS,
         },
         {
           value: 'my_following',
