@@ -15,7 +15,7 @@ public class AssetController {
     private AssetService assetService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/details")
+    @PostMapping("/details")
     public ResponseEntity<GetAssetDetailsResponse> getAssetDetails(@RequestBody GetAssetDetailsRequest request) {
         GetAssetDetailsResponse response = assetService.getAssetDetails(request);
         return ResponseEntity.ok(response);
