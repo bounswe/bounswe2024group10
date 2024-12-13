@@ -183,7 +183,6 @@ const Post = ({ post }) => {
         <div className={styles.postImageContainer}>
           <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
         </div>
-        <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
         {selectedText && (
           <>
             {/* Small symbol */}
@@ -200,6 +199,7 @@ const Post = ({ post }) => {
               <div
                 className={styles.annotationInputContainer}
                 style={{
+                  position: "absolute",
                   top: floatingPosition.top + 20,
                   left: floatingPosition.left - 150,
                 }}
@@ -218,6 +218,7 @@ const Post = ({ post }) => {
             )}
           </>
         )}
+        <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.actionContainer}>
