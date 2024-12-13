@@ -1,0 +1,18 @@
+.annotation {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color 0.2s ease;
+}
+
+.annotation:hover {
+    background-color: #e6e6e6;
+}
+
+.highlighted {
+    background-color: yellow;
+    font-weight: bold;
+}
