@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Post from "../components/structure/Post";
 import Comment from "../components/structure/comment";
-import { getPost, createComment ,getComments} from "../services/post";
+import Annotation from "../components/structure/annotation";
+import { getPost, createComment, getComments } from "../services/post";
 import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
@@ -19,11 +20,21 @@ const PostPage = () => {
     const [commentIds, setCommentIds] = useState([]); // State to store comment IDs
     const [annotations, setAnnotations] = useState([]); // State to store annotations
 
+    const [selectedAnnotation, setSelectedAnnotation] = useState(null); // To track the selected annotation
+
+    const handleAnnotationClick = (annotation) => {
+        if (selectedAnnotation?.id === annotation.id) {
+            setSelectedAnnotation(null); // Deselect if the same annotation is clicked
+        } else {
+            setSelectedAnnotation(annotation); // Highlight the clicked annotation
+        }
+    };
+
     useEffect(() => {
         const fetchPost = async () => {
             try {
                 const token = localStorage.getItem("authToken");
-                const data = await getPost(postId, token,user.isAuthenticated);
+                const data = await getPost(postId, token, user.isAuthenticated);
                 if (data && data.id && data.title && data.content) {
                     setPost(data);
                 } else {
@@ -56,7 +67,7 @@ const PostPage = () => {
 
         fetchPost();
         fetchComments();
-    }, [postId,user.isAuthenticated]);
+    }, [postId, user.isAuthenticated]);
 
     useEffect(() => {
         const fetchAnnotations = async () => {
@@ -71,7 +82,7 @@ const PostPage = () => {
                 console.error("Error fetching annotations:", error);
             }
         };
-    
+
         fetchAnnotations();
     }, [postId, commentIds]);
 
@@ -82,22 +93,22 @@ const PostPage = () => {
     const parseContent = (content) => {
         const parts = content.split(/(@\w+)/); // Split by '@' followed by a word
         const result = [];
-    
+
         parts.forEach((part) => {
-          if (part.startsWith("@")) {
-            // Handle tags
-            result.push({ type: "tag", value: part });
-          } else if (part.trim() !== "") {
-            // Handle regular text
-            result.push({ type: "text", value: part.trim() });
-          }
+            if (part.startsWith("@")) {
+                // Handle tags
+                result.push({ type: "tag", value: part });
+            } else if (part.trim() !== "") {
+                // Handle regular text
+                result.push({ type: "text", value: part.trim() });
+            }
         });
-    
+
         return result;
-      };
+    };
 
 
-      const handleNewCommentSubmit = async () => {
+    const handleNewCommentSubmit = async () => {
         if (!newComment.trim()) return;
 
         const commentPayload = {
@@ -152,37 +163,55 @@ const PostPage = () => {
     }
 
     return (
-        <div className={styles.postPage}>
-            <Post post={post} />  {/* Render the Post component with the specific post */}
-            {user.isAuthenticated ? (
-                <div className={styles.newCommentSection}>
-                    <textarea
-                        value={newComment}
-                        onChange={handleNewCommentChange}
-                        placeholder="Write a comment..."
-                        className={styles.newCommentInput}
-                    />
-                    <button
-                        onClick={handleNewCommentSubmit}
-                        className={styles.newCommentButton}
-                    >
-                        Comment
-                    </button>
+        <div className={styles.postGeneral}>
+            <div className={styles.postContainer}>
+                <div className={styles.postPage}>
+                    <Post post={post} selectedAnnotation={selectedAnnotation} />  {/* Render the Post component with the specific post */}
+                    {user.isAuthenticated ? (
+                        <div className={styles.newCommentSection}>
+                            <textarea
+                                value={newComment}
+                                onChange={handleNewCommentChange}
+                                placeholder="Write a comment..."
+                                className={styles.newCommentInput}
+                            />
+                            <button
+                                onClick={handleNewCommentSubmit}
+                                className={styles.newCommentButton}
+                            >
+                                Comment
+                            </button>
+                        </div>
+                    ) : (
+                        <p className={styles.authMessage}>
+
+                        </p>
+                    )}
+                    {loadingComments ? (
+                        <h3>Loading comments...</h3>
+                    ) : comments.length > 0 ? (
+                        comments.map((comment) => (
+                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} />
+                        ))
+                    ) : (
+                        <p>No comments yet. Be the first to comment!</p>
+                    )}
                 </div>
-            ) : (
-                <p className={styles.authMessage}>
-                    
-                </p>
-            )}
-            {loadingComments ? (
-                <h3>Loading comments...</h3>
-            ) : comments.length > 0 ? (
-                comments.map((comment) => (
-                    <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments}  />
-                ))
-            ) : (
-                <p>No comments yet. Be the first to comment!</p>
-            )}
+            </div>
+            <div className={styles.annotationContainer}>
+                <h3>Annotations</h3>
+                {annotations.length > 0 ? (
+                    annotations.map((annotation) => (
+                        <Annotation
+                            key={annotation.id}
+                            annotation={annotation}
+                            onClick={() => handleAnnotationClick(annotation)}
+                        />
+                    ))
+                ) : (
+                    <p>No annotations yet.</p>
+                )}
+            </div>
         </div>
     );
 };

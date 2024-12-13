@@ -1,3 +1,15 @@
+.postGeneral {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 20px;
+}
+.postContainer {
+    align-items: center;
+    margin: 20px;
+    width: 75%;
+}
+
 .postPage {
     display: flex;
     flex-direction: column;
@@ -39,3 +51,14 @@
 .commentsSection {
     margin-top: 20px;
 }
+
+.annotationContainer {
+    display: flex;
+    flex-direction: column; /* Ensure the annotations stack vertically */
+    align-items: flex-start; /* Align items to the start horizontally */
+    justify-content: flex-start; /* Align items to the top vertically */
+    margin: 20px 0;
+    width: 25%;
+    height: auto; /* Adjust height based on the content */
+}
+

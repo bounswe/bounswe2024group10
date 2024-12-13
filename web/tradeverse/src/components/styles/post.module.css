@@ -195,3 +195,11 @@
 .annotationButton:hover {
   background-color: #0056b3;
 }
+
+.highlighted {
+  background-color: #ffdea9; /* Highlight background */
+  color: black; /* Ensure text is readable */
+  font-weight: bold; /* Optional: Emphasize text */
+  padding: 4px 6px;
+  border-radius: 6px;
+}

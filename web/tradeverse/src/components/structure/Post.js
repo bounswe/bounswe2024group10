@@ -6,7 +6,7 @@ import { likePost, unlikePost } from "../../services/like";
 import { dislikePost, undislikePost } from "../../services/dislike";
 import { createAnnotation } from "../../services/annotation";
 
-const Post = ({ post }) => {
+const Post = ({ post, selectedAnnotation }) => {
   const { user } = AuthData();
   const [isLiked, setIsLiked] = useState(post.isLikedByUser);
   const [isDisliked, setIsDisliked] = useState(post.isDislikedByUser);
@@ -163,6 +163,23 @@ const Post = ({ post }) => {
     return postContent;
   };
 
+  const highlightPostContent = (content) => {
+    if (!selectedAnnotation || !selectedAnnotation.target.selector) return content;
+
+    const { start, end } = selectedAnnotation.target.selector;
+    const before = content.slice(0, start);
+    const highlighted = content.slice(start, end);
+    const after = content.slice(end);
+
+    return (
+        <>
+            {before}
+            <span className={styles.highlighted}>{highlighted}</span>
+            {after}
+        </>
+    );
+};
+
   return (
     <div className={styles.post} onMouseUp={handleTextSelection}>
       <div className={styles.userAndTag}>
@@ -179,7 +196,7 @@ const Post = ({ post }) => {
       </div>
       <div className={styles.postDetails}>
         <h2>{post.title}</h2>
-        <p>{createPostContent(post.content)}</p>
+        <p>{highlightPostContent(createPostContent(post.content))}</p>
         <div className={styles.postImageContainer}>
           <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
         </div>
