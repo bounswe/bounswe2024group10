@@ -90,7 +90,7 @@ public class PostService {
                     String imageEncoded = contentItem.getValue();
                     byte[] imageDecoded = Base64.getDecoder().decode(imageEncoded);
                     String imageFileName = UUID.randomUUID().toString() + ".jpg";
-                    String imageFilePath = "images/" + imageFileName;
+                    String imageFilePath = "/images/" + imageFileName;
                     File imageFile = new File(imageFilePath);
                     FileOutputStream imageFileOutputStream = new FileOutputStream(imageFile);
                     imageFileOutputStream.write(imageDecoded);
@@ -131,7 +131,7 @@ public class PostService {
 
         for (Content contentItem : post.get().getContent()) {
             if (contentItem.getType().equals("image")) {
-                File imageFile = new File("images/" + contentItem.getValue());
+                File imageFile = new File("/images/" + contentItem.getValue());
                 if (imageFile.exists()) {
                     imageFile.delete();
                 }
