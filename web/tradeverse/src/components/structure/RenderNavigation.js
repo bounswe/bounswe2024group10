@@ -84,7 +84,7 @@ export const RenderMenu = () => {
   const [subforums, setSubforums] = useState([]); // State for subforums
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8080/api/subforum/all") // New endpoint
+    fetch("http://35.246.188.121:8080/api/subforum/all") // New endpoint
       .then((response) => response.json())
       .then((data) => {
         // Assuming the API directly returns an array of subforums
