@@ -65,7 +65,7 @@ const PortfolioScreen = () => {
             ) : null}
             {data && (
               <View style={styles.portfolioBlock}>
-                {data.map((asset, index) => (
+                {data && Array.isArray(data) && data.map((asset, index) => (
                   <TouchableOpacity
                     onPress={() => {
                       router.push(
