@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './styles/Search.module.css'; // Import the CSS file
 import { searchSubforums, searchPosts, searchTags, searchUsers, searchAssets } from '../services/search';
@@ -92,6 +92,10 @@ const Search = () => {
     setSearchCategory(category);
     handleSearch(searchTerm, category); // Perform search in the new category
   };
+
+  useEffect(() => {
+    handleSearch(searchTerm, searchCategory);
+  }, []);
 
   return (
     <div className={styles.container}>
