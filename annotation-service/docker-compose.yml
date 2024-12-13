@@ -1,0 +1,36 @@
+# services:
+#   db:
+#     image: mysql:latest
+#     ports:
+#       - "3307:3306"
+#     environment:
+#       MYSQL_DATABASE: annotation
+#       MYSQL_ROOT_PASSWORD: 123
+#     volumes:
+#       - db-data:/var/lib/mysql
+#     healthcheck:
+#       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+#       interval: 1s
+#       timeout: 3s
+#       retries: 30
+#   backend:
+#     build:
+#       context: ./
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8081:8080"
+#     environment:
+#       - SPRING_PROFILES_ACTIVE=docker
+#       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/annotation
+#       - SPRING_DATASOURCE_USERNAME=root
+#       - SPRING_DATASOURCE_PASSWORD=123
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#     volumes:
+#       - images-data:/images
+
+
+# volumes:
+#   db-data:
+#   images-data:
