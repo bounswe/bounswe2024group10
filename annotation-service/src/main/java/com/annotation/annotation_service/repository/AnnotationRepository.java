@@ -1,9 +1,10 @@
 package com.annotation.annotation_service.repository;
 
-import com.annotation.annotation_service.model.Annotation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import com.annotation.annotation_service.model.dto.Annotation;
 
 import java.util.List;
 
