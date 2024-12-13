@@ -45,7 +45,8 @@ const paths = {
     FOLLOWED_TOPICS: `${roots.ACCOUNT}/followed-topics`,
     FOLLOWED_USERS: `${roots.ACCOUNT}/followed-users`,
     MY_POSTS: `${roots.ACCOUNT}/my-posts`,
-    FOLLOWERS: `${roots.ACCOUNT}/followers`
+    FOLLOWERS: `${roots.ACCOUNT}/followers`,
+    FOLLOWINGS: `${roots.ACCOUNT}/followings`
   },
 }
 export default paths

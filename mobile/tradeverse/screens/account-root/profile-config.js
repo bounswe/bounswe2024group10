@@ -63,7 +63,7 @@ const ProfileConfig = {
           value: 'my_following',
           title: 'Followings',
           icon: <IconUserUp {...defaultIconProps} />,
-          href: paths.ACCOUNT.FOLLOWED_USERS,
+          href: paths.ACCOUNT.FOLLOWINGS,
         },
       ],
     },
