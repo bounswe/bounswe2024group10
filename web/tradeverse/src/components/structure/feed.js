@@ -18,7 +18,7 @@ const Feed = ({ posts }) => {
   const [selectedSubforum, setSelectedSubforum] = useState("");
 
   useEffect(() => {
-    fetch("http://35.246.188.121:8080/api/subforum/all") // New endpoint
+    fetch("http://127.0.0.1:8080/api/subforum/all") // New endpoint
       .then((response) => response.json())
       .then((data) => {
         // Assuming the API directly returns an array of subforums
@@ -130,7 +130,7 @@ const Feed = ({ posts }) => {
     // Make the API call
     try {
       const token = localStorage.getItem("authToken"); 
-      const response = await fetch("http://35.246.188.121:8080/api/post/create", {
+      const response = await fetch("http://127.0.0.1:8080/api/post/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
