@@ -30,7 +30,7 @@ const Home = () => {
           headers.Authorization = `Bearer `;
         }
   
-        const response = await fetch("http://localhost:8080/api/post/recent", {
+        const response = await fetch("http://35.246.188.121:8080/api/post/recent", {
           method: "GET",
           headers,
         });
