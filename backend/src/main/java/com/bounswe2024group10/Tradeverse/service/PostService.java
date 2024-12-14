@@ -289,4 +289,13 @@ public class PostService {
         }
         return convertToGetPostResponse(post, username);
     }
+
+    public List<GetPostResponse> getPostsByUsername(String username, String auth_username) {
+        List<Post> posts = postRepository.findByCreatedBy(username);
+        List<GetPostResponse> response = new ArrayList<>();
+        for (Post post : posts) {
+            response.add(convertToGetPostResponse(post, auth_username));
+        }
+        return response;
+    }
 }

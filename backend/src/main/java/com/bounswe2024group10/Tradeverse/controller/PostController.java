@@ -167,4 +167,19 @@ public class PostController {
         }
         return ResponseEntity.ok(response);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-posts-by-user")
+    public ResponseEntity<List<GetPostResponse>> getPostsByUser(
+            @RequestParam String username,
+            @RequestHeader("Authorization") String token
+    ) {
+        String auth_username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            auth_username = jwtUtil.extractUsername(token);
+        }
+        List<GetPostResponse> posts = postService.getPostsByUsername(username, auth_username);
+        return ResponseEntity.ok(posts);
+    }
 }
