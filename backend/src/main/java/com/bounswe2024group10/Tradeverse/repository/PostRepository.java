@@ -32,4 +32,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT DISTINCT p FROM Post p JOIN p.content c WHERE (c.type = 'text' OR c.type = 'tag') AND c.value LIKE %:keyword% OR p.title LIKE %:keyword%")
     List<Post> findByTextContaining(@Param("keyword") String keyword);
+
+    @Query("SELECT DISTINCT p FROM Post p JOIN p.content c WHERE c.type = 'tag' AND c.value = :tag")
+    List<Post> findByTag(@Param("tag") String tag);
 }

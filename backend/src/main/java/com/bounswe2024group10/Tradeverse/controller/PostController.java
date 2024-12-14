@@ -79,6 +79,21 @@ public class PostController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-posts-by-tag")
+    public ResponseEntity<List<GetPostResponse>> getPostsByTag(
+            @RequestParam String tag,
+            @RequestHeader("Authorization") String token
+    ) {
+        String username = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            username = jwtUtil.extractUsername(token);
+        }
+        List<GetPostResponse> posts = postService.getPostsByTag(tag, username);
+        return ResponseEntity.ok(posts);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/for-you")
     public ResponseEntity<List<GetPostResponse>> getForYouPosts(@RequestHeader("Authorization") String token) {
         String username = null;
