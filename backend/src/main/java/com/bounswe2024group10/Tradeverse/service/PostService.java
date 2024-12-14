@@ -179,6 +179,15 @@ public class PostService {
         return response;
     }
 
+    public List<GetPostResponse> getPostsByTag(String tag, String username) {
+        List<Post> posts = postRepository.findByTag(tag);
+        List<GetPostResponse> response = new ArrayList<>();
+        for (Post post : posts) {
+            response.add(convertToGetPostResponse(post, username));
+        }
+        return response;
+    }
+
     public List<GetPostResponse> getForYouPosts(String username) {
         List<Post> posts = postRepository.findTop100ByOrderByCreationDateDesc();
         List<GetPostResponse> response = new ArrayList<>();
