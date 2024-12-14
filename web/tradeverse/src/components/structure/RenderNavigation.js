@@ -27,7 +27,7 @@ export const RenderRoutes = () => {
             />
           );
         } else if (r.isPrivate && user.isAuthenticated) {
-          if (r.isAdmin && user.role !== "admin") {
+          if (r.isAdmin && !user.isAdmin) {
             // Redirect non-admin users trying to access admin routes
 
             return (
@@ -191,6 +191,20 @@ export const RenderMenu = () => {
               )}
             </div>
             </Link>
+            {user.isAdmin && (
+              <Link to={"/create-subforum"} className={styles.link}>
+              <div className={styles.sidebarElement}>
+                <div className={styles.iconContainer}>
+                  <i className="fas fa-plus-circle"></i>
+                </div>
+                {isSidebarOpen && (
+                  <div className={styles.sidebarText}>
+                    <h3>Create Subforum</h3>
+                  </div>
+                )}
+              </div>
+              </Link>
+            )}
           </div>
         )}
         <button className={styles.sidebarToggle} onClick={toggleSidebar}>
