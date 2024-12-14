@@ -38,7 +38,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     console.log('<-- RESPONSE')
-    if (response) console.log('Data: lıne 40 ', response.data)
+    if (response) console.log('Data: ', response.data)
     console.log('---------------------------------')
     return response
   },

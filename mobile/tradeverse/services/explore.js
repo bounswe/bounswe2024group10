@@ -27,21 +27,3 @@ export async function exploreRecent() {
   }
   return null
 }
-
-export async function search({ username, keyword = '' }) {
-  try {
-    const response = await api({
-      url: '/post/explore/search/non-recursive',
-      method: 'GET',
-      params: {
-        username,
-        keyword,
-      },
-    })
-
-    return response.data
-  } catch (error) {
-    console.log('Create Post failed', error)
-  }
-  return null
-}
