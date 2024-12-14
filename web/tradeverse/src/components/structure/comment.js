@@ -5,7 +5,7 @@ import { createComment, deleteComment } from "../../services/post";
 import { createAnnotation } from "../../services/annotation";
 import { toast } from "react-toastify";
 
-const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
+const Comment = ({ comment, level, onDeleteComment, selectedAnnotation, refetchAnnotations}) => {
     const { user } = AuthData();
     const [showReplyBox, setShowReplyBox] = useState(false);
     const [replyText, setReplyText] = useState("");
@@ -145,6 +145,7 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
             const response = await createAnnotation(annotationPayload);
             if (response) {
                 toast.success("Annotation created successfully.");
+                await refetchAnnotations();
                 setAnnotationContent("");
                 setSelectedText("");
                 setSelectionRange(null);
@@ -283,6 +284,7 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
                                 );
                             }}
                             selectedAnnotation={selectedAnnotation}
+                            refetchAnnotations={refetchAnnotations}
                         />
                     ))}
                 </div>

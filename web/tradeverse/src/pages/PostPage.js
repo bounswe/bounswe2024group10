@@ -94,18 +94,18 @@ const PostPage = () => {
         fetchComments();
     }, [postId, user.isAuthenticated]);
 
-    useEffect(() => {
-        const fetchAnnotations = async () => {
-            try {
-                console.log("Fetching annotations for post:", postId, "with comment IDs:", commentIds);
-                const data = await getAnnotations(postId, commentIds); // Fetch annotations
-                setAnnotations(data.items);
-                console.log("Annotations:", data.items);
-            } catch (error) {
-                console.error("Error fetching annotations:", error);
-            }
-        };
+    const fetchAnnotations = async () => {
+        try {
+            console.log("Fetching annotations for post:", postId, "with comment IDs:", commentIds);
+            const data = await getAnnotations(postId, commentIds); // Fetch annotations
+            setAnnotations(data.items);
+            console.log("Annotations:", data.items);
+        } catch (error) {
+            console.error("Error fetching annotations:", error);
+        }
+    };
 
+    useEffect(() => {
         fetchAnnotations();
     }, [postId, commentIds]);
 
@@ -189,7 +189,7 @@ const PostPage = () => {
         <div className={styles.postGeneral}>
             <div className={styles.postContainer}>
                 <div className={styles.postPage}>
-                    <Post post={post} selectedAnnotation={selectedPostAnnotation} />  {/* Render the Post component with the specific post */}
+                    <Post post={post} selectedAnnotation={selectedPostAnnotation} refetchAnnotations={fetchAnnotations} />  {/* Render the Post component with the specific post */}
                     {user.isAuthenticated ? (
                         <div className={styles.newCommentSection}>
                             <textarea
@@ -214,7 +214,7 @@ const PostPage = () => {
                         <h3>Loading comments...</h3>
                     ) : comments.length > 0 ? (
                         comments.map((comment) => (
-                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} selectedAnnotation={selectedCommentAnnotation} />
+                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} selectedAnnotation={selectedCommentAnnotation} refetchAnnotations={fetchAnnotations} />
                         ))
                     ) : (
                         <p>No comments yet. Be the first to comment!</p>

@@ -7,7 +7,7 @@ import { dislikePost, undislikePost } from "../../services/dislike";
 import { createAnnotation } from "../../services/annotation";
 import { toast } from "react-toastify";
 
-const Post = ({ post, selectedAnnotation }) => {
+const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
   const { user } = AuthData();
   const [isLiked, setIsLiked] = useState(post.isLikedByUser);
   const [isDisliked, setIsDisliked] = useState(post.isDislikedByUser);
@@ -143,6 +143,7 @@ const Post = ({ post, selectedAnnotation }) => {
       const response = await createAnnotation(annotationPayload);
       if (response) {
         toast.success("Annotation created successfully.");
+        await refetchAnnotations()
         setAnnotationContent("");
         setSelectedText("");
         setSelectionRange(null);
