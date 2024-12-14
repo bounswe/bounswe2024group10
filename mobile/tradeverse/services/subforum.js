@@ -31,7 +31,7 @@ export async function getFollowedSubforums({ username }) {
 export async function getAllSubforums() {
   try {
     const response = await api({
-      url: '/post/get-subforums/non-recursive',
+      url: '/subforum/all',
       method: 'GET',
     })
     return response.data

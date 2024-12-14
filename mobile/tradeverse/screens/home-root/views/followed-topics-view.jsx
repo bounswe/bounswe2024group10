@@ -1,8 +1,5 @@
-import { View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { feedFollowedTopics } from '../../../services/feed'
-import PostCard from '../../../components/cards/post-card'
-import Loader from '../common/loader'
 import PostsView from '../common/posts-view'
 
 export default function FollowedTopicsView() {
@@ -34,7 +31,6 @@ export default function FollowedTopicsView() {
         }
       } catch (err) {
         setError(err)
-        console.log('Failed to fetch data', err)
       } finally {
         setLoading(false)
       }

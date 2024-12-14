@@ -1,13 +1,24 @@
 import api from './_axios'
 
-export async function getExploreFeed({ username }) {
+export async function explorePopular() {
   try {
     const response = await api({
-      url: '/post/explore',
+      url: '/post/popular',
       method: 'GET',
-      params: {
-        username,
-      },
+    })
+
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
+  }
+  return null
+}
+
+export async function exploreRecent() {
+  try {
+    const response = await api({
+      url: '/post/recent',
+      method: 'GET',
     })
 
     return response.data

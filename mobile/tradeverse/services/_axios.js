@@ -14,7 +14,7 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     console.log('--> REQUEST')
-    console.log('Authorization:', config.headers.Authorization)
+    // console.log('Authorization:', config.headers.Authorization)
     const method = config.method.toUpperCase()
     console.log('Method: ', method)
     console.log('URL: ', config.url)
