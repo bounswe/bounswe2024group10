@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Post from "../components/structure/Post"; // Adjust the path based on your project structure
+import { Link } from "react-router-dom"; 
+import Post from "../components/structure/Post"; 
 import "./styles/Account.css";
 
 const Account = () => {
@@ -80,6 +81,14 @@ const Account = () => {
           ))}
         </div>
         <button className="viewAllPostsBtn">View All</button>
+      </div>
+
+
+      {/* Portfolio Button */}
+      <div className="portfolioButtonContainer">
+        <Link to="/portfolio">
+          <button className="portfolioBtn">Go To My Portfolio</button>
+        </Link>
       </div>
     </div>
   );
