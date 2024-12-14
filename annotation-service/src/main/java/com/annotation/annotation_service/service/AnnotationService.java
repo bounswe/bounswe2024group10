@@ -68,6 +68,7 @@ public class AnnotationService {
                 AnnotationTarget target = objectMapper.readValue(annotation.getTarget(), AnnotationTarget.class);
                 AnnotationItem annotationItem = new AnnotationItem(
                         annotation.getId(),
+                        annotation.getCreator(),
                         body,
                         target);
                 annotationItems.add(annotationItem);
