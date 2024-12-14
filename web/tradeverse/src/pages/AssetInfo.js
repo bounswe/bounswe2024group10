@@ -15,7 +15,7 @@ const AssetInfo = () => {
         // Fetch asset details by ID
         const fetchAssetDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/asset/${id}`);
+                const response = await fetch(`http://35.246.188.121:8080/api/asset/${id}`);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch asset details: ${response.statusText}`);
                 }

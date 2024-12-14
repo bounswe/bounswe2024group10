@@ -11,6 +11,9 @@ import Account from "../../pages/Account";
 import User from "../../pages/User";
 import AssetInfo from "../../pages/AssetInfo";
 import Subforum from "../../pages/Subforum";
+import logo from "../../data/logo_new.png";
+import part_logo from "../../data/part_logo.png";
+
 
 export const RenderRoutes = () => {
   const { user } = AuthData();
@@ -129,13 +132,13 @@ export const RenderMenu = () => {
         <div className={styles.sidebarLogoContainer}>
           {isSidebarOpen ? (
             <img
-              src="logo_new.png"
+              src={logo}
               alt="Tradeverse Logo"
               className={styles.sidebarLogo}
             />
           ) : (
             <img
-              src="part_logo.png"
+              src={part_logo}
               alt="Tradeverse Logo"
               className={styles.sidebarSmallLogo}
             />
@@ -219,7 +222,7 @@ export const RenderMenu = () => {
         <div className={styles.centerTitle}>
           <Link to={"/"} className={styles.link}>
             <img
-              src="logo_new.png"
+              src={logo}
               alt="Tradeverse Logo"
               className={styles.logo}
             />

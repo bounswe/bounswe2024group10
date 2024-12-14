@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import styles from "../styles/comment.module.css";
 import { AuthData } from "../../auth/AuthWrapper";
 import { createComment, deleteComment } from "../../services/post";
+import { createAnnotation } from "../../services/annotation";
+import { toast } from "react-toastify";
 
-const Comment = ({ comment, level, onDeleteComment }) => {
+const Comment = ({ comment, level, onDeleteComment, selectedAnnotation, refetchAnnotations}) => {
     const { user } = AuthData();
     const [showReplyBox, setShowReplyBox] = useState(false);
     const [replyText, setReplyText] = useState("");
     const [nestedReplies, setNestedReplies] = useState(comment.replies || []); // Local state for nested replies
+
+    const [selectedText, setSelectedText] = useState(""); // Selected text
+    const [annotationContent, setAnnotationContent] = useState(""); // Annotation content
+    const [selectionRange, setSelectionRange] = useState(null); // Text selection range
+    const [showAnnotationInput, setShowAnnotationInput] = useState(false); // To toggle annotation input
+    const [floatingPosition, setFloatingPosition] = useState({ top: 0, left: 0 }); // Position for the floating UI
 
     const handleReplyToggle = () => {
         setShowReplyBox(!showReplyBox);
@@ -84,6 +92,71 @@ const Comment = ({ comment, level, onDeleteComment }) => {
         }
     };
 
+    const handleTextSelection = () => {
+        const selection = window.getSelection();
+        const text = selection.toString().trim();
+
+        if (text) {
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+
+            setSelectedText(text);
+            setSelectionRange({ start: range.startOffset, end: range.endOffset });
+            setFloatingPosition({ top: rect.bottom + window.scrollY, left: rect.right + window.scrollX });
+            setShowAnnotationInput(false); // Reset annotation input visibility
+        } else {
+            setSelectedText("");
+            setSelectionRange(null);
+        }
+    };
+
+    const handleAnnotationSubmit = async () => {
+        if (!annotationContent.trim()) {
+            toast.error("Annotation content cannot be empty.");
+            return;
+        }
+
+        if (!selectionRange) {
+            toast.error("Please select text to annotate.");
+            return;
+        }
+
+        const annotationPayload = {
+            type: "Annotation",
+            creator: user.name,
+            body: {
+                type: "TextualBody",
+                value: annotationContent,
+            },
+            target: {
+                type: "SpecificResource",
+                source: window.location.href,
+                postId: null,
+                commentId: comment.id,
+                selector: {
+                    type: "TextPositionSelector",
+                    start: selectionRange.start,
+                    end: selectionRange.end,
+                },
+            },
+        };
+
+        try {
+            const response = await createAnnotation(annotationPayload);
+            if (response) {
+                toast.success("Annotation created successfully.");
+                await refetchAnnotations();
+                setAnnotationContent("");
+                setSelectedText("");
+                setSelectionRange(null);
+                setShowAnnotationInput(false);
+            }
+        } catch (error) {
+            console.error("Error creating annotation:", error);
+            toast.error("Error creating annotation.");
+        }
+    };
+
     const createCommentContent = (content) => {
         if (!content || !Array.isArray(content)) return "No content available";
 
@@ -102,8 +175,32 @@ const Comment = ({ comment, level, onDeleteComment }) => {
         });
     };
 
+    const highlightCommentContent = (content) => {
+        if (
+            !selectedAnnotation ||
+            !selectedAnnotation.target.selector ||
+            selectedAnnotation.target.commentId !== comment.id
+        ) {
+            return createCommentContent(content);
+        }
+
+        const { start, end } = selectedAnnotation.target.selector;
+        const textContent = content.map((item) => item.value).join(""); // Flatten content into plain text
+        const before = textContent.slice(0, start);
+        const highlighted = textContent.slice(start, end);
+        const after = textContent.slice(end);
+
+        return (
+            <>
+                {before}
+                <span className={styles.highlighted}>{highlighted}</span>
+                {after}
+            </>
+        );
+    };
+
     return (
-        <div className={styles.comment} style={{ marginLeft: `${level * 20}px` }}>
+        <div className={styles.comment} style={{ marginLeft: `${level * 20}px` }} onMouseUp={handleTextSelection}>
             <div className={styles.commentHeader}>
                 <h5>{comment.createdBy || "Anonymous"}</h5>
                 <span>{new Date(comment.creationDate).toLocaleString()}</span>
@@ -117,7 +214,42 @@ const Comment = ({ comment, level, onDeleteComment }) => {
                     </button>
                 )}
             </div>
-            <p className={styles.commentText}>{createCommentContent(comment.content)}</p>
+            <p className={styles.commentText}>{highlightCommentContent(comment.content)}</p>
+            {selectedText && user.isAuthenticated && (
+                <>
+                    {/* Small symbol */}
+                    <div
+                        className={styles.annotationSymbol}
+                        style={{ top: floatingPosition.top, left: floatingPosition.left }}
+                    >
+                        <button onClick={() => { setShowAnnotationInput(true); }}>
+                            🖋
+                        </button>
+
+                    </div>
+                    {showAnnotationInput && (
+                        <div
+                            className={styles.annotationInputContainer}
+                            style={{
+                                position: "absolute",
+                                top: floatingPosition.top + 20,
+                                left: floatingPosition.left - 150,
+                            }}
+                            onMouseUp={(e) => e.stopPropagation()}
+                        >
+                            <textarea
+                                placeholder="Write your annotation..."
+                                value={annotationContent}
+                                onChange={(e) => setAnnotationContent(e.target.value)}
+                                className={styles.annotationInput}
+                            />
+                            <button onClick={handleAnnotationSubmit} className={styles.annotationButton}>
+                                Submit
+                            </button>
+                        </div>
+                    )}
+                </>
+            )}
             {user.isAuthenticated && (
                 <button onClick={handleReplyToggle} className={styles.replyButton}>
                     {showReplyBox ? "Cancel" : "Reply"}
@@ -151,6 +283,8 @@ const Comment = ({ comment, level, onDeleteComment }) => {
                                     prevReplies.filter((reply) => reply.id !== childId)
                                 );
                             }}
+                            selectedAnnotation={selectedAnnotation}
+                            refetchAnnotations={refetchAnnotations}
                         />
                     ))}
                 </div>
