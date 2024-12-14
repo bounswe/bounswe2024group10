@@ -19,7 +19,7 @@ const SubforumNavbar = ({ subforums }) => {
                             key={i}
                             className={isSelected ? `${styles.selected}` : ""}
                         >
-                            <Link to={`/${subforum.id}`}>{subforum.name}</Link>
+                            <Link to={`/subforum/${subforum.id}`}>{subforum.name}</Link>
                         </li>
                     );
                 })}
