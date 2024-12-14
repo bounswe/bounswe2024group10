@@ -213,7 +213,7 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
                 )}
             </div>
             <p className={styles.commentText}>{highlightCommentContent(comment.content)}</p>
-            {selectedText && (
+            {selectedText && user.isAuthenticated && (
                 <>
                     {/* Small symbol */}
                     <div

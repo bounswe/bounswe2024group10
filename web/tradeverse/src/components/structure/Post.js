@@ -200,7 +200,7 @@ const Post = ({ post, selectedAnnotation }) => {
         <div className={styles.postImageContainer}>
           <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
         </div>
-        {selectedText && (
+        {selectedText && user.isAuthenticated &&  (
           <>
             {/* Small symbol */}
             <div
