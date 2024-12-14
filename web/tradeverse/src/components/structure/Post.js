@@ -6,6 +6,7 @@ import { likePost, unlikePost } from "../../services/like";
 import { dislikePost, undislikePost } from "../../services/dislike";
 import { createAnnotation } from "../../services/annotation";
 import { toast } from "react-toastify";
+import defaultUserImage from "../../data/defaultUserImage.jpeg";
 
 const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
   const { user } = AuthData();
@@ -186,7 +187,10 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
     <div className={styles.post} onMouseUp={handleTextSelection}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-          <img src={post.author.userPhoto} className={styles.userImage} />
+          <img
+            src={post.author.profilePhoto ? post.author.profilePhoto : defaultUserImage}
+            className={styles.userImage}
+          />
           <div className={styles.userDetails}>
             <h3>{`${post.author.name}`}</h3>
             <p>{`@${post.createdBy}`}</p>
