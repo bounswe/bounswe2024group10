@@ -3,7 +3,7 @@ import api from './_axios'
 export async function searchSubforumByTitle({ keyword }) {
   try {
     const response = await api({
-      url: '/post/subforum/searchKeyword',
+      url: '/search/subforum',
       method: 'GET',
       params: { keyword },
     })

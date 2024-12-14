@@ -11,7 +11,6 @@ import {
 import { Ionicons } from '@expo/vector-icons' // Icon library
 import { useLocalSearchParams } from 'expo-router'
 import { getPostById } from '../../mock-services/post'
-import PostCard from '../home-root/_components/post-card'
 import PostHeader from './_components/post-header'
 import GlobalScreen from '../../components/ui/global-screen'
 

@@ -19,6 +19,14 @@ import {
 import UserLink from '../links/user-link'
 import ProfileImage from '../images/profile-image'
 import SubforumLink from '../links/subforum-link'
+import {
+  likePost,
+  dislikePost,
+  unlikePost,
+  undislikePost,
+} from '../../services/post'
+
+import { formatDate } from '../../util/format-date'
 
 const AuthorInfo = ({ author }) => {
   return (
@@ -148,13 +156,53 @@ const InteractionInfo = ({ icon = () => {}, value }) => (
 )
 
 export default function PostCard({ style, post }) {
-  const [isLiked, setIsLiked] = useState(isLiked)
-  const [isDisliked, setIsDisliked] = useState(false)
-  const handleLike = () => {
-    setIsLiked(!isLiked)
+  const [isLiked, setIsLiked] = useState(post.isLiked)
+  const [likeCount, setLikeCount] = useState(post.likeCount)
+
+  const [isDisliked, setIsDisliked] = useState(post.isDisliked)
+  const [dislikeCount, setDislikeCount] = useState(post.dislikeCount)
+
+  const handleClickLike = async () => {
+    let res
+    if (isLiked) {
+      res = await unlikePost({ postId: post.id })
+      if (res.successful) {
+        setLikeCount(likeCount - 1)
+      }
+    } else {
+      res = await likePost({ postId: post.id })
+      if (res.successful) {
+        setLikeCount(likeCount + 1)
+        if (isDisliked) {
+          setIsDisliked(false)
+          setDislikeCount(dislikeCount - 1)
+        }
+      }
+    }
+    if (res.successful) {
+      setIsLiked(!isLiked)
+    }
   }
-  const handleDislike = () => {
-    setIsDisliked(!isDisliked)
+  const handleClickDislike = async () => {
+    let res
+    if (isDisliked) {
+      res = await undislikePost({ postId: post.id })
+      if (res.successful) {
+        setDislikeCount(dislikeCount - 1)
+      }
+    } else {
+      res = await dislikePost({ postId: post.id })
+      if (res.successful) {
+        setDislikeCount(dislikeCount + 1)
+        if (isLiked) {
+          setIsLiked(false)
+          setLikeCount(likeCount - 1)
+        }
+      }
+    }
+    if (res.successful) {
+      setIsDisliked(!isDisliked)
+    }
   }
   return (
     <PostLink target={`${paths.EXPLORE.POST_DETAIL}?postId=${post.id}`}>
@@ -176,7 +224,9 @@ export default function PostCard({ style, post }) {
           }}
         >
           <AuthorInfo author={post.author} />
-          <SubforumInfo subforum={post.parentSubforum} />
+          <SubforumInfo
+            subforum={{ ...post.subforum, title: post.subforum.name }}
+          />
         </View>
 
         <View>
@@ -228,10 +278,14 @@ export default function PostCard({ style, post }) {
           }}
         >
           <View>
-            <InteractionInfo
-              icon={(params) => <IconEye color="#444" size={12} />}
-              value={post.views}
-            />
+            <Text
+              style={{
+                fontSize: SIZES.xxSmall,
+                color: COLORS.graytext,
+              }}
+            >
+              {formatDate(post.creationDate)}
+            </Text>
           </View>
           <View
             style={{
@@ -242,9 +296,9 @@ export default function PostCard({ style, post }) {
           >
             <InteractionInfo
               icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
-              value={post.nofComments ?? 0}
+              value={post.commentCount ?? 0}
             />
-            <Pressable onPress={handleLike}>
+            <Pressable onPress={handleClickLike}>
               <InteractionInfo
                 icon={(params) =>
                   isLiked ? (
@@ -257,10 +311,10 @@ export default function PostCard({ style, post }) {
                     <IconThumbUp color="#444" size={12} />
                   )
                 }
-                value={post.nofLikes ?? 0}
+                value={likeCount ?? 0}
               />
             </Pressable>
-            <Pressable onPress={handleDislike}>
+            <Pressable onPress={handleClickDislike}>
               <InteractionInfo
                 icon={(params) =>
                   isDisliked ? (
@@ -273,7 +327,7 @@ export default function PostCard({ style, post }) {
                     <IconThumbDown color="#444" size={12} />
                   )
                 }
-                value={post.nofDislikes ?? 0}
+                value={dislikeCount ?? 0}
               />
             </Pressable>
           </View>
