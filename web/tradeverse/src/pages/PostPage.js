@@ -25,21 +25,22 @@ const PostPage = () => {
 
     const handleAnnotationClick = (annotation) => {
         if (annotation.target.postId) {
-            setSelectedPostAnnotation(annotation); // Set the selected post annotation
-            setSelectedCommentAnnotation(null); // Reset the selected comment annotation
+            if (selectedPostAnnotation?.id === annotation.id) {
+                setSelectedPostAnnotation(null);
+            } else {
+                setSelectedPostAnnotation(annotation);
+                setSelectedCommentAnnotation(null);
+            }
+        } else if (annotation.target.commentId) {
+            if (selectedCommentAnnotation?.id === annotation.id) {
+                setSelectedCommentAnnotation(null);
+            } else {
+                setSelectedCommentAnnotation(annotation); 
+                setSelectedPostAnnotation(null);
+            }
         }
-        if (annotation.target.commentId) {
-            setSelectedCommentAnnotation(annotation); // Set the selected comment annotation
-            setSelectedPostAnnotation(null); // Reset the selected post annotation
-        }
-        if (annotation.target.postId && selectedPostAnnotation) {
-            setSelectedPostAnnotation(null); // Reset the selected post annotation
-        }
-        if (annotation.target.commentId && selectedCommentAnnotation) {
-            setSelectedCommentAnnotation(null); // Reset the selected comment annotation
-        }
-
     };
+    
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -230,6 +231,7 @@ const PostPage = () => {
                             key={annotation.id}
                             annotation={annotation}
                             onClick={() => handleAnnotationClick(annotation)}
+                            isSelected={(selectedPostAnnotation?.id === annotation.id) || (selectedCommentAnnotation?.id === annotation.id)}
                         />
                     ))
                 ) : (
