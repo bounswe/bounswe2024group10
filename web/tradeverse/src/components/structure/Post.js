@@ -202,7 +202,6 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
       </div>
       <div className={styles.postDetails}>
         <h2>{post.title}</h2>
-        <p>{highlightPostContent(createPostContent(post.content))}</p>
         <div className={styles.postImageContainer}>
           {post.content.find((item) => item.type === "image")?.value && (
             <img
@@ -212,6 +211,8 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
             />
           )}
         </div>
+        <p>{highlightPostContent(createPostContent(post.content))}</p>
+        
         {selectedText && user.isAuthenticated && (
           <>
             {/* Small symbol */}

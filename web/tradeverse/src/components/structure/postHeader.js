@@ -43,7 +43,6 @@ const PostHeader = ({ post }) => {
       <div className={styles.postHeaderDetails}>
         <Link to={`/${post.subforum.id}/${post.id}`} className={styles.postLink}>
           <h2>{post.title}</h2>
-          <p>{createPostContent(post.content)}</p>
           <div className={styles.postImageContainer}>
             {post.content.find((item) => item.type === "image")?.value && (
               <img
@@ -53,6 +52,8 @@ const PostHeader = ({ post }) => {
               />
             )}
           </div>
+          <p>{createPostContent(post.content)}</p>
+          
         </Link>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
