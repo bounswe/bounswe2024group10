@@ -3,6 +3,7 @@ import styles from "../styles/comment.module.css";
 import { AuthData } from "../../auth/AuthWrapper";
 import { createComment, deleteComment } from "../../services/post";
 import { createAnnotation } from "../../services/annotation";
+import { toast } from "react-toastify";
 
 const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
     const { user } = AuthData();
@@ -111,12 +112,12 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
 
     const handleAnnotationSubmit = async () => {
         if (!annotationContent.trim()) {
-            alert("Annotation content cannot be empty.");
+            toast.error("Annotation content cannot be empty.");
             return;
         }
 
         if (!selectionRange) {
-            alert("No text selected for annotation.");
+            toast.error("Please select text to annotate.");
             return;
         }
 
@@ -143,7 +144,7 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
         try {
             const response = await createAnnotation(annotationPayload);
             if (response) {
-                alert("Annotation created successfully!");
+                toast.success("Annotation created successfully.");
                 setAnnotationContent("");
                 setSelectedText("");
                 setSelectionRange(null);
@@ -151,7 +152,7 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
             }
         } catch (error) {
             console.error("Error creating annotation:", error);
-            alert("Failed to create annotation.");
+            toast.error("Error creating annotation.");
         }
     };
 

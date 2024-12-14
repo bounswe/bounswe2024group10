@@ -5,6 +5,7 @@ import { AuthData } from "../../auth/AuthWrapper";
 import { likePost, unlikePost } from "../../services/like";
 import { dislikePost, undislikePost } from "../../services/dislike";
 import { createAnnotation } from "../../services/annotation";
+import { toast } from "react-toastify";
 
 const Post = ({ post, selectedAnnotation }) => {
   const { user } = AuthData();
@@ -109,12 +110,12 @@ const Post = ({ post, selectedAnnotation }) => {
 
   const handleAnnotationSubmit = async () => {
     if (!annotationContent.trim()) {
-      alert("Annotation content cannot be empty.");
+      toast.error("Please enter annotation content.");
       return;
     }
 
     if (!selectionRange) {
-      alert("No text selected for annotation.");
+      toast.error("No text selected for annotation.");
       return;
     }
 
@@ -141,7 +142,7 @@ const Post = ({ post, selectedAnnotation }) => {
     try {
       const response = await createAnnotation(annotationPayload);
       if (response) {
-        alert("Annotation created successfully!");
+        toast.success("Annotation created successfully.");
         setAnnotationContent("");
         setSelectedText("");
         setSelectionRange(null);
@@ -149,7 +150,7 @@ const Post = ({ post, selectedAnnotation }) => {
       }
     } catch (error) {
       console.error("Error creating annotation:", error);
-      alert("Failed to create annotation.");
+      toast.error("Failed to create annotation.");
     }
   };
 
