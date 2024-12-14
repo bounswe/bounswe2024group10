@@ -1,5 +1,8 @@
 package com.annotation.annotation_service.model.dto;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({ "id", "type", "body", "creator", "target" })
@@ -7,13 +10,15 @@ public class AnnotationItem {
     private Long id;
     private String type = "Annotation";
     private String creator;
+    private LocalDateTime created;
     private AnnotationBody body;
     private AnnotationTarget target;
 
     // Constructor
-    public AnnotationItem(Long id, String creator, AnnotationBody body, AnnotationTarget target) {
+    public AnnotationItem(Long id, String creator, LocalDateTime created, AnnotationBody body, AnnotationTarget target) {
         this.id = id;
         this.creator = creator;
+        this.created = created;
         this.body = body;
         this.target = target;
     }
@@ -41,6 +46,14 @@ public class AnnotationItem {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public AnnotationBody getBody() {

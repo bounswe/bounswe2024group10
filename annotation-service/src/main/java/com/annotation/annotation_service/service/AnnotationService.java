@@ -10,6 +10,7 @@ import com.annotation.annotation_service.model.dto.AnnotationRequest;
 import com.annotation.annotation_service.repository.AnnotationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class AnnotationService {
         // Set basic fields
         annotation.setType(annotationRequest.getType());
         annotation.setCreator(annotationRequest.getCreator());
+        annotation.setCreated(LocalDateTime.now());
 
         // Serialize body and target into JSON strings
         try {
@@ -69,6 +71,7 @@ public class AnnotationService {
                 AnnotationItem annotationItem = new AnnotationItem(
                         annotation.getId(),
                         annotation.getCreator(),
+                        annotation.getCreated(),
                         body,
                         target);
                 annotationItems.add(annotationItem);

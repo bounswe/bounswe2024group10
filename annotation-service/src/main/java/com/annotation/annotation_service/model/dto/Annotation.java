@@ -1,5 +1,8 @@
 package com.annotation.annotation_service.model.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +17,9 @@ public class Annotation {
 
     @Column(nullable = false)
     private String creator;
+
+    @Column(nullable = false)
+    private LocalDateTime created;
 
     @Lob
     @Column(nullable = false)
@@ -52,6 +58,14 @@ public class Annotation {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public String getBody() {
