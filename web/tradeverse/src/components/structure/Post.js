@@ -174,13 +174,13 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
     const after = content.slice(end);
 
     return (
-        <>
-            {before}
-            <span className={styles.highlighted}>{highlighted}</span>
-            {after}
-        </>
+      <>
+        {before}
+        <span className={styles.highlighted}>{highlighted}</span>
+        {after}
+      </>
     );
-};
+  };
 
   return (
     <div className={styles.post} onMouseUp={handleTextSelection}>
@@ -200,18 +200,24 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
         <h2>{post.title}</h2>
         <p>{highlightPostContent(createPostContent(post.content))}</p>
         <div className={styles.postImageContainer}>
-          <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+          {post.content.find((item) => item.type === "image")?.value && (
+            <img
+              src={`http://35.246.188.121:8080/api/images/${post.content.find((item) => item.type === "image")?.value}`}
+              className={styles.postImage}
+              alt="Post Image"
+            />
+          )}
         </div>
-        {selectedText && user.isAuthenticated &&  (
+        {selectedText && user.isAuthenticated && (
           <>
             {/* Small symbol */}
             <div
               className={styles.annotationSymbol}
               style={{ top: floatingPosition.top, left: floatingPosition.left }}
             >
-              <button onClick={() => {setShowAnnotationInput(true); }}>
+              <button onClick={() => { setShowAnnotationInput(true); }}>
                 🖋
-                </button>
+              </button>
 
             </div>
             {showAnnotationInput && (

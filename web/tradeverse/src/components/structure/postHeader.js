@@ -45,7 +45,13 @@ const PostHeader = ({ post }) => {
           <h2>{post.title}</h2>
           <p>{createPostContent(post.content)}</p>
           <div className={styles.postImageContainer}>
-            <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+            {post.content.find((item) => item.type === "image")?.value && (
+              <img
+                src={`http://35.246.188.121:8080/api/images/${post.content.find((item) => item.type === "image")?.value}`}
+                className={styles.postImage}
+                alt="Post Image"
+              />
+            )}
           </div>
         </Link>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
