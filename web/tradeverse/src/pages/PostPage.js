@@ -20,14 +20,25 @@ const PostPage = () => {
     const [commentIds, setCommentIds] = useState([]); // State to store comment IDs
     const [annotations, setAnnotations] = useState([]); // State to store annotations
 
-    const [selectedAnnotation, setSelectedAnnotation] = useState(null); // To track the selected annotation
+    const [selectedPostAnnotation, setSelectedPostAnnotation] = useState(null); // To track the selected annotation
+    const [selectedCommentAnnotation, setSelectedCommentAnnotation] = useState(null); // To track the selected annotation
 
     const handleAnnotationClick = (annotation) => {
-        if (selectedAnnotation?.id === annotation.id) {
-            setSelectedAnnotation(null); // Deselect if the same annotation is clicked
-        } else {
-            setSelectedAnnotation(annotation); // Highlight the clicked annotation
+        if (annotation.target.postId) {
+            setSelectedPostAnnotation(annotation); // Set the selected post annotation
+            setSelectedCommentAnnotation(null); // Reset the selected comment annotation
         }
+        if (annotation.target.commentId) {
+            setSelectedCommentAnnotation(annotation); // Set the selected comment annotation
+            setSelectedPostAnnotation(null); // Reset the selected post annotation
+        }
+        if (annotation.target.postId && selectedPostAnnotation) {
+            setSelectedPostAnnotation(null); // Reset the selected post annotation
+        }
+        if (annotation.target.commentId && selectedCommentAnnotation) {
+            setSelectedCommentAnnotation(null); // Reset the selected comment annotation
+        }
+
     };
 
     useEffect(() => {
@@ -52,9 +63,22 @@ const PostPage = () => {
                 const data = await getComments(postId); // Fetch comments
                 if (Array.isArray(data)) {
                     setComments(data); // Set comments if the response is an array
-                    const tempCommentIds = data.map((comment) => comment.id); // Extract comment IDs
-                    console.log("Comment IDs:", tempCommentIds);
-                    setCommentIds(tempCommentIds); // Store comment IDs in state
+        
+                    // Recursive function to collect all comment IDs
+                    const collectCommentIds = (comments) => {
+                        let ids = [];
+                        for (const comment of comments) {
+                            ids.push(comment.id); // Add the current comment ID
+                            if (Array.isArray(comment.replies) && comment.replies.length > 0) {
+                                ids = ids.concat(collectCommentIds(comment.replies)); // Recursively collect reply IDs
+                            }
+                        }
+                        return ids;
+                    };
+        
+                    const allCommentIds = collectCommentIds(data); // Collect all IDs from top-level and nested replies
+                    console.log("All Comment IDs:", allCommentIds);
+                    setCommentIds(allCommentIds); // Store all comment IDs in state
                 } else {
                     console.error("Invalid comments data received:", data);
                 }
@@ -166,7 +190,7 @@ const PostPage = () => {
         <div className={styles.postGeneral}>
             <div className={styles.postContainer}>
                 <div className={styles.postPage}>
-                    <Post post={post} selectedAnnotation={selectedAnnotation} />  {/* Render the Post component with the specific post */}
+                    <Post post={post} selectedAnnotation={selectedPostAnnotation} />  {/* Render the Post component with the specific post */}
                     {user.isAuthenticated ? (
                         <div className={styles.newCommentSection}>
                             <textarea
@@ -191,7 +215,7 @@ const PostPage = () => {
                         <h3>Loading comments...</h3>
                     ) : comments.length > 0 ? (
                         comments.map((comment) => (
-                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} />
+                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} selectedAnnotation={selectedCommentAnnotation}/>
                         ))
                     ) : (
                         <p>No comments yet. Be the first to comment!</p>

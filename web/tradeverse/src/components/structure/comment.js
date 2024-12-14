@@ -4,7 +4,7 @@ import { AuthData } from "../../auth/AuthWrapper";
 import { createComment, deleteComment } from "../../services/post";
 import { createAnnotation } from "../../services/annotation";
 
-const Comment = ({ comment, level, onDeleteComment }) => {
+const Comment = ({ comment, level, onDeleteComment, selectedAnnotation}) => {
     const { user } = AuthData();
     const [showReplyBox, setShowReplyBox] = useState(false);
     const [replyText, setReplyText] = useState("");
@@ -173,6 +173,30 @@ const Comment = ({ comment, level, onDeleteComment }) => {
         });
     };
 
+    const highlightCommentContent = (content) => {
+        if (
+            !selectedAnnotation ||
+            !selectedAnnotation.target.selector ||
+            selectedAnnotation.target.commentId !== comment.id
+        ) {
+            return createCommentContent(content);
+        }
+
+        const { start, end } = selectedAnnotation.target.selector;
+        const textContent = content.map((item) => item.value).join(""); // Flatten content into plain text
+        const before = textContent.slice(0, start);
+        const highlighted = textContent.slice(start, end);
+        const after = textContent.slice(end);
+
+        return (
+            <>
+                {before}
+                <span className={styles.highlighted}>{highlighted}</span>
+                {after}
+            </>
+        );
+    };
+
     return (
         <div className={styles.comment} style={{ marginLeft: `${level * 20}px` }} onMouseUp={handleTextSelection}>
             <div className={styles.commentHeader}>
@@ -188,7 +212,7 @@ const Comment = ({ comment, level, onDeleteComment }) => {
                     </button>
                 )}
             </div>
-            <p className={styles.commentText}>{createCommentContent(comment.content)}</p>
+            <p className={styles.commentText}>{highlightCommentContent(comment.content)}</p>
             {selectedText && (
                 <>
                     {/* Small symbol */}
@@ -257,6 +281,7 @@ const Comment = ({ comment, level, onDeleteComment }) => {
                                     prevReplies.filter((reply) => reply.id !== childId)
                                 );
                             }}
+                            selectedAnnotation={selectedAnnotation}
                         />
                     ))}
                 </div>
