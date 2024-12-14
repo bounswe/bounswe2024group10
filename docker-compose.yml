@@ -31,14 +31,6 @@ services:
     volumes:
       - images-data:/images
 
-  # web:
-  #   build:
-  #     context: ./web/tradeverse
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - backend
 
   annotation-db:
     image: mysql:latest
@@ -71,6 +63,16 @@ services:
         condition: service_healthy
     volumes:
       - annotation-images-data:/images
+
+  web:
+    build:
+      context: ./web/tradeverse
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+      - annotation-backend
 
 volumes:
   db-data:
