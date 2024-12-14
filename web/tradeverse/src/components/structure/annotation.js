@@ -10,7 +10,7 @@ const Annotation = ({ annotation, onClick, isSelected }) => {
             <div className={styles.header}>
                 <h2 className={styles.creator}>{annotation.creator}</h2>
                 <span className={styles.date}>
-                    {new Date(annotation.creationDate).toLocaleString()}
+                    {new Date(annotation.created).toLocaleString()}
                 </span>
             </div>
             <p className={styles.body}>{annotation.body.value}</p>

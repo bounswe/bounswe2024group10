@@ -35,12 +35,12 @@ const PostPage = () => {
             if (selectedCommentAnnotation?.id === annotation.id) {
                 setSelectedCommentAnnotation(null);
             } else {
-                setSelectedCommentAnnotation(annotation); 
+                setSelectedCommentAnnotation(annotation);
                 setSelectedPostAnnotation(null);
             }
         }
     };
-    
+
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -64,7 +64,7 @@ const PostPage = () => {
                 const data = await getComments(postId); // Fetch comments
                 if (Array.isArray(data)) {
                     setComments(data); // Set comments if the response is an array
-        
+
                     // Recursive function to collect all comment IDs
                     const collectCommentIds = (comments) => {
                         let ids = [];
@@ -76,7 +76,7 @@ const PostPage = () => {
                         }
                         return ids;
                     };
-        
+
                     const allCommentIds = collectCommentIds(data); // Collect all IDs from top-level and nested replies
                     console.log("All Comment IDs:", allCommentIds);
                     setCommentIds(allCommentIds); // Store all comment IDs in state
@@ -97,12 +97,10 @@ const PostPage = () => {
     useEffect(() => {
         const fetchAnnotations = async () => {
             try {
-                if (commentIds.length > 0) {
-                    console.log("Fetching annotations for post:", postId, "with comment IDs:", commentIds);
-                    const data = await getAnnotations(postId, commentIds); // Fetch annotations
-                    setAnnotations(data.items);
-                    console.log("Annotations:", data.items);
-                }
+                console.log("Fetching annotations for post:", postId, "with comment IDs:", commentIds);
+                const data = await getAnnotations(postId, commentIds); // Fetch annotations
+                setAnnotations(data.items);
+                console.log("Annotations:", data.items);
             } catch (error) {
                 console.error("Error fetching annotations:", error);
             }
@@ -216,28 +214,26 @@ const PostPage = () => {
                         <h3>Loading comments...</h3>
                     ) : comments.length > 0 ? (
                         comments.map((comment) => (
-                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} selectedAnnotation={selectedCommentAnnotation}/>
+                            <Comment key={comment.id} comment={comment} level={0} refreshComments={refreshComments} selectedAnnotation={selectedCommentAnnotation} />
                         ))
                     ) : (
                         <p>No comments yet. Be the first to comment!</p>
                     )}
                 </div>
             </div>
-            <div className={styles.annotationContainer}>
-                <h3>Annotations</h3>
-                {annotations.length > 0 ? (
-                    annotations.map((annotation) => (
+            {annotations.length > 0 && (
+                <div className={styles.annotationContainer}>
+                    <h3>Annotations</h3>
+                    {annotations.map((annotation) => (
                         <Annotation
                             key={annotation.id}
                             annotation={annotation}
                             onClick={() => handleAnnotationClick(annotation)}
                             isSelected={(selectedPostAnnotation?.id === annotation.id) || (selectedCommentAnnotation?.id === annotation.id)}
                         />
-                    ))
-                ) : (
-                    <p>No annotations yet.</p>
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
