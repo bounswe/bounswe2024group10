@@ -6,8 +6,9 @@ import assets from "../../data/assets";
 import ChartContainer from "./TradingViewWidget";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import defaultUserImage from "../../data/defaultUserImage.jpeg";
 
-const Feed = ({ posts }) => {
+const Feed = ({ posts, refreshPosts}) => {
 
   const { user } = AuthData();
   const [postTitle, setPostTitle] = useState(""); // New state for title
@@ -144,6 +145,7 @@ const Feed = ({ posts }) => {
       if (response.ok) {
         toast.success("Post created successfully!");  
         // Reset inputs after successful post
+        refreshPosts();
         setPostTitle(""); // Clear the title input
         setPostContent("");
         setSelectedImage(null);
@@ -166,7 +168,7 @@ const Feed = ({ posts }) => {
         <div className={styles.postHeader}>
           <div className={styles.userAndTag}>
             <div className={styles.userDetailsContainer}>
-              <img src={user.img} className={styles.userImage} />
+              <img src={user.img ? user.img : defaultUserImage} className={styles.userImage} />
               <div className={styles.userDetails}>
                 <h3>{`${user.name}`}</h3>
                 <p>{`@${user.name}`}</p>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './styles/Search.module.css'; // Import the CSS file
 import { searchSubforums, searchPosts, searchTags, searchUsers, searchAssets } from '../services/search';
 import PostHeader from '../components/structure/postHeader';
+import defaultUserImage from '../data/defaultUserImage.jpeg';
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,7 +52,7 @@ const Search = () => {
             name: user.firstName,
             surname: user.lastName,
             username: user.username,
-            avatar: user.avatar || '/default-avatar.png',
+            avatar: user.userPhoto,
             followers: user.followerCount,
             type: 'user',
           }));
@@ -136,7 +137,7 @@ const Search = () => {
                 return (
                   <div key={index} className={styles.userCard}>
                     <img
-                      src={result.avatar}
+                      src={result.avatar ? `http://35.246.188.121:8080/api${result.avatar}`: defaultUserImage}
                       alt={result.name}
                       className={styles.userAvatar}
                     />

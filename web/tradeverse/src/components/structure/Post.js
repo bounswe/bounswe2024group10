@@ -6,6 +6,7 @@ import { likePost, unlikePost } from "../../services/like";
 import { dislikePost, undislikePost } from "../../services/dislike";
 import { createAnnotation } from "../../services/annotation";
 import { toast } from "react-toastify";
+import defaultUserImage from "../../data/defaultUserImage.jpeg";
 
 const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
   const { user } = AuthData();
@@ -174,19 +175,22 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
     const after = content.slice(end);
 
     return (
-        <>
-            {before}
-            <span className={styles.highlighted}>{highlighted}</span>
-            {after}
-        </>
+      <>
+        {before}
+        <span className={styles.highlighted}>{highlighted}</span>
+        {after}
+      </>
     );
-};
+  };
 
   return (
     <div className={styles.post} onMouseUp={handleTextSelection}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-          <img src={post.author.userPhoto} className={styles.userImage} />
+          <img
+            src={post.author.profilePhoto ? post.author.profilePhoto : defaultUserImage}
+            className={styles.userImage}
+          />
           <div className={styles.userDetails}>
             <h3>{`${post.author.name}`}</h3>
             <p>{`@${post.createdBy}`}</p>
@@ -198,20 +202,27 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
       </div>
       <div className={styles.postDetails}>
         <h2>{post.title}</h2>
-        <p>{highlightPostContent(createPostContent(post.content))}</p>
         <div className={styles.postImageContainer}>
-          <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+          {post.content.find((item) => item.type === "image")?.value && (
+            <img
+              src={`http://35.246.188.121:8080/api/images/${post.content.find((item) => item.type === "image")?.value}`}
+              className={styles.postImage}
+              alt="Post Image"
+            />
+          )}
         </div>
-        {selectedText && user.isAuthenticated &&  (
+        <p>{highlightPostContent(createPostContent(post.content))}</p>
+        
+        {selectedText && user.isAuthenticated && (
           <>
             {/* Small symbol */}
             <div
               className={styles.annotationSymbol}
               style={{ top: floatingPosition.top, left: floatingPosition.left }}
             >
-              <button onClick={() => {setShowAnnotationInput(true); }}>
+              <button onClick={() => { setShowAnnotationInput(true); }}>
                 🖋
-                </button>
+              </button>
 
             </div>
             {showAnnotationInput && (

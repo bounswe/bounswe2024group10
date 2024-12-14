@@ -2,6 +2,7 @@ import React from "react";
 import ChartContainer from "./TradingViewWidget";
 import { Link } from "react-router-dom";
 import styles from "../styles/postHeader.module.css";
+import defaultUserImage from "../../data/defaultUserImage.jpeg";
 
 const PostHeader = ({ post }) => {
 
@@ -19,7 +20,10 @@ const PostHeader = ({ post }) => {
     <div className={styles.postHeader}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-        <img src={post.author.profilePhoto} className={styles.userImage} />
+          <img
+            src={post.author.profilePhoto ? post.author.profilePhoto : defaultUserImage}
+            className={styles.userImage}
+          />
           <div className={styles.userDetails}>
             <h3>{post.author.name}</h3>
             <p>{`@${post.createdBy}`}</p>
@@ -39,10 +43,17 @@ const PostHeader = ({ post }) => {
       <div className={styles.postHeaderDetails}>
         <Link to={`/${post.subforum.id}/${post.id}`} className={styles.postLink}>
           <h2>{post.title}</h2>
-          <p>{createPostContent(post.content)}</p>
           <div className={styles.postImageContainer}>
-            <img src={post.content.find((item) => item.type === "image")?.value} className={styles.postImage} />
+            {post.content.find((item) => item.type === "image")?.value && (
+              <img
+                src={`http://35.246.188.121:8080/api/images/${post.content.find((item) => item.type === "image")?.value}`}
+                className={styles.postImage}
+                alt="Post Image"
+              />
+            )}
           </div>
+          <p>{createPostContent(post.content)}</p>
+          
         </Link>
         <ChartContainer symbol={post.content.find((item) => item.type === "chart")?.value} />
       </div>
