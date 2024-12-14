@@ -2,6 +2,7 @@ import React from "react";
 import ChartContainer from "./TradingViewWidget";
 import { Link } from "react-router-dom";
 import styles from "../styles/postHeader.module.css";
+import defaultUserImage from "../../data/defaultUserImage.jpeg";
 
 const PostHeader = ({ post }) => {
 
@@ -19,7 +20,10 @@ const PostHeader = ({ post }) => {
     <div className={styles.postHeader}>
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
-        <img src={post.author.profilePhoto} className={styles.userImage} />
+          <img
+            src={post.author.profilePhoto ? post.author.profilePhoto : defaultUserImage}
+            className={styles.userImage}
+          />
           <div className={styles.userDetails}>
             <h3>{post.author.name}</h3>
             <p>{`@${post.createdBy}`}</p>
