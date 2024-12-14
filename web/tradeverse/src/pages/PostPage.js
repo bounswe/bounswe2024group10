@@ -7,6 +7,7 @@ import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
 import { getAnnotations } from "../services/annotation";
+import { ToastContainer } from "react-toastify";
 
 
 const PostPage = () => {
@@ -234,6 +235,7 @@ const PostPage = () => {
                     ))}
                 </div>
             )}
+            <ToastContainer />
         </div>
     );
 };
