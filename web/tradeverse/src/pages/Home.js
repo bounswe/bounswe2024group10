@@ -69,6 +69,35 @@ const Home = () => {
     }
   };
 
+  const fetchAndSetPosts = async (type) => {
+    try {
+      if (type === "For You") {
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
+        const data = await fetchRecentPosts(token);
+        setForYouPosts(data);
+        setPosts(data);
+      } else if (type === "Followed Topics") {
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
+        const data = await fetchFollowedTopicsPosts(token);
+        setFollowedSubforumsPosts(data);
+        setPosts(data);
+      } else if (type === "Followed People") {
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
+        const data = await fetchFollowedPeoplePosts(token);
+        setFollowedUserPosts(data);
+        setPosts(data);
+      }
+    } catch (error) {
+      console.error(`Error fetching posts for ${type}:`, error);
+    }
+  };
+
+  const refreshPosts =  () => {
+    fetchAndSetPosts(filterType);
+  };
+
+
+
   return (
     <div className={styles.homePage}>
       {user.isAuthenticated && (
@@ -100,7 +129,7 @@ const Home = () => {
         </div>
       )}
       <div className={styles.feedContainer}>
-        <Feed posts={posts} />
+        <Feed posts={posts} refreshPosts={refreshPosts}/>
       </div>
     </div>
   );
