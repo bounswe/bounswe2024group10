@@ -1,0 +1,162 @@
+.createSubforumPage {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+  }
+  
+  .createSubforumPage h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #5d5fef;
+    font-size: 1.8rem;
+  }
+  
+  .subforumForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .formLabel {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .inputField,
+  .textArea {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .textArea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .colorPicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .colorOption {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 2px solid transparent;
+  }
+  
+  .colorOption:hover {
+    transform: scale(1.1);
+  }
+  
+  .selectedColor {
+    border-color: #5d5fef;
+  }
+  
+  .submitButton {
+    padding: 10px 15px;
+    margin-top: 20px;
+    background-color: #5d5fef;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .submitButton:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+  }
+  
+  .success {
+    color: green;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .error {
+    color: red;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Media Queries for Responsiveness */
+  
+  @media (max-width: 768px) {
+    .createSubforumPage {
+      max-width: 90%;
+      padding: 15px;
+    }
+  
+    .createSubforumPage h1 {
+      font-size: 1.5rem;
+    }
+  
+    .formLabel {
+      font-size: 0.9rem;
+    }
+  
+    .inputField,
+    .textArea {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .colorOption {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .submitButton {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .createSubforumPage {
+      max-width: 85%;
+      padding: 10px;
+      
+    }
+  
+    .createSubforumPage h1 {
+      font-size: 1.3rem;
+    }
+  
+    .formLabel {
+      font-size: 0.8rem;
+    }
+  
+    .inputField,
+    .textArea {
+      font-size: 0.8rem;
+      padding: 6px;
+    }
+  
+    .colorOption {
+      width: 30px;
+      height: 30px;
+    }
+  
+    .submitButton {
+      font-size: 0.8rem;
+      padding: 6px 10px;
+    }
+  }
+  
