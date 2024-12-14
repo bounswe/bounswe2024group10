@@ -6,13 +6,15 @@ public class LoginResponse {
     private String token;
     private String username;
     private int tag;
+    private boolean isAdmin;
 
-    public LoginResponse(boolean isSuccessful, String message, String token, String username, int tag) {
+    public LoginResponse(boolean isSuccessful, String message, String token, String username, int tag,boolean isAdmin) {
         this.isSuccessful = isSuccessful;
         this.message = message;
         this.token = token;
         this.username = username;
         this.tag = tag;
+        this.isAdmin = isAdmin;
     }
 
     public boolean getIsSuccessful() {
@@ -22,6 +24,8 @@ public class LoginResponse {
     public void setIsSuccessful(boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
     }
+    public boolean getIsAdmin(){ return isAdmin; }
+    public void setIsAdmin(boolean isAdmin){ this.isAdmin = isAdmin; }
 
     public String getMessage() {
         return message;
@@ -54,4 +58,5 @@ public class LoginResponse {
     public void setTag(int tag) {
         this.tag = tag;
     }
+
 }

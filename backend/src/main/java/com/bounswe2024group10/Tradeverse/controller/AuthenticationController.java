@@ -56,8 +56,11 @@ public class AuthenticationController {
 
             // Validate the token using the user details
             if (jwtUtil.validateToken(token, userDetails)) {
+                var user = userRepository.findByUsername(username);
                 // Token is valid, return success response with username
-                return ResponseEntity.ok(Map.of("username", username, "message", "Token is valid"));
+                return ResponseEntity.ok(Map.of("username", username, "message", "Token is valid",
+                        "isAdmin",user.getIsAdmin(),
+                        "tag",user.getTag()));
             } else {
                 // Token is invalid
                 return ResponseEntity.badRequest().body(Map.of("error", "Invalid token"));

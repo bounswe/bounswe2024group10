@@ -9,7 +9,7 @@ const AuthContext = createContext();
 export const AuthData = () => useContext(AuthContext);
 
 export const AuthWrapper = () => {
-    const [user, setUser] = useState({ name: "", isAuthenticated: false, role: "" });
+    const [user, setUser] = useState({ name: "", isAuthenticated: false,tag:-1,isAdmin:false}); // Add user state
     const [loading, setLoading] = useState(true); // Add loading state
     const navigate = useNavigate(); // Get navigate function
 
@@ -21,19 +21,22 @@ export const AuthWrapper = () => {
                 try {
                     const response = await apiValidateToken(token);
                     console.log(response);
+                    console.log(user);
 
                     // if (!response.ok) {
                     //     throw new Error('Token validation failed');
                     // }
 
                     // const data = await response.json();
-                    setUser({
+                    setUser(prevUser => ({
+                        ...prevUser,
                         name: response.username,
                         isAuthenticated: true,
-                        role: "USER",
-                        img: "",
-                        tag: 0
-                    });
+                        isAdmin:response.isAdmin,
+                        tag: response.tag
+                        
+                    }));
+
                 } catch (error) {
                     console.error('Token validation error:', error);
                     localStorage.removeItem('authToken');
@@ -60,7 +63,7 @@ export const AuthWrapper = () => {
             }
 
             // Extract the token, username, and tag from the successful response
-            const { token, username, tag } = response;
+            const { token, username, tag,isAdmin } = response;
 
             // Store the token and user info in localStorage
             localStorage.setItem('authToken', token);
@@ -69,7 +72,7 @@ export const AuthWrapper = () => {
             setUser({
                 name: username,
                 isAuthenticated: true,
-                role: "user",  // Adjust this based on role handling if needed
+                isAdmin:isAdmin,  // Adjust this based on role handling if needed
                 img: "",  // You can fetch or update user image if available
                 tag: tag   // Tag information from LoginResponse
             });

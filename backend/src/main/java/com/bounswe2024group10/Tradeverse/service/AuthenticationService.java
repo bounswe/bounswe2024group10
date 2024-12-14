@@ -68,12 +68,12 @@ public class AuthenticationService {
     public LoginResponse login(LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername());
         if (user == null) {
-            return new LoginResponse(false, "User not found", null, null, 0);
+            return new LoginResponse(false, "User not found", null, null, 0,false);
         }
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            return new LoginResponse(false, "Invalid password", null, null, 0);
+            return new LoginResponse(false, "Invalid password", null, null, 0,false);
         }
         String token = jwtUtil.generateToken(user);
-        return new LoginResponse(true, "Login successful", token, user.getUsername(), user.getTag());
+        return new LoginResponse(true, "Login successful", token, user.getUsername(), user.getTag(), user.getIsAdmin());
     }
 }

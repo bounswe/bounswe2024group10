@@ -48,6 +48,7 @@ const AssetInfo = () => {
             <div className={styles.contentContainer}>
                 <div className={styles.mainContent}>
                     {/* Pass asset data to components */}
+                    <h1 style={{textAlign:'center',color:"#2962ff"}}>{assetData.name}</h1>
                     <AssetInfoWidget symbol={assetData.tradingViewSymbol} />
                     <ChartContainer symbol={assetData.tradingViewSymbol} />
                 </div>
