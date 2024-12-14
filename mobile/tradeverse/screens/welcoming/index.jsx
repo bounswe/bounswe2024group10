@@ -68,12 +68,12 @@ export default function WelcomingScreen() {
       try {
         const base64 = selectedImage
           ? await convertImageToBase64(selectedImage?.uri)
-          : ''
+          : null
         const res = await setProfile({
           username: params?.username,
           email: params?.email,
           bio: '',
-          profilePhoto: 'test',
+          profilePhoto: base64 ?? null,
           tag: selectedUserTag,
         })
 

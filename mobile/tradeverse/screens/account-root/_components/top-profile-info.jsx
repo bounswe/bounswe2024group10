@@ -30,7 +30,7 @@ export default function ProfileInfo() {
       }}
     >
       <View style={styles.leftContainer}>
-        <ProfileImage src={user?.profileImage ?? ''} style={styles.avatar} />
+        <ProfileImage src={user?.profilePhoto ?? ''} style={styles.avatar} />
       </View>
       <View style={styles.rightContainer}>
         <Text style={styles.nameText}>{user?.name}</Text>

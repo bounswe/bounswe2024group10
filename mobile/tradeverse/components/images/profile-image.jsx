@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
 import IMAGES from '../../constants/images'
+import { getPhotoUrl } from '../../util/get-photo-url'
 
 export default function ProfileImage({
   src = '',
@@ -17,7 +18,7 @@ export default function ProfileImage({
   }
   return (
     <Image
-      source={src ? { uri: src } : IMAGES.NO_PROFILE_IMG}
+      source={src ? { uri: getPhotoUrl(src) } : IMAGES.NO_PROFILE_IMG}
       style={[styles.image, style]}
     />
   )
