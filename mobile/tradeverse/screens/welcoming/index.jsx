@@ -73,7 +73,7 @@ export default function WelcomingScreen() {
           username: params?.username,
           email: params?.email,
           bio: '',
-          profilePhoto: 'test',
+          profilePhoto: '',
           tag: selectedUserTag,
         })
 
