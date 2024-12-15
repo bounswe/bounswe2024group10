@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { IconCaretDownFilled } from '@tabler/icons-react-native'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { IconCaretDownFilled, IconArrowLeft } from '@tabler/icons-react-native'
+import { Stack, useLocalSearchParams, router } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, SIZE_CONSTANT, SIZES } from '../../constants/theme'
 import { getAssetDetail } from '../../services/asset'
@@ -11,6 +11,7 @@ import PaddedContainer from '../../components/ui/padded-container'
 import DateRange from './_components/DateRange'
 import AssetInfoView from './_components/AssetInfoView'
 import NewsView from './_components/NewsView'
+import FullScrollView from '../../components/ui/full-scroll-view';
 
 const AssetDisplay = () => {
   const [asset, setAsset] = useState(null)
@@ -25,50 +26,42 @@ const AssetDisplay = () => {
   }, [assetId, symbol])
 
   return (
-    <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
-      <Stack.Screen
-        options={{
-          headerBackTitleVisible: false,
-          headerTitle: name,
-          headerTitleStyle: {
-            color: 'white',
-          },
-          headerTintColor: 'white',
-          headerBackTitleStyle: {
-            color: 'white',
-          },
-          headerStyle: {
-            backgroundColor: COLORS.primary500,
-          },
-        }}
-      />
-
-      <PaddedContainer style={{ paddingHorizontal: 12 }}>
-        <View style={styles.row}>
-          <View style={styles.rowInfo}>
-            <View>
-              <Text style={styles.assetSymbol}>{symbol}</Text>
-              <Text style={styles.assetName}>{name}</Text>
-            </View>
-          </View>
-          <DateRange
-            dateRange={dateRange}
-            onSelect={(r) => {
-              setDateRange(r)
+    <GlobalScreen containerStyle={{ paddingHorizontal: 0, paddingTop: 15, }}>
+      <FullScrollView>
+          <Stack.Screen
+            options={{
+              headerBackTitleVisible: false,
+              headerTitle: 'Asset Details',
             }}
           />
-        </View>
-      </PaddedContainer>
-      <View style={{ width: '100%', height: 200, zIndex: -1 }}>
-        <ChartView symbol={symbol} dateRange={dateRange} />
-      </View>
-      <View style={{ width: '100%', height: 200, zIndex: -1 }}>
-        <AssetInfoView symbol={symbol} />
-      </View>
-      <View style={{ width: '100%', height: 200, zIndex: -1 }}>
-        <NewsView symbol={symbol} />
-      </View>
-      <View style={styles.container}></View>
+
+          <PaddedContainer style={{ paddingHorizontal: 12 }}>
+            <View style={styles.row}>
+              <View style={styles.rowInfo}>
+                <View>
+                  <Text style={styles.assetSymbol}>{symbol}</Text>
+                  <Text style={styles.assetName}>{name}</Text>
+                </View>
+              </View>
+              <DateRange
+                dateRange={dateRange}
+                onSelect={(r) => {
+                  setDateRange(r)
+                }}
+              />
+            </View>
+          </PaddedContainer>
+          <View style={{ width: '100%', height: 190, zIndex: -1 }}>
+            <ChartView symbol={symbol} dateRange={dateRange} />
+          </View>
+          <View style={{ width: '100%', height: 210, zIndex: -1 }}>
+            <AssetInfoView symbol={symbol} />
+          </View>
+          <View style={{ width: '100%', height: 250, zIndex: -1 }}>
+            <NewsView symbol={symbol} />
+          </View>
+          <View style={styles.container}></View>
+      </FullScrollView>
     </GlobalScreen>
   )
 }

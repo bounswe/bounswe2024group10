@@ -19,73 +19,87 @@ import AuthContext from '../../auth/context/auth-context'
 const PortfolioScreen = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const { user } = useContext(AuthContext)
+  const { user, portfolioRefreshTrigger } = useContext(AuthContext)
 
   useEffect(() => {
-    const fetchPortfolio = async () => {
-      try {
-        setLoading(true)
-        const response = await getPortfolio({ username: user?.username })
-        setData(response)
-      } catch (error) {
+      const fetchPortfolio = async () => {
+        try {
+          setLoading(true);
+          const response = await getPortfolio({ username: user?.username });
+          console.log("Portfolio Response:", response);
+
+          if (response?.isSuccessful && Array.isArray(response?.portfolios)) {
+            setData(response.portfolios);
+          } else {
+            setData([]);
+          }
+        } catch (error) {
+          console.error("Fetch Portfolio Error:", error);
+          setData([]);
       } finally {
-        setLoading(false)
+          setLoading(false);
       }
-    }
-    fetchPortfolio()
-    setLoading(false)
-  }, [])
+    };
+
+    fetchPortfolio();
+  }, [user, portfolioRefreshTrigger]);
+
 
   return (
-    <GlobalScreen>
-      <FullScrollView>
-        <Stack.Screen
-          options={{
-            headerBackTitleVisible: false,
-            headerTitle: 'Portfolio',
-          }}
-        />
-        <View style={styles.container}>
-          <View style={styles.titleBlock}>
-            <Text style={styles.title}>My Portfolio</Text>
-            <TouchableOpacity
-              onPress={() => {
-                router.push(paths.PORTFOLIO.ADD_ASSET)
-              }}
-              style={styles.addButton}
-            >
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
-          </View>
+      <GlobalScreen>
+        <FullScrollView>
+          <Stack.Screen
+            options={{
+              headerBackTitleVisible: false,
+              headerTitle: 'Portfolio',
+            }}
+          />
+          <View style={styles.container}>
+            <View style={styles.titleBlock}>
+              <Text style={styles.title}>My Portfolio</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  router.push(paths.PORTFOLIO.ADD_ASSET)
+                }}
+                style={styles.addButton}
+              >
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
 
-          {/* Scrollable Portfolio Block */}
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            {loading ? (
-              <ActivityIndicator size="large" color={COLORS.primary500} />
-            ) : null}
-            {data && (
-              <View style={styles.portfolioBlock}>
-                {data && Array.isArray(data) && data.map((asset, index) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      router.push(
-                        `${paths.PORTFOLIO.ASSET_DETAIL}?assetId=${asset.id}`
-                      )
-                    }}
-                    key={index}
-                    style={styles.assetBlock}
-                  >
-                    <Text style={styles.assetName}>{asset.label}</Text>
-                    <Text style={styles.assetValue}>{asset.value}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </ScrollView>
-        </View>
-      </FullScrollView>
-    </GlobalScreen>
-  )
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+              {loading ? (
+                <ActivityIndicator size="large" color={COLORS.primary500} />
+              ) : data && data.length > 0 ? (
+                <View style={styles.portfolioBlock}>
+                  {data.map((portfolio, index) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        console.log("Going to page:", `${paths.PORTFOLIO.ASSET_DETAIL}?assetId=${portfolio.asset.id}`)
+                        router.navigate(
+                          //`${paths.PORTFOLIO.ASSET_DETAIL}?assetId=${portfolio.asset.id}`
+                          `/portfolio/add-asset/asset-detail?assetId=${portfolio.asset.id}&symbol=${portfolio.asset.tradingViewSymbol}&name=${portfolio.asset.name}`
+                        );
+                      }}
+                      key={index}
+                      style={styles.assetBlock}
+                    >
+                      <Text style={styles.assetName}>{portfolio.asset.name}</Text>
+                      <Text style={styles.assetValue}>
+                        {portfolio.totalCurrentPrice.toFixed(2)} USD
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ) : (
+                <Text>No assets found in your portfolio</Text>
+              )}
+            </ScrollView>
+
+          </View>
+        </FullScrollView>
+      </GlobalScreen>
+    )
 }
 
 // Styles

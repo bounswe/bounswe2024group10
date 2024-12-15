@@ -15,6 +15,7 @@ export default function GlobalScreen({
       <PaddedContainer
         style={[
           { paddingTop: platform == 'android' ? 72 : paddingTop },
+
           containerStyle,
         ]}
       >

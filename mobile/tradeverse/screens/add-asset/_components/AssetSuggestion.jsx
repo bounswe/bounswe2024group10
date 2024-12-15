@@ -125,6 +125,7 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
                     </View>
                     <Pressable
                       onPress={() => {
+                        console.log("!! Now you are going to asset info page !!")
                         router.navigate(
                           `/portfolio/add-asset/asset-detail?assetId=${item.id}&symbol=${item.tradingViewSymbol}&name=${item.name}`
                         )
