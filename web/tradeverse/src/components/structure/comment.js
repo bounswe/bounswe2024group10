@@ -56,22 +56,22 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation, refetchA
                     postID: comment.postID,
                     parentCommentID: comment.id,
                 };
-
+                toast.success("Reply added successfully.");
                 setReplyText(""); // Clear the input field
                 setShowReplyBox(false); // Hide reply box
                 setNestedReplies((prevReplies) => [...prevReplies, newReply]); // Add the new reply locally
             } else {
-                alert("Failed to add reply.");
+                toast.error("Failed to add reply.");
             }
         } catch (error) {
             console.error("Error adding reply:", error);
-            alert("Error adding reply.");
+            toast.error("An error occurred while adding the reply.");
         }
     };
 
     const handleDelete = async () => {
         if (!user.isAuthenticated) {
-            alert("Please log in to delete this comment.");
+            toast.error("You must be logged in to delete a comment.");
             return;
         }
 
@@ -81,14 +81,14 @@ const Comment = ({ comment, level, onDeleteComment, selectedAnnotation, refetchA
             const response = await deleteComment(commentPayload, token); // Call deleteComment API
 
             if (response && response.isSuccessful) {
-                alert("Comment deleted successfully.");
+                toast.success("Comment deleted successfully.");
                 onDeleteComment(comment.id); // Notify parent to remove this comment
             } else {
-                alert("Failed to delete comment.");
+                toast.error("Failed to delete comment.");
             }
         } catch (error) {
             console.error("Error deleting comment:", error);
-            alert("Error deleting comment.");
+            toast.error("An error occurred while deleting the comment.");
         }
     };
 

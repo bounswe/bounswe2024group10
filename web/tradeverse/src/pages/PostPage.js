@@ -7,7 +7,7 @@ import styles from "./styles/PostPage.module.css";
 import { useParams } from "react-router-dom";
 import { AuthData } from "../auth/AuthWrapper";
 import { getAnnotations } from "../services/annotation";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 
 const PostPage = () => {
@@ -154,14 +154,15 @@ const PostPage = () => {
                     postID: postId,
                     parentCommentID: null,
                 };
+                toast.success("Comment added successfully.");
                 setComments((prevComments) => [...prevComments, newAddedComment]); // Add new comment to the list
                 setNewComment(""); // Clear the input field
             } else {
-                alert("Failed to add comment.");
+                toast.error("Failed to add comment.");
             }
         } catch (error) {
             console.error("Error adding comment:", error);
-            alert("Error adding comment.");
+            toast.error("An error occurred while adding the comment.");
         }
     };
     const refreshComments = async () => {
