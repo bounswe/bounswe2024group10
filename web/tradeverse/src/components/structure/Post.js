@@ -24,7 +24,7 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
 
   const handleLike = async () => {
     if (!user.isAuthenticated) {
-      alert("Please log in to like this post.");
+      toast.error("Please log in to like this post.");
       return;
     }
 
@@ -59,7 +59,7 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
 
   const handleDislike = async () => {
     if (!user.isAuthenticated) {
-      alert("Please log in to dislike this post.");
+      toast.error("Please log in to dislike this post.");
       return;
     }
 
