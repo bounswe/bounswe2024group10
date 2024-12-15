@@ -7,6 +7,7 @@ import { dislikePost, undislikePost } from "../../services/dislike";
 import { createAnnotation } from "../../services/annotation";
 import { toast } from "react-toastify";
 import defaultUserImage from "../../data/defaultUserImage.jpeg";
+import { Link } from "react-router-dom";
 
 const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
   const { user } = AuthData();
@@ -23,7 +24,7 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
 
   const handleLike = async () => {
     if (!user.isAuthenticated) {
-      alert("Please log in to like this post.");
+      toast.error("Please log in to like this post.");
       return;
     }
 
@@ -58,7 +59,7 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
 
   const handleDislike = async () => {
     if (!user.isAuthenticated) {
-      alert("Please log in to dislike this post.");
+      toast.error("Please log in to dislike this post.");
       return;
     }
 
@@ -196,8 +197,15 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
             <p>{`@${post.createdBy}`}</p>
           </div>
         </div>
-        <div className={styles.postTag}>
-          <p>{post.content.find((item) => item.type === "tag")?.value}</p>
+        <div className={styles.postHeaderTag}>
+          <p>
+            <Link to={`/tag/${post.content.find((item) => item.type === "tag")?.value}`} className={styles.tagLink}>
+            {post.content.find((item) => item.type === "tag")?.value}
+            </Link>
+            <Link to={`/subforum/${post.subforum.id}`} className={styles.subforumLink}>
+              <span className={styles.subforumName}> | {post.subforum.name}</span>
+            </Link>
+          </p>
         </div>
       </div>
       <div className={styles.postDetails}>

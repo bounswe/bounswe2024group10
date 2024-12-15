@@ -50,6 +50,24 @@
   color: #4e8d71;
   font-weight: bold;
 }
+.subforumName {
+  font-weight: bold;
+  color: #5d5fef; /* Theme color for subforum name */
+  margin-left: 5px;
+}
+.subforumLink {
+  text-decoration: none;
+}
+.subforumLink:hover {
+  text-decoration: underline;
+}
+.tagLink {
+  text-decoration: none;
+  color: #4e8d71;
+}
+.tagLink:hover {
+  text-decoration: underline;
+}
 
 .userDetailsContainer {
   display: flex;

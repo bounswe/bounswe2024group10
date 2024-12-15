@@ -4,6 +4,7 @@ import Feed from '../components/structure/feed'; // Import Feed component
 import styles from './styles/Subforum.module.css'; // Import styles
 import { AuthData } from '../auth/AuthWrapper';
 import { getSubforum ,followSubforum,unfollowSubforum} from '../services/subforum';
+import { toast } from "react-toastify";
 
 const Subforum = () => {
   const {user } = AuthData();
@@ -38,13 +39,14 @@ const Subforum = () => {
 
       if (response.isSuccessful) {
         setIsFollowing(true); // Update local state
-        alert('You are now following this subforum!');
+        toast.success("You are now following this subforum!");
+        
       } else {
-        alert('Failed to follow the subforum.');
+        toast.error("Failed to follow the subforum.");
       }
     } catch (error) {
       console.error('Error following subforum:', error);
-      alert('An error occurred while following the subforum.');
+      toast.error("An error occurred while following the subforum.");
     }
   };
 
@@ -56,13 +58,13 @@ const Subforum = () => {
 
       if (response.isSuccessful) {
         setIsFollowing(false); // Update local state
-        alert('You have unfollowed this subforum.');
+        toast.info("You have unfollowed this subforum!");
       } else {
-        alert('Failed to unfollow the subforum.');
+        toast.error("Failed to unfollow the subforum.");
       }
     } catch (error) {
       console.error('Error unfollowing subforum:', error);
-      alert('An error occurred while unfollowing the subforum.');
+      toast.error("An error occurred while unfollowing the subforum.");
     }
   };
 

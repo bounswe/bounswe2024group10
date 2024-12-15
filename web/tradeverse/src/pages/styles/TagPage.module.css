@@ -1,0 +1,62 @@
+.tagPage {
+    padding: 20px;
+  }
+  
+ /* TagPage.module.css */
+.tagPageHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #5d5fef; /* Theme color for header background */
+  color: #fff; /* Text color for contrast */
+  padding: 40px 20px;
+  border-radius: 10px; /* Rounded corners for modern look */
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.tagPageHeader h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.tagPageHeader p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #e0e0e0; /* Lighter shade for secondary text */
+}
+
+.tagBadge {
+  margin-top: 15px;
+  display: inline-block;
+  background-color: #fff;
+  color: #5d5fef;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for the badge */
+}
+
+  .loading {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #666;
+  }
+  
+  .error {
+    text-align: center;
+    font-size: 1.5rem;
+    color: red;
+  }
+  
+  .noPosts {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+  }
+  

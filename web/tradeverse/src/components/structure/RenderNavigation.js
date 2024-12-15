@@ -11,6 +11,7 @@ import Account from "../../pages/Account";
 import User from "../../pages/User";
 import AssetInfo from "../../pages/AssetInfo";
 import Subforum from "../../pages/Subforum";
+import TagPage from "../../pages/TagPage";
 import logo from "../../data/logo_new.png";
 import part_logo from "../../data/part_logo.png";
 
@@ -75,6 +76,7 @@ export const RenderRoutes = () => {
       <Route path="/user" element={<User />} />
       <Route path="/assets/:id" element={<AssetInfo />} />
       <Route path="/subforum/:subforumId" element={<Subforum />} />
+      <Route path="/tag/:tag" element={<TagPage />} />
 
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
