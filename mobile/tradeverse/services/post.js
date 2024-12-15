@@ -101,3 +101,24 @@ export async function createPost({
   }
   return null
 }
+
+export async function getPostDetail({ id }) {
+  try {
+    const response = await api({
+      url: `/post/${id}`,
+      method: 'GET',
+    })
+    const comments = await api({
+      url: `/comment/get-comments`,
+      method: 'GET',
+      params: {
+        postId: id,
+      },
+    })
+
+    return { ...response.data, comments: comments.data }
+  } catch (error) {
+    console.log('Create Post failed', error)
+  }
+  return null
+}

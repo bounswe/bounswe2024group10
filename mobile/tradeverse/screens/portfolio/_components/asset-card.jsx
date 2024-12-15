@@ -7,9 +7,6 @@ import ContentImage from '../../../components/images/content-image'
 import { IconInfoCircleFilled } from '@tabler/icons-react-native'
 
 export default function AssetCard({ asset }) {
-  console.log('====================================')
-  console.log(asset)
-  console.log('====================================')
   return (
     <View
       style={{

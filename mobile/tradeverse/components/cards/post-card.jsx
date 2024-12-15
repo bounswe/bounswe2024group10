@@ -27,8 +27,10 @@ import {
 } from '../../services/post'
 
 import { formatDate } from '../../util/format-date'
+import PostContent from './post-content'
+import ChartView from '../../screens/asset-detail/_components/ChartView'
 
-const AuthorInfo = ({ author }) => {
+const AuthorInfo = ({ author, scale }) => {
   return (
     <UserLink user={author}>
       <View
@@ -42,9 +44,9 @@ const AuthorInfo = ({ author }) => {
         <View>
           <ProfileImage
             style={{
-              width: SIZE_CONSTANT * 2.1,
-              height: SIZE_CONSTANT * 2.1,
-              borderRadius: (SIZE_CONSTANT * 2.1) / 2,
+              width: SIZE_CONSTANT * 2.1 * scale,
+              height: SIZE_CONSTANT * 2.1 * scale,
+              borderRadius: (SIZE_CONSTANT * 2.1 * scale) / 2,
             }}
             src={author.profilePhoto}
           />
@@ -57,7 +59,7 @@ const AuthorInfo = ({ author }) => {
         >
           <Text
             style={{
-              fontSize: SIZES.xxSmall,
+              fontSize: SIZES.xxSmall * scale,
               fontWeight: FONT_WEIGHTS.semibold,
               color: COLORS.black,
               letterSpacing: -0.03,
@@ -67,10 +69,10 @@ const AuthorInfo = ({ author }) => {
           </Text>
           <Text
             style={{
-              fontSize: SIZE_CONSTANT * 0.8,
+              fontSize: SIZE_CONSTANT * 0.8 * scale,
               color: '#A1A1A1',
               letterSpacing: -0.03,
-              lineHeight: SIZE_CONSTANT * 0.9,
+              lineHeight: SIZE_CONSTANT * 0.9 * scale,
             }}
           >
             @{author.username}
@@ -81,7 +83,7 @@ const AuthorInfo = ({ author }) => {
   )
 }
 
-const SubforumInfo = ({ subforum }) => (
+const SubforumInfo = ({ subforum, scale }) => (
   <SubforumLink subForum={subforum}>
     <View
       style={{
@@ -98,7 +100,7 @@ const SubforumInfo = ({ subforum }) => (
     >
       <Text
         style={{
-          fontSize: SIZE_CONSTANT * 0.64,
+          fontSize: SIZE_CONSTANT * 0.64 * scale,
           fontWeight: FONT_WEIGHTS.medium,
           color: '#107E64',
           letterSpacing: -0.03,
@@ -110,40 +112,13 @@ const SubforumInfo = ({ subforum }) => (
   </SubforumLink>
 )
 
-const TagText = ({ tag, index = 0, isLast = false }) => (
-  <Text
-    style={{
-      display: 'inline',
-      fontSize: SIZES.xSmall,
-      color: COLORS.primary500,
-      letterSpacing: -0.03,
-    }}
-  >
-    {index === 0 ? '' : ' '}
-    {tag.value}
-  </Text>
-)
-
-const DefaultText = ({ text, index = 0 }) => (
-  <Text
-    style={{
-      fontSize: SIZES.xSmall,
-      color: COLORS.primary950,
-      letterSpacing: -0.03,
-    }}
-  >
-    {index === 0 ? '' : ' '}
-    {text.value}
-  </Text>
-)
-
-const InteractionInfo = ({ icon = () => {}, value }) => (
+const InteractionInfo = ({ icon = () => {}, value, scale }) => (
   <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
     <View>{icon({ prop: { color: '#444' } })}</View>
     <View>
       <Text
         style={{
-          fontSize: SIZE_CONSTANT * 0.8,
+          fontSize: SIZE_CONSTANT * 0.8 * scale,
           color: '#444',
           letterSpacing: -0.03,
           fontWeight: FONT_WEIGHTS.medium,
@@ -155,7 +130,13 @@ const InteractionInfo = ({ icon = () => {}, value }) => (
   </View>
 )
 
-export default function PostCard({ style, post }) {
+export default function PostCard({
+  style,
+  post,
+  path = paths.EXPLORE.POST_DETAIL,
+  scale = 1.12,
+  disableLink = false,
+}) {
   const [isLiked, setIsLiked] = useState(post.isLiked)
   const [likeCount, setLikeCount] = useState(post.likeCount)
 
@@ -204,8 +185,9 @@ export default function PostCard({ style, post }) {
       setIsDisliked(!isDisliked)
     }
   }
+
   return (
-    <PostLink target={`${paths.EXPLORE.POST_DETAIL}?postId=${post.id}`}>
+    <PostLink disabled={disableLink} target={`${path}?postId=${post.id}`}>
       <View
         style={{
           paddingHorizontal: SIZES.small,
@@ -213,6 +195,7 @@ export default function PostCard({ style, post }) {
           paddingBottom: SIZE_CONSTANT * 1.4,
           borderBottomWidth: 0.5,
           borderBottomColor: '#E5E5E5',
+          ...style,
         }}
       >
         <View
@@ -223,8 +206,9 @@ export default function PostCard({ style, post }) {
             alignItems: 'center',
           }}
         >
-          <AuthorInfo author={post.author} />
+          <AuthorInfo author={post.author} scale={scale} />
           <SubforumInfo
+            scale={scale}
             subforum={{ ...post.subforum, title: post.subforum.name }}
           />
         </View>
@@ -232,7 +216,7 @@ export default function PostCard({ style, post }) {
         <View>
           <Text
             style={{
-              fontSize: SIZES.small,
+              fontSize: SIZES.small * scale,
               fontWeight: FONT_WEIGHTS.semibold,
               color: COLORS.black,
               letterSpacing: -0.03,
@@ -244,30 +228,7 @@ export default function PostCard({ style, post }) {
           </Text>
         </View>
         <View>
-          <Text>
-            {post.content.map((content, index) => {
-              if (content.type === 'text') {
-                return <DefaultText key={index} index={index} text={content} />
-              }
-              if (content.type === 'tag') {
-                return <TagText key={index} index={index} tag={content} />
-              }
-              //   if (content.type === 'image') {
-              //     return (
-              //       <Image
-              //         style={{
-              //           marginVertical: 10,
-              //           backgroundColor: 'red',
-              //           width: 200,
-              //           height: 200,
-              //         }}
-              //         key={index}
-              //         source={content.value}
-              //       />
-              //     )
-              //   }
-            })}
-          </Text>
+          <PostContent content={post.content} scale={scale} />
         </View>
         <View
           style={{
@@ -280,7 +241,7 @@ export default function PostCard({ style, post }) {
           <View>
             <Text
               style={{
-                fontSize: SIZES.xxSmall,
+                fontSize: SIZES.xxSmall * scale,
                 color: COLORS.graytext,
               }}
             >
@@ -295,16 +256,20 @@ export default function PostCard({ style, post }) {
             }}
           >
             <InteractionInfo
-              icon={(params) => <IconMessageCircle2 color="#444" size={12} />}
+              scale={scale}
+              icon={(params) => (
+                <IconMessageCircle2 color="#444" size={12 * scale} />
+              )}
               value={post.commentCount ?? 0}
             />
             <Pressable onPress={handleClickLike}>
               <InteractionInfo
+                scale={scale}
                 icon={(params) =>
                   isLiked ? (
                     <IconThumbUpFilled
                       fill={COLORS.primary900}
-                      size={12}
+                      size={12 * scale}
                       strokeWidth={0}
                     />
                   ) : (
@@ -316,15 +281,16 @@ export default function PostCard({ style, post }) {
             </Pressable>
             <Pressable onPress={handleClickDislike}>
               <InteractionInfo
+                scale={scale}
                 icon={(params) =>
                   isDisliked ? (
                     <IconThumbDownFilled
                       fill={COLORS.primary900}
-                      size={12}
+                      size={12 * scale}
                       strokeWidth={0}
                     />
                   ) : (
-                    <IconThumbDown color="#444" size={12} />
+                    <IconThumbDown color="#444" size={12 * scale} />
                   )
                 }
                 value={dislikeCount ?? 0}

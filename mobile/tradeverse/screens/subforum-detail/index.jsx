@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import GlobalScreen from '../../components/ui/global-screen'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import { getSubForumById } from '../../mock-services/subforums'
 import { COLORS, SIZE_CONSTANT, SIZES } from '../../constants/theme'
 import {
   followSubforum,
@@ -11,10 +10,10 @@ import {
 } from '../../services/subforum'
 import { useContext } from 'react'
 import AuthContext from '../../auth/context/auth-context'
-import PostCard from './_components/post-card'
 import Skeleton from '../../components/ui/skeleton'
 import PaddedContainer from '../../components/ui/padded-container'
 import MainButton from '../../components/buttons/main-button'
+import PostCard from '../../components/cards/post-card'
 const SubforumScreen = () => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -33,7 +32,7 @@ const SubforumScreen = () => {
         subforumId,
         username: user?.username,
       })
-      if (res.successful) {
+      if (res.isSuccessful) {
         setIsFollowing(false)
         setFollowLoading(false)
         setFollowerCount(followerCount - 1)
@@ -44,7 +43,7 @@ const SubforumScreen = () => {
         subforumId,
         username: user?.username,
       })
-      if (res.successful) {
+      if (res.isSuccessful) {
         setFollowerCount(followerCount + 1)
         setIsFollowing(true)
         setFollowLoading(false)
@@ -53,7 +52,7 @@ const SubforumScreen = () => {
   }
 
   useEffect(() => {
-    if (data && data.isFollowedByGivenUsername) {
+    if (data && data.followed) {
       setIsFollowing(true)
       setFollowerCount(data?.numberOfFollowers ?? 0)
     }
@@ -64,7 +63,6 @@ const SubforumScreen = () => {
       setLoading(true)
       const res = await getSubforumById({
         id: subforumId,
-        username: user?.username,
       })
       setData(res)
       setLoading(false)
@@ -197,8 +195,8 @@ const SubforumScreen = () => {
                   gap: 12,
                 }}
               >
-                <Text>{`✍️ ${data?.numberOfPosts}`}</Text>
-                <Text>{`⭐️ ${followerCount}`}</Text>
+                <Text>{`✍️ ${data?.postCount}`}</Text>
+                <Text>{`⭐️ ${data?.followerCount}`}</Text>
               </View>
             </View>
             <View>
@@ -224,8 +222,8 @@ const SubforumScreen = () => {
                   ...post,
                   subforum: { ...data, id: subforumId, title: subforumTitle },
                   author: {
-                    profilePhoto: post.creatorProfilePhoto,
-                    username: post.creatorUsername,
+                    username: post.createdBy,
+                    ...post.author,
                   },
                 }}
               />

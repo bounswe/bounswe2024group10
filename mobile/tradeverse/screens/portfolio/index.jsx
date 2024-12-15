@@ -8,15 +8,13 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native'
-import { router, Stack } from 'expo-router'
-import FullScrollView from '../../components/ui/full-scroll-view'
+import { router } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, FONT_WEIGHTS, SIZE_CONSTANT } from '../../constants/theme'
 import paths from '../../config/screen-paths'
 import { getPortfolio } from '../../services/portfolio'
 import AuthContext from '../../auth/context/auth-context'
 import AssetCard from './_components/asset-card'
-import Header from '../../components/ui/header'
 // Mock Data
 
 const PortfolioScreen = () => {
@@ -30,11 +28,9 @@ const PortfolioScreen = () => {
       try {
         setLoading(true)
         const response = await getPortfolio({ username: user?.username })
-        setData(response)
-      } catch (error) {
-      } finally {
         setLoading(false)
-      }
+        setData(response)
+      } catch (error) {}
     }
     fetchPortfolio()
     setLoading(false)
@@ -54,47 +50,60 @@ const PortfolioScreen = () => {
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          marginTop: 8,
-          marginBottom: 20,
-        }}
-      >
-        <Text
+      {loading && (
+        <View
           style={{
-            fontSize: 24,
+            marginTop: 24,
           }}
         >
-          ${data.totalValue.toFixed(2)}
-        </Text>
-      </View>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={loading}
-            onRefresh={() => {
-              setRefreshCount(refreshCount + 1)
-            }}
-          />
-        }
-      >
-        <View style={styles.container}>
-          {/* Scrollable Portfolio Block */}
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            {loading ? (
-              <ActivityIndicator size="large" color={COLORS.primary500} />
-            ) : null}
-            {data && (
-              <View style={styles.portfolioBlock}>
-                {data?.portfolios &&
-                  data.portfolios.map((asset, index) => (
-                    <AssetCard key={asset.id} asset={asset} />
-                  ))}
-              </View>
-            )}
-          </ScrollView>
+          <ActivityIndicator size="small" color={COLORS.primary500} />
         </View>
-      </ScrollView>
+      )}
+      {!loading && data && (
+        <>
+          <View
+            style={{
+              marginTop: 8,
+              marginBottom: 20,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 24,
+              }}
+            >
+              ${data?.totalValue?.toFixed(2)}
+            </Text>
+          </View>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={() => {
+                  setRefreshCount(refreshCount + 1)
+                }}
+              />
+            }
+          >
+            <View style={styles.container}>
+              {/* Scrollable Portfolio Block */}
+              <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                {loading ? (
+                  <ActivityIndicator size="large" color={COLORS.primary500} />
+                ) : null}
+                {data && (
+                  <View style={styles.portfolioBlock}>
+                    {data?.portfolios &&
+                      data.portfolios.map((asset, index) => (
+                        <AssetCard key={asset.id} asset={asset} />
+                      ))}
+                  </View>
+                )}
+              </ScrollView>
+            </View>
+          </ScrollView>
+        </>
+      )}
     </GlobalScreen>
   )
 }

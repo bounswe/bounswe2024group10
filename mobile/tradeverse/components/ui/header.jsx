@@ -2,31 +2,24 @@ import { Stack } from 'expo-router'
 import React from 'react'
 import { COLORS } from '../../constants/theme'
 
-export default function Header({
-  title,
-  backgroundColor = COLORS.primary500,
-  headerTintColor = 'white',
-  headerTintStyle,
-  headerBackTitleStyle,
-  headerStyle,
-}) {
+export default function Header({ title }) {
   return (
     <Stack.Screen
       options={{
         headerBackTitleVisible: false,
         headerTitle: title,
+
         headerTitleStyle: {
           color: 'white',
-          ...headerTintStyle,
         },
-        headerTintColor,
+        headerBackVisible: true,
+        headerBackButtonMenuEnabled: true,
         headerBackTitleStyle: {
           color: 'white',
-          ...headerBackTitleStyle,
+          fontSize: 16,
         },
         headerStyle: {
-          backgroundColor,
-          ...headerStyle,
+          backgroundColor: COLORS.primary500,
         },
       }}
     />
