@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native'
 import { router, Stack } from 'expo-router'
 import FullScrollView from '../../components/ui/full-scroll-view'
@@ -14,11 +15,14 @@ import { COLORS, FONT_WEIGHTS, SIZE_CONSTANT } from '../../constants/theme'
 import paths from '../../config/screen-paths'
 import { getPortfolio } from '../../services/portfolio'
 import AuthContext from '../../auth/context/auth-context'
+import AssetCard from './_components/asset-card'
+import Header from '../../components/ui/header'
 // Mock Data
 
 const PortfolioScreen = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [refreshCount, setRefreshCount] = useState(0)
   const { user } = useContext(AuthContext)
 
   useEffect(() => {
@@ -34,30 +38,47 @@ const PortfolioScreen = () => {
     }
     fetchPortfolio()
     setLoading(false)
-  }, [])
+  }, [refreshCount])
 
   return (
     <GlobalScreen>
-      <FullScrollView>
-        <Stack.Screen
-          options={{
-            headerBackTitleVisible: false,
-            headerTitle: 'Portfolio',
-          }}
-        />
-        <View style={styles.container}>
-          <View style={styles.titleBlock}>
-            <Text style={styles.title}>My Portfolio</Text>
-            <TouchableOpacity
-              onPress={() => {
-                router.push(paths.PORTFOLIO.ADD_ASSET)
-              }}
-              style={styles.addButton}
-            >
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
-          </View>
+      <View style={styles.titleBlock}>
+        <Text style={styles.title}>My Portfolio</Text>
 
+        <TouchableOpacity
+          onPress={() => {
+            router.push(paths.PORTFOLIO.ADD_ASSET)
+          }}
+          style={styles.addButton}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          marginTop: 8,
+          marginBottom: 20,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 24,
+          }}
+        >
+          ${data.totalValue.toFixed(2)}
+        </Text>
+      </View>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              setRefreshCount(refreshCount + 1)
+            }}
+          />
+        }
+      >
+        <View style={styles.container}>
           {/* Scrollable Portfolio Block */}
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
             {loading ? (
@@ -65,25 +86,15 @@ const PortfolioScreen = () => {
             ) : null}
             {data && (
               <View style={styles.portfolioBlock}>
-                {data && Array.isArray(data) && data.map((asset, index) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      router.push(
-                        `${paths.PORTFOLIO.ASSET_DETAIL}?assetId=${asset.id}`
-                      )
-                    }}
-                    key={index}
-                    style={styles.assetBlock}
-                  >
-                    <Text style={styles.assetName}>{asset.label}</Text>
-                    <Text style={styles.assetValue}>{asset.value}</Text>
-                  </TouchableOpacity>
-                ))}
+                {data?.portfolios &&
+                  data.portfolios.map((asset, index) => (
+                    <AssetCard key={asset.id} asset={asset} />
+                  ))}
               </View>
             )}
           </ScrollView>
         </View>
-      </FullScrollView>
+      </ScrollView>
     </GlobalScreen>
   )
 }
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   title: {
     fontSize: 24,
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
   addButton: {
     backgroundColor: COLORS.primary500,
     width: 48,
-    height: 48,
+    // height: 48,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -126,17 +137,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  assetBlock: {
-    borderColor: COLORS.primary50, // Light purple
-    borderWidth: 0.5,
-    backgroundColor: COLORS.primary100, // Lighter purple
-    width: '48%',
-    height: 100,
-    borderRadius: 10,
-    padding: 10,
-    justifyContent: 'space-between',
-    marginBottom: 20,
   },
 
   assetName: {
