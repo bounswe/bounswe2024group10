@@ -40,6 +40,11 @@ const User = () => {
         isLiked: false,
         isDisliked: false,
       }
+    ],
+    portfolio: [
+      { name: "Apple", percentage: 40, trend: 3.41 },
+      { name: "Tesla", percentage: 25, trend: -2.15 },
+      { name: "Amazon", percentage: 35, trend: 1.89 },
     ]
   };
 
@@ -80,6 +85,33 @@ const User = () => {
           )}
         </div>
       </div>
+
+      <div className="portfolioSection">
+        <h2>Portfolio</h2>
+        <table className="portfolioTable">
+          <thead>
+            <tr>
+              <th>Stock Name</th>
+              <th>Percentage</th>
+              <th>Recent Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {user.portfolio.map((stock, index) => (
+              <tr key={index}>
+                <td>{stock.name}</td>
+                <td>{`${stock.percentage}%`}</td>
+                <td
+                  className={stock.trend > 0 ? "positiveTrend" : "negativeTrend"}
+                >
+                  {stock.trend > 0 ? `+${stock.trend}%` : `${stock.trend}%`}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
     </div>
   );
 };
