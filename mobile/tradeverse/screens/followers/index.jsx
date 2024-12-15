@@ -1,109 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import GlobalScreen from '../../components/ui/global-screen';
-import FullScrollView from '../../components/ui/full-scroll-view';
-import { Stack } from 'expo-router';
-import api from '../../services/_axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react'
+import { View, Text, Image, StyleSheet } from 'react-native'
+import GlobalScreen from '../../components/ui/global-screen'
+import FullScrollView from '../../components/ui/full-scroll-view'
+import api from '../../services/_axios'
+import Header from '../../components/ui/header'
+import ProfileImage from '../../components/images/profile-image'
+import UserLink from '../../components/links/user-link'
 
 const FollowersScreen = () => {
-    const [followers, setFollowers] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [followers, setFollowers] = useState([])
+  const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        const fetchFollowers = async () => {
-            try {
-                const token = await AsyncStorage.getItem('authToken');
-                const response = await api.get('/api/follow/get-followers', {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setFollowers(response.data.followers || []);
-            } catch (error) {
-                console.error('Error fetching followers:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const fetchFollowers = async () => {
+      try {
+        const response = await api.get('/follow/get-followers')
+        setFollowers(response.data.followers || [])
+      } catch (error) {
+        console.error('Error fetching followers:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-        fetchFollowers();
-    }, []);
+    fetchFollowers()
+  }, [])
 
-    return (
-        <GlobalScreen>
-            <FullScrollView>
-                <Stack.Screen
-                    options={{
-                        headerBackTitleVisible: false,
-                        headerTitle: 'Followers',
+  return (
+    <GlobalScreen>
+      <FullScrollView>
+        <Header title="Followers" />
+        {loading ? (
+          <Text style={styles.loadingText}>Loading followers...</Text>
+        ) : (
+          <View style={[]}>
+            <Text style={styles.countText}>
+              {followers.length
+                ? `You have ${followers.length} Followers`
+                : `
+              No followers yet`}
+            </Text>
+            {followers.map((follower, index) => (
+              <UserLink user={follower} key={follower.username}>
+                <View style={styles.followerItem}>
+                  <ProfileImage
+                    src={follower.userPhoto}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 24,
                     }}
-                />
-                {loading ? (
-                    <Text style={styles.loadingText}>Loading followers...</Text>
-                ) : (
-                    <View style={styles.container}>
-                        <Text style={styles.countText}>
-                            Followers Count: {followers.length}
-                        </Text>
-                        {followers.map((follower, index) => (
-                            <View key={index} style={styles.followerItem}>
-                                <Image
-                                    source={{ uri: follower.userPhoto }}
-                                    style={styles.userPhoto}
-                                />
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.username}>
-                                        {follower.username}
-                                    </Text>
-                                    <Text style={styles.name}>
-                                        {follower.name}
-                                    </Text>
-                                </View>
-                            </View>
-                        ))}
-                    </View>
-                )}
-            </FullScrollView>
-        </GlobalScreen>
-    );
-};
+                  />
+                  <View style={styles.textContainer}>
+                    <Text style={styles.username}>{follower.username}</Text>
+                    <Text style={styles.name}>{follower.name}</Text>
+                  </View>
+                </View>
+              </UserLink>
+            ))}
+          </View>
+        )}
+      </FullScrollView>
+    </GlobalScreen>
+  )
+}
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 16,
-    },
-    countText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 16,
-        textAlign: 'center'
-    },
-    loadingText: {
-        fontSize: 16,
-        textAlign: 'center',
-        marginTop: 20,
-    },
-    followerItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    userPhoto: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        marginRight: 12,
-    },
-    textContainer: {
-        flex: 1,
-    },
-    username: {
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    name: {
-        fontSize: 14,
-        color: '#555',
-    },
-});
+  countText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  loadingText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  followerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+    gap: 12,
+  },
+  userPhoto: {
+    width: 50,
+    // height: 50,
+    borderRadius: 25,
+    marginRight: 12,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  name: {
+    fontSize: 14,
+    color: '#555',
+  },
+})
 
-export default FollowersScreen;
+export default FollowersScreen

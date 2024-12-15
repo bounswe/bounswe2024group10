@@ -13,7 +13,9 @@ import {
 import { IconInfoCircleFilled } from '@tabler/icons-react-native'
 import { useRouter } from 'expo-router'
 import { useSelector } from 'react-redux'
-import { COLORS, SHADOWS, SIZES } from '../../../constants/theme'
+import { COLORS, SHADOWS, SIZE_CONSTANT, SIZES } from '../../../constants/theme'
+import ContentImage from '../../../components/images/content-image'
+import AssetLink from '../../../components/links/asset-link'
 
 const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
   const [inputValue, setInputValue] = useState('')
@@ -106,35 +108,51 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <View>
-                      <Text style={styles.suggestionItemText(index % 2 === 0)}>
-                        {item.name}
-                      </Text>
-                      <View
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        gap: 8,
+                      }}
+                    >
+                      <ContentImage
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
+                          width: 32,
+                          height: 32,
+                          borderRadius: 18,
+                          borderColor: COLORS.primary50,
+                          borderWidth: 1,
                         }}
-                      >
-                        <View style={styles.symbolBadge(index % 2 === 0)}>
-                          <Text style={styles.symbolBadgeText(index % 2 === 0)}>
-                            {item.tradingViewSymbol}
-                          </Text>
+                        src={item.imageUrl}
+                      />
+                      <View>
+                        <Text
+                          style={styles.suggestionItemText(index % 2 === 0)}
+                        >
+                          {item.name}
+                        </Text>
+                        <View
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                          }}
+                        >
+                          <View style={styles.symbolBadge(index % 2 === 0)}>
+                            <Text
+                              style={styles.symbolBadgeText(index % 2 === 0)}
+                            >
+                              {item.tradingViewSymbol}
+                            </Text>
+                          </View>
                         </View>
                       </View>
                     </View>
-                    <Pressable
-                      onPress={() => {
-                        router.navigate(
-                          `/portfolio/add-asset/asset-detail?assetId=${item.id}&symbol=${item.tradingViewSymbol}&name=${item.name}`
-                        )
-                      }}
-                    >
+
+                    <AssetLink asset={item}>
                       <IconInfoCircleFilled
                         fill={COLORS.primary500}
                         strokeWidth={0}
                       />
-                    </Pressable>
+                    </AssetLink>
                   </View>
                 </TouchableOpacity>
               ))}
@@ -184,7 +202,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e0e0e0',
   }),
   suggestionItemText: (isEven) => ({
-    fontSize: SIZES.small,
+    fontSize: SIZES.medium,
     color: COLORS.primary950,
     fontWeight: '600',
   }),
@@ -204,7 +222,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   }),
   symbolBadgeText: (isEven) => ({
-    fontSize: SIZES.xxSmall,
+    fontSize: SIZE_CONSTANT * 0.8,
     color: 'white',
   }),
 })

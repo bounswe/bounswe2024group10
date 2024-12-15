@@ -1,7 +1,6 @@
 import api from './_axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default async function getUserByUsername({ username, token }) {
+export async function getUserByUsername({ username, token }) {
   try {
     const response = await api({
       url: `/user/get-user-details/${username}`,
@@ -21,18 +20,21 @@ export default async function getUserByUsername({ username, token }) {
 
 export async function setProfile({ email, profilePhoto, name, bio, tag, username }) {
   try {
+
     const token = await AsyncStorage.getItem('authToken')
     if (!token) throw new Error('Authorization token is missing');
 
     console.log('Token from AsyncStorage:', token);
     const response = await api.post(
       `/user/set-user-details`,
+    const response = await api.post(
       {
         email,
         //profilePhoto,
         name,
         bio,
         tag,
+
         username,
       },
       {
@@ -44,6 +46,14 @@ export async function setProfile({ email, profilePhoto, name, bio, tag, username
     );
 
     console.log('Response:', response.data);
+
+      },
+      {
+        maxBodyLength: Infinity,
+      }
+    )
+
+
     return response.data
   } catch (error) {
     console.log('XXX Set profile failed:', error.response?.data || error.message);

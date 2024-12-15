@@ -1,73 +1,34 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Pressable, StyleSheet } from 'react-native'
+import { Stack, useLocalSearchParams } from 'expo-router'
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 import GlobalScreen from '../../components/ui/global-screen'
 import Tabs from './_components/tabs'
 import PaddedContainer from '../../components/ui/padded-container'
-import PopularView from './views/popular-view'
-import { Stack, useLocalSearchParams } from 'expo-router'
 import SearchBar from './_components/search-bar'
-import { IconAdjustments } from '@tabler/icons-react-native'
-import SubForumsView from './views/subforums-view'
-import TagsView from './views/tags-view'
 import PostsView from './views/posts-view'
-import UsersView from './views/users-view'
 import AssetsView from './views/asset-view'
-import { searchOnExplore } from '../../mock-services/explore'
-import { search } from '../../services/explore'
-import { useContext } from 'react'
-import AuthContext from '../../auth/context/auth-context'
+import TagsView from './views/tags-view'
+import SubForumsView from './views/subforums-view'
+import { IconAdjustments } from '@tabler/icons-react-native'
+import UsersView from './views/users-view'
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState('posts')
-  const [loading, setLoading] = useState(true)
-  const { user } = useContext(AuthContext)
-
-  const [updatedSearchKey, setUpdatedSearchKey] = useState('')
-
-  const [data, setData] = useState({
-    popular: [],
-    assets: [],
-    tags: [],
-    sub_forums: [],
-    posts: [],
-    people: [],
-  })
 
   const { searchKey } = useLocalSearchParams()
+
+  const [updatedSearchKey, setUpdatedSearchKey] = useState(searchKey)
+
+  useEffect(() => {
+    console.log('====================================')
+    console.log(searchKey)
+    console.log('====================================')
+  }, [searchKey])
 
   useEffect(() => {
     setUpdatedSearchKey(searchKey)
   }, [searchKey])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      const data = await search({
-        keyword: updatedSearchKey,
-        username: user?.username ?? '',
-      })
-
-      setData({
-        popular: data.popular,
-        assets: data.assets,
-        tags: data.tags,
-        sub_forums: data.subforums,
-        posts: data.posts.filter((post) =>
-          post.title.toLowerCase().includes(updatedSearchKey.toLowerCase())
-        ),
-        people: data.users,
-      })
-      setLoading(false)
-    }
-    fetchData()
-  }, [searchKey, updatedSearchKey])
 
   return (
     <GlobalScreen
@@ -111,27 +72,18 @@ export default function ExploreRootScreen() {
         </Pressable>
       </PaddedContainer>
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      {loading && <ActivityIndicator />}
-      {data && !loading && (
-        <>
-          {selectedTab === 'popular' && data.popular && (
-            <PopularView data={data.popular} />
-          )}
-          {selectedTab === 'assets' && data.assets && (
-            <AssetsView data={data.assets} />
-          )}
-          {selectedTab === 'tags' && data.tags && <TagsView data={data.tags} />}
-          {selectedTab === 'sub_forums' && data.tags && (
-            <SubForumsView data={data.sub_forums} />
-          )}
-          {selectedTab === 'posts' && data.posts && (
-            <PostsView data={data.posts} />
-          )}
-          {selectedTab === 'people' && data.people && (
-            <UsersView data={data.people} />
-          )}
-        </>
-      )}
+
+      <>
+        {selectedTab === 'posts' && (
+          <PostsView key={'posts'} keyword={updatedSearchKey} />
+        )}
+        {selectedTab === 'assets' && <AssetsView keyword={updatedSearchKey} />}
+        {selectedTab === 'tags' && <TagsView keyword={updatedSearchKey} />}
+        {selectedTab === 'sub_forums' && (
+          <SubForumsView keyword={updatedSearchKey} />
+        )}
+        {selectedTab === 'people' && <UsersView keyword={updatedSearchKey} />}
+      </>
     </GlobalScreen>
   )
 }

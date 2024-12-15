@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import {
   IconMessage,
@@ -10,19 +10,11 @@ import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 import FullScrollView from '../../components/ui/full-scroll-view'
 import paths from '../../config/screen-paths'
+import { AuthContext } from '../../auth/context'
 
 export default function CreateRootScreen() {
+  const { user } = useContext(AuthContext)
 
-  let isAdmin = false;
-
-  useEffect(() => {
-    const c = async () => {
-      isAdmin = await AsyncStorage.getItem('isAdmin')
-    }
-    
-    c();
-  }, [])
-  
   return (
     <GlobalScreen>
       <FullScrollView>
@@ -36,21 +28,34 @@ export default function CreateRootScreen() {
               }}
               style={styles.button}
             >
-              <IconMessage />
+              <View
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 15,
+                  backgroundColor: COLORS.white,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IconMessage size={20} color={COLORS.primary700} />
+              </View>
               <Text style={styles.buttonText}>Add New Post</Text>
-              <IconArrowRight />
+              {/* <IconArrowRight /> */}
             </TouchableOpacity>
 
-            {isAdmin && <TouchableOpacity
-              onPress={() => {
-                router.push(paths.CREATE.ADD_SUBFORUM)
-              }}
-              style={styles.button}
-            >
-              <IconTextCaption />
-              <Text style={styles.buttonText}>Create Sub Forum</Text>
-              <IconArrowRight />
-            </TouchableOpacity>}
+            {user?.admin && (
+              <TouchableOpacity
+                onPress={() => {
+                  router.push(paths.CREATE.ADD_SUBFORUM)
+                }}
+                style={styles.button}
+              >
+                <IconTextCaption />
+                <Text style={styles.buttonText}>Create Sub Forum</Text>
+                <IconArrowRight />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </FullScrollView>
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     flex: 1,
-    paddingTop: 50,
+    // paddingTop: 50,
   },
   title: {
     fontSize: 22,
@@ -81,13 +86,16 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 10,
     borderWidth: 1,
+    backgroundColor: COLORS.primary500,
     borderColor: '#EAEAEA',
     borderRadius: 10,
     marginBottom: 15,
   },
   buttonText: {
     fontSize: 16,
-    color: '#333',
+    color: COLORS.white,
+    fontWeight: 'bold',
+    letterSpacing: -0.3,
     flex: 1,
     marginLeft: 10,
   },

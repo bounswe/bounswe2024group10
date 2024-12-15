@@ -5,13 +5,15 @@ import { router } from 'expo-router'
 
 export default function AssetLink({
   children,
-  target = paths.EXPLORE.ASSET_DETAIL,
+  target = paths.PORTFOLIO.ASSET_DETAIL,
   asset,
 }) {
   return (
     <Pressable
       onPress={() => {
-        router.push(`${target}?assetId=${asset?.id}`)
+        router.push(
+          `${target}?assetId=${asset?.id}&symbol=${asset?.tradingViewSymbol}&tradingViewSymbol=${asset?.tradingViewSymbol}&name=${asset?.name}&yahooFinanceSymbol=${asset?.yahooFinanceSymbol}`
+        )
       }}
     >
       {children}
