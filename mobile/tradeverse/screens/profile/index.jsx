@@ -4,6 +4,13 @@ import GlobalScreen from '../../components/ui/global-screen'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import PostCard from '../../components/cards/post-card'
 import PaddedContainer from '../../components/ui/padded-container'
+
+//import { getUserByUsername } from '../../mock-services/users'
+//import { getPostsByUser } from '../../mock-services/post'
+import { getUserByUsername } from '../../services/user'
+import { getPostsByUser } from '../../services/post'
+
+
 import formatInteractionNumber from '../../util/format-number'
 import ProfileImage from '../../components/images/profile-image'
 import {} from '../../services/user'
@@ -16,13 +23,22 @@ const ProfileHeader = () => {
   const { username } = useLocalSearchParams()
 
   useEffect(() => {
+
+    const fetchUserData = async () => {
+      const profileResult = await getUserByUsername(username); // Ensure this fetches fresh data
+      const postsResult = await getPostsByUser(username);
+
+      setPostsData(postsResult);
+      setProfile(profileResult);
+    };
+
     const fetchUser = async () => {
       const res = getUserByUsername
     }
 
-    setPostsData(postsResult)
-    setProfile(profileResult)
-  }, [username])
+
+    fetchUserData();
+  }, [username]);
 
   if (!profile || !postsData) {
     return <GlobalScreen />

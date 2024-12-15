@@ -9,6 +9,8 @@ export async function getUserByUsername({ username, token }) {
         Authorization: `Bearer ${token}`,
       },
     })
+    console.log('Get user by username successful. Token:', token)
+
     return response.data
   } catch (error) {
     console.log('Get user by username failed', error)
@@ -16,24 +18,46 @@ export async function getUserByUsername({ username, token }) {
   return null
 }
 
-export async function setProfile({ email, profilePhoto, bio, tag, username }) {
+export async function setProfile({ email, profilePhoto, name, bio, tag, username }) {
   try {
+
+    const token = await AsyncStorage.getItem('authToken')
+    if (!token) throw new Error('Authorization token is missing');
+
+    console.log('Token from AsyncStorage:', token);
     const response = await api.post(
-      `/user/set-user-details/${username}`,
+      `/user/set-user-details`,
+    const response = await api.post(
       {
         email,
-        profilePhoto,
+        //profilePhoto,
+        name,
         bio,
         tag,
+
+        username,
+      },
+      {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        maxBodyLength: Infinity,
+      }
+    );
+
+    console.log('Response:', response.data);
+
       },
       {
         maxBodyLength: Infinity,
       }
     )
 
+
     return response.data
   } catch (error) {
-    console.log('Set profile failed', error)
+    console.log('XXX Set profile failed:', error.response?.data || error.message);
+    console.log('YYY Set profile failed', error)
   }
   return null
 }
