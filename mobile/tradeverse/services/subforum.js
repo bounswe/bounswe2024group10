@@ -3,7 +3,7 @@ import api from './_axios'
 export async function searchSubforumByTitle({ keyword }) {
   try {
     const response = await api({
-      url: '/post/subforum/searchKeyword',
+      url: '/search/subforum',
       method: 'GET',
       params: { keyword },
     })
@@ -31,7 +31,7 @@ export async function getFollowedSubforums({ username }) {
 export async function getAllSubforums() {
   try {
     const response = await api({
-      url: '/post/get-subforums/non-recursive',
+      url: '/subforum/all',
       method: 'GET',
     })
     return response.data
@@ -44,7 +44,7 @@ export async function getAllSubforums() {
 export async function getSubforumById({ id, username }) {
   try {
     const response = await api({
-      url: `/post/subforum/${id}`,
+      url: `/subforum/${id}`,
       method: 'GET',
       params: { username },
     })
@@ -55,12 +55,12 @@ export async function getSubforumById({ id, username }) {
   return null
 }
 
-export async function followSubforum({ username, subforumId }) {
+export async function followSubforum({ subforumId }) {
   try {
     const response = await api({
-      url: '/follow-subforum/follow-subforum',
-      method: 'GET',
-      params: { followerUsername: username, followedSubforumID: subforumId },
+      url: '/subforum/follow',
+      method: 'POST',
+      data: { subforumId },
     })
     return response.data
   } catch (error) {
@@ -69,12 +69,12 @@ export async function followSubforum({ username, subforumId }) {
   return null
 }
 
-export async function unfollowSubforum({ username, subforumId }) {
+export async function unfollowSubforum({ subforumId }) {
   try {
     const response = await api({
-      url: '/follow-subforum/unfollow-subforum',
-      method: 'GET',
-      params: { followerUsername: username, followedSubforumID: subforumId },
+      url: '/subforum/unfollow',
+      method: 'POST',
+      data: { subforumId },
     })
     return response.data
   } catch (error) {

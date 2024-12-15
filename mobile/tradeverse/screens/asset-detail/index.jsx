@@ -11,6 +11,7 @@ import PaddedContainer from '../../components/ui/padded-container'
 import DateRange from './_components/DateRange'
 import AssetInfoView from './_components/AssetInfoView'
 import NewsView from './_components/NewsView'
+import Header from '../../components/ui/header'
 
 const AssetDisplay = () => {
   const [asset, setAsset] = useState(null)
@@ -26,22 +27,7 @@ const AssetDisplay = () => {
 
   return (
     <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
-      <Stack.Screen
-        options={{
-          headerBackTitleVisible: false,
-          headerTitle: name,
-          headerTitleStyle: {
-            color: 'white',
-          },
-          headerTintColor: 'white',
-          headerBackTitleStyle: {
-            color: 'white',
-          },
-          headerStyle: {
-            backgroundColor: COLORS.primary500,
-          },
-        }}
-      />
+      <Header title={symbol} />
 
       <PaddedContainer style={{ paddingHorizontal: 12 }}>
         <View style={styles.row}>

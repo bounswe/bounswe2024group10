@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
 const api = axios.create({
-   baseURL: 'http://35.246.188.121:8080/api',
+  baseURL: 'http://35.246.188.121:8080/api',
   // baseURL: 'http://localhost:8080/api',
   headers: {
     'content-type': 'application/json',
@@ -14,6 +14,7 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     console.log('--> REQUEST')
+    // console.log('Authorization:', config.headers.Authorization)
     const method = config.method.toUpperCase()
     console.log('Method: ', method)
     console.log('URL: ', config.url)
@@ -37,7 +38,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     console.log('<-- RESPONSE')
-    if (response) console.log('Data: lıne 40 ', response.data)
+    if (response) console.log('Data: ', response.data)
     console.log('---------------------------------')
     return response
   },
