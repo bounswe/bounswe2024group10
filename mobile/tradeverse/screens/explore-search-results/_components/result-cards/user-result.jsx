@@ -9,6 +9,7 @@ import {
 } from '../../../../constants/theme'
 import UserLink from '../../../../components/links/user-link'
 import paths from '../../../../config/screen-paths'
+import { getImageSource } from '../../../../util/get-image-source'
 
 export default function UserResult({ user }) {
   return (
@@ -31,8 +32,10 @@ export default function UserResult({ user }) {
               width: SIZE_CONSTANT * 4,
               height: SIZE_CONSTANT * 4,
               borderRadius: (SIZE_CONSTANT * 4) / 2,
+              borderColor: COLORS.primary50,
+              borderWidth: 1,
             }}
-            src={user.avatar}
+            src={getImageSource(user.profilePhoto)}
           />
         </View>
         <View

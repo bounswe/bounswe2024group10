@@ -14,6 +14,7 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     console.log('--> REQUEST')
+    // console.log('Authorization:', config.headers.Authorization)
     const method = config.method.toUpperCase()
     console.log('Method: ', method)
     console.log('URL: ', config.url)
@@ -38,7 +39,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     console.log('<-- RESPONSE')
-    if (response) console.log('Data: lıne 40 ', response.data)
+    if (response) console.log('Data: ', response.data)
     console.log('---------------------------------')
     return response
   },

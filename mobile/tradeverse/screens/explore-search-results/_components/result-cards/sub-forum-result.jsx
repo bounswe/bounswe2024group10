@@ -67,15 +67,11 @@ export default function SubForumResult({ style, subForum }) {
         >
           <InteractionInfo
             icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>✍️</Text>}
-            value={subForum.totalPosts}
+            value={subForum.postCount}
           />
           <InteractionInfo
             icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>⭐</Text>}
-            value={subForum.totalFollowers}
-          />
-          <InteractionInfo
-            icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>👤</Text>}
-            value={subForum.totalPeople}
+            value={subForum.followerCount}
           />
         </View>
       </View>

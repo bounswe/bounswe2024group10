@@ -1,38 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet } from 'react-native'
 import { COLORS, SIZE_CONSTANT } from '../../constants/theme'
 import SearchBar from './_components/search-bar'
 import GlobalScreen from '../../components/ui/global-screen'
 import Tabs from './_components/tabs'
 import PaddedContainer from '../../components/ui/padded-container'
 import PopularView from './views/popular-view'
-import { getExploreFeed } from '../../services/explore'
-import { useContext } from 'react'
-import AuthContext from '../../auth/context/auth-context'
 import SubforumsView from './views/subforums-view'
 
 export default function ExploreRootScreen() {
   const [selectedTab, setSelectedTab] = useState('subforums')
-  const [loading, setLoading] = useState(true)
-  const { user } = useContext(AuthContext)
-  const [data, setData] = useState({
-    popularPosts: [],
-    recentPosts: [],
-  })
-  useEffect(() => {
-    const fetchFeed = async () => {
-      setLoading(true)
-      const result = await getExploreFeed({
-        username: user?.username,
-      })
-      setData({
-        popularPosts: result.popularPosts,
-        recentPosts: result.recentPosts,
-      })
-    }
-    setLoading(false)
-    fetchFeed()
-  }, [])
+
   return (
     <GlobalScreen
       containerStyle={{
@@ -46,8 +24,8 @@ export default function ExploreRootScreen() {
 
       <>
         {selectedTab === 'subforums' && <SubforumsView />}
-        {selectedTab === 'popular' && <PopularView data={data?.popularPosts} />}
-        {selectedTab === 'recent' && <PopularView data={data?.recentPosts} />}
+        {selectedTab === 'popular' && <PopularView />}
+        {selectedTab === 'recent' && <PopularView />}
       </>
     </GlobalScreen>
   )

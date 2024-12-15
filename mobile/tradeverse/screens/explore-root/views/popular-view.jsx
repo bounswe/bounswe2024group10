@@ -1,16 +1,43 @@
-import { ScrollView } from 'react-native'
-import React from 'react'
-import PostCard from '../../../components/cards/post-card'
-import PostLink from '../../../components/links/post-link'
+import React, { useEffect, useState } from 'react'
+import { explorePopular } from '../../../services/explore'
+import PostsView from '../common/posts-view'
 
-export default function PopularView({ data }) {
-  return (
-    <ScrollView>
-      {data?.map((post, index) => (
-        <PostLink key={index} post={post}>
-          <PostCard key={index} post={post} />
-        </PostLink>
-      ))}
-    </ScrollView>
-  )
+export default function FollowedTopicsView() {
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const res = await explorePopular()
+        if (res) {
+          setData(
+            res.map((post) => ({
+              ...post,
+              isLiked: post.isLikedByUser,
+              isDisliked: post.isDislikedByUser,
+              author: {
+                ...post.author,
+                title: post.name,
+                username: post.createdBy,
+              },
+            }))
+          )
+          setLoading(false)
+        } else {
+          setError('Failed to fetch data')
+        }
+      } catch (err) {
+        setError(err)
+        console.log('Failed to fetch data', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  return <PostsView data={data} loading={loading} />
 }

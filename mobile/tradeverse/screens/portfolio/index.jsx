@@ -6,100 +6,107 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native'
-import { router, Stack } from 'expo-router'
-import FullScrollView from '../../components/ui/full-scroll-view'
+import { router } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, FONT_WEIGHTS, SIZE_CONSTANT } from '../../constants/theme'
 import paths from '../../config/screen-paths'
 import { getPortfolio } from '../../services/portfolio'
 import AuthContext from '../../auth/context/auth-context'
+import AssetCard from './_components/asset-card'
 // Mock Data
 
 const PortfolioScreen = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const { user, portfolioRefreshTrigger } = useContext(AuthContext)
+
+  const [refreshCount, setRefreshCount] = useState(0)
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
-      const fetchPortfolio = async () => {
-        try {
-          setLoading(true);
-          const response = await getPortfolio({ username: user?.username });
-          console.log("Portfolio Response:", response);
-
-          if (response?.isSuccessful && Array.isArray(response?.portfolios)) {
-            setData(response.portfolios);
-          } else {
-            setData([]);
-          }
-        } catch (error) {
-          console.error("Fetch Portfolio Error:", error);
-          setData([]);
-      } finally {
-          setLoading(false);
-      }
-    };
-
-    fetchPortfolio();
-  }, [user, portfolioRefreshTrigger]);
-
+    const fetchPortfolio = async () => {
+      try {
+        setLoading(true)
+        const response = await getPortfolio({ username: user?.username })
+        setLoading(false)
+        setData(response)
+      } catch (error) {}
+    }
+    fetchPortfolio()
+    setLoading(false)
+  }, [refreshCount])
 
   return (
-      <GlobalScreen>
-        <FullScrollView>
-          <Stack.Screen
-            options={{
-              headerBackTitleVisible: false,
-              headerTitle: 'Portfolio',
+    <GlobalScreen>
+      <View style={styles.titleBlock}>
+        <Text style={styles.title}>My Portfolio</Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            router.push(paths.PORTFOLIO.ADD_ASSET)
+          }}
+          style={styles.addButton}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+      {loading && (
+        <View
+          style={{
+            marginTop: 24,
+          }}
+        >
+          <ActivityIndicator size="small" color={COLORS.primary500} />
+        </View>
+      )}
+      {!loading && data && (
+        <>
+          <View
+            style={{
+              marginTop: 8,
+              marginBottom: 20,
             }}
-          />
-          <View style={styles.container}>
-            <View style={styles.titleBlock}>
-              <Text style={styles.title}>My Portfolio</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  router.push(paths.PORTFOLIO.ADD_ASSET)
-                }}
-                style={styles.addButton}
-              >
-                <Text style={styles.addButtonText}>+</Text>
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-              {loading ? (
-                <ActivityIndicator size="large" color={COLORS.primary500} />
-              ) : data && data.length > 0 ? (
-                <View style={styles.portfolioBlock}>
-                  {data.map((portfolio, index) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        console.log("Going to page:", `${paths.PORTFOLIO.ASSET_DETAIL}?assetId=${portfolio.asset.id}`)
-                        router.navigate(
-                          //`${paths.PORTFOLIO.ASSET_DETAIL}?assetId=${portfolio.asset.id}`
-                          `/portfolio/add-asset/asset-detail?assetId=${portfolio.asset.id}&symbol=${portfolio.asset.tradingViewSymbol}&name=${portfolio.asset.name}`
-                        );
-                      }}
-                      key={index}
-                      style={styles.assetBlock}
-                    >
-                      <Text style={styles.assetName}>{portfolio.asset.name}</Text>
-                      <Text style={styles.assetValue}>
-                        {portfolio.totalCurrentPrice.toFixed(2)} USD
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              ) : (
-                <Text>No assets found in your portfolio</Text>
-              )}
-            </ScrollView>
-
+          >
+            <Text
+              style={{
+                fontSize: 24,
+              }}
+            >
+              ${data?.totalValue?.toFixed(2)}
+            </Text>
           </View>
-        </FullScrollView>
-      </GlobalScreen>
-    )
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={() => {
+                  setRefreshCount(refreshCount + 1)
+                }}
+              />
+            }
+          >
+            <View style={styles.container}>
+              {/* Scrollable Portfolio Block */}
+              <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                {loading ? (
+                  <ActivityIndicator size="large" color={COLORS.primary500} />
+                ) : null}
+                {data && (
+                  <View style={styles.portfolioBlock}>
+                    {data?.portfolios &&
+                      data.portfolios.map((asset, index) => (
+                        <AssetCard key={asset.id} asset={asset} />
+                      ))}
+                  </View>
+                )}
+              </ScrollView>
+            </View>
+          </ScrollView>
+        </>
+      )}
+    </GlobalScreen>
+  )
 }
 
 // Styles
@@ -111,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   title: {
     fontSize: 24,
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
   addButton: {
     backgroundColor: COLORS.primary500,
     width: 48,
-    height: 48,
+    // height: 48,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -129,6 +136,7 @@ const styles = StyleSheet.create({
   },
 
   addButtonText: {
+    lineHeight: 24,
     fontSize: SIZE_CONSTANT * 2,
     fontWeight: FONT_WEIGHTS.medium,
     color: '#FFFFFF', // White text
@@ -140,17 +148,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  assetBlock: {
-    borderColor: COLORS.primary50, // Light purple
-    borderWidth: 0.5,
-    backgroundColor: COLORS.primary100, // Lighter purple
-    width: '48%',
-    height: 100,
-    borderRadius: 10,
-    padding: 10,
-    justifyContent: 'space-between',
-    marginBottom: 20,
   },
 
   assetName: {

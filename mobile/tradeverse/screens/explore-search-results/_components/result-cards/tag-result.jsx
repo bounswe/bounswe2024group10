@@ -49,7 +49,7 @@ export default function TagResult({ style, tag }) {
           marginBottom: SIZE_CONSTANT * 0.8,
         }}
       >
-        @{tag.label}
+        {tag.label}
       </Text>
       <View
         style={{
@@ -59,14 +59,14 @@ export default function TagResult({ style, tag }) {
           gap: SIZE_CONSTANT * 2,
         }}
       >
-        <InteractionInfo
+        {/* <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>✍️</Text>}
           value={tag.posts}
         />
         <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>👤</Text>}
           value={tag.people}
-        />
+        /> */}
       </View>
     </View>
   )

@@ -11,7 +11,9 @@ import PaddedContainer from '../../components/ui/padded-container'
 import DateRange from './_components/DateRange'
 import AssetInfoView from './_components/AssetInfoView'
 import NewsView from './_components/NewsView'
+
 import FullScrollView from '../../components/ui/full-scroll-view';
+
 
 const AssetDisplay = () => {
   const [asset, setAsset] = useState(null)
@@ -26,14 +28,9 @@ const AssetDisplay = () => {
   }, [assetId, symbol])
 
   return (
-    <GlobalScreen containerStyle={{ paddingHorizontal: 0, paddingTop: 15, }}>
-      <FullScrollView>
-          <Stack.Screen
-            options={{
-              headerBackTitleVisible: false,
-              headerTitle: 'Asset Details',
-            }}
-          />
+
+    <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
+      <Header title={symbol} />
 
           <PaddedContainer style={{ paddingHorizontal: 12 }}>
             <View style={styles.row}>

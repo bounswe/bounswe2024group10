@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import GlobalScreen from '../../components/ui/global-screen'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import PostCard from '../home-root/_components/post-card'
+import PostCard from '../../components/cards/post-card'
 import PaddedContainer from '../../components/ui/padded-container'
+
 //import { getUserByUsername } from '../../mock-services/users'
 //import { getPostsByUser } from '../../mock-services/post'
 import { getUserByUsername } from '../../services/user'
 import { getPostsByUser } from '../../services/post'
 
+
 import formatInteractionNumber from '../../util/format-number'
 import ProfileImage from '../../components/images/profile-image'
+import {} from '../../services/user'
 
 const ProfileHeader = () => {
   const [activeTab, setActiveTab] = useState('Recent') // State for tab selection
@@ -20,6 +23,8 @@ const ProfileHeader = () => {
   const { username } = useLocalSearchParams()
 
   useEffect(() => {
+
+
     const fetchUserData = async () => {
       const profileResult = await getUserByUsername(username); // Ensure this fetches fresh data
       const postsResult = await getPostsByUser(username);
@@ -27,6 +32,11 @@ const ProfileHeader = () => {
       setPostsData(postsResult);
       setProfile(profileResult);
     };
+
+    const fetchUser = async () => {
+      const res = getUserByUsername
+    }
+
 
     fetchUserData();
   }, [username]);
@@ -72,7 +82,7 @@ const ProfileHeader = () => {
               <Text style={styles.statLabel}>Followers</Text>
             </View>
             <View style={styles.stat}>
-              <Text style={styles.statNumber}>
+              xt style={styles.statNumber}>
                 {profile?.totalPosts ?? profile?.posts?.length}
               </Text>
               <Text style={styles.statLabel}>Posts</Text>

@@ -12,7 +12,7 @@ export default function SubforumsView() {
       try {
         setLoading(true)
         const result = await getAllSubforums()
-        setData(result.subforums)
+        setData(result)
       } catch (error) {
         // console.log(error)
       } finally {
@@ -31,7 +31,7 @@ export default function SubforumsView() {
   ) : (
     <ScrollView>
       {data.map((sf, index) => (
-        <SubforumCard key={index} subForum={sf} />
+        <SubforumCard key={index} subForum={{ ...sf, title: sf.name }} />
       ))}
     </ScrollView>
   )

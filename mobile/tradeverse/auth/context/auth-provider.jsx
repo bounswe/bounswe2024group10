@@ -4,7 +4,7 @@ import { router } from 'expo-router'
 import api from '../../services/_axios'
 import AuthContext from './auth-context'
 import { getMe, register, login, validateToken } from '../../services/auth'
-import getUserByUsername from '../../services/user'
+import { getUserByUsername } from '../../services/user'
 
 export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false)
