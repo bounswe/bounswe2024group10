@@ -38,6 +38,13 @@
   color: #5d5fef; /* Theme color for subforum name */
   margin-left: 5px;
 }
+.tagLink {
+  color: #4e8d71;
+  text-decoration: none;
+}
+.tagLink:hover {
+  text-decoration: underline;
+}
 .subforumLink {
   text-decoration: none;
 }.subforumName:hover {
