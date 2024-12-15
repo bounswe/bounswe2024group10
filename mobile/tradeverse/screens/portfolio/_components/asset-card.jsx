@@ -1,10 +1,11 @@
 import { router } from 'expo-router'
 import React from 'react'
+import { IconInfoCircleFilled } from '@tabler/icons-react-native'
 import { Pressable, Text, View } from 'react-native'
 import paths from '../../../config/screen-paths'
 import { COLORS, SIZE_CONSTANT, SIZES } from '../../../constants/theme'
 import ContentImage from '../../../components/images/content-image'
-import { IconInfoCircleFilled } from '@tabler/icons-react-native'
+import AssetLink from '../../../components/links/asset-link'
 
 export default function AssetCard({ asset }) {
   return (
@@ -77,13 +78,7 @@ export default function AssetCard({ asset }) {
             marginTop: 'auto',
           }}
         >
-          <Pressable
-            onPress={() => {
-              router.push(
-                `${paths.PORTFOLIO.ASSET_DETAIL}?symbol=${asset.asset.tradingViewSymbol}`
-              )
-            }}
-          >
+          <AssetLink asset={asset.asset}>
             <IconInfoCircleFilled
               size={20}
               strokeWidth={0}
@@ -91,7 +86,7 @@ export default function AssetCard({ asset }) {
                 color: COLORS.primary500,
               }}
             />
-          </Pressable>
+          </AssetLink>
         </View>
         <View
           style={{

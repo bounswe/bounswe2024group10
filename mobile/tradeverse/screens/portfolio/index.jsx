@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   },
 
   addButtonText: {
+    lineHeight: 24,
     fontSize: SIZE_CONSTANT * 2,
     fontWeight: FONT_WEIGHTS.medium,
     color: '#FFFFFF', // White text

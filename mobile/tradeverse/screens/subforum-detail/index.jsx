@@ -14,6 +14,7 @@ import Skeleton from '../../components/ui/skeleton'
 import PaddedContainer from '../../components/ui/padded-container'
 import MainButton from '../../components/buttons/main-button'
 import PostCard from '../../components/cards/post-card'
+import Header from '../../components/ui/header'
 const SubforumScreen = () => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -76,22 +77,7 @@ const SubforumScreen = () => {
         paddingHorizontal: 0,
       }}
     >
-      <Stack.Screen
-        options={{
-          headerBackTitleVisible: false,
-          headerTitle: subforumTitle,
-          headerTitleStyle: {
-            color: 'white',
-          },
-          headerTintColor: 'white',
-          headerBackTitleStyle: {
-            color: 'white',
-          },
-          headerStyle: {
-            backgroundColor: COLORS.primary500,
-          },
-        }}
-      />
+      <Header title={subforumTitle} />
 
       {loading && (
         <>

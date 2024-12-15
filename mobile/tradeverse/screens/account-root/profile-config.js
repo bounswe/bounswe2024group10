@@ -71,13 +71,13 @@ const ProfileConfig = {
     settings: {
       title: 'Settings',
       options: [
-        {
-          value: 'change_password',
-          title: 'Change Password',
-          icon: <IconKey {...defaultIconProps} />,
-          href: '#',
-          disabled: true,
-        },
+        // {
+        //   value: 'change_password',
+        //   title: 'Change Password',
+        //   icon: <IconKey {...defaultIconProps} />,
+        //   href: '#',
+        //   disabled: true,
+        // },
         {
           value: 'logout',
           title: 'Log Out',

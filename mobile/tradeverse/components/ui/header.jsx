@@ -8,15 +8,12 @@ export default function Header({ title }) {
       options={{
         headerBackTitleVisible: false,
         headerTitle: title,
-
         headerTitleStyle: {
           color: 'white',
         },
-        headerBackVisible: true,
-        headerBackButtonMenuEnabled: true,
+        headerTintColor: 'white',
         headerBackTitleStyle: {
           color: 'white',
-          fontSize: 16,
         },
         headerStyle: {
           backgroundColor: COLORS.primary500,

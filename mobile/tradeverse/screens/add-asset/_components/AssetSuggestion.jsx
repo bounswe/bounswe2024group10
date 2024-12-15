@@ -15,6 +15,7 @@ import { useRouter } from 'expo-router'
 import { useSelector } from 'react-redux'
 import { COLORS, SHADOWS, SIZE_CONSTANT, SIZES } from '../../../constants/theme'
 import ContentImage from '../../../components/images/content-image'
+import AssetLink from '../../../components/links/asset-link'
 
 const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
   const [inputValue, setInputValue] = useState('')
@@ -146,18 +147,12 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
                       </View>
                     </View>
 
-                    <Pressable
-                      onPress={() => {
-                        router.navigate(
-                          `/portfolio/add-asset/asset-detail?assetId=${item.id}&symbol=${item.tradingViewSymbol}&name=${item.name}`
-                        )
-                      }}
-                    >
+                    <AssetLink asset={item}>
                       <IconInfoCircleFilled
                         fill={COLORS.primary500}
                         strokeWidth={0}
                       />
-                    </Pressable>
+                    </AssetLink>
                   </View>
                 </TouchableOpacity>
               ))}
