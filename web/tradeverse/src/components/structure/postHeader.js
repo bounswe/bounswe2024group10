@@ -40,7 +40,9 @@ const PostHeader = ({ post }) => {
         <div className={styles.postHeaderTag}>
           {/* Display tag and subforum name next to each other */}
           <p>
+            <Link to={`/tag/${post.content.find((item) => item.type === "tag")?.value}`} className={styles.tagLink}>
             {post.content.find((item) => item.type === "tag")?.value}
+            </Link>
             <Link to={`/subforum/${post.subforum.id}`} className={styles.subforumLink}>
               <span className={styles.subforumName}> | {post.subforum.name}</span>
             </Link>

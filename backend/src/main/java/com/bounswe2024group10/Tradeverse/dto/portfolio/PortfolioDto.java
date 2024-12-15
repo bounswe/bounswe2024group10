@@ -6,11 +6,13 @@ public class PortfolioDto {
     private Long id;
     private Asset asset;
     private double amount;
+    private double totalCurrentPrice;
 
-    public PortfolioDto(Long id, Asset asset, double amount) {
+    public PortfolioDto(Long id, Asset asset, double amount, double totalCurrentPrice) {
         this.id = id;
         this.asset = asset;
         this.amount = amount;
+        this.totalCurrentPrice = totalCurrentPrice;
     }
 
     public Long getId() {
@@ -23,5 +25,9 @@ public class PortfolioDto {
 
     public double getAmount() {
         return amount;
+    }
+
+    public double getTotalCurrentPrice() {
+        return totalCurrentPrice;
     }
 }

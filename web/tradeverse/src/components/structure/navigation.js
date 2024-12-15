@@ -7,6 +7,7 @@ import AssetInfo from "../../pages/AssetInfo"
 import Subforum from "../../pages/Subforum"
 import Portfolio from "../../pages/Portfolio"
 import CreateSubforum from "../../pages/CreateSubforum"
+import TagPage from "../../pages/TagPage"
 
 export const nav = [
      { path:     "/",         name: "Home",        element: <Home />,       isMenu: false,     isPrivate: false  , isAdmin:false},
@@ -22,4 +23,5 @@ export const nav = [
      { path: "/subforum", name: "Subforum", element: <Subforum />, isMenu: false, isPrivate: false, isAdmin: false },
      { path: "/portfolio", name: "Portfolio", element: <Portfolio />, isMenu: false, isPrivate: false, isAdmin: false },
      { path: "/create-subforum", name: "Create Subforum", element: <CreateSubforum />, isMenu: false, isPrivate: true, isAdmin: true },
+     { path: "/tag", name: "Tag", element: <TagPage />, isMenu: false, isPrivate: false, isAdmin: false },
 ]

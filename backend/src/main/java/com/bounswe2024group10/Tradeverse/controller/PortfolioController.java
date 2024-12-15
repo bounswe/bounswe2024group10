@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioRequest;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
-import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioServiceRequest;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.GetPortfolioResponse;
 import com.bounswe2024group10.Tradeverse.service.PortfolioService;
 import com.bounswe2024group10.Tradeverse.util.JwtUtil;
@@ -42,11 +41,7 @@ public class PortfolioController {
             token = token.substring(7);
             username = jwtUtil.extractUsername(token);
         }
-        AddAssetToPortfolioServiceRequest serviceRequest = new AddAssetToPortfolioServiceRequest();
-        serviceRequest.setAssetId(request.getAssetId());
-        serviceRequest.setAmount(request.getAmount());
-        serviceRequest.setUsername(username);
-        AddAssetToPortfolioResponse response = portfolioService.addAssetToPortfolio(serviceRequest);
+        AddAssetToPortfolioResponse response = portfolioService.addAssetToPortfolio(request.getAssetId(), request.getAmount(), username);
         return ResponseEntity.ok(response);
     }
 

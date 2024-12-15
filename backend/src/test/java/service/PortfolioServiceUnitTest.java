@@ -12,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
 
 import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
-import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioServiceRequest;
 import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
 import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
 import com.bounswe2024group10.Tradeverse.service.PortfolioService;
@@ -38,22 +37,16 @@ public class PortfolioServiceUnitTest {
 
     @Test
     public void testAddAssetToPortfolio_AssetNotFound() {
-        AddAssetToPortfolioServiceRequest request = new AddAssetToPortfolioServiceRequest();
         when(assetRepository.existsById(2L)).thenReturn(false);
-
-        AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(request);
-
+        AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(2L, 100, "testuser");
         assertFalse(result.isSuccessful());
         assertEquals("Asset not found", result.getMessage());
     }
 
     @Test
     public void testAddAssetToPortfolio_AssetFound() {
-        AddAssetToPortfolioServiceRequest request = new AddAssetToPortfolioServiceRequest();
         when(assetRepository.existsById(1L)).thenReturn(true);
-
-        AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(request);
-
+        AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(1L, 100, "testuser");
         assertTrue(result.isSuccessful());
         assertEquals("Asset found", result.getMessage());
     }

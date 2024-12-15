@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Post from "../components/structure/Post"; // Adjust the path based on your project structure
+import { Link } from "react-router-dom"; 
+import Post from "../components/structure/Post"; 
 import "./styles/Account.css";
 
 const Account = () => {
@@ -10,23 +11,32 @@ const Account = () => {
       id: 1,
       author: { name: "John", surname: "Doe", avatar: "default-profile.png" },
       username: "JohnDoe123",
-      tags: ["Finance"],
-      description: "How to Start Investing",
-      content: "Investing is a great way to grow your wealth over time...",
-      likeCount: 25,
-      dislikeCount: 2,
+      content: [
+        { type: "text", value: "Investing is a great way to grow your wealth over time..." },
+        { type: "tag", value: "Finance" },
+      ],
+      title: "How to Start Investing",
+      nofLikes: 25,
+      nofDislikes: 2,
+      isLiked: false,
+      isDisliked: false,
     },
     {
       id: 2,
       author: { name: "John", surname: "Doe", avatar: "default-profile.png" },
       username: "JohnDoe123",
-      tags: ["Mistakes"],
-      description: "Top Financial Mistakes",
-      content: "Avoiding these mistakes can save you a lot of trouble...",
-      likeCount: 30,
-      dislikeCount: 1,
+      content: [
+        { type: "text", value: "Avoiding these mistakes can save you a lot of trouble..." },
+        { type: "tag", value: "Mistakes" },
+      ],
+      title: "Top Financial Mistakes",
+      nofLikes: 30,
+      nofDislikes: 1,
+      isLiked: false,
+      isDisliked: false,
     },
   ];
+  
 
   const handleEditBio = () => {
     const newBio = prompt("Edit your bio:", bio);
@@ -71,6 +81,14 @@ const Account = () => {
           ))}
         </div>
         <button className="viewAllPostsBtn">View All</button>
+      </div>
+
+
+      {/* Portfolio Button */}
+      <div className="portfolioButtonContainer">
+        <Link to="/portfolio">
+          <button className="portfolioBtn">Go To My Portfolio</button>
+        </Link>
       </div>
     </div>
   );
