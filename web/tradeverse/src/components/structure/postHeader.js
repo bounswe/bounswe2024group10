@@ -25,8 +25,16 @@ const PostHeader = ({ post }) => {
             className={styles.userImage}
           />
           <div className={styles.userDetails}>
-            <h3>{post.author.name}</h3>
-            <p>{`@${post.createdBy}`}</p>
+            <h3>
+              <Link to="/user">
+                {`${post.author.name}`}
+              </Link>
+            </h3>
+            <p>
+              <Link to="/user">
+                {`@${post.createdBy}`}
+              </Link>
+            </p>
           </div>
         </div>
         <div className={styles.postHeaderTag}>

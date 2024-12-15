@@ -154,3 +154,14 @@
   border-radius: 10px;
   margin: 10px 0;
 }
+
+.userDetails h3 a, 
+.userDetails p a {
+  text-decoration: none; 
+  color: inherit; 
+}
+
+.userDetails h3 a:visited, 
+.userDetails p a:visited {
+  color: inherit; 
+}
