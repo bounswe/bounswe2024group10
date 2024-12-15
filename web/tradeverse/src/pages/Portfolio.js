@@ -1,118 +1,101 @@
 import React, { useState, useEffect } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-
+import { toast, ToastContainer } from "react-toastify";
 import styles from "./styles/Portfolio.module.css";
-import { getPortfolio, getAssetDetails ,getAllAssets,addAssetToPortfolio} from "../services/portfolio"; // Import services
-import { AuthData } from "../auth/AuthWrapper"; // Import authentication wrapper
+import { getPortfolio, getAssetDetails, getAllAssets, addAssetToPortfolio } from "../services/portfolio";
+import { AuthData } from "../auth/AuthWrapper";
 import MiniChartWidget from "../components/structure/MiniChartWidget";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Portfolio = () => {
-  const { user } = AuthData(); // Retrieve user information
+  const { user } = AuthData();
   const [portfolio, setPortfolio] = useState([]);
   const [totalValue, setTotalValue] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [chartData, setChartData] = useState(null);
-  const [selectedAsset, setSelectedAsset] = useState(null); // Track selected asset for modal
-  const [showAddModal, setShowAddModal] = useState(false); // Track add asset modal state
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [allAssets, setAllAssets] = useState([]);
-  const [newAsset, setNewAsset] = useState({ symbol: "", amount: "" }); // New asset data
+  const [newAsset, setNewAsset] = useState({ symbol: "", amount: "" });
+
+  const fetchPortfolio = async () => {
+    if (!user || !user.name) {
+      setError("User is not logged in.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const data = await getPortfolio(user.name);
+      const portfoliosWithPrices = await Promise.all(
+        data.portfolios.map(async (item) => {
+          const assetDetails = await getAssetDetails(item.asset.yahooFinanceSymbol);
+
+          return {
+            ...item,
+            lastPrice: assetDetails.lastPrice,
+          };
+        })
+      );
+      setPortfolio(portfoliosWithPrices);
+
+      const totalValueCalculated = portfoliosWithPrices.reduce(
+        (sum, item) => sum + item.lastPrice * item.amount,
+        0
+      );
+      setTotalValue(totalValueCalculated);
+
+      const labels = portfoliosWithPrices.map((item) => item.asset.name);
+      const values = portfoliosWithPrices.map((item) => item.lastPrice * item.amount);
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: "Portfolio Value",
+            data: values,
+            backgroundColor: [
+              "#FF6384", "#36A2EB", "#FFCE56", "#5d5fef", "#4BC0C0",
+              "#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360",
+            ],
+            hoverBackgroundColor: [
+              "#FF6384", "#36A2EB", "#FFCE56", "#5d5fef", "#4BC0C0",
+              "#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360",
+            ],
+          },
+        ],
+      });
+    } catch (err) {
+      setError(err.message || "Failed to fetch portfolio.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPortfolio = async () => {
-      if (!user || !user.name) {
-        setError("User is not logged in.");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const data = await getPortfolio(user.name);
-        const portfoliosWithPrices = await Promise.all(
-          data.portfolios.map(async (item) => {
-            const assetDetails = await getAssetDetails(item.asset.yahooFinanceSymbol);
-
-            return {
-              ...item,
-              lastPrice: assetDetails.lastPrice, // Add price data to the asset
-            };
-          })
-        );
-        setPortfolio(portfoliosWithPrices);
-        const totalValueCalculated = portfoliosWithPrices.reduce(
-          (sum, item) => sum + item.lastPrice * item.amount,
-          0
-        );
-        setTotalValue(totalValueCalculated);
-
-        // Prepare chart data
-        const labels = portfoliosWithPrices.map((item) => item.asset.name);
-        const values = portfoliosWithPrices.map(
-          (item) => item.lastPrice * item.amount
-        );
-
-        setChartData({
-            labels,
-            datasets: [
-              {
-                label: "Portfolio Value",
-                data: values,
-                backgroundColor: [
-                  "#FF6384", // Red
-                  "#36A2EB", // Blue
-                  "#FFCE56", // Yellow
-                  "#5d5fef", // Theme color
-                  "#4BC0C0", // Teal
-                  "#F7464A", // Bright Red
-                  "#46BFBD", // Aqua
-                  "#FDB45C", // Orange
-                  "#949FB1", // Grey
-                  "#4D5360", // Dark Grey
-                ],
-                hoverBackgroundColor: [
-                  "#FF6384", // Red
-                  "#36A2EB", // Blue
-                  "#FFCE56", // Yellow
-                  "#5d5fef", // Theme color
-                  "#4BC0C0", // Teal
-                  "#F7464A", // Bright Red
-                  "#46BFBD", // Aqua
-                  "#FDB45C", // Orange
-                  "#949FB1", // Grey
-                  "#4D5360", // Dark Grey
-                ],
-              },
-            ],
-          });
-      } catch (err) {
-        setError(err.message || "Failed to fetch portfolio.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchPortfolio();
 
     const fetchAssets = async () => {
       try {
-        const assets = await getAllAssets(); // Fetch all assets
+        const assets = await getAllAssets();
         setAllAssets(assets);
       } catch (err) {
         console.error("Error fetching assets:", err);
       }
     };
 
-    fetchPortfolio();
-    fetchAssets(); // Fetch available assets for the dropdown
+    fetchAssets();
   }, [user]);
 
   const handleCardClick = (asset) => {
-    setSelectedAsset(asset); // Set the selected asset for the modal
+    setSelectedAsset(asset);
   };
 
   const closeModal = () => {
-    setSelectedAsset(null); // Close the modal
+    setSelectedAsset(null);
   };
 
   const handleAddAsset = () => {
@@ -121,30 +104,29 @@ const Portfolio = () => {
 
   const closeAddModal = () => {
     setShowAddModal(false);
-    setNewAsset({ symbol: "", amount: "" }); // Reset new asset data
+    setNewAsset({ symbol: "", amount: "" });
   };
 
   const handleAddSubmit = async () => {
     try {
-        console.log(newAsset);
-      const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
+      const token = localStorage.getItem("authToken");
       const response = await addAssetToPortfolio(
-        user.name, // Pass username
-        newAsset.assetId, // Selected asset ID
-        newAsset.amount, // Entered amount
-        token // Authorization token
+        user.name,
+        newAsset.assetId,
+        newAsset.amount,
+        token
       );
-  
+
       if (response && response.successful) {
-        alert('Asset added successfully!');
+        toast.success("Asset added successfully.");
         closeAddModal();
-        // Optionally refresh the portfolio data here
+        await fetchPortfolio(); // Refetch portfolio data
       } else {
-        alert('Failed to add asset.');
+        toast.error("Failed to add asset.");
       }
     } catch (error) {
-      console.error('Error adding asset:', error);
-      alert('Error adding asset.');
+      console.error("Error adding asset:", error);
+      toast.error("An error occurred while adding the asset.");
     }
   };
 
@@ -158,6 +140,7 @@ const Portfolio = () => {
 
   return (
     <div className={styles.portfolioPage}>
+      <ToastContainer position="top-right" autoClose={3000} />
       <header className={styles.portfolioHeader}>
         <h1>My Portfolio</h1>
         <p>Total Value: <span>${totalValue ? totalValue.toFixed(2) : "N/A"}</span></p>
@@ -177,7 +160,7 @@ const Portfolio = () => {
             <div
               key={item.id}
               className={styles.portfolioCard}
-              onClick={() => handleCardClick(item.asset)} // Handle card click
+              onClick={() => handleCardClick(item.asset)}
             >
               <img
                 src={item.asset.imageUrl}
@@ -207,7 +190,6 @@ const Portfolio = () => {
         )}
       </div>
 
-      {/* Modal for chart */}
       {selectedAsset && (
         <div className={styles.modal}>
           <div className={styles.modalContent1}>
@@ -222,7 +204,6 @@ const Portfolio = () => {
         </div>
       )}
 
-      {/* Modal for adding asset */}
       {showAddModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
@@ -231,38 +212,33 @@ const Portfolio = () => {
             </button>
             <h2>Add Asset</h2>
             <form onSubmit={(e) => e.preventDefault()}>
-            <label>
-            Asset:
-            <select
-                value={newAsset.symbol}
-                onChange={(e) => {
-                const selectedOption = e.target.options[e.target.selectedIndex];
-                const symbol = selectedOption.value;
-                const assetId = selectedOption.getAttribute("data-id");
+              <label>
+                Asset:
+                <select
+                  value={newAsset.symbol}
+                  onChange={(e) => {
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    const symbol = selectedOption.value;
+                    const assetId = selectedOption.getAttribute("data-id");
 
-                // Log values to debug
-                console.log("Selected Symbol:", symbol);
-                console.log("Selected Asset ID:", assetId);
-
-                // Update state
-                setNewAsset({
-                    ...newAsset,
-                    symbol: symbol,
-                    assetId: assetId, // Ensure assetId is stored as a number
-                });
-                }}
-                required
-            >
-                <option value="" disabled>
-                Select an Asset
-                </option>
-                {allAssets.map((asset) => (
-                <option key={asset.id} value={asset.yahooFinanceSymbol} data-id={asset.id}>
-                    {asset.name}
-                </option>
-                ))}
-            </select>
-            </label>
+                    setNewAsset({
+                      ...newAsset,
+                      symbol,
+                      assetId,
+                    });
+                  }}
+                  required
+                >
+                  <option value="" disabled>
+                    Select an Asset
+                  </option>
+                  {allAssets.map((asset) => (
+                    <option key={asset.id} value={asset.yahooFinanceSymbol} data-id={asset.id}>
+                      {asset.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <label>
                 Amount:
                 <input
