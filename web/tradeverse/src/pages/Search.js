@@ -154,9 +154,13 @@ const Search = () => {
 
               case 'tag':
                 return (
+                  
                   <div key={index} className={styles.tagCard}>
+                    <Link to={`/tag/${result.label}`} key={index} style={{ textDecoration: 'none' }}>
                     <p className={styles.tagLabel}>{result.label}</p>
+                    </Link>
                   </div>
+                  
                 );
 
               case 'subforum':
