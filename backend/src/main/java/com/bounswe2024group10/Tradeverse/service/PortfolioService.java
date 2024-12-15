@@ -57,7 +57,8 @@ public class PortfolioService {
                 portfolioDtos.add(new PortfolioDto(
                         portfolio.getId(),
                         asset,
-                        portfolio.getAmount()
+                        portfolio.getAmount(),
+                        price * portfolio.getAmount()
                 ));
             }
             return new GetPortfolioResponse(true, "Portfolios retrieved successfully", null, portfolioDtos, totalValue);
@@ -118,11 +119,18 @@ public class PortfolioService {
             Asset asset = assetRepository.findById(assetId)
                     .orElseThrow(() -> new RuntimeException("Asset not found"));
 
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "https://query1.finance.yahoo.com/v8/finance/chart/" + asset.getYahooFinanceSymbol();
+            ResponseEntity<YahooFinanceChartResponse> response = restTemplate.getForEntity(url, YahooFinanceChartResponse.class);
+            YahooFinanceChartResponse yahooResponse = response.getBody();
+            double price = yahooResponse.getChart().getResult()[0].getMeta().getLastPrice();
+
             List<PortfolioDto> portfolioDtos = portfolios.stream()
                     .map(portfolio -> new PortfolioDto(
                     portfolio.getId(),
                     asset,
-                    portfolio.getAmount()
+                    portfolio.getAmount(),
+                    portfolio.getAmount() * price
             ))
                     .collect(Collectors.toList());
 
