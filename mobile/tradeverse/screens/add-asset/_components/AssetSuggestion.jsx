@@ -148,6 +148,7 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
                     </View>
 
                     <AssetLink asset={item}>
+
                       <IconInfoCircleFilled
                         fill={COLORS.primary500}
                         strokeWidth={0}

@@ -4,13 +4,14 @@ import api from './_axios'
 export async function getAssetDetail({ id }) {
   try {
     const response = await api({
-      url: `/asset/detail/${id}`,
+      url: `/asset/details/${id}`,
       method: 'GET',
     })
 
     return response.data
   } catch (error) {
     console.log('Get Asset Detail Failed', error)
+    console.log('----------------------------------')
   }
   return null
 }

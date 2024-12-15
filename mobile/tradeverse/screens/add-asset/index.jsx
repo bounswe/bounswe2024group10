@@ -22,25 +22,27 @@ export default function AddAssetScreen() {
   const [amount, setAmount] = useState('')
   const [filteredAssets, setFilteredAssets] = useState([])
   const [loading, setLoading] = useState(false)
-  const { user } = useContext(AuthContext)
+  const { user, setPortfolioRefreshTrigger } = useContext(AuthContext)
   const dispatch = useDispatch()
 
   const handleAddToPortfolio = async () => {
     if (!asset || !amount) {
-      Alert.alert('Error', 'Please enter asset and amount')
-      return
+      Alert.alert('Error', 'Please enter asset and amount');
+      return;
     }
     const res = await addAsset({
       username: user?.username,
       assetId: asset?.id,
       amount,
-    })
+    });
     if (res.successful) {
-      dispatch(showToast({ text: res?.message }))
-      router.back()
+      dispatch(showToast({ text: res?.message }));
+      setPortfolioRefreshTrigger((prev) => prev + 1); // Increment the trigger
+      router.back();
+    } else {
+      console.error('Add Asset Error:', res.message);
     }
-    console.log(res)
-  }
+  };
 
   return (
     <GlobalScreen>

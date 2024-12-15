@@ -27,13 +27,16 @@ export async function setProfile({ email, profilePhoto, name, bio, tag, username
     console.log('Token from AsyncStorage:', token);
     const response = await api.post(
       `/user/set-user-details`,
+
     const response = await api.post(
+
       {
         email,
         //profilePhoto,
         name,
         bio,
         tag,
+
 
         username,
       },
@@ -52,7 +55,6 @@ export async function setProfile({ email, profilePhoto, name, bio, tag, username
         maxBodyLength: Infinity,
       }
     )
-
 
     return response.data
   } catch (error) {

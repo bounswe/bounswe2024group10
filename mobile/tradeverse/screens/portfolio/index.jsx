@@ -20,6 +20,7 @@ import AssetCard from './_components/asset-card'
 const PortfolioScreen = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
+
   const [refreshCount, setRefreshCount] = useState(0)
   const { user } = useContext(AuthContext)
 

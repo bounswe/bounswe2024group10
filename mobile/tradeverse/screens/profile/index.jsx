@@ -24,6 +24,7 @@ const ProfileHeader = () => {
 
   useEffect(() => {
 
+
     const fetchUserData = async () => {
       const profileResult = await getUserByUsername(username); // Ensure this fetches fresh data
       const postsResult = await getPostsByUser(username);
@@ -81,7 +82,7 @@ const ProfileHeader = () => {
               <Text style={styles.statLabel}>Followers</Text>
             </View>
             <View style={styles.stat}>
-              <Text style={styles.statNumber}>
+              xt style={styles.statNumber}>
                 {profile?.totalPosts ?? profile?.posts?.length}
               </Text>
               <Text style={styles.statLabel}>Posts</Text>
