@@ -10,5 +10,6 @@ import java.util.List;
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     List<Portfolio> findByUsername(String username);
     List<Portfolio> findByAssetId(Long assetId);
+    Portfolio findByUsernameAndAssetId(String username, Long assetId);
     boolean existsByUsernameAndAssetId(String username, Long assetId);
 }
