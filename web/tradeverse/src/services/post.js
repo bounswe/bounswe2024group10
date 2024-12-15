@@ -153,3 +153,25 @@ export async function fetchRecentPosts(token) {
       throw error;
     }
   }
+  export async function getPostsByTag(tag, token) {
+    try {
+      const url = `/post/get-posts-by-tag?tag=${tag}`; // Directly include the tag with '@'
+      const response = await api.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.status >= 200 && response.status < 300) {
+        return response.data;
+      } else {
+        console.error("Unexpected response status:", response.status);
+        throw new Error(`Failed to fetch posts by tag. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error fetching posts by tag:", error);
+      throw error;
+    }
+  }
+  
+  
