@@ -11,19 +11,23 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bounswe2024group10.Tradeverse.dto.asset.YahooFinanceChartResponse;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioResponse;
-import com.bounswe2024group10.Tradeverse.dto.portfolio.AddAssetToPortfolioServiceRequest;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.GetPortfolioResponse;
 import com.bounswe2024group10.Tradeverse.dto.portfolio.PortfolioDto;
 import com.bounswe2024group10.Tradeverse.model.Asset;
 import com.bounswe2024group10.Tradeverse.model.Portfolio;
+import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
 import com.bounswe2024group10.Tradeverse.repository.PortfolioRepository;
+import com.bounswe2024group10.Tradeverse.repository.UserRepository;
 
 @Service
 public class PortfolioService {
 
     @Autowired
     private PortfolioRepository portfolioRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AssetRepository assetRepository;
@@ -67,35 +71,43 @@ public class PortfolioService {
         }
     }
 
-    public AddAssetToPortfolioResponse addAssetToPortfolio(AddAssetToPortfolioServiceRequest request) {
+    public AddAssetToPortfolioResponse addAssetToPortfolio(Long assetId, double amount, String username) {
         try {
             // Check if asset exists
-            if (!assetRepository.existsById(request.getAssetId())) {
+            if (!assetRepository.existsById(assetId)) {
                 return new AddAssetToPortfolioResponse(false, "Asset not found");
             }
 
-            // Check if portfolio entry already exists
-            if (portfolioRepository.existsByUsernameAndAssetId(request.getUsername(), request.getAssetId())) {
-                // Update existing portfolio
-                List<Portfolio> portfolios = portfolioRepository.findByUsername(request.getUsername());
-                Portfolio portfolio = portfolios.stream()
-                        .filter(p -> p.getAssetId().equals(request.getAssetId()))
-                        .findFirst()
-                        .orElseThrow(() -> new RuntimeException("Portfolio not found"));
-
-                portfolio.setAmount(request.getAmount());
-                portfolioRepository.save(portfolio);
-                return new AddAssetToPortfolioResponse(true, "Asset amount updated in portfolio");
+            User user = userRepository.findByUsername(username);
+            if (user == null) {
+                return new AddAssetToPortfolioResponse(false, "User not found");
             }
 
-            // Create new portfolio entry
-            Portfolio portfolio = new Portfolio(
-                    request.getUsername(),
-                    request.getAssetId(),
-                    request.getAmount()
-            );
-            portfolioRepository.save(portfolio);
+            if (amount == 0) {
+                return new AddAssetToPortfolioResponse(true, "Asset amount updated in portfolio (Nothing changed)");
+            }
 
+            // Update existing portfolio entry
+            if (portfolioRepository.existsByUsernameAndAssetId(username, assetId)) {
+                Portfolio portfolio = portfolioRepository.findByUsernameAndAssetId(username, assetId);
+                if (portfolio.getAmount() + amount <= 0) {
+                    portfolioRepository.delete(portfolio);
+                    return new AddAssetToPortfolioResponse(true, "Asset amount updated in portfolio");
+                } else {
+                    portfolio.setAmount(portfolio.getAmount() + amount);
+                    portfolioRepository.save(portfolio);
+                    return new AddAssetToPortfolioResponse(true, "Asset amount updated in portfolio");
+                }
+            }
+
+            if (amount > 0) {
+                Portfolio portfolio = new Portfolio(
+                        username,
+                        assetId,
+                        amount
+                );
+                portfolioRepository.save(portfolio);
+            }
             return new AddAssetToPortfolioResponse(true, "Asset added to portfolio successfully");
         } catch (Exception e) {
             return new AddAssetToPortfolioResponse(false, "Failed to add asset to portfolio: " + e.getMessage());
