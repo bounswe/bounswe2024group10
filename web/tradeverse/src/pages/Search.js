@@ -145,9 +145,7 @@ const Search = () => {
                       <p className={styles.userName}>
                         {result.name} {result.surname} (@{result.username})
                       </p>
-                      <p className={styles.userFollowers}>
-                        Followers: {result.followers}
-                      </p>
+                      
                     </div>
                   </div>
                 );
