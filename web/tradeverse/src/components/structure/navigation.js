@@ -25,5 +25,5 @@ export const nav = [
      { path: "/portfolio", name: "Portfolio", element: <Portfolio />, isMenu: false, isPrivate: false, isAdmin: false },
      { path: "/create-subforum", name: "Create Subforum", element: <CreateSubforum />, isMenu: false, isPrivate: true, isAdmin: true },
      { path: "/tag", name: "Tag", element: <TagPage />, isMenu: false, isPrivate: false, isAdmin: false },
-     {path: "/account", name: "Account", element: <Account />, isMenu: false, isPrivate: false, isAdmin: false},
+     {path: "/account", name: "Account", element: <Account />, isMenu: false, isPrivate: true, isAdmin: false},
 ]
