@@ -3,9 +3,10 @@ import ChartContainer from "./TradingViewWidget";
 import { Link } from "react-router-dom";
 import styles from "../styles/postHeader.module.css";
 import defaultUserImage from "../../data/defaultUserImage.jpeg";
+import { AuthData } from "../../auth/AuthWrapper";
 
 const PostHeader = ({ post }) => {
-
+  const { user } = AuthData();
   const createPostContent = (content) => {
     const postContent = content
       .filter((item) => item.type === "text" || item.type === "tag") // Filter for 'text' and 'tag' types
@@ -14,7 +15,7 @@ const PostHeader = ({ post }) => {
 
     return postContent;
   };
-
+  const userLink = user?.name === post.createdBy ? "/account" : `/user/${post.createdBy}`;
 
   return (
     <div className={styles.postHeader}>
@@ -26,12 +27,12 @@ const PostHeader = ({ post }) => {
           />
           <div className={styles.userDetails}>
             <h3>
-            <Link to={`/user/${post.createdBy}`}>
+            <Link to={userLink}>
               {`${post.author.name}`}
             </Link>
             </h3>
             <p>
-              <Link to={`/user/${post.createdBy}`}>
+              <Link to={userLink}>
                 {`@${post.createdBy}`}
               </Link>
             </p>
