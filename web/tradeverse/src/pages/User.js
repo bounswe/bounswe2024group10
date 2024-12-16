@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Post from "../components/structure/Post"; 
 import "./styles/User.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUserDetails, getPostsByUser, getPortfolio } from "../services/user_api"; 
-
+import default_picture from "../data/defaultUserImage.jpeg";
 const User = () => {
   const { username } = useParams(); // Getting the username from URL params
   console.log("Extracted username:", username);
@@ -52,8 +52,8 @@ const User = () => {
         <div className="profile">
           <img
             className="profilePhoto"
-            src={user.avatar || "default-profile.png"} // Display user avatar or default image
-            alt="Profile"
+            src={user.profilePhoto ? `http://35.246.188.121:8080/api${user.profilePhoto}` : default_picture} // Check for profilePhoto or use default_picture
+            alt={`${user.username}'s Profile`}
           />
         </div>
         <h1 className="username">{user.username}</h1>
@@ -63,12 +63,7 @@ const User = () => {
             : user.name}
         </h2>
         <div className="followDetails">
-          <span>
-            <b>{user.followers}</b> Followers
-          </span>
-          <span>
-            <b>{user.following}</b> Following
-          </span>
+          
         </div>
       </div>
 
@@ -81,7 +76,11 @@ const User = () => {
         <h2>Posts</h2>
         <div className="postList">
           {posts.length > 0 ? (
-            posts.map((post) => <Post key={post.id} post={post} />)
+            posts.map((post) => 
+            <Link to={`/post/${post.id}`} key={post.id} style={{ textDecoration: 'none',color: 'black' }}>
+            <Post key={post.id} post={post} />
+            </Link>
+            )
           ) : (
             <p className="noPosts">This user has not posted anything yet.</p>
           )}
