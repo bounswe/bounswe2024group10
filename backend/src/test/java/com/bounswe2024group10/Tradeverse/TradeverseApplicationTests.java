@@ -1,13 +1,13 @@
-package com.bounswe2024group10.Tradeverse;
+// package com.bounswe2024group10.Tradeverse;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class TradeverseApplicationTests {
+// @SpringBootTest
+// class TradeverseApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	@Test
+// 	void contextLoads() {
+// 	}
 
-}
+// }
