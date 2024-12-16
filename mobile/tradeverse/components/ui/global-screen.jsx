@@ -14,7 +14,10 @@ export default function GlobalScreen({
     <SafeAreaView style={[styles.container, style]}>
       <PaddedContainer
         style={[
-          { paddingTop: platform == 'android' ? 72 : paddingTop },
+          {
+            paddingTop: platform == 'android' ? 72 : paddingTop,
+          },
+
           containerStyle,
         ]}
       >

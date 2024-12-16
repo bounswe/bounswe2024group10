@@ -7,6 +7,7 @@ import {
   FONT_WEIGHTS,
 } from '../../../../constants/theme'
 import formatInteractionNumber from '../../../../util/format-number'
+import TagLink from '../../../../components/links/tag-link'
 
 export default function TagResult({ style, tag }) {
   const InteractionInfo = ({ icon, value }) => (
@@ -31,43 +32,45 @@ export default function TagResult({ style, tag }) {
     </View>
   )
   return (
-    <View
-      style={{
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#E5E5E5',
-        paddingTop: SIZE_CONSTANT * 1.2,
-        paddingBottom: SIZE_CONSTANT * 1.4,
-        paddingHorizontal: SIZE_CONSTANT * 1.2,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: SIZES.small,
-          color: COLORS.primary500,
-          letterSpacing: -0.03,
-          fontWeight: FONT_WEIGHTS.medium,
-          marginBottom: SIZE_CONSTANT * 0.8,
-        }}
-      >
-        @{tag.label}
-      </Text>
+    <TagLink tag={tag.label}>
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: SIZE_CONSTANT * 2,
+          borderBottomWidth: 0.5,
+          borderBottomColor: '#E5E5E5',
+          paddingTop: SIZE_CONSTANT * 1.2,
+          paddingBottom: SIZE_CONSTANT * 1.4,
+          paddingHorizontal: SIZE_CONSTANT * 1.2,
         }}
       >
-        <InteractionInfo
+        <Text
+          style={{
+            fontSize: SIZES.small,
+            color: COLORS.primary500,
+            letterSpacing: -0.03,
+            fontWeight: FONT_WEIGHTS.medium,
+            marginBottom: SIZE_CONSTANT * 0.8,
+          }}
+        >
+          {tag.label}
+        </Text>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: SIZE_CONSTANT * 2,
+          }}
+        >
+          {/* <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>✍️</Text>}
           value={tag.posts}
         />
         <InteractionInfo
           icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>👤</Text>}
           value={tag.people}
-        />
+        /> */}
+        </View>
       </View>
-    </View>
+    </TagLink>
   )
 }

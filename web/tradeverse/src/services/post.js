@@ -125,6 +125,19 @@ export async function fetchRecentPosts(token) {
       throw error;
     }
   }
+export async function fetchForYouPosts(token) {
+    try {
+      const response = await api.get('/post/for-you', {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : '',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching recent posts:', error);
+      throw error;
+    }
+  }  
   
   export async function fetchFollowedTopicsPosts(token) {
     try {

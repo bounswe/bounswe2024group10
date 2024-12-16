@@ -160,7 +160,8 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
 
   const createPostContent = (content) => {
     const postContent = content
-      .filter((item) => item.type === "text" || item.type === "tag") // Filter for 'text' and 'tag' types
+      .filter((item) => item.type === "text" || item.type === "tag" ||
+      (item.type!="chart" && item.type!="image")) // Filter for 'text' and 'tag' types
       .map((item) => item.value) // Extract the value of these fields
       .join(" "); // Concatenate them with a space
 
@@ -199,9 +200,17 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
         </div>
         <div className={styles.postHeaderTag}>
           <p>
-            <Link to={`/tag/${post.content.find((item) => item.type === "tag")?.value}`} className={styles.tagLink}>
-            {post.content.find((item) => item.type === "tag")?.value}
-            </Link>
+          {post.content
+            .filter((item) => item.type === "tag") // Filter for 'tag' type
+            .map((tagItem, index) => (
+              <Link
+                key={index} // Use a unique key for each tag
+                to={`/tag/${tagItem.value}`}
+                className={styles.tagLink}
+              >
+                {tagItem.value}
+              </Link>
+            ))}
             <Link to={`/subforum/${post.subforum.id}`} className={styles.subforumLink}>
               <span className={styles.subforumName}> | {post.subforum.name}</span>
             </Link>
