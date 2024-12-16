@@ -7,6 +7,7 @@ import ChartContainer from "./TradingViewWidget";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import defaultUserImage from "../../data/defaultUserImage.jpeg";
+import { getUserDetails } from "../../services/user_api"; 
 
 const Feed = ({ posts, refreshPosts}) => {
 
@@ -17,6 +18,19 @@ const Feed = ({ posts, refreshPosts}) => {
   const [selectedAsset, setSelectedAsset] = useState("");
   const [subforums, setSubforums] = useState([]);
   const [selectedSubforum, setSelectedSubforum] = useState("");
+  const [userDetails, setUserDetails] = useState(null);
+
+  useEffect(() => {
+    if (user.name) {
+      getUserDetails(user.name)
+        .then((details) => {
+          setUserDetails(details);
+        })
+        .catch((error) => {
+          console.error("Error fetching user details:", error);
+        });
+    }
+  }, [user.name]);
 
   useEffect(() => {
     fetch("http://35.246.188.121:8080/api/subforum/all") // New endpoint
@@ -168,7 +182,15 @@ const Feed = ({ posts, refreshPosts}) => {
         <div className={styles.postHeader}>
           <div className={styles.userAndTag}>
             <div className={styles.userDetailsContainer}>
-              <img src={user.img ? user.img : defaultUserImage} className={styles.userImage} />
+            <img
+                src={
+                  userDetails?.profilePhoto
+                    ? `http://35.246.188.121:8080/api${userDetails.profilePhoto}`
+                    : defaultUserImage
+                }
+                className={styles.userImage}
+                alt={`${userDetails?.username || "User"}'s Profile`}
+              />
               <div className={styles.userDetails}>
                 <h3>{`${user.name}`}</h3>
                 <p>{`@${user.name}`}</p>
