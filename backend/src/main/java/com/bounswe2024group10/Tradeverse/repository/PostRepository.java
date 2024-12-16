@@ -21,6 +21,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findTop100ByOrderByCreationDateDesc();
 
+    List<Post> findTop100ByCreatedByOrderByCreationDateDesc(String createdBy);
+
     int countByCreatedBy(String createdBy);
 
     int countBySubforumID(Long subforumID);
