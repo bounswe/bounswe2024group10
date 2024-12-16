@@ -42,13 +42,12 @@ const ProfileConfig = {
           icon: <IconBookmark {...defaultIconProps} />,
           href: paths.ACCOUNT.FOLLOWED_TOPICS,
         },
-        {
-          value: 'my_posts',
-          title: 'My Posts',
-          icon: <IconTextCaption {...defaultIconProps} />,
-          href: '#',
-          disabled: true,
-        },
+        // {
+        //   value: 'my_posts',
+        //   title: 'My Posts',
+        //   icon: <IconTextCaption {...defaultIconProps} />,
+        //   href: paths.ACCOUNT.MY_POSTS,
+        // },
       ],
     },
     social: {
@@ -58,14 +57,13 @@ const ProfileConfig = {
           value: 'my_followers',
           title: 'Followers',
           icon: <IconUserDown {...defaultIconProps} />,
-          href: '#',
-          disabled: true,
+          href: paths.ACCOUNT.FOLLOWERS,
         },
         {
           value: 'my_following',
           title: 'Followings',
           icon: <IconUserUp {...defaultIconProps} />,
-          href: paths.ACCOUNT.FOLLOWED_USERS,
+          href: paths.ACCOUNT.FOLLOWINGS,
         },
       ],
     },
@@ -73,13 +71,13 @@ const ProfileConfig = {
     settings: {
       title: 'Settings',
       options: [
-        {
-          value: 'change_password',
-          title: 'Change Password',
-          icon: <IconKey {...defaultIconProps} />,
-          href: '#',
-          disabled: true,
-        },
+        // {
+        //   value: 'change_password',
+        //   title: 'Change Password',
+        //   icon: <IconKey {...defaultIconProps} />,
+        //   href: '#',
+        //   disabled: true,
+        // },
         {
           value: 'logout',
           title: 'Log Out',

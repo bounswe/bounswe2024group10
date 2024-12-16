@@ -1,68 +1,66 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { IconCaretDown, IconCaretDownFilled } from '@tabler/icons-react-native'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { IconCaretDownFilled, IconArrowLeft } from '@tabler/icons-react-native'
+import { Stack, useLocalSearchParams, router } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS, SIZE_CONSTANT, SIZES } from '../../constants/theme'
-import { getAssetById } from '../../mock-services/assets'
+import { getAssetDetail } from '../../services/asset'
 import ContentImage from '../../components/images/content-image'
+import ChartView from './_components/ChartView'
+import PaddedContainer from '../../components/ui/padded-container'
+import DateRange from './_components/DateRange'
+import AssetInfoView from './_components/AssetInfoView'
+import NewsView from './_components/NewsView'
+
+import FullScrollView from '../../components/ui/full-scroll-view'
+import Header from '../../components/ui/header'
 
 const AssetDisplay = () => {
-  // State to store selected currency
-  const [selectedCurrency, setSelectedCurrency] = useState('USD')
-
   const [asset, setAsset] = useState(null)
+  const [dateRange, setDateRange] = useState({
+    label: '1M',
+    value: '1M',
+  }) // Default date range
   // Currency conversion (for simplicity, using static values)
-  const currencyRates = {
-    USD: 1,
-    EUR: 0.85,
-    GBP: 0.74,
-  }
 
-  const { assetId } = useLocalSearchParams()
+  const { assetId, symbol, name = '' } = useLocalSearchParams()
 
   useEffect(() => {
-    const res = getAssetById(assetId)
-    setAsset({ ...res, value: Math.floor(Math.random() * 10000) })
-  }, [assetId])
+    const res = getAssetDetail({ id: assetId })
+    setAsset(res)
+  }, [assetId, symbol])
 
   return (
-    <GlobalScreen>
-      <Stack.Screen
-        options={{
-          headerBackTitleVisible: false,
-          headerTitle: 'Asset Detail',
-        }}
-      />
-      <View style={styles.container}>
-        {asset && (
-          <>
-            <View style={styles.row}>
-              <ContentImage style={styles.logo} />
-              <Text style={styles.assetText}>{asset.label}</Text>
-              <View style={styles.assetInfo}>
-                <Text style={styles.valueText}>{asset.value}</Text>
-                <Text style={{ fontSize: SIZES.large }}>$</Text>
-                <IconCaretDownFilled
-                  color={COLORS.primary950}
-                  stroke={0}
-                  fill={COLORS.primary950}
-                />
+    <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
+      <Header title={symbol} />
+      <FullScrollView>
+        <PaddedContainer style={{ paddingHorizontal: 12 }}>
+          <View style={styles.row}>
+            <View style={styles.rowInfo}>
+              <View>
+                <Text style={styles.assetSymbol}>{symbol}</Text>
+                <Text style={styles.assetName}>{name}</Text>
               </View>
             </View>
-
-            <View style={styles.imageContainer}>
-              <Image
-                source={{
-                  uri: 'https://www.coindesk.com/resizer/jhtQy7_2CSK7MAVOQepiGMIhbHg=/1056x388/filters:quality(80):format(webp)/cloudfront-us-east-1.images.arcpublishing.com/coindesk/LYMAFPEBHVD7FCUMGEB4B565LU.jpeg',
-                }}
-                style={styles.graphImage}
-                resizeMode="contain"
-              />
-            </View>
-          </>
-        )}
-      </View>
+            <DateRange
+              dateRange={dateRange}
+              onSelect={(r) => {
+                setDateRange(r)
+              }}
+            />
+          </View>
+        </PaddedContainer>
+        <View style={{ width: '100%', height: 190, zIndex: -1 }}>
+          <ChartView symbol={symbol} dateRange={dateRange} />
+        </View>
+        <View style={{ width: '100%', height: 210, zIndex: -1 }}>
+          <AssetInfoView symbol={symbol} />
+        </View>
+        <View style={{ width: '100%', height: 250, zIndex: -1 }}>
+          <NewsView symbol={symbol} />
+        </View>
+        <View style={styles.container}></View>
+      </FullScrollView>
     </GlobalScreen>
   )
 }
@@ -73,22 +71,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   row: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    padding: 10,
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 12,
+  },
+  rowInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   logo: {
     width: 40,
     height: 40,
-    marginRight: 10,
+    // marginRight: 10,
     borderRadius: 20,
   },
-  assetText: {
-    fontSize: SIZE_CONSTANT * 2.4,
+  assetSymbol: {
+    fontSize: SIZES.large,
+    color: COLORS.primary950,
+    fontWeight: '600',
+  },
+  assetName: {
+    fontSize: SIZES.small,
+    color: COLORS.primary300,
   },
   assetInfo: {
     flexDirection: 'row',
@@ -102,27 +111,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', // Make text bold
     color: 'purple', // Change text color to purple
   },
-  pickerContainer: {
-    backgroundColor: '#000000', // Updated to a consistent green color
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    height: 40,
-    width: 40, // Adjusted the width to provide more space for currency options
-    justifyContent: 'center',
-  },
-  picker: {
-    height: 40,
-    width: '100%',
-    color: '#000', // Text color white for contrast on green background
-  },
-  imageContainer: {
+  dateRangeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
-  },
-  graphImage: {
-    width: '100%',
-    height: 300,
+    backgroundColor: '#fff',
   },
 })
 

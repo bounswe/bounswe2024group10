@@ -6,112 +6,183 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native'
-import { Ionicons } from '@expo/vector-icons' // Icon library
-import { useLocalSearchParams } from 'expo-router'
-import { getPostById } from '../../mock-services/post'
-import PostCard from '../home-root/_components/post-card'
-import PostHeader from './_components/post-header'
+import { Stack, useLocalSearchParams } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
+import { COLORS } from '../../constants/theme'
+import PostCard from '../../components/cards/post-card'
+import PostCardLoading from '../../components/cards/post-card-loading'
+import { getPostDetail } from '../../services/post'
+import Header from '../../components/ui/header'
+import ProfileImage from '../../components/images/profile-image'
+import { IconArrowBack, IconMessageReply } from '@tabler/icons-react-native'
+import SkeletonBox from '../../components/ui/skeleton'
+import PaddedContainer from '../../components/ui/padded-container'
+import PostComment from '../../components/cards/post-comment'
 
-const { width } = Dimensions.get('window') // Get screen width
-
-// Expanded mock comments to test scrolling
-const mockComments = Array.from({ length: 20 }).map((_, index) => ({
-  id: String(index + 1),
-  name: `User ${index + 1}`,
-  username: `@user${index + 1}`,
-  text: 'This is a sample comment.',
-  image: null,
-}))
-
-const post = {
-  user: { name: 'Daron Acemoğlu', username: '@godofinvestment', image: null },
-  forum: 'Stock Market Trends & Day Trading Discussions',
-  title: 'How to pass into profitable area in stock marketing.',
-  text: 'Economic downturns can be challenging, but they also offer opportunities for strategic investments. 💡 In uncertain times, those who adapt and stay informed can turn risk into reward.',
-  hashtags: ['#Stocks', '#Investing', '#MarketTrends'],
-  stats: { views: 12300, comments: 132, likes: 132, dislikes: 132 },
-}
-
-const PostScreen = () => {
+export default function PostScreen() {
   const [likeStatus, setLikeStatus] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handlePress = (type) => {
     setLikeStatus((prev) => (prev === type ? null : type))
   }
 
   const { postId } = useLocalSearchParams()
+
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    const postDetail = getPostById(postId)
-    setData(postDetail)
+    const fetchPost = async () => {
+      if (!postId) return
+      try {
+        setLoading(true)
+        const res = await getPostDetail({ id: postId })
+        setData(res)
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+        console.log(error)
+      }
+    }
+    fetchPost()
   }, [postId])
 
-  const renderComment = ({ item }) => (
-    <View style={styles.commentBlock}>
-      <TouchableOpacity style={styles.userInfo}>
-        <Image
-          source={{ uri: item.image || 'https://via.placeholder.com/40' }}
-          style={styles.avatar}
-        />
-        <View>
-          <Text style={styles.username}>{item.name}</Text>
-          <Text style={styles.handle}>{item.username}</Text>
-        </View>
-      </TouchableOpacity>
-      <Text style={styles.commentText}>{item.text}</Text>
-    </View>
-  )
-  if (data) {
+  const CommentCard = ({ item }) => {
+    console.log('====================================')
+    console.log(item.content)
+    console.log('====================================')
     return (
-      <GlobalScreen
-        containerStyle={{
-          paddingHorizontal: 0,
-        }}
-      >
-        <FlatList
-          data={mockComments}
-          renderItem={renderComment}
-          keyExtractor={(item) => item.id}
-          ListHeaderComponent={<PostHeader post={data} />}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        />
-      </GlobalScreen>
+      <View style={styles.commentBlock}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderBottomWidth: 1,
+            borderBottomColor: '#f0f0f0',
+          }}
+        >
+          <View>
+            <ProfileImage
+              src={item.image}
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 12,
+              }}
+            />
+            <View>
+              <Text style={styles.username}>{item.name}</Text>
+              <Text style={styles.handle}>{item.username}</Text>
+            </View>
+          </View>
+          <View>
+            <IconArrowBack size={20} color={COLORS.primary500} />
+          </View>
+        </TouchableOpacity>
+        <Text style={styles.commentText}>{item.text}</Text>
+      </View>
     )
   }
-  return <></>
+
+  const renderLoader = (
+    <>
+      <PostCardLoading />
+      <View>
+        <PaddedContainer
+          style={{
+            gap: 4,
+            borderBottomWidth: 1,
+            borderBottomColor: '#f0f0f0',
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+          }}
+        >
+          <SkeletonBox height={12} borderRadius={20} width={'80%'} />
+          <SkeletonBox height={12} borderRadius={20} width={'20%'} />
+        </PaddedContainer>
+        <PaddedContainer
+          style={{
+            gap: 4,
+            borderBottomWidth: 1,
+            borderBottomColor: '#f0f0f0',
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+          }}
+        >
+          <SkeletonBox height={12} borderRadius={20} width={'80%'} />
+          <SkeletonBox height={12} borderRadius={20} width={'20%'} />
+        </PaddedContainer>
+        <PaddedContainer
+          style={{
+            gap: 4,
+            borderBottomWidth: 1,
+            borderBottomColor: '#f0f0f0',
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+          }}
+        >
+          <SkeletonBox height={12} borderRadius={20} width={'80%'} />
+          <SkeletonBox height={12} borderRadius={20} width={'20%'} />
+        </PaddedContainer>
+      </View>
+    </>
+  )
+
+  return (
+    <GlobalScreen
+      containerStyle={{
+        paddingHorizontal: 0,
+      }}
+    >
+      <Header title="Post Detail" />
+      {loading && renderLoader}
+
+      {!loading && data && (
+        <>
+          <PostCard
+            disableLink
+            scale={1.32}
+            post={{
+              ...data,
+              author: {
+                ...data.author,
+                username: data.createdBy,
+              },
+              isLiked: data.isLikedByUser,
+              isDisliked: data.isDislikedByUser,
+            }}
+            // style={{
+            //   borderBottomWidth: 0.5,
+            //   paddingBottom: 24,
+            //   borderBottomColor: '#d0d0d0',
+            // }}
+          />
+          <FlatList
+            data={data?.comments}
+            renderItem={(i) => (
+              <>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: COLORS.primary950,
+                    marginLeft: 50,
+                  }}
+                ></Text>
+                <PostComment item={i.item} />
+              </>
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />
+        </>
+      )}
+    </GlobalScreen>
+  )
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: 'white' },
-  postBlock: { padding: 15, backgroundColor: '#f3e5f5', marginBottom: 10 },
-  postHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  userInfo: { flexDirection: 'row', alignItems: 'center' },
-  avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
-  username: { fontWeight: 'bold', fontSize: 16 },
-  handle: { color: 'gray' },
-  forum: { color: 'purple', fontSize: 14, marginLeft: 10 },
-  postContent: { marginTop: 10 },
-  title: { fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
-  postImage: { width: width - 30, height: 200, marginVertical: 10 },
-  postText: { fontSize: 16, marginBottom: 5 },
-  hashtags: { flexDirection: 'row', flexWrap: 'wrap' },
-  hashtag: { color: 'purple', marginRight: 10 },
-  postFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  stat: { flexDirection: 'row', alignItems: 'center', marginRight: 15 },
   commentBlock: { marginBottom: 10, paddingHorizontal: 15 },
   commentText: { marginLeft: 50, fontSize: 16 },
 })
-
-export default PostScreen

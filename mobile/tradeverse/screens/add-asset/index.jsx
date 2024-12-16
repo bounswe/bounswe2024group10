@@ -1,56 +1,48 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   View,
   TextInput,
-  FlatList,
   Text,
   TouchableOpacity,
   StyleSheet,
   Alert,
-  Platform,
 } from 'react-native'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
+import { addAsset } from '../../services/portfolio'
+import AuthContext from '../../../tradeverse/auth/context/auth-context'
+import { useDispatch } from 'react-redux'
+import { showToast } from '../../reduxStore/ui-slice'
+import AutoSuggestInput from './_components/AssetSuggestion'
+import { SIZES } from '../../constants/theme'
 
 export default function AddAssetScreen() {
   // Sample list of assets
-  const assets = ['BTC', 'ETH', 'BNB', 'ADA', 'SOL', 'XRP', 'BCH']
-
-  const [input, setInput] = useState('')
+  const [asset, setAsset] = useState('')
   const [amount, setAmount] = useState('')
   const [filteredAssets, setFilteredAssets] = useState([])
+  const [loading, setLoading] = useState(false)
+  const { user, setPortfolioRefreshTrigger } = useContext(AuthContext)
+  const dispatch = useDispatch()
 
-  // Handle input change and filter suggestions
-  const handleInputChange = (text) => {
-    setInput(text)
-    if (text) {
-      const filtered = assets.filter((asset) =>
-        asset.toLowerCase().startsWith(text.toLowerCase())
-      )
-      setFilteredAssets(filtered)
+  const handleAddToPortfolio = async () => {
+    if (!asset || !amount) {
+      Alert.alert('Error', 'Please enter asset and amount');
+      return;
+    }
+    const res = await addAsset({
+      username: user?.username,
+      assetId: asset?.id,
+      amount,
+    });
+    if (res.successful) {
+      dispatch(showToast({ text: res?.message }));
+      setPortfolioRefreshTrigger((prev) => prev + 1); // Increment the trigger
+      router.back();
     } else {
-      setFilteredAssets([])
+      console.error('Add Asset Error:', res.message);
     }
-  }
-
-  // Handle asset selection
-  const handleSelectAsset = (asset) => {
-    setInput(asset)
-    setFilteredAssets([]) // Hide suggestions once selected
-  }
-
-  // Handle Add to Portfolio with platform-specific alert
-  const handleAddToPortfolio = () => {
-    const alertFunction = Platform.OS === 'web' ? window.alert : Alert.alert
-
-    if (!amount || isNaN(amount)) {
-      // Popup alert when amount is not entered or is invalid
-      alertFunction(
-        'You cannot add without entering a valid amount.',
-        'You cannot add without entering a valid amount.'
-      )
-    }
-  }
+  };
 
   return (
     <GlobalScreen>
@@ -65,26 +57,13 @@ export default function AddAssetScreen() {
         <Text style={styles.title}>Add Asset To Your Portfolio</Text>
 
         {/* Asset Input */}
-        <Text style={styles.label}>Asset</Text>
-        <TextInput
-          style={styles.input}
-          value={input}
-          onChangeText={handleInputChange}
-          placeholder="Enter asset"
-        />
 
-        {/* Display suggestions */}
-        {filteredAssets.length > 0 && (
-          <FlatList
-            data={filteredAssets}
-            keyExtractor={(item) => item}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleSelectAsset(item)}>
-                <Text style={styles.suggestion}>{item}</Text>
-              </TouchableOpacity>
-            )}
-          />
-        )}
+        <Text style={styles.label}>Asset</Text>
+        <AutoSuggestInput
+          onSelect={(asset) => {
+            setAsset(asset)
+          }}
+        />
 
         {/* Amount Input */}
         <Text style={styles.label}>Amount</Text>
@@ -110,17 +89,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
     marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: SIZES.xSmall,
+    color: '#3C3B3B',
     marginBottom: 5,
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
+    height: 48,
+    borderColor: '#eee',
     borderWidth: 1,
+    borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
   },
