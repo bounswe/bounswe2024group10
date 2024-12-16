@@ -36,11 +36,12 @@
 .subforumName {
   font-weight: bold;
   color: #5d5fef; /* Theme color for subforum name */
-  margin-left: 5px;
+  margin-left: 0px;
 }
 .tagLink {
   color: #4e8d71;
   text-decoration: none;
+  margin-right: 4px;
 }
 .tagLink:hover {
   text-decoration: underline;
