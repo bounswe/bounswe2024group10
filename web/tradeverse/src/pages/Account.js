@@ -1,39 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; 
-import Post from "../components/structure/Post"; 
+import { Link, useNavigate } from "react-router-dom";
+import Post from "../components/structure/Post";
 import "./styles/Account.css";
 import { AuthData } from "../auth/AuthWrapper";
+import { getUserProfile, getPostsByUser, setUserDetails } from "../services/account_api.js";
 
 const Account = () => {
-  const { user }  = AuthData();
+  const { user } = AuthData();
   const [userData, setUserData] = useState(null);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
     if (user?.isAuthenticated) {
       const fetchUserData = async () => {
         try {
-          // Fetch user details
           const token = localStorage.getItem("authToken");
-          console.log("token", token);
-          const userResponse = await fetch(`/api/user/get-user-details/${user.name}`, {
-            headers: {
-              Authorization: `Bearer ${token}`, // Add token if required
-            },
-          });
-          const userDetails = await userResponse.json();
 
-          // Fetch user's posts
-          const postsResponse = await fetch("/api/post/get-posts-by-user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const userPosts = await postsResponse.json();
+          // Use API service functions
+          const userDetails = await getUserProfile(user.username);
+          const userPosts = await getPostsByUser(user.username);
 
           setUserData(userDetails);
           setPosts(userPosts);
@@ -45,32 +32,28 @@ const Account = () => {
       };
 
       fetchUserData();
+    } else {
+      navigate("/login");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const handleEditBio = async () => {
     const newBio = prompt("Edit your bio:", userData.bio || "");
     if (newBio) {
-      try {
-        const response = await fetch("/api/user/set-user-details", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify({ bio: newBio }),
-        });
+        try {
+            const token = localStorage.getItem("authToken");
+            const updatedUserData = await setUserDetails(token, { bio: newBio });
 
-        if (response.ok) {
-          setUserData((prevData) => ({ ...prevData, bio: newBio }));
-        } else {
-          console.error("Failed to update bio");
+            setUserData((prevData) => ({
+                ...prevData,
+                bio: updatedUserData.bio,
+            }));
+        } catch (error) {
+            console.error("Error updating bio:", error);
+            alert("Failed to update bio. Please try again later.");
         }
-      } catch (error) {
-        console.error("Error updating bio:", error);
-      }
     }
-  };
+};
 
   if (isLoading) {
     return <div>Loading...</div>;
