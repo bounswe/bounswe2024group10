@@ -54,9 +54,9 @@ const Account = () => {
       <div className="header">
         <div className="profile">
           <img
-            className="profilePhoto"
-            src={userData.avatar || default_picture}
-            alt="Profile"
+              className="profilePhoto"
+            src={userData.profilePhoto ? `http://35.246.188.121:8080/api${userData.profilePhoto}` : default_picture} // Check for profilePhoto or use default_picture
+            alt={`${user.username}'s Profile`}
           />
           <button className="editPhotoBtn">Update Photo</button>
         </div>
