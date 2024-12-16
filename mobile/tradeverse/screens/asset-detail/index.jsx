@@ -31,7 +31,7 @@ const AssetDisplay = () => {
   }, [assetId, symbol])
 
   return (
-    <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
+
       <Header title={symbol} />
       <FullScrollView>
         <PaddedContainer style={{ paddingHorizontal: 12 }}>
@@ -40,6 +40,7 @@ const AssetDisplay = () => {
               <View>
                 <Text style={styles.assetSymbol}>{symbol}</Text>
                 <Text style={styles.assetName}>{name}</Text>
+
               </View>
             </View>
             <DateRange

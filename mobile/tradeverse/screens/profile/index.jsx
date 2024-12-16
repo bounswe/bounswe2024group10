@@ -130,8 +130,10 @@ const ProfileHeader = () => {
               <Text style={styles.statLabel}>Followers</Text>
             </View>
             <View style={styles.stat}>
+
               <Text style={styles.statNumber}>
                 {profile?.totalPosts ?? profile?.postCount}
+
               </Text>
               <Text style={styles.statLabel}>Posts</Text>
             </View>

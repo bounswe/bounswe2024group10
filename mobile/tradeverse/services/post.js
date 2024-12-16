@@ -106,6 +106,7 @@ export async function getPostDetail({ id }) {
   return null
 }
 
+
 export async function getPostsByUser({ username }) {
   try {
     const response = await api({
@@ -122,6 +123,7 @@ export async function getPostsByUser({ username }) {
   return null
 }
 
+
 export async function getPostsByTag({ tag }) {
   try {
     const response = await api({
@@ -135,5 +137,7 @@ export async function getPostsByTag({ tag }) {
   } catch (error) {
     console.log('Fetching posts by tag failed', error)
   }
+
   return null
+
 }

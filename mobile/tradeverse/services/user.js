@@ -31,8 +31,10 @@ export async function getUserByUsername({ username }) {
 
 export async function setProfile({ email, profilePhoto, name = '', bio, tag }) {
   try {
+
     const response = await api.post(
       '/user/set-user-details',
+
       {
         email,
         profilePhoto,
@@ -43,6 +45,7 @@ export async function setProfile({ email, profilePhoto, name = '', bio, tag }) {
         maxBodyLength: Infinity,
       }
     )
+
 
     return response.data
   } catch (error) {
@@ -64,6 +67,7 @@ export const followUser = async ({ username }) => {
         followedUsername: username,
       },
     })
+
 
     return response.data
   } catch (error) {
