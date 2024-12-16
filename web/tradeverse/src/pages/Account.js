@@ -1,89 +1,75 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; 
-import Post from "../components/structure/Post"; 
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Post from "../components/structure/Post";
+import Feed from "../components/structure/feed.js";
 import "./styles/Account.css";
+import { AuthData } from "../auth/AuthWrapper";
+import { getUserProfile, getPostsByUser, setUserDetails } from "../services/account_api.js";
+import default_picture from "../data/defaultUserImage.jpeg";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import styles from "../components/styles/feed.module.css";
 
 const Account = () => {
-  const [bio, setBio] = useState("Finance enthusiast. Investor. Blogger.");
+  const { user } = AuthData();
+  const [userData, setUserData] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const posts = [
-    {
-      id: 1,
-      author: { name: "John", surname: "Doe", avatar: "default-profile.png" },
-      username: "JohnDoe123",
-      content: [
-        { type: "text", value: "Investing is a great way to grow your wealth over time..." },
-        { type: "tag", value: "Finance" },
-      ],
-      title: "How to Start Investing",
-      nofLikes: 25,
-      nofDislikes: 2,
-      isLiked: false,
-      isDisliked: false,
-    },
-    {
-      id: 2,
-      author: { name: "John", surname: "Doe", avatar: "default-profile.png" },
-      username: "JohnDoe123",
-      content: [
-        { type: "text", value: "Avoiding these mistakes can save you a lot of trouble..." },
-        { type: "tag", value: "Mistakes" },
-      ],
-      title: "Top Financial Mistakes",
-      nofLikes: 30,
-      nofDislikes: 1,
-      isLiked: false,
-      isDisliked: false,
-    },
-  ];
-  
+  useEffect(() => {
+    if (user?.isAuthenticated) {
+      const fetchUserData = async () => {
+        try {
+          const token = user.isAuthenticated ? localStorage.getItem("authToken") : "";
+          // Use API service functions
+          const userDetails = await getUserProfile(user.name,token);
+          const userPosts = await getPostsByUser(user.name,token);
 
-  const handleEditBio = () => {
-    const newBio = prompt("Edit your bio:", bio);
-    if (newBio) setBio(newBio);
-  };
+          setUserData(userDetails);
+          setPosts(userPosts);
+        } catch (error) {
+          console.error("Error fetching user data or posts:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchUserData();
+    } else {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!userData) {
+    return <div>Error: Unable to load user data.</div>;
+  }
 
   return (
     <div className="accountPage">
       <div className="header">
         <div className="profile">
           <img
-            className="profilePhoto"
-            src="default-profile.png"
-            alt="Profile"
+              className="profilePhoto"
+            src={userData.profilePhoto ? `http://35.246.188.121:8080/api${userData.profilePhoto}` : default_picture} // Check for profilePhoto or use default_picture
+            alt={`${user.username}'s Profile`}
           />
           <button className="editPhotoBtn">Update Photo</button>
         </div>
-        <h1 className="username">JohnDoe123</h1>
+        <h1 className="username">{userData.username}</h1>
         <div className="followDetails">
           <span>
-            <b>200</b> Followers
+            <b>{userData.followerCount}</b> Followers
           </span>
-          <span>
-            <b>150</b> Following
-          </span>
+          
         </div>
       </div>
 
-      <div className="bioSection">
-        <h2>About Me</h2>
-        <p className="bio">{bio}</p>
-        <button className="editBioBtn" onClick={handleEditBio}>
-          Edit Bio
-        </button>
-      </div>
-
-      <div className="postsSection">
-        <h2>My Posts</h2>
-        <div className="postList">
-          {posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))}
-        </div>
-        <button className="viewAllPostsBtn">View All</button>
-      </div>
-
-
+      <Feed posts={posts} />
       {/* Portfolio Button */}
       <div className="portfolioButtonContainer">
         <Link to="/portfolio">

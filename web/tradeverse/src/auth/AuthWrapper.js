@@ -37,6 +37,8 @@ export const AuthWrapper = () => {
                         
                     }));
 
+                    console.log(user);
+
                 } catch (error) {
                     console.error('Token validation error:', error);
                     localStorage.removeItem('authToken');
