@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Post from "../components/structure/Post";
+import Feed from "../components/structure/feed.js";
 import "./styles/Account.css";
 import { AuthData } from "../auth/AuthWrapper";
 import { getUserProfile, getPostsByUser, setUserDetails } from "../services/account_api.js";
@@ -16,11 +17,10 @@ const Account = () => {
     if (user?.isAuthenticated) {
       const fetchUserData = async () => {
         try {
-          const token = localStorage.getItem("authToken");
-
+          const token = user.isAuthenticated ? localStorage.getItem("authToken") : "";
           // Use API service functions
-          const userDetails = await getUserProfile(user.username);
-          const userPosts = await getPostsByUser(user.username);
+          const userDetails = await getUserProfile(user.name,token);
+          const userPosts = await getPostsByUser(user.name,token);
 
           setUserData(userDetails);
           setPosts(userPosts);
@@ -77,11 +77,9 @@ const Account = () => {
         <h1 className="username">{userData.username}</h1>
         <div className="followDetails">
           <span>
-            <b>{userData.followers}</b> Followers
+            <b>{userData.followerCount}</b> Followers
           </span>
-          <span>
-            <b>{userData.following}</b> Following
-          </span>
+          
         </div>
       </div>
 
@@ -92,32 +90,7 @@ const Account = () => {
           Edit Bio
         </button>
       </div>
-
-      <div className="postsSection">
-        <h2>My Posts</h2>
-        <div className="postList">
-          {posts.map((post) => (
-            <Post
-              key={post.id}
-              post={{
-                id: post.id,
-                title: post.title,
-                content: post.content,
-                nofLikes: post.likeCount,
-                nofDislikes: post.dislikeCount,
-                isLiked: post.isLikedByUser,
-                isDisliked: post.isDislikedByUser,
-                author: {
-                  name: post.author.name,
-                  avatar: post.author.userPhoto || "default-profile.png",
-                },
-              }}
-            />
-          ))}
-        </div>
-        <button className="viewAllPostsBtn">View All</button>
-      </div>
-
+      <Feed posts={posts} />
       {/* Portfolio Button */}
       <div className="portfolioButtonContainer">
         <Link to="/portfolio">
