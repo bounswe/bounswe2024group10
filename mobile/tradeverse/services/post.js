@@ -1,125 +1,139 @@
+/* eslint-disable import/prefer-default-export */
 import api from './_axios'
-import {allSubforums} from '../mock-data/all-subforums'
 
-export async function likePost({ username, postId, post = null }) {
+export async function likePost({ postId }) {
   try {
-    const response = await api.post('/like/like-post', { username, postId });
-    // if (post) {
-      
-    //   if (post && allSubforums) {
-    //     const subForum = allSubforums.find(sf => sf.id === post.subforum.id);
+    const response = await api({
+      url: '/like/like-post',
+      method: 'POST',
+      params: {
+        postId,
+      },
+    })
 
-    //     if (subForum) {
-    //       const targetPost = subForum.posts.find(p => p.id === post.id);
-
-    //       if (targetPost) {
-    //         targetPost.likes = (targetPost.likes || 0) + 1;
-
-    //         console.log('Updated Post:', targetPost);
-    //       } else {
-    //         console.warn('Post not found in subforum:', post.id);
-    //       }
-    //     } else {
-    //       console.warn('Subforum not found:', post.subforum.id);
-    //     }
-    //   }
     return response.data
   } catch (error) {
-    console.error('Like Post Failed', error)
+    console.log('Create Post failed', error)
+  }
+  return null
+}
+export async function unlikePost({ postId }) {
+  try {
+    const response = await api({
+      url: '/like/unlike-post',
+      method: 'POST',
+      params: {
+        postId,
+      },
+    })
+
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
+  }
+  return null
+}
+export async function dislikePost({ postId }) {
+  try {
+    const response = await api({
+      url: '/dislike/dislike-post',
+      method: 'POST',
+      params: {
+        postId,
+      },
+    })
+
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
+  }
+  return null
+}
+export async function undislikePost({ postId }) {
+  try {
+    const response = await api({
+      url: '/dislike/undislike-post',
+      method: 'POST',
+      params: {
+        postId,
+      },
+    })
+
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
   }
   return null
 }
 
-export async function unlikePost({ username, postId }) {
-    try {
-      const response = await api.post('/like/unlike-post', { username, postId });
-      // if (postId) {
-      
-      //   if (postId && allSubforums) {
-      //     console.log(postId)
-      //     const subForum = allSubforums.forEach((key, val) => {
-      //       key["posts"].map(item => {
-      //         if (item.id == postId) {
+export async function createPost({ title, parentID, content = [] }) {
+  try {
+    const response = await api({
+      url: '/post/create',
+      method: 'POST',
+      data: {
+        title,
+        subforumID: parentID,
+        content,
+      },
+    })
 
-      //         }
-
-      //       });
-      //     })
-      //   }
-  
-      // }
-
-       return response.data
-    } catch (error) {
-       console.error('Unlike post failed', error)
-    }
-    return null
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
   }
+  return null
+}
 
-  export async function dislikePost({ username, postId }) {
-    try {
-      const response = await api.post('/dislike/dislike-post', { username, postId });
+export async function getPostDetail({ id }) {
+  try {
+    const response = await api({
+      url: `/post/${id}`,
+      method: 'GET',
+    })
+    const comments = await api({
+      url: `/comment/get-comments`,
+      method: 'GET',
+      params: {
+        postId: id,
+      },
+    })
 
-      if (postId && allSubforums) {
-        console.log("Searching for post with ID:", postId);
-        
-        // Loop through each subforum and its posts to find the post by postId
-        // for (let subforum of allSubforums) {
-        //   const post = subforum.posts.find(item => item.id === postId);
-          
-        //   // If the post is found, log it and break the loop
-        //   if (post) {
-        //     console.log("Found post:", post);
-            
-        //     // Perform your logic for disliking the post here
-        //     // You can update the likes/dislikes of the post or call an API
-  
-        //     // For example, you could increase the dislike count:
-        //     post.dislikes += 1;
-        //     console.log("Updated post:", post);
-        //     return post; // Return the updated post
-        //   }
-        // }
-        
-        console.log("Post not found");
-      }
-      return response.data
-    } catch (error) {
-      console.error('Dislike post failed', error);
-    }
-    
-    return null; // Return null if the post isn't found
+    return { ...response.data, comments: comments.data }
+  } catch (error) {
+    console.log('Create Post failed', error)
   }
-  
+  return null
+}
 
-export async function undislikePost({ username, postId }) {
-    try {
-      const response = await api.post('/dislike/undislike-post', { username, postId });
-
-      // if (post) {
-      
-      //   if (post && allSubforums) {
-      //     const subForum = allSubforums.find(sf => sf.id === post.subforum.id);
-  
-      //     if (subForum) {
-      //       const targetPost = subForum.posts.find(p => p.id === post.id);
-  
-      //       if (targetPost) {
-      //         targetPost.likes = (targetPost.dislikes || 0) - 1;
-  
-      //         console.log('Updated Post:', targetPost);
-      //       } else {
-      //         console.warn('Post not found in subforum:', post.id);
-      //       }
-      //     } else {
-      //       console.warn('Subforum not found:', post.subforum.id);
-      //     }
-      //   }
-  
-      // }
-      return response.data
-    } catch (error) {
-       console.error('Undislike post failed', error)
-    }
-    return null
+export async function getPostsByUser({ username }) {
+  try {
+    const response = await api({
+      url: `/post/get-posts-by-user`,
+      method: 'GET',
+      params: {
+        username,
+      },
+    })
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
   }
+  return null
+}
+
+export async function getPostsByTag({ tag }) {
+  try {
+    const response = await api({
+      url: '/post/get-posts-by-tag',
+      method: 'GET',
+      params: { tag },
+    })
+
+    // Return the list of posts if the response is successful
+    return response.data
+  } catch (error) {
+    console.log('Fetching posts by tag failed', error)
+  }
+  return null
+}

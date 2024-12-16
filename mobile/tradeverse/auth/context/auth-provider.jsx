@@ -1,144 +1,138 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { router } from 'expo-router';
-import api from '../../services/_axios';
-import AuthContext from './auth-context';
-import { getMe, register, login } from '../../services/auth';
-import { getUserByUsername } from '../../services/user';
-import { Storage } from '../../util/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Make sure to import AsyncStorage
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { router } from 'expo-router'
+import api from '../../services/_axios'
+import AuthContext from './auth-context'
+import { getMe, register, login, validateToken } from '../../services/auth'
+import { getUserByUsername } from '../../services/user'
 
 export default function AuthProvider({ children }) {
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isLoggedin, setIsLoggedIn] = useState(false);
-  const [isTagSelected, setIsTagSelected] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(null)
+  const [isLoggedin, setIsLoggedIn] = useState(false)
+  const [isTagSelected, setIsTagSelected] = useState(false)
 
   const signIn = useCallback(async ({ username, password }) => {
     try {
-      setLoading(true);
-      const res = await login({ username, password });
-      if (res.data['isSuccessful'] === true) {
-        await Storage.setItem('authToken', res.data?.token ?? "");
-        await Storage.setItem('username', res.data['username'] ?? "");
-        const userProfile = await getUserByUsername({ username, token: res.data?.token });
-
-        setUser(userProfile);
-        setIsLoggedIn(true);
-        router.replace('(tabs)');
-      }
-    } catch (error) {
-      console.error(error.message);
-      throw new Error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const signUp = useCallback(async ({ email, password, name, tag = 0, profilePhoto, username }) => {
-    try {
-      setLoading(true); 
-      const res = await register({
-        email,
-        password,
-        name,
-        tag,
-        profilePhoto,
-        username,
-      });
-
+      const res = await login({ username, password })
       if (res.status === 200) {
-        await Storage.setItem('authToken', res.data?.token);
-        await Storage.setItem('username', username);
-        const userProfile = await getUserByUsername({ username, token: res.data?.token });
-
-        setUser(userProfile);
-        setIsLoggedIn(true);
-        router.replace('(tabs)');
+        await AsyncStorage.setItem('authToken', res.data?.token)
+        await AsyncStorage.setItem('username', username)
+        const userProfile = await getUserByUsername({ username })
+        setUser(userProfile)
+        setIsLoggedIn(true)
+        router.replace('(tabs)')
       }
     } catch (error) {
-      console.error('Sign Up error:', error);
+      throw new Error(error.message)
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
-  }, []);
+  }, [])
+
+  const signUp = useCallback(
+    async ({ email, password, name, tag = 0, profilePhoto, username }) => {
+      try {
+        setLoading(true)
+        const res = await register({
+          email,
+          password,
+          name,
+          tag,
+          profilePhoto,
+          username,
+        })
+
+        if (res?.status === 200 && res?.data?.token) {
+          await AsyncStorage.setItem('authToken', res.data?.token)
+          await AsyncStorage.setItem('username', username)
+          const userProfile = await getUserByUsername({ username })
+          setUser(userProfile)
+          setIsLoggedIn(true)
+          router.replace(
+            `splash?username=${username}&email=${email}&name=${name}`
+          )
+        } else {
+          throw new Error(res?.data.message)
+        }
+      } catch (error) {
+        throw new Error(error.message ?? 'Register failed')
+      } finally {
+        setLoading(false)
+      }
+    },
+    []
+  )
 
   const logout = useCallback(async () => {
-    try {
-      setLoading(true);
-      setIsLoggedIn(false);
-      setUser(null);
-      router.replace('auth');
-      await Storage.removeItem('authToken');
-      await Storage.removeItem('username');
-    } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    setLoading(true)
+    setIsLoggedIn(false)
+    setUser(null)
+    router.replace('auth')
+    await AsyncStorage.removeItem('authToken')
+    await AsyncStorage.removeItem('username')
+    setLoading(false)
+  }, [])
 
   const refetchUser = useCallback(async () => {
-    try {
-      setLoading(true);
+    setLoading(true)
 
-      const token = await Storage.getItem('authToken');
-      const username = await Storage.getItem('username');
+    const token = await AsyncStorage.getItem('authToken')
+    const username = await AsyncStorage.getItem('username')
 
-      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-      const loggedinUser = await getMe({ authToken: token, username });
+    const loggedinUser = await getMe({ authToken: token, username })
 
-      if (loggedinUser) {
-        setIsLoggedIn(true);
-        setUser(loggedinUser);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
-      console.error('Refetch User error:', error);
-    } finally {
-      setLoading(false);
+    if (loggedinUser) {
+      setIsLoggedIn(true)
+      setUser(loggedinUser)
+      await AsyncStorage.setItem('isAdmin', loggedinUser.admin)
+    } else {
+      setUser(null)
     }
-  }, []);
+    setLoading(false)
+  }, [])
+
+  const setUserProfile = useCallback((profile) => {
+    setUser((prevUser) => ({ ...prevUser, profile }))
+  }, [])
 
   const isAuthenticated = useCallback(async () => {
     try {
-      setLoading(true);
+      let result = false
+      setLoading(true)
 
-      const token = await AsyncStorage.getItem('authToken');
-      const username = await AsyncStorage.getItem('username');
-
-      if (token && username) {
-        api.defaults.headers.common.Authorization = `Bearer ${token}`;
-        const loggedinUser = await getMe({ authToken: token, username });
-
-        if (loggedinUser) {
-          setIsLoggedIn(true);
-          setUser(loggedinUser);
+      const token = await AsyncStorage.getItem('authToken')
+      if (token) {
+        const validateResponse = await validateToken({ token })
+        if (validateResponse?.username) {
+          api.defaults.headers.common.Authorization = `Bearer ${token}`
+          const userProfile = await getUserByUsername({
+            username: validateResponse.username,
+            token,
+          })
+          setUser(userProfile)
+          setIsLoggedIn(true)
         } else {
-          await AsyncStorage.removeItem('authToken');
-          await AsyncStorage.removeItem('username');
-          setIsLoggedIn(false);
-          setUser(null);
+          await AsyncStorage.removeItem('authToken')
+          setIsLoggedIn(false)
+          setUser(null)
         }
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
       }
     } catch (error) {
-      console.log('Error in isAuthenticated:', error);
-      await AsyncStorage.removeItem('authToken');
-      await AsyncStorage.removeItem('username');
-      setIsLoggedIn(false);
-      setUser(null);
+      console.log('error on isAuthenticated', error)
+      await AsyncStorage.removeItem('authToken')
+      setIsLoggedIn(false)
+      setUser(null)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    isAuthenticated();
-  }, [isAuthenticated]);
+    isAuthenticated()
+  }, [isAuthenticated])
 
   const contextValue = useMemo(
     () => ({
@@ -157,17 +151,19 @@ export default function AuthProvider({ children }) {
     }),
     [
       user,
+      setUser,
       isLoggedin,
       loading,
       signIn,
-      setIsTagSelected,
       refetchUser,
-      signUp,
       isTagSelected,
+      setIsTagSelected,
+      signUp,
       logout,
-      setUser,
     ]
-  );
+  )
 
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  )
 }

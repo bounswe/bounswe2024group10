@@ -11,32 +11,27 @@ import SubforumLink from '../../../../components/links/subforum-link'
 import paths from '../../../../config/screen-paths'
 
 export default function SubForumResult({ style, subForum }) {
-  if (!subForum) return <></>;
-
-  const InteractionInfo = ({ icon, value }) => {
-    return (
-      <View
+  const InteractionInfo = ({ icon, value }) => (
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: SIZE_CONSTANT * 0.2,
+        alignItems: 'center',
+      }}
+    >
+      <View>{icon()}</View>
+      <Text
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: SIZE_CONSTANT * 0.2,
-          alignItems: 'center',
+          fontSize: SIZES.xxSmall,
+          color: '#1D1B4B',
+          letterSpacing: -0.03,
         }}
       >
-        <View>{icon()}</View>
-        <Text
-          style={{
-            fontSize: SIZES.xxSmall,
-            color: '#1D1B4B',
-            letterSpacing: -0.03,
-          }}
-        >
-          {formatInteractionNumber(value)}
-        </Text>
-      </View>
-    )
-  }
-
+        {formatInteractionNumber(value)}
+      </Text>
+    </View>
+  )
   return (
     <SubforumLink
       subForum={subForum}
@@ -56,13 +51,18 @@ export default function SubForumResult({ style, subForum }) {
             fontSize: SIZES.small,
             color: COLORS.primary950,
             letterSpacing: -0.03,
-            fontWeight: FONT_WEIGHTS.medium,
-            marginBottom: SIZE_CONSTANT * 0.8,
+            fontWeight: FONT_WEIGHTS.semibold,
           }}
         >
           {subForum.title}
         </Text>
-
+        <Text
+          style={{
+            marginBottom: SIZE_CONSTANT * 0.8,
+          }}
+        >
+          {subForum.description}
+        </Text>
         <View
           style={{
             display: 'flex',
@@ -73,15 +73,11 @@ export default function SubForumResult({ style, subForum }) {
         >
           <InteractionInfo
             icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>✍️</Text>}
-            value={subForum.totalPosts}
+            value={subForum.postCount}
           />
           <InteractionInfo
             icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>⭐</Text>}
-            value={subForum.totalFollowers}
-          />
-          <InteractionInfo
-            icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>👤</Text>}
-            value={subForum.totalPeople}
+            value={subForum.followerCount}
           />
         </View>
       </View>
