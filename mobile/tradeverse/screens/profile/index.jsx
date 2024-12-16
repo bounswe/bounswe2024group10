@@ -82,7 +82,7 @@ const ProfileHeader = () => {
               <Text style={styles.statLabel}>Followers</Text>
             </View>
             <View style={styles.stat}>
-              xt style={styles.statNumber}>
+              <Text> style={styles.statNumber}>
                 {profile?.totalPosts ?? profile?.posts?.length}
               </Text>
               <Text style={styles.statLabel}>Posts</Text>

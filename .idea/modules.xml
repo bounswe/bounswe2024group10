@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/bounswe2024group10.iml" filepath="$PROJECT_DIR$/.idea/bounswe2024group10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/archive/src/backend/animaltroove/src/main/main.iml" filepath="$PROJECT_DIR$/archive/src/backend/animaltroove/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/src/main/main2.iml" filepath="$PROJECT_DIR$/backend/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/archive/src/backend/animaltroove/src/test/test.iml" filepath="$PROJECT_DIR$/archive/src/backend/animaltroove/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/src/test/test2.iml" filepath="$PROJECT_DIR$/backend/src/test/test2.iml" />
+    </modules>
+  </component>
+</project>
