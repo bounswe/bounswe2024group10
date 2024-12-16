@@ -11,7 +11,6 @@ import {
 
 const Home = () => {
   const { user } = AuthData();
-  console.log("user", user);
   const [posts, setPosts] = useState([]);
   const [recentPosts, setRecentPosts] = useState([]);
   const [forYouPosts, setForYouPosts] = useState([]);

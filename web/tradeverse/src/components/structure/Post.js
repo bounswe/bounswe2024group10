@@ -190,7 +190,7 @@ const Post = ({ post, selectedAnnotation, refetchAnnotations }) => {
       <div className={styles.userAndTag}>
         <div className={styles.userDetailsContainer}>
           <img
-            src={post.author.profilePhoto ? post.author.profilePhoto : defaultUserImage}
+            src={post.author.userPhoto ? `http://35.246.188.121:8080/api${post.author.userPhoto}` : defaultUserImage}
             className={styles.userImage}
           />
           <div className={styles.userDetails}>

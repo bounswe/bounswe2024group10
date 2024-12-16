@@ -46,6 +46,8 @@ const User = () => {
 
   if (!user) return <p>User not found</p>; // If no user is found
 
+
+
   return (
     <div className="userPage">
       <div className="header">

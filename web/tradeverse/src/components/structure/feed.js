@@ -173,6 +173,7 @@ const Feed = ({ posts, refreshPosts}) => {
     }
   };
   
+  console.log(" feed", user)
   
 
   return (
