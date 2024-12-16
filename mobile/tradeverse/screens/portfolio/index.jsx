@@ -41,7 +41,6 @@ const PortfolioScreen = () => {
     <GlobalScreen>
       <View style={styles.titleBlock}>
         <Text style={styles.title}>My Portfolio</Text>
-
         <TouchableOpacity
           onPress={() => {
             router.push(paths.PORTFOLIO.ADD_ASSET)

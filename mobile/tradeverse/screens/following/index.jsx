@@ -7,7 +7,7 @@ import Header from '../../components/ui/header'
 import ProfileImage from '../../components/images/profile-image'
 import UserLink from '../../components/links/user-link'
 
-const FollowersScreen = () => {
+const FollowingsScreen = () => {
   const [followers, setFollowers] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -15,9 +15,9 @@ const FollowersScreen = () => {
     const fetchFollowers = async () => {
       try {
         const response = await api.get('/follow/get-followings')
-        setFollowers(response.data.followers || [])
+        setFollowers(response.data.followings || [])
       } catch (error) {
-        console.error('Error fetching followers:', error)
+        console.error('Error fetching followings:', error)
       } finally {
         setLoading(false)
       }
@@ -29,17 +29,20 @@ const FollowersScreen = () => {
   return (
     <GlobalScreen>
       <FullScrollView>
-        <Header title="Followers" />
+        <Header title="Followings" />
         {loading ? (
-          <Text style={styles.loadingText}>Loading followers...</Text>
+          <Text style={styles.loadingText}>Loading followings...</Text>
         ) : (
-          <View style={[]}>
-            <Text style={styles.countText}>
-              {followers.length
-                ? `You follow ${followers.length}.`
-                : `
-              No followed people yet`}
-            </Text>
+          <View>
+            {followers.length > 0 ? (
+              <Text style={styles.countText}>
+                {followers.length &&
+                  `You are following ${followers.length} users`}
+              </Text>
+            ) : null}
+            {!followers.length ? (
+              <Text style={styles.countText}>No followed users yet.</Text>
+            ) : null}
             {followers.map((follower, index) => (
               <UserLink user={follower} key={follower.username}>
                 <View style={styles.followerItem}>
@@ -68,6 +71,7 @@ const FollowersScreen = () => {
 const styles = StyleSheet.create({
   countText: {
     fontSize: 18,
+    textAlign: 'left',
     fontWeight: 'bold',
     marginBottom: 16,
   },
@@ -101,4 +105,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default FollowersScreen
+export default FollowingsScreen

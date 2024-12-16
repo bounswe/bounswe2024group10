@@ -42,12 +42,12 @@ const ProfileConfig = {
           icon: <IconBookmark {...defaultIconProps} />,
           href: paths.ACCOUNT.FOLLOWED_TOPICS,
         },
-        {
-          value: 'my_posts',
-          title: 'My Posts',
-          icon: <IconTextCaption {...defaultIconProps} />,
-          href: paths.ACCOUNT.MY_POSTS,
-        },
+        // {
+        //   value: 'my_posts',
+        //   title: 'My Posts',
+        //   icon: <IconTextCaption {...defaultIconProps} />,
+        //   href: paths.ACCOUNT.MY_POSTS,
+        // },
       ],
     },
     social: {

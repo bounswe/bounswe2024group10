@@ -35,7 +35,7 @@ export default function UserResult({ user }) {
               borderColor: COLORS.primary50,
               borderWidth: 1,
             }}
-            src={getImageSource(user.profilePhoto)}
+            src={getImageSource(user.userPhoto)}
           />
         </View>
         <View

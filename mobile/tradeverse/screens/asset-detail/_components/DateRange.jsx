@@ -19,8 +19,47 @@ import { useRouter } from 'expo-router'
 import { useSelector } from 'react-redux'
 import { COLORS, SHADOWS, SIZES } from '../../../constants/theme'
 
-const DateRange = ({ dateRange = '1Y', onSelect = () => {} }) => {
-  const OPTIONS = ['1M', '3M', '6M', '1Y', '2Y', '5Y']
+const DateRange = ({
+  dateRange = {
+    label: '1M',
+    value: '1M',
+  },
+  onSelect = () => {},
+}) => {
+  const OPTIONS = [
+    {
+      label: '1D',
+      value: '1D',
+    },
+    {
+      label: '1W',
+      value: '1W',
+    },
+    {
+      label: '1M',
+      value: '1M',
+    },
+    {
+      label: '3M',
+      value: '3M',
+    },
+    {
+      label: '6M',
+      value: '6M',
+    },
+    {
+      label: '1Y',
+      value: '1Y',
+    },
+    {
+      label: '5Y',
+      value: '5Y',
+    },
+    {
+      label: 'All',
+      value: 'All',
+    },
+  ]
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [value, setValue] = useState(dateRange)
 
@@ -28,14 +67,13 @@ const DateRange = ({ dateRange = '1Y', onSelect = () => {} }) => {
   const handleSelect = (val) => {
     setValue(val)
     onSelect(val)
-    setShowSuggestions(val)
   }
 
   return (
     <View style={styles.container}>
       <Pressable onPress={() => setShowSuggestions(!showSuggestions)}>
         <View style={styles.valueContainer}>
-          <Text style={styles.value}>{dateRange}</Text>
+          <Text style={styles.value}>{dateRange.label}</Text>
           <IconCaretDownFilled
             color={COLORS.primary950}
             stroke={0}
@@ -55,11 +93,12 @@ const DateRange = ({ dateRange = '1Y', onSelect = () => {} }) => {
                 style={styles.suggestionItem(index % 2 === 0)}
                 onPress={() => {
                   handleSelect(item)
+                  onSelect(item)
                   setShowSuggestions(false)
                 }}
               >
                 <Text style={styles.suggestionItemText(index % 2 === 0)}>
-                  {item}
+                  {item.label}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -96,8 +135,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // borderWidth: 1,
     elevation: 2,
+    borderWidth: 1,
     borderColor: '#e0e0e0',
-    maxHeight: 200,
+    maxHeight: 224,
     overflow: 'scroll',
   },
   suggestionItem: (isEven) => ({

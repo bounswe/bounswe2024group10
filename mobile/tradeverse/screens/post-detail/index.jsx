@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import { getPostById } from '../../mock-services/post'
 import GlobalScreen from '../../components/ui/global-screen'
 import { COLORS } from '../../constants/theme'
 import PostCard from '../../components/cards/post-card'

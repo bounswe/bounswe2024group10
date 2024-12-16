@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   View,
   TextInput,
@@ -12,8 +12,13 @@ import {
 } from 'react-native'
 import { searchSubforumByTitle } from '../../../services/subforum'
 import { COLORS, SIZES } from '../../../constants/theme'
+import { IconCancel, IconCrossFilled, IconX } from '@tabler/icons-react-native'
 
-const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
+const AutoSuggestInput = ({
+  debounceDelay = 300,
+  onSelect = () => {},
+  onClear = () => {},
+}) => {
   const [keyword, setKeyword] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [selectedSubforum, setSelectedSubforum] = useState(null)
@@ -32,14 +37,16 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
 
   // Fetch suggestions from the API
   const fetchSuggestions = async (keyword) => {
-    if (!keyword) {
-      setSuggestions([])
-      return
-    }
+    // if (!keyword) {
+    //   setSuggestions([])
+    //   return
+    // }
 
     setIsLoading(true)
     try {
       const response = await searchSubforumByTitle({ keyword })
+      console.log('response', response)
+
       setSuggestions(response)
     } catch (error) {
       setSuggestions([])
@@ -47,6 +54,11 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
       setIsLoading(false)
     }
   }
+
+  // Fetch when rendered
+  useEffect(() => {
+    fetchSuggestions('')
+  }, [])
 
   // Debounced fetchSuggestions
   const debouncedFetchSuggestions = debounce(fetchSuggestions, debounceDelay)
@@ -61,7 +73,7 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
 
   // Handle suggestion click
   const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion.title)
+    setInputValue(suggestion.name)
     setSelectedSubforum(suggestion)
     setShowSuggestions(false)
     onSelect(suggestion)
@@ -76,9 +88,26 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
         onFocus={() => {
           setShowSuggestions(true)
         }}
-        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} // Delay to allow click
+        onBlur={() => {
+          setShowSuggestions(false)
+          if (selectedSubforum) {
+            setInputValue(selectedSubforum.name)
+          }
+        }} // Delay to allow click
         placeholder="Search a subforum"
       />
+      {selectedSubforum && (
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={() => {
+            setInputValue('')
+            onClear()
+            setSelectedSubforum(null)
+          }}
+        >
+          <IconX size={16} fill={COLORS.white} color={COLORS.white} />
+        </TouchableOpacity>
+      )}
       {showSuggestions && (
         <ScrollView style={styles.suggestionsContainer}>
           {isLoading ? (
@@ -95,7 +124,22 @@ const AutoSuggestInput = ({ debounceDelay = 300, onSelect = () => {} }) => {
                   style={styles.suggestionItem}
                   onPress={() => handleSuggestionClick(item)}
                 >
-                  <Text style={styles.suggestionItemText}>{item.title}</Text>
+                  <View>
+                    <Text style={styles.suggestionItemText}>{item.name}</Text>
+                    <Text style={styles.suggestionItemDescription}>
+                      {item.description}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: SIZES.xxSmall,
+                        color: '#888',
+                      }}
+                    >
+                      {item.postCount} Posts
+                    </Text>
+                  </View>
                 </TouchableOpacity>
               ))}
             </View>
@@ -115,12 +159,10 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 5,
     paddingHorizontal: 10,
     height: 48,
-    backgroundColor: '#fff',
+    backgroundColor: '#F4F4F4',
   },
   suggestionsContainer: {
     position: 'absolute',
@@ -133,9 +175,21 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
-    borderColor: '#ccc',
+    borderColor: '#f0f0f0',
     maxHeight: 200,
     overflow: 'scroll',
+  },
+  cancelButton: {
+    position: 'absolute',
+    borderRadius: 12,
+    top: 12,
+    bottom: 0,
+    right: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 24,
+    width: 24,
+    backgroundColor: COLORS.primary500,
   },
   suggestionItem: {
     padding: 10,
@@ -143,11 +197,19 @@ const styles = StyleSheet.create({
     height: 64,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   suggestionItemText: {
     fontSize: SIZES.small,
-    color: '#222',
+    // color: '#222',
+    color: COLORS.primary800,
     fontWeight: '600',
+  },
+  suggestionItemDescription: {
+    fontSize: SIZES.xSmall,
+    color: '#888',
   },
   noSuggestionsText: {
     padding: 10,

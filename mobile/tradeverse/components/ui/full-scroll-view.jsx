@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 export default function FullScrollView({ children, style, ...props }) {
   return (
@@ -9,6 +9,7 @@ export default function FullScrollView({ children, style, ...props }) {
       {...props}
     >
       {children}
+      <View style={{ height: 200 }}></View>
     </ScrollView>
   )
 }

@@ -10,7 +10,7 @@ import formatInteractionNumber from '../../../util/format-number'
 import paths from '../../../config/screen-paths'
 import SubforumLink from '../../../components/links/subforum-link'
 
-export default function SubForumCard({ style, subForum }) {
+export default function SubForumCard({ subForum }) {
   const InteractionInfo = ({ icon, value }) => (
     <View
       style={{
@@ -24,7 +24,8 @@ export default function SubForumCard({ style, subForum }) {
       <Text
         style={{
           fontSize: SIZES.xxSmall,
-          color: '#1D1B4B',
+          color: COLORS.black,
+          fontWeight: FONT_WEIGHTS.s,
           letterSpacing: -0.03,
         }}
       >
@@ -34,11 +35,14 @@ export default function SubForumCard({ style, subForum }) {
   )
   return (
     <SubforumLink
-      subForum={subForum}
+      subForum={{ ...subForum, title: subForum?.name }}
       target={paths.EXPLORE.SEARCH_RESULTS.SUBFORUM_DETAIL}
     >
       <View
         style={{
+          elevation: 1,
+          shadowColor: COLORS.black,
+          shadowOffset: { width: 0, height: 1 },
           borderColor: '#E5E5E5',
           borderRadius: SIZE_CONSTANT * 1,
           backgroundColor: COLORS.primary50,
@@ -56,7 +60,7 @@ export default function SubForumCard({ style, subForum }) {
             marginBottom: SIZE_CONSTANT * 0.8,
           }}
         >
-          {subForum.title}
+          {subForum?.name}
         </Text>
         <View
           style={{
@@ -68,11 +72,11 @@ export default function SubForumCard({ style, subForum }) {
         >
           <InteractionInfo
             icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>✍️</Text>}
-            value={subForum.num_of_posts}
+            value={subForum?.postCount}
           />
           <InteractionInfo
             icon={() => <Text style={{ fontSize: SIZES.xxSmall }}>⭐</Text>}
-            value={subForum.num_of_followers}
+            value={subForum?.followerCount}
           />
         </View>
       </View>

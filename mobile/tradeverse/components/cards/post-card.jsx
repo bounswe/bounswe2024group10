@@ -1,7 +1,6 @@
 import { View, Text, Pressable, Image } from 'react-native'
 import React, { useState } from 'react'
 import {
-  IconEye,
   IconMessageCircle2,
   IconThumbDown,
   IconThumbDownFilled,
@@ -28,11 +27,10 @@ import {
 
 import { formatDate } from '../../util/format-date'
 import PostContent from './post-content'
-import ChartView from '../../screens/asset-detail/_components/ChartView'
 
-const AuthorInfo = ({ author, scale }) => {
+const AuthorInfo = ({ author, scale = 1, screenPath }) => {
   return (
-    <UserLink user={author}>
+    <UserLink target={screenPath} user={author}>
       <View
         style={{
           display: 'flex',
@@ -48,7 +46,7 @@ const AuthorInfo = ({ author, scale }) => {
               height: SIZE_CONSTANT * 2.1 * scale,
               borderRadius: (SIZE_CONSTANT * 2.1 * scale) / 2,
             }}
-            src={author.profilePhoto}
+            src={author?.profilePhoto}
           />
         </View>
         <View
@@ -65,7 +63,7 @@ const AuthorInfo = ({ author, scale }) => {
               letterSpacing: -0.03,
             }}
           >
-            {author.name} {author.surname}
+            {author?.name} {author?.surname}
           </Text>
           <Text
             style={{
@@ -75,7 +73,7 @@ const AuthorInfo = ({ author, scale }) => {
               lineHeight: SIZE_CONSTANT * 0.9 * scale,
             }}
           >
-            @{author.username}
+            @{author?.username}
           </Text>
         </View>
       </View>
@@ -83,36 +81,39 @@ const AuthorInfo = ({ author, scale }) => {
   )
 }
 
-const SubforumInfo = ({ subforum, scale }) => (
-  <SubforumLink subForum={subforum}>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: SIZE_CONSTANT * 1.2,
-        height: SIZE_CONSTANT * 1.6,
-        backgroundColor: '#D4FFE7',
-        borderWidth: 0.5,
-        borderColor: '#EDFDFF',
-        borderRadius: SIZE_CONSTANT * 1.2,
-      }}
-    >
-      <Text
+const SubforumInfo = ({ subforum, scale = 1 }) => {
+  if (!subforum?.id) return null
+  return (
+    <SubforumLink subForum={subforum}>
+      <View
         style={{
-          fontSize: SIZE_CONSTANT * 0.64 * scale,
-          fontWeight: FONT_WEIGHTS.medium,
-          color: '#107E64',
-          letterSpacing: -0.03,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: SIZE_CONSTANT * 1.2,
+          height: SIZE_CONSTANT * 1.6,
+          backgroundColor: '#D4FFE7',
+          borderWidth: 0.5,
+          borderColor: '#EDFDFF',
+          borderRadius: SIZE_CONSTANT * 1.2,
         }}
       >
-        {subforum.title}
-      </Text>
-    </View>
-  </SubforumLink>
-)
+        <Text
+          style={{
+            fontSize: SIZE_CONSTANT * 0.64 * scale,
+            fontWeight: FONT_WEIGHTS.medium,
+            color: '#107E64',
+            letterSpacing: -0.03,
+          }}
+        >
+          {subforum.title}
+        </Text>
+      </View>
+    </SubforumLink>
+  )
+}
 
-const InteractionInfo = ({ icon = () => {}, value, scale }) => (
+const InteractionInfo = ({ icon = () => {}, value, scale = 1 }) => (
   <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
     <View>{icon({ prop: { color: '#444' } })}</View>
     <View>
@@ -187,7 +188,7 @@ export default function PostCard({
   }
 
   return (
-    <PostLink disabled={disableLink} target={`${path}?postId=${post.id}`}>
+    <PostLink disabled={disableLink} post={post}>
       <View
         style={{
           paddingHorizontal: SIZES.small,
@@ -209,7 +210,7 @@ export default function PostCard({
           <AuthorInfo author={post.author} scale={scale} />
           <SubforumInfo
             scale={scale}
-            subforum={{ ...post.subforum, title: post.subforum.name }}
+            subforum={{ ...post?.subforum, title: post?.subforum?.name }}
           />
         </View>
 
@@ -228,7 +229,7 @@ export default function PostCard({
           </Text>
         </View>
         <View>
-          <PostContent content={post.content} scale={scale} />
+          <PostContent content={post?.content} scale={scale} />
         </View>
         <View
           style={{

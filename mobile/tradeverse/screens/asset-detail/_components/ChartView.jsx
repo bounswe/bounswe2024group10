@@ -24,7 +24,7 @@ export default function ChartView({ symbol, dateRange }) {
                 "width": "100%",
                 "height": "100%",
                 "locale": "en",
-                "dateRange": "${dateRange}",
+                "dateRange": "${dateRange.value}",
                 "colorTheme": "light",
                 "isTransparent": true,
                 "autosize": true,
