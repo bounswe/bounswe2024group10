@@ -1,15 +1,9 @@
 import api from "./api";
 
 // Fetch user details by username
-export async function getUserProfile(username) {
-
-    const token = localStorage.getItem('authToken');
-
+export async function getUserProfile(username,token) {
     try {
-        const response = await api.get(`/user/profile/`, {
-            params: {
-                username: username
-            },
+        const response = await api.get(`/user/profile?username=${username}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -24,22 +18,8 @@ export async function getUserProfile(username) {
 }
 
 // Fetch posts created by a user
-export async function getPostsByUser(username) {
+export async function getPostsByUser(username,token) {
     // Get the token from localStorage
-    const token = localStorage.getItem('authToken');
-  
-    // Check if username is valid
-    if (!username || username.trim() === '') {
-        console.error("Invalid or empty username");
-        throw new Error("Username is required");
-    }
-  
-    // Check if token is valid
-    if (!token) {
-        console.error("No authentication token found");
-        throw new Error("Authentication token is required");
-    }
-  
     try {
         const response = await api.get(`/post/get-posts-by-user`, {
             params: {
