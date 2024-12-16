@@ -49,6 +49,9 @@ public class UserService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private PostService postService;
+
     public GetUserDetailsResponse getUserDetails(String username) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
@@ -88,26 +91,6 @@ public class UserService {
         return new SetUserDetailsResponse(true, "User details updated successfully");
     }
 
-    private GetPostResponse convertToGetPostResponse(Post post, String username) {
-        int likeCount = likeRepository.countByPostID(post.getId());
-        int dislikeCount = dislikeRepository.countByPostID(post.getId());
-        int commentCount = commentRepository.countByPostID(post.getId());
-        boolean isLikedByUser = username != null && likeRepository.existsByUsernameAndPostID(username, post.getId());
-        boolean isDislikedByUser = username != null && dislikeRepository.existsByUsernameAndPostID(username, post.getId());
-        return new GetPostResponse(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getCreatedBy(),
-                post.getCreationDate(),
-                likeCount,
-                dislikeCount,
-                commentCount,
-                isLikedByUser,
-                isDislikedByUser
-        );
-    }
-
     public GetProfileResponse getProfile(String username, String requesterUsername) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -117,9 +100,9 @@ public class UserService {
         int followerCount = followRepository.countByFollowedUsername(username);
         boolean isFollowing = followRepository.findByFollowerUsernameAndFollowedUsername(requesterUsername, username) != null;
         List<GetPostResponse> recentPostResponses = new ArrayList<>();
-        List<Post> recentPosts = postRepository.findTop100ByOrderByCreationDateDesc();
+        List<Post> recentPosts = postRepository.findTop100ByCreatedByOrderByCreationDateDesc(username);
         for (Post post : recentPosts) {
-            recentPostResponses.add(convertToGetPostResponse(post, requesterUsername));
+            recentPostResponses.add(postService.convertToGetPostResponse(post, requesterUsername));
         }
         Map<Long, Integer> postScoreMap = new HashMap<>();
         for (Post post : recentPosts) {
@@ -134,7 +117,7 @@ public class UserService {
                 .collect(Collectors.toList());
         List<GetPostResponse> popularPostResponses = new ArrayList<>();
         for (Post post : sortedPosts) {
-            popularPostResponses.add(convertToGetPostResponse(post, requesterUsername));
+            popularPostResponses.add(postService.convertToGetPostResponse(post, requesterUsername));
         }
         return new GetProfileResponse(user.getUsername(), user.getName(), user.getProfilePhoto(), postCount, followerCount, isFollowing, popularPostResponses, recentPostResponses);
     }
