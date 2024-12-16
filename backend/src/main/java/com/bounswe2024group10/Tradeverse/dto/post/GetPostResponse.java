@@ -24,21 +24,6 @@ public class GetPostResponse {
 
     public GetPostResponse(Long id, String title, List<Content> content, String createdBy,
             LocalDateTime creationDate, int likeCount, int dislikeCount,
-            int commentCount, boolean isLikedByUser, boolean isDislikedByUser) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.createdBy = createdBy;
-        this.creationDate = creationDate;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
-        this.commentCount = commentCount;
-        this.isLikedByUser = isLikedByUser;
-        this.isDislikedByUser = isDislikedByUser;
-    }
-
-    public GetPostResponse(Long id, String title, List<Content> content, String createdBy,
-            LocalDateTime creationDate, int likeCount, int dislikeCount,
             int commentCount, boolean isLikedByUser, boolean isDislikedByUser, String userPhoto, String authorUserName, Subforum subforum) {
         this.id = id;
         this.title = title;
