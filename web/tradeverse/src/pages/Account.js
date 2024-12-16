@@ -2,28 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
 import Post from "../components/structure/Post"; 
 import "./styles/Account.css";
+import { AuthData } from "../auth/AuthWrapper";
 
-const Account = ({ user }) => {
+const Account = () => {
+  const { user }  = AuthData();
   const [userData, setUserData] = useState(null);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Redirect if user is not authenticated
-  useEffect(() => {
-    if (!user?.isAuthenticated) {
-      navigate("/login"); // Redirect to login page
-    }
-  }, [user, navigate]);
+
 
   useEffect(() => {
     if (user?.isAuthenticated) {
       const fetchUserData = async () => {
         try {
           // Fetch user details
-          const userResponse = await fetch(`/api/user/get-user-details/${user.username}`, {
+          const token = localStorage.getItem("authToken");
+          console.log("token", token);
+          const userResponse = await fetch(`/api/user/get-user-details/${user.name}`, {
             headers: {
-              Authorization: `Bearer ${user.token}`, // Add token if required
+              Authorization: `Bearer ${token}`, // Add token if required
             },
           });
           const userDetails = await userResponse.json();
@@ -31,7 +30,7 @@ const Account = ({ user }) => {
           // Fetch user's posts
           const postsResponse = await fetch("/api/post/get-posts-by-user", {
             headers: {
-              Authorization: `Bearer ${user.token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           const userPosts = await postsResponse.json();
