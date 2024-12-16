@@ -6,37 +6,45 @@ import {
   fetchRecentPosts,
   fetchFollowedTopicsPosts,
   fetchFollowedPeoplePosts,
+  fetchForYouPosts,
 } from "../services/post";
 
 const Home = () => {
   const { user } = AuthData();
+  console.log("user", user);
   const [posts, setPosts] = useState([]);
+  const [recentPosts, setRecentPosts] = useState([]);
   const [forYouPosts, setForYouPosts] = useState([]);
   const [followedSubforumPosts, setFollowedSubforumsPosts] = useState([]);
   const [followedUserPosts, setFollowedUserPosts] = useState([]);
-  const [filterType, setFilterType] = useState("For You");
+  const [filterType, setFilterType] = useState(""); // Defaults to no filter
 
   useEffect(() => {
-    const fetchForYouPosts = async () => {
+    const fetchInitialPosts = async () => {
       try {
-        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
-        const data = await fetchRecentPosts(token);
-        setForYouPosts(data);
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : "";
+
         if (filterType === "For You") {
+          const data = await fetchForYouPosts(token);
+          setForYouPosts(data);
+          setPosts(data);
+        } else if (!filterType) {
+          const data = await fetchRecentPosts(token);
+          setRecentPosts(data);
           setPosts(data);
         }
       } catch (error) {
-        console.error("Error fetching recent posts:", error);
+        console.error("Error fetching initial posts:", error);
       }
     };
 
-    fetchForYouPosts();
+    fetchInitialPosts();
   }, [filterType, user.isAuthenticated]);
 
   useEffect(() => {
     const fetchPostsByType = async () => {
       try {
-        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
+        const token = user.isAuthenticated ? localStorage.getItem("authToken") : "";
 
         if (filterType === "Followed Topics") {
           const data = await fetchFollowedTopicsPosts(token);
@@ -66,37 +74,40 @@ const Home = () => {
       setPosts(followedSubforumPosts);
     } else if (type === "Followed People") {
       setPosts(followedUserPosts);
+    } else {
+      setPosts(recentPosts); // Default to recent posts
     }
   };
 
   const fetchAndSetPosts = async (type) => {
     try {
+      const token = user.isAuthenticated ? localStorage.getItem("authToken") : "";
+
       if (type === "For You") {
-        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
-        const data = await fetchRecentPosts(token);
+        const data = await fetchForYouPosts(token);
         setForYouPosts(data);
         setPosts(data);
       } else if (type === "Followed Topics") {
-        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
         const data = await fetchFollowedTopicsPosts(token);
         setFollowedSubforumsPosts(data);
         setPosts(data);
       } else if (type === "Followed People") {
-        const token = user.isAuthenticated ? localStorage.getItem("authToken") : '';
         const data = await fetchFollowedPeoplePosts(token);
         setFollowedUserPosts(data);
         setPosts(data);
+      } else if (!type) {
+        const data = await fetchRecentPosts(token);
+        setRecentPosts(data);
+        setPosts(data);
       }
     } catch (error) {
-      console.error(`Error fetching posts for ${type}:`, error);
+      console.error(`Error fetching posts for ${type || "Recent"}:`, error);
     }
   };
 
-  const refreshPosts =  () => {
+  const refreshPosts = () => {
     fetchAndSetPosts(filterType);
   };
-
-
 
   return (
     <div className={styles.homePage}>
@@ -126,10 +137,18 @@ const Home = () => {
           >
             Followed People
           </button>
+          <button
+            className={`${styles.filterButton} ${
+              !filterType ? styles.active : ""
+            }`}
+            onClick={() => handleFilterChange("")}
+          >
+            Recent
+          </button>
         </div>
       )}
       <div className={styles.feedContainer}>
-        <Feed posts={posts} refreshPosts={refreshPosts}/>
+        <Feed posts={posts} refreshPosts={refreshPosts} />
       </div>
     </div>
   );
