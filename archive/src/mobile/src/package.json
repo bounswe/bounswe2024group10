@@ -16,6 +16,7 @@
     "expo": "~50.0.14",
     "expo-image-picker": "~14.7.1",
     "expo-status-bar": "~1.11.1",
+    "MySecondReaction": "file:",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-gesture-handler": "~2.14.0",

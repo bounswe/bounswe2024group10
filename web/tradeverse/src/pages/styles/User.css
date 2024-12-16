@@ -41,7 +41,7 @@
     color: #555;
   }
   
-  .bioSection, .postsSection {
+  .bioSection, .postsSection, .portfolioSection {
     background: white;
     width: 60%;
     margin-top: 20px;
@@ -65,5 +65,33 @@
     text-align: center;
     color: #888;
     font-size: 14px;
+  }
+  
+  .portfolioTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .portfolioTable th,
+  .portfolioTable td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .portfolioTable th {
+    background-color: #5d5fef;
+    color: white;
+  }
+  
+  .positiveTrend {
+    color: #2ecc71;
+    font-weight: bold;
+  }
+  
+  .negativeTrend {
+    color: #e74c3c;
+    font-weight: bold;
   }
   
