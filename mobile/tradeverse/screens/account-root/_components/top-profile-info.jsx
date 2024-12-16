@@ -18,6 +18,7 @@ import {
 import ProfileImage from '../../../components/images/profile-image'
 import paths from '../../../config/screen-paths'
 import { AuthContext } from '../../../auth/context'
+import { getImageSource } from '../../../util/get-image-source'
 
 export default function ProfileInfo() {
   const { user } = useContext(AuthContext)
@@ -30,7 +31,10 @@ export default function ProfileInfo() {
       }}
     >
       <View style={styles.leftContainer}>
-        <ProfileImage src={user?.profileImage ?? ''} style={styles.avatar} />
+        <ProfileImage
+          src={getImageSource(user?.profilePhoto)}
+          style={styles.avatar}
+        />
       </View>
       <View style={styles.rightContainer}>
         <Text style={styles.nameText}>{user?.name}</Text>

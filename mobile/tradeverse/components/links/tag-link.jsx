@@ -1,37 +1,38 @@
 import React, { useMemo } from 'react'
+import { router, usePathname } from 'expo-router'
 import { Pressable } from 'react-native'
 import paths from '../../config/screen-paths'
-import { router, usePathname } from 'expo-router'
 
-export default function CommentLink({ children, post, disabled = false }) {
+export default function TagLink({ children, tag = '' }) {
   const pathName = usePathname()
   const target = useMemo(() => {
     const screen = pathName.split('/')[1]
     let result = ''
     switch (screen) {
       case 'home':
-        result = paths.HOME.POST_DETAIL
+        result = paths.HOME.TAG_DETAIL
         break
       case 'explore':
-        result = paths.EXPLORE.POST_DETAIL
+        result = paths.EXPLORE.TAG_DETAIL
         break
       case 'portfolio':
-        result = paths.PORTFOLIO.POST_DETAIL
+        result = paths.PORTFOLIO.TAG_DETAIL
         break
       case 'account':
-        result = paths.ACCOUNT.POST_DETAIL
+        result = paths.ACCOUNT.TAG_DETAIL
         break
       default:
-        result = paths.EXPLORE.POST_DETAIL
+        result = paths.EXPLORE.TAG_DETAIL
     }
     return result
   }, [pathName])
-
   return (
     <Pressable
+      style={{
+        transform: [{ translateY: 2 }],
+      }}
       onPress={() => {
-        if (disabled) return
-        router.push(`${target}?postId=${post?.id}`)
+        router.push(`${target}?tag=${tag}`)
       }}
     >
       {children}

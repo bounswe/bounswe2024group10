@@ -45,7 +45,7 @@ export default function TagsView({ keyword }) {
   return (
     <ScrollView>
       {data.map((d) => (
-        <TagCard key={d.id} tag={{ label: d }} />
+        <TagCard key={d} tag={{ label: d }} />
       ))}
     </ScrollView>
   )

@@ -66,32 +66,15 @@ export async function undislikePost({ postId }) {
   return null
 }
 
-const categorizeContentText = (text) => {
-  const splitted = text.split(' ')
-  const categorized = splitted.map((word) => {
-    if (word.startsWith('@')) {
-      return { tag: word }
-    }
-    return { text: word }
-  })
-  return categorized
-}
-
-export async function createPost({
-  username,
-  title,
-  parentID = 2,
-  content = '',
-}) {
+export async function createPost({ title, parentID, content = [] }) {
   try {
     const response = await api({
-      url: '/post/create-post',
+      url: '/post/create',
       method: 'POST',
       data: {
-        username,
         title,
-        parentID,
-        content: categorizeContentText(content),
+        subforumID: parentID,
+        content,
       },
     })
 
@@ -119,6 +102,38 @@ export async function getPostDetail({ id }) {
     return { ...response.data, comments: comments.data }
   } catch (error) {
     console.log('Create Post failed', error)
+  }
+  return null
+}
+
+export async function getPostsByUser({ username }) {
+  try {
+    const response = await api({
+      url: `/post/get-posts-by-user`,
+      method: 'GET',
+      params: {
+        username,
+      },
+    })
+    return response.data
+  } catch (error) {
+    console.log('Create Post failed', error)
+  }
+  return null
+}
+
+export async function getPostsByTag({ tag }) {
+  try {
+    const response = await api({
+      url: '/post/get-posts-by-tag',
+      method: 'GET',
+      params: { tag },
+    })
+
+    // Return the list of posts if the response is successful
+    return response.data
+  } catch (error) {
+    console.log('Fetching posts by tag failed', error)
   }
   return null
 }

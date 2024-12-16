@@ -15,6 +15,8 @@ import PaddedContainer from '../../components/ui/padded-container'
 import MainButton from '../../components/buttons/main-button'
 import PostCard from '../../components/cards/post-card'
 import Header from '../../components/ui/header'
+import { IconPlus } from '@tabler/icons-react-native'
+import CreatePostLink from '../../components/links/create-post-link'
 const SubforumScreen = () => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -77,7 +79,19 @@ const SubforumScreen = () => {
         paddingHorizontal: 0,
       }}
     >
-      <Header title={subforumTitle} />
+      <Header
+        headerRight={() => (
+          <CreatePostLink
+            subforum={{
+              id: subforumId,
+              title: subforumTitle,
+            }}
+          >
+            <IconPlus size={24} color={COLORS.white} />
+          </CreatePostLink>
+        )}
+        title={subforumTitle}
+      />
 
       {loading && (
         <>
@@ -94,6 +108,7 @@ const SubforumScreen = () => {
           <ScrollView style={{ marginTop: 20 }}>
             {Array.from({ length: 5 }).map((_, index) => (
               <View
+                key={index}
                 style={{
                   paddingHorizontal: SIZES.small,
                   paddingTop: SIZE_CONSTANT * 1.2,
@@ -199,6 +214,18 @@ const SubforumScreen = () => {
               />
             </View>
           </PaddedContainer>
+          <PaddedContainer
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 20,
+              paddingHorizontal: 12,
+            }}
+          >
+            <View>
+              <Text>{data?.description}</Text>
+            </View>
+          </PaddedContainer>
           {/* </View> */}
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
             {data?.posts.map((post) => (
@@ -214,6 +241,7 @@ const SubforumScreen = () => {
                 }}
               />
             ))}
+            <View style={{ height: 500 }} />
           </ScrollView>
         </View>
       )}

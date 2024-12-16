@@ -51,11 +51,17 @@ export default function SubForumResult({ style, subForum }) {
             fontSize: SIZES.small,
             color: COLORS.primary950,
             letterSpacing: -0.03,
-            fontWeight: FONT_WEIGHTS.medium,
-            marginBottom: SIZE_CONSTANT * 0.8,
+            fontWeight: FONT_WEIGHTS.semibold,
           }}
         >
           {subForum.title}
+        </Text>
+        <Text
+          style={{
+            marginBottom: SIZE_CONSTANT * 0.8,
+          }}
+        >
+          {subForum.description}
         </Text>
         <View
           style={{

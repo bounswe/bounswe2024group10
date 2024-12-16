@@ -1,51 +1,61 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { router, Stack } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useDispatch } from 'react-redux'
-import { IconPaperclip, IconPhotoPlus } from '@tabler/icons-react-native'
+import { IconCheck } from '@tabler/icons-react-native'
 import GlobalScreen from '../../components/ui/global-screen'
 import FullScrollView from '../../components/ui/full-scroll-view'
-import RHFTextArea from '../../components/inputs/RHFTextArea'
 import RHFTextField from '../../components/inputs/RHFTextField'
 import { createPost } from '../../services/post'
 import { showToast } from '../../reduxStore/ui-slice'
-import { SIZE_CONSTANT, SIZES } from '../../constants/theme'
-import MainButton from '../../components/buttons/main-button'
+import { COLORS, SIZE_CONSTANT, SIZES } from '../../constants/theme'
 import AutoSuggestInput from './_components/SubforumSuggestion'
 import { AuthContext } from '../../auth/context'
+import Header from '../../components/ui/header'
+import ContentBox from './_components/ContentBox'
+import TextField from '../../components/inputs/TextField'
 
 export default function CreatePostScreen() {
   const [selectedSubforum, setSelectedSubforum] = useState(null)
+  const [content, setContent] = useState([])
+  const [title, setTitle] = useState('')
   const { user } = useContext(AuthContext)
   const dispatch = useDispatch()
   const validationSchema = z.object({
     title: z.string().min(1, { message: 'Bu alan gerekli.' }),
-    content: z.string().min(1, { message: 'Bu alan gerekli.' }),
   })
+  const router = useRouter()
+
+  const { subforumTitle, subforumId } = useLocalSearchParams()
 
   const form = useForm({
     defaultValues: {
       title: '',
-      content: '',
     },
     resolver: zodResolver(validationSchema),
   })
 
   const handleCreate = async (data) => {
-    const res = await createPost({
-      username: user.username,
-      title: data.title,
-      content: data.content,
-      parentID: selectedSubforum?.id ?? 2,
-    })
-    if (res?.successful) {
-      dispatch(
-        showToast({ text: 'Post created successfully', variant: 'success' })
-      )
-      router.back()
+    try {
+      const res = await createPost({
+        username: user.username,
+        title,
+        content,
+        parentID: subforumTitle ? subforumId : selectedSubforum.id,
+      })
+      if (res?.successful) {
+        dispatch(
+          showToast({ text: 'Post created successfully', variant: 'success' })
+        )
+        router.back()
+      } else {
+        dispatch(showToast({ text: res.message, variant: 'error' }))
+      }
+    } catch (error) {
+      dispatch(showToast({ text: 'An error occurred', variant: 'error' }))
     }
   }
 
@@ -58,6 +68,18 @@ export default function CreatePostScreen() {
             headerTitle: 'Create Post',
           }}
         />
+        <Header
+          title="Create Post"
+          headerRight={() => (
+            <Pressable onPress={handleCreate}>
+              <IconCheck
+                strokeWidth={2.4}
+                size={SIZE_CONSTANT * 2.4}
+                color={COLORS.white}
+              />
+            </Pressable>
+          )}
+        />
         <Text
           style={{
             fontSize: SIZES.xSmall,
@@ -67,12 +89,28 @@ export default function CreatePostScreen() {
         >
           Create Post Under
         </Text>
-        <AutoSuggestInput
-          onSelect={(option) => {
-            setSelectedSubforum(option)
-          }}
-          endpoint={'/post/search-post'}
-        />
+        {!subforumTitle && (
+          <AutoSuggestInput
+            onClear={() => {
+              setSelectedSubforum(null)
+            }}
+            onSelect={(option) => {
+              setSelectedSubforum(option)
+            }}
+            endpoint={'/post/search-post'}
+          />
+        )}
+        {subforumTitle && (
+          <Text
+            style={{
+              fontSize: SIZES.medium,
+              color: COLORS.primary800,
+              fontWeight: 'bold',
+            }}
+          >
+            {subforumTitle}
+          </Text>
+        )}
         <FormProvider {...form}>
           <View
             style={{
@@ -85,55 +123,34 @@ export default function CreatePostScreen() {
               flexDirection: 'column',
             }}
           >
-            <RHFTextField
-              style={{
-                marginBottom: SIZE_CONSTANT * 4,
-              }}
-              label="Title"
+            <TextField
+              value={title}
+              variant="filled"
               name="title"
-            />
-
-            {/* <TextField multiline={true} style={{}} placeholder="Write your post here..." /> */}
-            <RHFTextArea
+              label="Title"
+              onChangeText={(e) => setTitle(e)}
               style={{
-                marginBottom: 0,
-              }}
-              label="Content"
-              name="content"
-            />
-            <View
-              style={{
-                backgroundColor: '#F4F4F4',
-                paddingHorizontal: SIZES.xSmall,
-                paddingVertical: SIZE_CONSTANT * 0.6,
+                width: '100%',
+                height: SIZE_CONSTANT * 4.8,
+                backgroundColor: '#FAFAFA',
+                padding: SIZE_CONSTANT * 1.5,
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                gap: SIZE_CONSTANT * 1,
                 alignItems: 'center',
+                borderRadius: 6,
+                color: '#3C3B3B',
+                fontSize: SIZES.small,
+                fontWeight: 'regular',
+                borderWidth: 1,
+                borderColor: '#F8F8F8',
               }}
-            >
-              <IconPhotoPlus
-                strokeWidth={1.5}
-                size={SIZES.medium}
-                color="#2C3E50"
-              />
-              <IconPaperclip
-                strokeWidth={1.5}
-                size={SIZES.medium}
-                color="#2C3E50"
-              />
-            </View>
+            />
+            <ContentBox
+              onChange={(val) => {
+                setContent(val)
+              }}
+            />
           </View>
-          <MainButton
-            disabled={form.formState.isSubmitting}
-            loading={form.formState.isSubmitting}
-            onPress={form.handleSubmit(handleCreate)}
-            style={{
-              marginTop: SIZE_CONSTANT * 12,
-            }}
-            text="Create Post"
-          />
+          <View style={{ height: SIZE_CONSTANT * 24 }}></View>
         </FormProvider>
       </FullScrollView>
     </GlobalScreen>

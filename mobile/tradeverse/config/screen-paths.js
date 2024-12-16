@@ -1,4 +1,4 @@
-const roots = {
+export const roots = {
   HOME: 'home',
   EXPLORE: 'explore',
   CREATE: 'create',
@@ -12,6 +12,8 @@ const paths = {
     USER_PROFILE: `${roots.HOME}/user-profile`,
     SUBFORUM_DETAIL: `${roots.HOME}/subforum-detail`,
     POST_DETAIL: `${roots.HOME}/post-detail`,
+    TAG_DETAIL: `${roots.HOME}/tag-detail`,
+    ASSET_DETAIL: `${roots.HOME}/asset-detail`,
   },
   EXPLORE: {
     ROOT: roots.EXPLORE,
@@ -21,6 +23,7 @@ const paths = {
       POST_DETAIL: `${roots.EXPLORE}/search/post-detail`,
       USER_PROFILE: `${roots.EXPLORE}/search/user-profile`,
       SUBFORUM_DETAIL: `${roots.EXPLORE}/search/subforum-detail`,
+      TAG_DETAIL: `${roots.EXPLORE}/search/tag-detail`,
     },
     USER_PROFILE: `${roots.EXPLORE}/user-profile`,
     SUBFORUM_DETAIL: `${roots.EXPLORE}/subforum-detail`,
@@ -32,11 +35,16 @@ const paths = {
     ROOT: roots.CREATE,
     ADD_POST: `${roots.CREATE}/add-post`,
     ADD_SUBFORUM: `${roots.CREATE}/add-subforum`,
+    ADD_SUBFORUM_POST: `${roots.CREATE}/add-subforum-post`,
   },
   PORTFOLIO: {
     ROOT: roots.PORTFOLIO,
     ADD_ASSET: `${roots.PORTFOLIO}/add-asset`,
+    SUBFORUM_DETAIL: `${roots.PORTFOLIO}/subforum-detail`,
     ASSET_DETAIL: `${roots.PORTFOLIO}/asset-detail`,
+    TAG_DETAIL: `${roots.PORTFOLIO}/tag-detail`,
+    POST_DETAIL: `${roots.PORTFOLIO}/post-detail`,
+    USER_PROFILE: `${roots.PORTFOLIO}/user-profile`,
   },
   ACCOUNT: {
     ROOT: roots.ACCOUNT,
@@ -46,7 +54,12 @@ const paths = {
     FOLLOWED_USERS: `${roots.ACCOUNT}/followed-users`,
     MY_POSTS: `${roots.ACCOUNT}/my-posts`,
     FOLLOWERS: `${roots.ACCOUNT}/followers`,
-    FOLLOWINGS: `${roots.ACCOUNT}/followings`
+    FOLLOWINGS: `${roots.ACCOUNT}/followings`,
+    USER_PROFILE: `${roots.ACCOUNT}/user-profile`,
+    POST_DETAIL: `${roots.ACCOUNT}/post-detail`,
+    ASSET_DETAIL: `${roots.ACCOUNT}/asset-detail`,
+    TAG_DETAIL: `${roots.ACCOUNT}/tag-detail`,
+    SUBFORUM_DETAIL: `${roots.ACCOUNT}/subforum-detail`,
   },
 }
 export default paths

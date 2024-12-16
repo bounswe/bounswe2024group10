@@ -1,22 +1,33 @@
 import { Stack } from 'expo-router'
 import React from 'react'
 import { COLORS } from '../../constants/theme'
+import { Alert, Pressable, Text } from 'react-native'
 
-export default function Header({ title }) {
+export default function Header({
+  title = 'Header',
+  titleColor = 'white',
+  bgColor = COLORS.primary500,
+  headerBackTitleVisible = false,
+  headerTintColor = 'white',
+  headerBackTitle = 'Back',
+  headerRight = null,
+}) {
   return (
     <Stack.Screen
       options={{
-        headerBackTitleVisible: false,
+        headerBackTitleVisible,
+        headerBackTitle,
+        headerRight,
         headerTitle: title,
         headerTitleStyle: {
-          color: 'white',
+          color: titleColor,
         },
-        headerTintColor: 'white',
+        headerTintColor,
         headerBackTitleStyle: {
           color: 'white',
         },
         headerStyle: {
-          backgroundColor: COLORS.primary500,
+          backgroundColor: bgColor,
         },
       }}
     />

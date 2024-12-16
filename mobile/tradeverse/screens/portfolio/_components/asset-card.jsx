@@ -1,6 +1,9 @@
 import { router } from 'expo-router'
 import React from 'react'
-import { IconInfoCircleFilled } from '@tabler/icons-react-native'
+import {
+  IconInfoCircleFilled,
+  IconTrendingUp,
+} from '@tabler/icons-react-native'
 import { Pressable, Text, View } from 'react-native'
 import paths from '../../../config/screen-paths'
 import { COLORS, SIZE_CONSTANT, SIZES } from '../../../constants/theme'
@@ -19,54 +22,82 @@ export default function AssetCard({ asset }) {
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
         shadowRadius: 3.84,
-
         // backgroundColor: COLORS.primary100, // Lighter purple
-        width: '48%',
+        width: '100%',
         // height: 100,
         borderRadius: 10,
         padding: 10,
+
         justifyContent: 'space-between',
         marginBottom: 20,
       }}
     >
       <View
         style={{
-          // display: 'flex',
-
           flexDirection: 'row',
           alignItems: 'flex-start',
-          gap: SIZES.xxSmall,
+          justifyContent: 'space-between',
         }}
       >
-        <ContentImage
+        <View
           style={{
-            width: 36,
-            height: 36,
-            borderRadius: 18,
-            borderColor: COLORS.primary50,
-            borderWidth: 1,
+            // display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            gap: SIZES.xxSmall,
           }}
-          src={asset.asset.imageUrl}
-        />
-        <View>
+        >
+          <ContentImage
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 18,
+              borderColor: COLORS.primary50,
+              borderWidth: 1,
+            }}
+            src={asset.asset.imageUrl}
+          />
+          <View>
+            <Text
+              style={{
+                fontSize: SIZES.medium,
+                fontWeight: 'bold',
+              }}
+            >
+              {asset.asset.name}
+            </Text>
+            <Text
+              style={{
+                fontSize: SIZES.xxSmall,
+                color: COLORS.primary800,
+              }}
+            >
+              {asset.asset.tradingViewSymbol}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            paddingTop: 3,
+            marginLeft: 'auto',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: SIZE_CONSTANT * 0.32,
+          }}
+        >
+          <IconTrendingUp size={16} color={COLORS.primary600} />
           <Text
             style={{
-              fontSize: SIZES.medium,
+              fontSize: SIZES.xSmall,
               fontWeight: 'bold',
+              color: COLORS.primary700,
             }}
           >
-            {asset.asset.yahooFinanceSymbol}
-          </Text>
-          <Text
-            style={{
-              fontSize: SIZES.xxSmall,
-              color: COLORS.primary800,
-            }}
-          >
-            {asset.asset.tradingViewSymbol}
+            {(asset.totalCurrentPrice / asset.amount).toFixed(2)}$
           </Text>
         </View>
       </View>
+
       <View
         style={{
           marginTop: 24,
@@ -91,27 +122,59 @@ export default function AssetCard({ asset }) {
         <View
           style={{
             marginLeft: 'auto',
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            gap: SIZE_CONSTANT * 0.32,
           }}
         >
-          <Text
+          <View
             style={{
-              fontSize: SIZES.xxSmall,
-              color: '#a1a1a1',
+              marginLeft: 'auto',
+              flexDirection: 'row',
+              alignItems: 'baseline',
+              gap: SIZE_CONSTANT * 0.4,
             }}
           >
-            Amount:
-          </Text>
-          <Text
+            <Text
+              style={{
+                fontSize: SIZES.xxSmall,
+                color: '#a1a1a1',
+              }}
+            >
+              You own:
+            </Text>
+            <Text
+              style={{
+                fontSize: SIZES.xSmall,
+                fontWeight: 'bold',
+                color: '#212121',
+              }}
+            >
+              {asset.amount}
+            </Text>
+          </View>
+          <View
             style={{
-              fontSize: SIZES.medium,
-              fontWeight: 'bold',
+              marginTop: 4,
+              flexDirection: 'row',
+              alignItems: 'baseline',
+              gap: SIZE_CONSTANT * 0.4,
             }}
           >
-            {asset.amount}
-          </Text>
+            <Text
+              style={{
+                fontSize: SIZES.xxSmall,
+                color: '#a1a1a1',
+              }}
+            >
+              Total Value:
+            </Text>
+            <Text
+              style={{
+                fontSize: SIZES.medium,
+                fontWeight: 'bold',
+              }}
+            >
+              {asset.totalCurrentPrice.toFixed(1)}$
+            </Text>
+          </View>
         </View>
       </View>
     </View>

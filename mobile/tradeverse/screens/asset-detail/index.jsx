@@ -12,12 +12,15 @@ import DateRange from './_components/DateRange'
 import AssetInfoView from './_components/AssetInfoView'
 import NewsView from './_components/NewsView'
 
-import FullScrollView from '../../components/ui/full-scroll-view';
-
+import FullScrollView from '../../components/ui/full-scroll-view'
+import Header from '../../components/ui/header'
 
 const AssetDisplay = () => {
   const [asset, setAsset] = useState(null)
-  const [dateRange, setDateRange] = useState('1Y') // Default date range
+  const [dateRange, setDateRange] = useState({
+    label: '1M',
+    value: '1M',
+  }) // Default date range
   // Currency conversion (for simplicity, using static values)
 
   const { assetId, symbol, name = '' } = useLocalSearchParams()
@@ -28,36 +31,35 @@ const AssetDisplay = () => {
   }, [assetId, symbol])
 
   return (
-
     <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
       <Header title={symbol} />
-
-          <PaddedContainer style={{ paddingHorizontal: 12 }}>
-            <View style={styles.row}>
-              <View style={styles.rowInfo}>
-                <View>
-                  <Text style={styles.assetSymbol}>{symbol}</Text>
-                  <Text style={styles.assetName}>{name}</Text>
-                </View>
+      <FullScrollView>
+        <PaddedContainer style={{ paddingHorizontal: 12 }}>
+          <View style={styles.row}>
+            <View style={styles.rowInfo}>
+              <View>
+                <Text style={styles.assetSymbol}>{symbol}</Text>
+                <Text style={styles.assetName}>{name}</Text>
               </View>
-              <DateRange
-                dateRange={dateRange}
-                onSelect={(r) => {
-                  setDateRange(r)
-                }}
-              />
             </View>
-          </PaddedContainer>
-          <View style={{ width: '100%', height: 190, zIndex: -1 }}>
-            <ChartView symbol={symbol} dateRange={dateRange} />
+            <DateRange
+              dateRange={dateRange}
+              onSelect={(r) => {
+                setDateRange(r)
+              }}
+            />
           </View>
-          <View style={{ width: '100%', height: 210, zIndex: -1 }}>
-            <AssetInfoView symbol={symbol} />
-          </View>
-          <View style={{ width: '100%', height: 250, zIndex: -1 }}>
-            <NewsView symbol={symbol} />
-          </View>
-          <View style={styles.container}></View>
+        </PaddedContainer>
+        <View style={{ width: '100%', height: 190, zIndex: -1 }}>
+          <ChartView symbol={symbol} dateRange={dateRange} />
+        </View>
+        <View style={{ width: '100%', height: 210, zIndex: -1 }}>
+          <AssetInfoView symbol={symbol} />
+        </View>
+        <View style={{ width: '100%', height: 250, zIndex: -1 }}>
+          <NewsView symbol={symbol} />
+        </View>
+        <View style={styles.container}></View>
       </FullScrollView>
     </GlobalScreen>
   )

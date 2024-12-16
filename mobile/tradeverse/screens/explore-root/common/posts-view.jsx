@@ -8,8 +8,17 @@ export default function PostsView({ data, loading }) {
 
   return (
     <View>
-      {data.map((post) => (
-        <PostCard key={post.id} post={post} />
+      {data.map((p) => (
+        <PostCard
+          key={p.id}
+          post={{
+            ...p,
+            author: {
+              ...p.author,
+              username: p.createdBy,
+            },
+          }}
+        />
       ))}
     </View>
   )

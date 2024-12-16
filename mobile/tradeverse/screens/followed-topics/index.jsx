@@ -43,7 +43,7 @@ const FollowedTagsScreen = () => {
   )
 
   const renderData = (followedTags) =>
-    followedTags.length ? (
+    followedTags?.length > 0 ? (
       <View style={styles.container}>
         <Text style={styles.header}>
           You are following {followedTags.length} topics
@@ -69,7 +69,7 @@ const FollowedTagsScreen = () => {
         setLoading(true)
         const res = await getFollowedSubforums({ username: user.username })
         if (res) {
-          setData(res.followings)
+          setData(res)
           setLoading(false)
         } else {
           setError('Failed to fetch data')

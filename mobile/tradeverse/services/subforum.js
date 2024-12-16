@@ -17,7 +17,7 @@ export async function searchSubforumByTitle({ keyword }) {
 export async function getFollowedSubforums({ username }) {
   try {
     const response = await api({
-      url: '/follow-subforum/get-followings',
+      url: '/subforum/followed',
       method: 'GET',
       params: { username },
     })
