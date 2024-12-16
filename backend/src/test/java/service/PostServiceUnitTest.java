@@ -21,12 +21,16 @@ import com.bounswe2024group10.Tradeverse.dto.post.CreatePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.DeletePostRequest;
 import com.bounswe2024group10.Tradeverse.dto.post.DeletePostResponse;
 import com.bounswe2024group10.Tradeverse.dto.post.GetPostResponse;
+import com.bounswe2024group10.Tradeverse.model.Follow;
+import com.bounswe2024group10.Tradeverse.model.FollowSubforum;
 import com.bounswe2024group10.Tradeverse.model.Post;
 import com.bounswe2024group10.Tradeverse.model.Subforum;
 import com.bounswe2024group10.Tradeverse.model.User;
 import com.bounswe2024group10.Tradeverse.repository.AssetRepository;
 import com.bounswe2024group10.Tradeverse.repository.CommentRepository;
 import com.bounswe2024group10.Tradeverse.repository.DislikeRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowRepository;
+import com.bounswe2024group10.Tradeverse.repository.FollowSubforumRepository;
 import com.bounswe2024group10.Tradeverse.repository.LikeRepository;
 import com.bounswe2024group10.Tradeverse.repository.PostRepository;
 import com.bounswe2024group10.Tradeverse.repository.SubforumRepository;
@@ -49,6 +53,12 @@ public class PostServiceUnitTest {
 
     @Mock
     private SubforumRepository subforumRepository;
+
+    @Mock
+    private FollowSubforumRepository followSubforumRepository;
+
+    @Mock
+    private FollowRepository followRepository;
 
     @Mock
     private CommentRepository commentRepository;
@@ -539,18 +549,535 @@ public class PostServiceUnitTest {
         assertFalse(response2.getIsDislikedByUser());
     }
 
-    // @Test
-    // public void testAddAssetToPortfolio_AssetNotFound() {
-    //     when(assetRepository.existsById(2L)).thenReturn(false);
-    //     AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(2L, 100, "testuser");
-    //     assertFalse(result.isSuccessful());
-    //     assertEquals("Asset not found", result.getMessage());
-    // }
-    // @Test
-    // public void testAddAssetToPortfolio_AssetFound() {
-    //     when(assetRepository.existsById(1L)).thenReturn(true);
-    //     AddAssetToPortfolioResponse result = portfolioService.addAssetToPortfolio(1L, 100, "testuser");
-    //     assertTrue(result.isSuccessful());
-    //     assertEquals("Asset found", result.getMessage());
-    // }
+    @Test
+    public void testGetRecentPosts_NoPosts() {
+        when(postRepository.findTop100ByOrderByCreationDateDesc()).thenReturn(new ArrayList<>());
+        String username = "testuser";
+        List<GetPostResponse> result = postService.getRecentPosts(username);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetRecentPosts_WithPosts() {
+        Post post1 = new Post();
+        post1.setId(1L);
+        post1.setTitle("Test Title 1");
+        post1.setContent(new ArrayList<>());
+        post1.setCreatedBy("creator1");
+        post1.setCreationDate(LocalDateTime.now());
+        post1.setViewCount(0);
+        post1.setSubforumID(1L);
+
+        Post post2 = new Post();
+        post2.setId(2L);
+        post2.setTitle("Test Title 2");
+        post2.setContent(new ArrayList<>());
+        post2.setCreatedBy("creator2");
+        post2.setCreationDate(LocalDateTime.now());
+        post2.setViewCount(0);
+        post2.setSubforumID(1L);
+
+        List<Post> posts = new ArrayList<>();
+        posts.add(post1);
+        posts.add(post2);
+
+        User creator1 = new User();
+        creator1.setUsername("creator1");
+        creator1.setProfilePhoto("photo1.jpg");
+        creator1.setName("Creator One");
+
+        User creator2 = new User();
+        creator2.setUsername("creator2");
+        creator2.setProfilePhoto("photo2.jpg");
+        creator2.setName("Creator Two");
+
+        Subforum subforum = new Subforum();
+        subforum.setId(1L);
+
+        when(postRepository.findTop100ByOrderByCreationDateDesc()).thenReturn(posts);
+        when(userRepository.findByUsername("creator1")).thenReturn(creator1);
+        when(userRepository.findByUsername("creator2")).thenReturn(creator2);
+        when(subforumRepository.findById(1L)).thenReturn(Optional.of(subforum));
+        when(likeRepository.countByPostID(1L)).thenReturn(10);
+        when(dislikeRepository.countByPostID(1L)).thenReturn(2);
+        when(commentRepository.countByPostID(1L)).thenReturn(5);
+        when(likeRepository.countByPostID(2L)).thenReturn(8);
+        when(dislikeRepository.countByPostID(2L)).thenReturn(1);
+        when(commentRepository.countByPostID(2L)).thenReturn(3);
+
+        String username = "testuser";
+        List<GetPostResponse> result = postService.getRecentPosts(username);
+
+        assertEquals(2, result.size());
+
+        GetPostResponse response1 = result.get(0);
+        assertEquals(1L, response1.getId());
+        assertEquals("Test Title 1", response1.getTitle());
+        assertEquals("creator1", response1.getCreatedBy());
+        assertEquals(10, response1.getLikeCount());
+        assertEquals(2, response1.getDislikeCount());
+        assertEquals(5, response1.getCommentCount());
+        assertEquals("photo1.jpg", response1.getAuthor().getUserPhoto());
+        assertEquals("Creator One", response1.getAuthor().getName());
+        assertEquals(subforum, response1.getSubforum());
+
+        GetPostResponse response2 = result.get(1);
+        assertEquals(2L, response2.getId());
+        assertEquals("Test Title 2", response2.getTitle());
+        assertEquals("creator2", response2.getCreatedBy());
+        assertEquals(8, response2.getLikeCount());
+        assertEquals(1, response2.getDislikeCount());
+        assertEquals(3, response2.getCommentCount());
+        assertEquals("photo2.jpg", response2.getAuthor().getUserPhoto());
+        assertEquals("Creator Two", response2.getAuthor().getName());
+        assertEquals(subforum, response2.getSubforum());
+    }
+
+    @Test
+    public void testGetPopularPosts_NoPosts() {
+        when(postRepository.findTop100ByOrderByCreationDateDesc()).thenReturn(new ArrayList<>());
+        String username = "testuser";
+        List<GetPostResponse> result = postService.getPopularPosts(username);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetPopularPosts_WithPosts() {
+        Post post1 = new Post();
+        post1.setId(1L);
+        post1.setTitle("Test Title 1");
+        post1.setContent(new ArrayList<>());
+        post1.setCreatedBy("creator1");
+        post1.setCreationDate(LocalDateTime.now());
+        post1.setViewCount(0);
+        post1.setSubforumID(1L);
+
+        Post post2 = new Post();
+        post2.setId(2L);
+        post2.setTitle("Test Title 2");
+        post2.setContent(new ArrayList<>());
+        post2.setCreatedBy("creator2");
+        post2.setCreationDate(LocalDateTime.now());
+        post2.setViewCount(0);
+        post2.setSubforumID(1L);
+
+        List<Post> posts = new ArrayList<>();
+        posts.add(post1);
+        posts.add(post2);
+
+        User creator1 = new User();
+        creator1.setUsername("creator1");
+        creator1.setProfilePhoto("photo1.jpg");
+        creator1.setName("Creator One");
+
+        User creator2 = new User();
+        creator2.setUsername("creator2");
+        creator2.setProfilePhoto("photo2.jpg");
+        creator2.setName("Creator Two");
+
+        Subforum subforum = new Subforum();
+        subforum.setId(1L);
+
+        when(postRepository.findTop100ByOrderByCreationDateDesc()).thenReturn(posts);
+        when(userRepository.findByUsername("creator1")).thenReturn(creator1);
+        when(userRepository.findByUsername("creator2")).thenReturn(creator2);
+        when(subforumRepository.findById(1L)).thenReturn(Optional.of(subforum));
+        when(likeRepository.countByPostID(1L)).thenReturn(10);
+        when(dislikeRepository.countByPostID(1L)).thenReturn(2);
+        when(commentRepository.countByPostID(1L)).thenReturn(5);
+        when(likeRepository.countByPostID(2L)).thenReturn(8);
+        when(dislikeRepository.countByPostID(2L)).thenReturn(1);
+        when(commentRepository.countByPostID(2L)).thenReturn(3);
+
+        String username = "testuser";
+        List<GetPostResponse> result = postService.getPopularPosts(username);
+
+        assertEquals(2, result.size());
+
+        GetPostResponse response1 = result.get(0);
+        assertEquals(1L, response1.getId());
+        assertEquals("Test Title 1", response1.getTitle());
+        assertEquals("creator1", response1.getCreatedBy());
+        assertEquals(10, response1.getLikeCount());
+        assertEquals(2, response1.getDislikeCount());
+        assertEquals(5, response1.getCommentCount());
+        assertEquals("photo1.jpg", response1.getAuthor().getUserPhoto());
+        assertEquals("Creator One", response1.getAuthor().getName());
+        assertEquals(subforum, response1.getSubforum());
+
+        GetPostResponse response2 = result.get(1);
+        assertEquals(2L, response2.getId());
+        assertEquals("Test Title 2", response2.getTitle());
+        assertEquals("creator2", response2.getCreatedBy());
+        assertEquals(8, response2.getLikeCount());
+        assertEquals(1, response2.getDislikeCount());
+        assertEquals(3, response2.getCommentCount());
+        assertEquals("photo2.jpg", response2.getAuthor().getUserPhoto());
+        assertEquals("Creator Two", response2.getAuthor().getName());
+        assertEquals(subforum, response2.getSubforum());
+    }
+
+    @Test
+    public void testGetFollowedTopicsPosts_NoFollowedSubforums() {
+        String username = "testuser";
+
+        when(followSubforumRepository.findByFollowerUsername(username)).thenReturn(new ArrayList<>());
+
+        List<GetPostResponse> result = postService.getFollowedTopicsPosts(username);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetFollowedTopicsPosts_WithFollowedSubforums_NoPosts() {
+        String username = "testuser";
+
+        FollowSubforum followSubforum = new FollowSubforum();
+        followSubforum.setSubforumID(1L);
+
+        List<FollowSubforum> followedSubforums = new ArrayList<>();
+        followedSubforums.add(followSubforum);
+
+        when(followSubforumRepository.findByFollowerUsername(username)).thenReturn(followedSubforums);
+        when(postRepository.findAllBySubforumIDOrderByCreationDateDesc(1L)).thenReturn(new ArrayList<>());
+
+        List<GetPostResponse> result = postService.getFollowedTopicsPosts(username);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetFollowedTopicsPosts_WithFollowedSubforums_WithPosts() {
+        String username = "testuser";
+
+        FollowSubforum followSubforum = new FollowSubforum();
+        followSubforum.setSubforumID(1L);
+
+        List<FollowSubforum> followedSubforums = new ArrayList<>();
+        followedSubforums.add(followSubforum);
+
+        Post post1 = new Post();
+        post1.setId(1L);
+        post1.setTitle("Test Title 1");
+        post1.setContent(new ArrayList<>());
+        post1.setCreatedBy("creator1");
+        post1.setCreationDate(LocalDateTime.now());
+        post1.setViewCount(0);
+        post1.setSubforumID(1L);
+
+        Post post2 = new Post();
+        post2.setId(2L);
+        post2.setTitle("Test Title 2");
+        post2.setContent(new ArrayList<>());
+        post2.setCreatedBy("creator2");
+        post2.setCreationDate(LocalDateTime.now());
+        post2.setViewCount(0);
+        post2.setSubforumID(1L);
+
+        List<Post> posts = new ArrayList<>();
+        posts.add(post1);
+        posts.add(post2);
+
+        User creator1 = new User();
+        creator1.setUsername("creator1");
+        creator1.setProfilePhoto("photo1.jpg");
+        creator1.setName("Creator One");
+
+        User creator2 = new User();
+        creator2.setUsername("creator2");
+        creator2.setProfilePhoto("photo2.jpg");
+        creator2.setName("Creator Two");
+
+        Subforum subforum = new Subforum();
+        subforum.setId(1L);
+
+        when(followSubforumRepository.findByFollowerUsername(username)).thenReturn(followedSubforums);
+        when(postRepository.findAllBySubforumIDOrderByCreationDateDesc(1L)).thenReturn(posts);
+        when(userRepository.findByUsername("creator1")).thenReturn(creator1);
+        when(userRepository.findByUsername("creator2")).thenReturn(creator2);
+        when(subforumRepository.findById(1L)).thenReturn(Optional.of(subforum));
+        when(likeRepository.countByPostID(1L)).thenReturn(10);
+        when(dislikeRepository.countByPostID(1L)).thenReturn(2);
+        when(commentRepository.countByPostID(1L)).thenReturn(5);
+        when(likeRepository.countByPostID(2L)).thenReturn(8);
+        when(dislikeRepository.countByPostID(2L)).thenReturn(1);
+        when(commentRepository.countByPostID(2L)).thenReturn(3);
+
+        List<GetPostResponse> result = postService.getFollowedTopicsPosts(username);
+
+        assertEquals(2, result.size());
+
+        GetPostResponse response1 = result.get(1);
+        assertEquals(1L, response1.getId());
+        assertEquals("Test Title 1", response1.getTitle());
+        assertEquals("creator1", response1.getCreatedBy());
+        assertEquals(10, response1.getLikeCount());
+        assertEquals(2, response1.getDislikeCount());
+        assertEquals(5, response1.getCommentCount());
+        assertEquals("photo1.jpg", response1.getAuthor().getUserPhoto());
+        assertEquals("Creator One", response1.getAuthor().getName());
+        assertEquals(subforum, response1.getSubforum());
+
+        GetPostResponse response2 = result.get(0);
+        assertEquals(2L, response2.getId());
+        assertEquals("Test Title 2", response2.getTitle());
+        assertEquals("creator2", response2.getCreatedBy());
+        assertEquals(8, response2.getLikeCount());
+        assertEquals(1, response2.getDislikeCount());
+        assertEquals(3, response2.getCommentCount());
+        assertEquals("photo2.jpg", response2.getAuthor().getUserPhoto());
+        assertEquals("Creator Two", response2.getAuthor().getName());
+        assertEquals(subforum, response2.getSubforum());
+    }
+
+    @Test
+    public void testGetFollowedPeoplePosts_NoFollows() {
+        String username = "testuser";
+
+        when(followRepository.findByFollowerUsername(username)).thenReturn(new ArrayList<>());
+
+        List<GetPostResponse> result = postService.getFollowedPeoplePosts(username);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetFollowedPeoplePosts_WithFollows_NoPosts() {
+        String username = "testuser";
+
+        Follow follow = new Follow();
+        follow.setFollowedUsername("creator1");
+
+        List<Follow> follows = new ArrayList<>();
+        follows.add(follow);
+
+        when(followRepository.findByFollowerUsername(username)).thenReturn(follows);
+        when(postRepository.findByCreatedBy("creator1")).thenReturn(new ArrayList<>());
+
+        List<GetPostResponse> result = postService.getFollowedPeoplePosts(username);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetFollowedPeoplePosts_WithFollows_WithPosts() {
+        String username = "testuser";
+
+        Follow follow = new Follow();
+        follow.setFollowedUsername("creator1");
+
+        List<Follow> follows = new ArrayList<>();
+        follows.add(follow);
+
+        Post post1 = new Post();
+        post1.setId(1L);
+        post1.setTitle("Test Title 1");
+        post1.setContent(new ArrayList<>());
+        post1.setCreatedBy("creator1");
+        post1.setCreationDate(LocalDateTime.now());
+        post1.setViewCount(0);
+        post1.setSubforumID(1L);
+
+        Post post2 = new Post();
+        post2.setId(2L);
+        post2.setTitle("Test Title 2");
+        post2.setContent(new ArrayList<>());
+        post2.setCreatedBy("creator1");
+        post2.setCreationDate(LocalDateTime.now());
+        post2.setViewCount(0);
+        post2.setSubforumID(1L);
+
+        List<Post> posts = new ArrayList<>();
+        posts.add(post1);
+        posts.add(post2);
+
+        User creator1 = new User();
+        creator1.setUsername("creator1");
+        creator1.setProfilePhoto("photo1.jpg");
+        creator1.setName("Creator One");
+
+        Subforum subforum = new Subforum();
+        subforum.setId(1L);
+
+        when(followRepository.findByFollowerUsername(username)).thenReturn(follows);
+        when(postRepository.findByCreatedBy("creator1")).thenReturn(posts);
+        when(userRepository.findByUsername("creator1")).thenReturn(creator1);
+        when(subforumRepository.findById(1L)).thenReturn(Optional.of(subforum));
+        when(likeRepository.countByPostID(1L)).thenReturn(10);
+        when(dislikeRepository.countByPostID(1L)).thenReturn(2);
+        when(commentRepository.countByPostID(1L)).thenReturn(5);
+        when(likeRepository.countByPostID(2L)).thenReturn(8);
+        when(dislikeRepository.countByPostID(2L)).thenReturn(1);
+        when(commentRepository.countByPostID(2L)).thenReturn(3);
+
+        List<GetPostResponse> result = postService.getFollowedPeoplePosts(username);
+
+        assertEquals(2, result.size());
+
+        GetPostResponse response1 = result.get(0);
+        assertEquals(1L, response1.getId());
+        assertEquals("Test Title 1", response1.getTitle());
+        assertEquals("creator1", response1.getCreatedBy());
+        assertEquals(10, response1.getLikeCount());
+        assertEquals(2, response1.getDislikeCount());
+        assertEquals(5, response1.getCommentCount());
+        assertEquals("photo1.jpg", response1.getAuthor().getUserPhoto());
+        assertEquals("Creator One", response1.getAuthor().getName());
+        assertEquals(subforum, response1.getSubforum());
+
+        GetPostResponse response2 = result.get(1);
+        assertEquals(2L, response2.getId());
+        assertEquals("Test Title 2", response2.getTitle());
+        assertEquals("creator1", response2.getCreatedBy());
+        assertEquals(8, response2.getLikeCount());
+        assertEquals(1, response2.getDislikeCount());
+        assertEquals(3, response2.getCommentCount());
+        assertEquals("photo1.jpg", response2.getAuthor().getUserPhoto());
+        assertEquals("Creator One", response2.getAuthor().getName());
+        assertEquals(subforum, response2.getSubforum());
+    }
+
+    @Test
+    public void testGetPost_PostNotFound() {
+        Long postId = 1L;
+        String username = "testuser";
+
+        when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+        GetPostResponse result = postService.getPost(postId, username);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testGetPost_Success() {
+        Long postId = 1L;
+        String username = "testuser";
+
+        Post post = new Post();
+        post.setId(postId);
+        post.setTitle("Test Title");
+        post.setContent(new ArrayList<>());
+        post.setCreatedBy("creator1");
+        post.setCreationDate(LocalDateTime.now());
+        post.setViewCount(0);
+        post.setSubforumID(1L);
+
+        User creatorUser = new User();
+        creatorUser.setUsername("creator1");
+        creatorUser.setProfilePhoto("photo1.jpg");
+        creatorUser.setName("Creator One");
+
+        Subforum subforum = new Subforum();
+        subforum.setId(1L);
+
+        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+        when(userRepository.findByUsername("creator1")).thenReturn(creatorUser);
+        when(subforumRepository.findById(1L)).thenReturn(Optional.of(subforum));
+        when(likeRepository.countByPostID(postId)).thenReturn(10);
+        when(dislikeRepository.countByPostID(postId)).thenReturn(2);
+        when(commentRepository.countByPostID(postId)).thenReturn(5);
+        when(likeRepository.existsByUsernameAndPostID(username, postId)).thenReturn(true);
+        when(dislikeRepository.existsByUsernameAndPostID(username, postId)).thenReturn(false);
+
+        GetPostResponse result = postService.getPost(postId, username);
+
+        assertEquals(postId, result.getId());
+        assertEquals("Test Title", result.getTitle());
+        assertEquals("creator1", result.getCreatedBy());
+        assertEquals(10, result.getLikeCount());
+        assertEquals(2, result.getDislikeCount());
+        assertEquals(5, result.getCommentCount());
+        assertTrue(result.getIsLikedByUser());
+        assertFalse(result.getIsDislikedByUser());
+        assertEquals("photo1.jpg", result.getAuthor().getUserPhoto());
+        assertEquals("Creator One", result.getAuthor().getName());
+        assertEquals(subforum, result.getSubforum());
+    }
+
+    @Test
+    public void testGetPostsByUsername_NoPosts() {
+        String username = "testuser";
+        String authUsername = "authuser";
+
+        when(postRepository.findByCreatedBy(username)).thenReturn(new ArrayList<>());
+
+        List<GetPostResponse> result = postService.getPostsByUsername(username, authUsername);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetPostsByUsername_WithPosts() {
+        String username = "testuser";
+        String authUsername = "authuser";
+
+        Post post1 = new Post();
+        post1.setId(1L);
+        post1.setTitle("Test Title 1");
+        post1.setContent(new ArrayList<>());
+        post1.setCreatedBy(username);
+        post1.setCreationDate(LocalDateTime.now());
+        post1.setViewCount(0);
+        post1.setSubforumID(1L);
+
+        Post post2 = new Post();
+        post2.setId(2L);
+        post2.setTitle("Test Title 2");
+        post2.setContent(new ArrayList<>());
+        post2.setCreatedBy(username);
+        post2.setCreationDate(LocalDateTime.now());
+        post2.setViewCount(0);
+        post2.setSubforumID(1L);
+
+        List<Post> posts = new ArrayList<>();
+        posts.add(post1);
+        posts.add(post2);
+
+        User creatorUser = new User();
+        creatorUser.setUsername(username);
+        creatorUser.setProfilePhoto("testphoto.jpg");
+        creatorUser.setName("Test User");
+
+        Subforum subforum = new Subforum();
+        subforum.setId(1L);
+
+        when(postRepository.findByCreatedBy(username)).thenReturn(posts);
+        when(userRepository.findByUsername(username)).thenReturn(creatorUser);
+        when(subforumRepository.findById(1L)).thenReturn(Optional.of(subforum));
+        when(likeRepository.countByPostID(1L)).thenReturn(10);
+        when(dislikeRepository.countByPostID(1L)).thenReturn(2);
+        when(commentRepository.countByPostID(1L)).thenReturn(5);
+        when(likeRepository.existsByUsernameAndPostID(authUsername, 1L)).thenReturn(true);
+        when(dislikeRepository.existsByUsernameAndPostID(authUsername, 1L)).thenReturn(false);
+        when(likeRepository.countByPostID(2L)).thenReturn(8);
+        when(dislikeRepository.countByPostID(2L)).thenReturn(1);
+        when(commentRepository.countByPostID(2L)).thenReturn(3);
+        when(likeRepository.existsByUsernameAndPostID(authUsername, 2L)).thenReturn(false);
+        when(dislikeRepository.existsByUsernameAndPostID(authUsername, 2L)).thenReturn(true);
+
+        List<GetPostResponse> result = postService.getPostsByUsername(username, authUsername);
+
+        assertEquals(2, result.size());
+
+        GetPostResponse response1 = result.get(0);
+        assertEquals(1L, response1.getId());
+        assertEquals("Test Title 1", response1.getTitle());
+        assertEquals(username, response1.getCreatedBy());
+        assertEquals(10, response1.getLikeCount());
+        assertEquals(2, response1.getDislikeCount());
+        assertEquals(5, response1.getCommentCount());
+        assertTrue(response1.getIsLikedByUser());
+        assertFalse(response1.getIsDislikedByUser());
+        assertEquals("testphoto.jpg", response1.getAuthor().getUserPhoto());
+        assertEquals("Test User", response1.getAuthor().getName());
+        assertEquals(subforum, response1.getSubforum());
+
+        GetPostResponse response2 = result.get(1);
+        assertEquals(2L, response2.getId());
+        assertEquals("Test Title 2", response2.getTitle());
+        assertEquals(username, response2.getCreatedBy());
+        assertEquals(8, response2.getLikeCount());
+        assertEquals(1, response2.getDislikeCount());
+        assertEquals(3, response2.getCommentCount());
+        assertFalse(response2.getIsLikedByUser());
+        assertTrue(response2.getIsDislikedByUser());
+        assertEquals("testphoto.jpg", response2.getAuthor().getUserPhoto());
+        assertEquals("Test User", response2.getAuthor().getName());
+        assertEquals(subforum, response2.getSubforum());
+    }
 }
