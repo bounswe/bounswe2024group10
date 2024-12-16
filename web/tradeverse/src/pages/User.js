@@ -1,52 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "../components/structure/Post"; 
 import "./styles/User.css";
+import { useParams } from "react-router-dom";
+import { getUserDetails, getPostsByUser, getPortfolio } from "../services/user_api"; 
 
 const User = () => {
-  const user = {
-    name: "John",
-    surname: "Doe",
-    username: "johndoe123",
-    bio: "This is my bio. I love coding.",
-    avatar: "https://www.example.com/default-profile.png", 
-    followers: 150,
-    following: 180,
-    posts: [
-      {
-        id: 1,
-        author: { name: "John", surname: "Doe", avatar: "default-profile.png" },
-        username: "johndoe123",
-        content: [
-          { type: "text", value: "This is the content of my first post" },
-          { type: "tag", value: "Tech" },
-        ],
-        title: "My First Post",
-        nofLikes: 50,
-        nofDislikes: 3,
-        isLiked: false,
-        isDisliked: false,
-      },
-      {
-        id: 2,
-        author: { name: "John", surname: "Doe", avatar: "default-profile.png" },
-        username: "johndoe123",
-        content: [
-          { type: "text", value: "This is another post content." },
-          { type: "tag", value: "React" },
-        ],
-        title: "Another Post",
-        nofLikes: 80,
-        nofDislikes: 15,
-        isLiked: false,
-        isDisliked: false,
+  const { username } = useParams(); // Getting the username from URL params
+  console.log("Extracted username:", username);
+  const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [portfolio, setPortfolio] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch user details, posts, and portfolio
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from the API
+        const userResponse = await getUserDetails(username);
+        setUser(userResponse); // Set user details
+
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
+
+        const postsResponse = await getPostsByUser(username);
+        setPosts(postsResponse); // Set posts
+
+        const portfolioResponse = await getPortfolio(username);
+        setPortfolio(portfolioResponse); // Set portfolio
+      } catch (err) {
+        setError(err.message || "An error occurred."); // Handle errors
+      } finally {
+        setLoading(false); // Set loading state to false after fetching data
       }
-    ],
-    portfolio: [
-      { name: "Apple", percentage: 40, trend: 3.41 },
-      { name: "Tesla", percentage: 25, trend: -2.15 },
-      { name: "Amazon", percentage: 35, trend: 1.89 },
-    ]
-  };
+    };
+    fetchData();
+  }, [username]); // Re-fetch data when the username changes
+
+  if (loading) return <p>Loading...</p>; // Show loading message
+  if (error) return <p>{error}</p>; // Show error message
+
+  if (!user) return <p>User not found</p>; // If no user is found
 
   return (
     <div className="userPage">
@@ -54,12 +52,16 @@ const User = () => {
         <div className="profile">
           <img
             className="profilePhoto"
-            src={"default_profile_picture.png"}
+            src={user.avatar || "default-profile.png"} // Display user avatar or default image
             alt="Profile"
           />
         </div>
         <h1 className="username">{user.username}</h1>
-        <h2 className="fullName">{`${user.name} ${user.surname}`}</h2>
+        <h2 className="fullName">
+          {user.surname 
+            ? `${user.name} ${user.surname}` 
+            : user.name}
+        </h2>
         <div className="followDetails">
           <span>
             <b>{user.followers}</b> Followers
@@ -78,8 +80,8 @@ const User = () => {
       <div className="postsSection">
         <h2>Posts</h2>
         <div className="postList">
-          {user.posts.length > 0 ? (
-            user.posts.map((post) => <Post key={post.id} post={post} />)
+          {posts.length > 0 ? (
+            posts.map((post) => <Post key={post.id} post={post} />)
           ) : (
             <p className="noPosts">This user has not posted anything yet.</p>
           )}
@@ -97,21 +99,26 @@ const User = () => {
             </tr>
           </thead>
           <tbody>
-            {user.portfolio.map((stock, index) => (
-              <tr key={index}>
-                <td>{stock.name}</td>
-                <td>{`${stock.percentage}%`}</td>
-                <td
-                  className={stock.trend > 0 ? "positiveTrend" : "negativeTrend"}
-                >
-                  {stock.trend > 0 ? `+${stock.trend}%` : `${stock.trend}%`}
-                </td>
+            {portfolio.length > 0 ? (
+              portfolio.map((stock, index) => (
+                <tr key={index}>
+                  <td>{stock.name}</td>
+                  <td>{`${stock.percentage}%`}</td>
+                  <td
+                    className={stock.trend > 0 ? "positiveTrend" : "negativeTrend"}
+                  >
+                    {stock.trend > 0 ? `+${stock.trend}%` : `${stock.trend}%`}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3">No portfolio data available</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };

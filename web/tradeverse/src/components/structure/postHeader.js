@@ -26,12 +26,12 @@ const PostHeader = ({ post }) => {
           />
           <div className={styles.userDetails}>
             <h3>
-              <Link to="/user">
-                {`${post.author.name}`}
-              </Link>
+            <Link to={`/user/${post.createdBy}`}>
+              {`${post.author.name}`}
+            </Link>
             </h3>
             <p>
-              <Link to="/user">
+              <Link to={`/user/${post.createdBy}`}>
                 {`@${post.createdBy}`}
               </Link>
             </p>

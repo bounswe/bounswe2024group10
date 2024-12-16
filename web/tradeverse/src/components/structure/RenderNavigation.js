@@ -73,7 +73,7 @@ export const RenderRoutes = () => {
 
       <Route path="/:parentId/:postId" element={<PostPage />} />
       <Route path="/account" element={<Account />} />
-      <Route path="/user" element={<User />} />
+      <Route path="/user/:username" element={<User />} />
       <Route path="/assets/:id" element={<AssetInfo />} />
       <Route path="/subforum/:subforumId" element={<Subforum />} />
       <Route path="/tag/:tag" element={<TagPage />} />
