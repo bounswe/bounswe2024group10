@@ -47,6 +47,7 @@ const Search = () => {
 
         case 'users':
           filteredResults = await searchUsers(lowerTerm);
+          
           filteredResults = filteredResults.map((user) => ({
             id: user.id,
             name: user.firstName,
@@ -135,7 +136,9 @@ const Search = () => {
             switch (result.type) {
               case 'user':
                 return (
+                  <Link to={`/user/${result.username}`} key={index} style={{ textDecoration: 'none',color: 'black' }}>
                   <div key={index} className={styles.userCard}>
+                    
                     <img
                       src={result.avatar ? `http://35.246.188.121:8080/api${result.avatar}`: defaultUserImage}
                       alt={result.name}
@@ -148,6 +151,7 @@ const Search = () => {
                       
                     </div>
                   </div>
+                  </Link>
                 );
 
               case 'tag':
