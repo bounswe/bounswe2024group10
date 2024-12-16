@@ -5,6 +5,10 @@ import Feed from "../components/structure/feed.js";
 import "./styles/Account.css";
 import { AuthData } from "../auth/AuthWrapper";
 import { getUserProfile, getPostsByUser, setUserDetails } from "../services/account_api.js";
+import default_picture from "../data/defaultUserImage.jpeg";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import styles from "../components/styles/feed.module.css";
 
 const Account = () => {
   const { user } = AuthData();
@@ -37,24 +41,6 @@ const Account = () => {
     }
   }, [user, navigate]);
 
-  const handleEditBio = async () => {
-    const newBio = prompt("Edit your bio:", userData.bio || "");
-    if (newBio) {
-        try {
-            const token = localStorage.getItem("authToken");
-            const updatedUserData = await setUserDetails(token, { bio: newBio });
-
-            setUserData((prevData) => ({
-                ...prevData,
-                bio: updatedUserData.bio,
-            }));
-        } catch (error) {
-            console.error("Error updating bio:", error);
-            alert("Failed to update bio. Please try again later.");
-        }
-    }
-};
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -69,7 +55,7 @@ const Account = () => {
         <div className="profile">
           <img
             className="profilePhoto"
-            src={userData.avatar || "default-profile.png"}
+            src={userData.avatar || default_picture}
             alt="Profile"
           />
           <button className="editPhotoBtn">Update Photo</button>
@@ -83,13 +69,6 @@ const Account = () => {
         </div>
       </div>
 
-      <div className="bioSection">
-        <h2>About Me</h2>
-        <p className="bio">{userData.bio || ""}</p>
-        <button className="editBioBtn" onClick={handleEditBio}>
-          Edit Bio
-        </button>
-      </div>
       <Feed posts={posts} />
       {/* Portfolio Button */}
       <div className="portfolioButtonContainer">
