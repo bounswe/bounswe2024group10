@@ -10,7 +10,7 @@
 //   );
 // }
 
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   View,
   Text,
@@ -18,40 +18,71 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native'
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import GlobalScreen from '../../components/ui/global-screen'
 import FullScrollView from '../../components/ui/full-scroll-view'
+import SkeletonBox from '../../components/ui/skeleton'
+import AuthContext from '../../auth/context/auth-context'
+import { getFollowedSubforums } from '../../services/subforum'
+import MainButton from '../../components/buttons/main-button'
+import SubForumCard from './_components/SubforumCard'
 
 const FollowedTagsScreen = () => {
-  const followedTags = [
-    { id: '1', name: 'Investing', followers: 1500 },
-    { id: '2', name: 'Stock Market', followers: 2000 },
-    { id: '3', name: 'Personal Finance', followers: 1200 },
-    { id: '4', name: 'Cryptocurrency', followers: 1800 },
-    { id: '5', name: 'Financial Literacy', followers: 800 },
-    { id: '6', name: 'Budgeting', followers: 1600 },
-    { id: '7', name: 'Retirement Planning', followers: 900 },
-    { id: '8', name: 'Wealth Management', followers: 1300 },
-    { id: '9', name: 'Real Estate Investing', followers: 1700 },
-    { id: '10', name: 'Debt Management', followers: 1100 },
-    { id: '11', name: 'Passive Income', followers: 1400 },
-    { id: '12', name: 'Credit Score', followers: 700 },
-    { id: '13', name: 'Tax Planning', followers: 1000 },
-    { id: '14', name: 'Financial Independence', followers: 850 },
-    { id: '15', name: 'Investment Strategies', followers: 950 },
-    { id: '16', name: 'Mutual Funds', followers: 750 },
-    { id: '17', name: 'Forex Trading', followers: 1300 },
-    { id: '18', name: 'Insurance', followers: 600 },
-    { id: '19', name: 'Expense Tracking', followers: 1100 },
-    { id: '20', name: 'Economic Trends', followers: 1200 },
-  ]
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const { user } = useContext(AuthContext)
+  const router = useRouter()
 
-  const renderTagItem = ({ item }) => (
-    <TouchableOpacity style={styles.tagBox}>
-      <Text style={styles.tagName}>{item.name}</Text>
-      <Text style={styles.tagFollowers}>{item.followers} Followers</Text>
-    </TouchableOpacity>
+  const renderSkeleton = (
+    <View style={[styles.container, { marginTop: 44 }]}>
+      {Array.from({ length: 10 }).map((_, index) => (
+        <SkeletonBox height={72} width="100%" key={index} />
+      ))}
+    </View>
   )
+
+  const renderData = (followedTags) =>
+    followedTags?.length > 0 ? (
+      <View style={styles.container}>
+        <Text style={styles.header}>
+          You are following {followedTags.length} topics
+        </Text>
+        {followedTags.map((item, index) => (
+          <SubForumCard key={item.id} subForum={item} />
+        ))}
+      </View>
+    ) : (
+      <>
+        <Text style={styles.header}>No Subforums Followed</Text>
+        <MainButton
+          style={{ marginTop: 20 }}
+          text="Explore Subforums"
+          onPress={() => router.replace('/subforums')}
+        />
+      </>
+    )
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const res = await getFollowedSubforums({ username: user.username })
+        if (res) {
+          setData(res)
+          setLoading(false)
+        } else {
+          setError('Failed to fetch data')
+        }
+      } catch (err) {
+        setError(err)
+        console.log('Failed to fetch data', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <GlobalScreen>
@@ -62,19 +93,7 @@ const FollowedTagsScreen = () => {
             headerTitle: 'Followed Subforums',
           }}
         />
-        <View style={styles.container}>
-          <Text style={styles.header}>
-            You are following {followedTags.length} topics
-          </Text>
-          {followedTags.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.tagBox}>
-              <Text style={styles.tagName}>{item.name}</Text>
-              <Text style={styles.tagFollowers}>
-                {item.followers} Followers
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <>{loading ? renderSkeleton : renderData(data)}</>
       </FullScrollView>
     </GlobalScreen>
   )
@@ -83,14 +102,13 @@ const FollowedTagsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    gap: 20,
     backgroundColor: '#fff',
   },
   header: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+    marginBottom: 4,
   },
   tagList: {
     paddingBottom: 60, // Extra padding for the bottom nav bar
@@ -98,7 +116,6 @@ const styles = StyleSheet.create({
   tagBox: {
     backgroundColor: '#FFF',
     padding: 15,
-    marginVertical: 10,
     borderRadius: 10,
     elevation: 2, // Adds shadow effect
     alignItems: 'center',

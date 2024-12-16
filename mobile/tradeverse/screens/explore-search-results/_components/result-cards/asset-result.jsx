@@ -27,7 +27,7 @@ export default function AssetResult({ style, asset }) {
         }}
       >
         <ContentImage
-          src={asset.image}
+          src={asset.imageUrl}
           style={{
             height: SIZE_CONSTANT * 2.4,
             width: SIZE_CONSTANT * 2.4,
@@ -48,7 +48,7 @@ export default function AssetResult({ style, asset }) {
               fontWeight: FONT_WEIGHTS.semibold,
             }}
           >
-            {asset.abbreviation}
+            {asset.name}
           </Text>
           <Text
             style={{
@@ -56,7 +56,7 @@ export default function AssetResult({ style, asset }) {
               fontSize: SIZES.xxSmall,
             }}
           >
-            {asset.label}
+            {asset.tradingViewSymbol}
           </Text>
         </View>
       </View>

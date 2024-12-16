@@ -47,3 +47,13 @@ export const FONT_WEIGHTS = {
   bold: '700',
   black: '900',
 }
+
+export const SHADOWS = {
+  default: {
+    shadowColor: 'black', // The color of the shadow
+    shadowOffset: { width: 0, height: 2 }, // The offset of the shadow (x, y)
+    shadowOpacity: 0.25, // The opacity of the shadow (0 to 1)
+    shadowRadius: 3.84, // The blur radius of the shadow
+    elevation: 5,
+  },
+}

@@ -10,9 +10,10 @@ import {
 export default function Tabs({ selectedTab, setSelectedTab }) {
   const TABS = [
     {
-      label: 'Popular',
-      value: 'popular',
+      label: 'Posts',
+      value: 'posts',
     },
+
     {
       label: 'Assets',
       value: 'assets',
@@ -24,10 +25,6 @@ export default function Tabs({ selectedTab, setSelectedTab }) {
     {
       label: 'Sub Forums',
       value: 'sub_forums',
-    },
-    {
-      label: 'Posts',
-      value: 'posts',
     },
     {
       label: 'People',
