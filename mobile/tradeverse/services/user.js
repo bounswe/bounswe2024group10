@@ -25,11 +25,9 @@ export async function setProfile({ email, profilePhoto, name, bio, tag, username
     if (!token) throw new Error('Authorization token is missing');
 
     console.log('Token from AsyncStorage:', token);
+
     const response = await api.post(
       `/user/set-user-details`,
-
-    const response = await api.post(
-
       {
         email,
         //profilePhoto,
@@ -49,13 +47,6 @@ export async function setProfile({ email, profilePhoto, name, bio, tag, username
     );
 
     console.log('Response:', response.data);
-
-      },
-      {
-        maxBodyLength: Infinity,
-      }
-    )
-
     return response.data
   } catch (error) {
     console.log('XXX Set profile failed:', error.response?.data || error.message);

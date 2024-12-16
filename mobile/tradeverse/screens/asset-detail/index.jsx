@@ -30,7 +30,8 @@ const AssetDisplay = () => {
   return (
 
     <GlobalScreen containerStyle={{ paddingHorizontal: 0 }}>
-      <Header title={symbol} />
+      <FullScrollView>
+        <Header title={symbol}></Header>
 
           <PaddedContainer style={{ paddingHorizontal: 12 }}>
             <View style={styles.row}>

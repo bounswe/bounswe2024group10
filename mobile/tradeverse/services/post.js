@@ -122,3 +122,19 @@ export async function getPostDetail({ id }) {
   }
   return null
 }
+
+export async function getPostsByTag({ tag }) {
+  try {
+    const response = await api({
+      url: '/post/get-posts-by-tag',
+      method: 'GET',
+      params: { tag },
+    })
+
+    // Return the list of posts if the response is successful
+    return response.data
+  } catch (error) {
+    console.log('Fetching posts by tag failed', error)
+  }
+   return null
+}
