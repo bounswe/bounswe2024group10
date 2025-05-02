@@ -1,0 +1,1580 @@
+[
+    {
+        "name": "Apple Inc.",
+        "tradingViewSymbol": "NASDAQ:AAPL",
+        "yahooFinanceSymbol": "AAPL",
+        "imageUrl": "https: //static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AAPL.png"
+    },
+    {
+        "name": "Microsoft Corporation",
+        "tradingViewSymbol": "NASDAQ:MSFT",
+        "yahooFinanceSymbol": "MSFT",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MSFT.png"
+    },
+    {
+        "name": "Amazon.com, Inc.",
+        "tradingViewSymbol": "NASDAQ:AMZN",
+        "yahooFinanceSymbol": "AMZN",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AMZN.png"
+    },
+    {
+        "name": "Alphabet Inc. Class A",
+        "tradingViewSymbol": "NASDAQ:GOOGL",
+        "yahooFinanceSymbol": "GOOGL",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/GOOG.png"
+    },
+    {
+        "name": "Alphabet Inc. Class C",
+        "tradingViewSymbol": "NASDAQ:GOOG",
+        "yahooFinanceSymbol": "GOOG",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/GOOG.png"
+    },
+    {
+        "name": "Meta Platforms, Inc.",
+        "tradingViewSymbol": "NASDAQ:META",
+        "yahooFinanceSymbol": "META",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/FB.png"
+    },
+    {
+        "name": "Tesla, Inc.",
+        "tradingViewSymbol": "NASDAQ:TSLA",
+        "yahooFinanceSymbol": "TSLA",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/TSLA.png"
+    },
+    {
+        "name": "NVIDIA Corporation",
+        "tradingViewSymbol": "NASDAQ:NVDA",
+        "yahooFinanceSymbol": "NVDA",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/NVDA.png"
+    },
+    {
+        "name": "PayPal Holdings, Inc.",
+        "tradingViewSymbol": "NASDAQ:PYPL",
+        "yahooFinanceSymbol": "PYPL",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PYPL.png"
+    },
+    {
+        "name": "Intel Corporation",
+        "tradingViewSymbol": "NASDAQ:INTC",
+        "yahooFinanceSymbol": "INTC",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/INTC.png"
+    },
+    {
+        "name": "Cisco Systems, Inc.",
+        "tradingViewSymbol": "NASDAQ:CSCO",
+        "yahooFinanceSymbol": "CSCO",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/950800186156.png"
+    },
+    {
+        "name": "Comcast Corporation",
+        "tradingViewSymbol": "NASDAQ:CMCSA",
+        "yahooFinanceSymbol": "CMCSA",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/CMCSA.png"
+    },
+    {
+        "name": "PepsiCo, Inc.",
+        "tradingViewSymbol": "NASDAQ:PEP",
+        "yahooFinanceSymbol": "PEP",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PEP.png"
+    },
+    {
+        "name": "Adobe Inc.",
+        "tradingViewSymbol": "NASDAQ:ADBE",
+        "yahooFinanceSymbol": "ADBE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ADBE.png"
+    },
+    {
+        "name": "Netflix, Inc.",
+        "tradingViewSymbol": "NASDAQ:NFLX",
+        "yahooFinanceSymbol": "NFLX",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/NFLX.png"
+    },
+    {
+        "name": "Costco Wholesale Corporation",
+        "tradingViewSymbol": "NASDAQ:COST",
+        "yahooFinanceSymbol": "COST",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/COST.png"
+    },
+    {
+        "name": "Broadcom Inc.",
+        "tradingViewSymbol": "NASDAQ:AVGO",
+        "yahooFinanceSymbol": "AVGO",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AVGO.png"
+    },
+    {
+        "name": "Texas Instruments Incorporated",
+        "tradingViewSymbol": "NASDAQ:TXN",
+        "yahooFinanceSymbol": "TXN",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/TXN.png"
+    },
+    {
+        "name": "QUALCOMM Incorporated",
+        "tradingViewSymbol": "NASDAQ:QCOM",
+        "yahooFinanceSymbol": "QCOM",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/QCOM.png"
+    },
+    {
+        "name": "Advanced Micro Devices, Inc.",
+        "tradingViewSymbol": "NASDAQ:AMD",
+        "yahooFinanceSymbol": "AMD",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AMD.png"
+    },
+    {
+        "name": "Starbucks Corporation",
+        "tradingViewSymbol": "NASDAQ:SBUX",
+        "yahooFinanceSymbol": "SBUX",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/SBUX.png"
+    },
+    {
+        "name": "Intuit Inc.",
+        "tradingViewSymbol": "NASDAQ:INTU",
+        "yahooFinanceSymbol": "INTU",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/INTU.png"
+    },
+    {
+        "name": "Gilead Sciences, Inc.",
+        "tradingViewSymbol": "NASDAQ:GILD",
+        "yahooFinanceSymbol": "GILD",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/GILD.png"
+    },
+    {
+        "name": "Booking Holdings Inc.",
+        "tradingViewSymbol": "NASDAQ:BKNG",
+        "yahooFinanceSymbol": "BKNG",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/BKNG.png"
+    },
+    {
+        "name": "eBay Inc.",
+        "tradingViewSymbol": "NASDAQ:EBAY",
+        "yahooFinanceSymbol": "EBAY",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/EBAY.png"
+    },
+    {
+        "name": "Micron Technology, Inc.",
+        "tradingViewSymbol": "NASDAQ:MU",
+        "yahooFinanceSymbol": "MU",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MU.png"
+    },
+    {
+        "name": "Marriott International, Inc.",
+        "tradingViewSymbol": "NASDAQ:MAR",
+        "yahooFinanceSymbol": "MAR",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MAR.png"
+    },
+    {
+        "name": "Moderna, Inc.",
+        "tradingViewSymbol": "NASDAQ:MRNA",
+        "yahooFinanceSymbol": "MRNA",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MRNA.png"
+    },
+    {
+        "name": "KLA Corporation",
+        "tradingViewSymbol": "NASDAQ:KLAC",
+        "yahooFinanceSymbol": "KLAC",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/KLAC.png"
+    },
+    {
+        "name": "Lam Research Corporation",
+        "tradingViewSymbol": "NASDAQ:LRCX",
+        "yahooFinanceSymbol": "LRCX",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/LRCX.png"
+    },
+    {
+        "name": "Applied Materials, Inc.",
+        "tradingViewSymbol": "NASDAQ:AMAT",
+        "yahooFinanceSymbol": "AMAT",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AMAT.png"
+    },
+    {
+        "name": "Analog Devices, Inc.",
+        "tradingViewSymbol": "NASDAQ:ADI",
+        "yahooFinanceSymbol": "ADI",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ADI.png"
+    },
+    {
+        "name": "ASML Holding N.V.",
+        "tradingViewSymbol": "NASDAQ:ASML",
+        "yahooFinanceSymbol": "ASML",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ASML.AS.png"
+    },
+    {
+        "name": "Pinduoduo Inc.",
+        "tradingViewSymbol": "NASDAQ:PDD",
+        "yahooFinanceSymbol": "PDD",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PDD.png"
+    },
+    {
+        "name": "JD.com, Inc.",
+        "tradingViewSymbol": "NASDAQ:JD",
+        "yahooFinanceSymbol": "JD",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/9618.HK.png"
+    },
+    {
+        "name": "Baidu, Inc.",
+        "tradingViewSymbol": "NASDAQ:BIDU",
+        "yahooFinanceSymbol": "BIDU",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/BIDU.png"
+    },
+    {
+        "name": "Trip.com Group Limited",
+        "tradingViewSymbol": "NASDAQ:TCOM",
+        "yahooFinanceSymbol": "TCOM",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/9961.HK.png"
+    },
+    {
+        "name": "NetEase, Inc.",
+        "tradingViewSymbol": "NASDAQ:NTES",
+        "yahooFinanceSymbol": "NTES",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/NTES.png"
+    },
+    {
+        "name": "Zoom Video Communications, Inc.",
+        "tradingViewSymbol": "NASDAQ:ZM",
+        "yahooFinanceSymbol": "ZM",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ZM.png"
+    },
+    {
+        "name": "DocuSign, Inc.",
+        "tradingViewSymbol": "NASDAQ:DOCU",
+        "yahooFinanceSymbol": "DOCU",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DOCU.png"
+    },
+    {
+        "name": "Peloton Interactive, Inc.",
+        "tradingViewSymbol": "NASDAQ:PTON",
+        "yahooFinanceSymbol": "PTON",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PTON.png"
+    },
+    {
+        "name": "Roku, Inc.",
+        "tradingViewSymbol": "NASDAQ:ROKU",
+        "yahooFinanceSymbol": "ROKU",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ROKU.png"
+    },
+    {
+        "name": "Match Group, Inc.",
+        "tradingViewSymbol": "NASDAQ:MTCH",
+        "yahooFinanceSymbol": "MTCH",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MTCH.png"
+    },
+    {
+        "name": "Lyft, Inc.",
+        "tradingViewSymbol": "NASDAQ:LYFT",
+        "yahooFinanceSymbol": "LYFT",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/LYFT.png"
+    },
+    {
+        "name": "Uber Technologies, Inc.",
+        "tradingViewSymbol": "NASDAQ:UBER",
+        "yahooFinanceSymbol": "UBER",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/UBER.png"
+    },
+    {
+        "name": "Airbnb, Inc.",
+        "tradingViewSymbol": "NASDAQ:ABNB",
+        "yahooFinanceSymbol": "ABNB",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ABNB.png"
+    },
+    {
+        "name": "DoorDash, Inc.",
+        "tradingViewSymbol": "NASDAQ:DASH",
+        "yahooFinanceSymbol": "DASH",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DASH.png"
+    },
+    {
+        "name": "Snowflake Inc.",
+        "tradingViewSymbol": "NASDAQ:SNOW",
+        "yahooFinanceSymbol": "SNOW",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/SNOW.png"
+    },
+    {
+        "name": "Palantir Technologies Inc.",
+        "tradingViewSymbol": "NASDAQ:PLTR",
+        "yahooFinanceSymbol": "PLTR",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PLTR.png"
+    },
+    {
+        "name": "Robinhood Markets, Inc.",
+        "tradingViewSymbol": "NASDAQ:HOOD",
+        "yahooFinanceSymbol": "HOOD",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/HOOD.png"
+    },
+    {
+        "name": "Berkshire Hathaway Inc. Class B",
+        "tradingViewSymbol": "NYSE:BRK.B",
+        "yahooFinanceSymbol": "BRK-B",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/BRK.B.png"
+    },
+    {
+        "name": "Johnson & Johnson",
+        "tradingViewSymbol": "NYSE:JNJ",
+        "yahooFinanceSymbol": "JNJ",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/JNJ.png"
+    },
+    {
+        "name": "JPMorgan Chase & Co.",
+        "tradingViewSymbol": "NYSE:JPM",
+        "yahooFinanceSymbol": "JPM",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/JPM.png"
+    },
+    {
+        "name": "Visa Inc.",
+        "tradingViewSymbol": "NYSE:V",
+        "yahooFinanceSymbol": "V",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/V.png"
+    },
+    {
+        "name": "Procter & Gamble Co.",
+        "tradingViewSymbol": "NYSE:PG",
+        "yahooFinanceSymbol": "PG",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PG.png"
+    },
+    {
+        "name": "UnitedHealth Group Incorporated",
+        "tradingViewSymbol": "NYSE:UNH",
+        "yahooFinanceSymbol": "UNH",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/UNH.png"
+    },
+    {
+        "name": "Home Depot, Inc.",
+        "tradingViewSymbol": "NYSE:HD",
+        "yahooFinanceSymbol": "HD",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/HD.png"
+    },
+    {
+        "name": "Mastercard Incorporated",
+        "tradingViewSymbol": "NYSE:MA",
+        "yahooFinanceSymbol": "MA",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MA.png"
+    },
+    {
+        "name": "Pfizer Inc.",
+        "tradingViewSymbol": "NYSE:PFE",
+        "yahooFinanceSymbol": "PFE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PFE.png"
+    },
+    {
+        "name": "Exxon Mobil Corporation",
+        "tradingViewSymbol": "NYSE:XOM",
+        "yahooFinanceSymbol": "XOM",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/XOM.png"
+    },
+    {
+        "name": "Walt Disney Company",
+        "tradingViewSymbol": "NYSE:DIS",
+        "yahooFinanceSymbol": "DIS",
+        "imageUrl": "https://logo.clearbit.com/waltdisney.com"
+    },
+    {
+        "name": "Bank of America Corporation",
+        "tradingViewSymbol": "NYSE:BAC",
+        "yahooFinanceSymbol": "BAC",
+        "imageUrl": "https://placeholder.com/currency-bank-of-america-corporation.png"
+    },
+    {
+        "name": "Verizon Communications Inc.",
+        "tradingViewSymbol": "NYSE:VZ",
+        "yahooFinanceSymbol": "VZ",
+        "imageUrl": "https://logo.clearbit.com/verizoncommunications.com"
+    },
+    {
+        "name": "Coca-Cola Company",
+        "tradingViewSymbol": "NYSE:KO",
+        "yahooFinanceSymbol": "KO",
+        "imageUrl": "https://logo.clearbit.com/coca-cola.com"
+    },
+    {
+        "name": "Merck & Co., Inc.",
+        "tradingViewSymbol": "NYSE:MRK",
+        "yahooFinanceSymbol": "MRK",
+        "imageUrl": "https://placeholder.com/currency-merck-&-co.,-inc..png"
+    },
+    {
+        "name": "Chevron Corporation",
+        "tradingViewSymbol": "NYSE:CVX",
+        "yahooFinanceSymbol": "CVX",
+        "imageUrl": "https://logo.clearbit.com/chevron.com"
+    },
+    {
+        "name": "AbbVie Inc.",
+        "tradingViewSymbol": "NYSE:ABBV",
+        "yahooFinanceSymbol": "ABBV",
+        "imageUrl": "https://logo.clearbit.com/abbvie.com"
+    },
+    {
+        "name": "Thermo Fisher Scientific Inc.",
+        "tradingViewSymbol": "NYSE:TMO",
+        "yahooFinanceSymbol": "TMO",
+        "imageUrl": "https://logo.clearbit.com/thermofisherscientific.com"
+    },
+    {
+        "name": "Abbott Laboratories",
+        "tradingViewSymbol": "NYSE:ABT",
+        "yahooFinanceSymbol": "ABT",
+        "imageUrl": "https://placeholder.com/currency-abbott-laboratories.png"
+    },
+    {
+        "name": "Amgen Inc.",
+        "tradingViewSymbol": "NASDAQ:AMGN",
+        "yahooFinanceSymbol": "AMGN",
+        "imageUrl": "https://logo.clearbit.com/amgen.com"
+    },
+    {
+        "name": "McDonald's Corporation",
+        "tradingViewSymbol": "NYSE:MCD",
+        "yahooFinanceSymbol": "MCD",
+        "imageUrl": "https: //placeholder.com/currency-mcdonald's-corporation.png"
+    },
+    {
+        "name": "Costco Wholesale Corporation",
+        "tradingViewSymbol": "NASDAQ:COST",
+        "yahooFinanceSymbol": "COST",
+        "imageUrl": "https: //placeholder.com/currency-costco-wholesale-corporation.png"
+    },
+    {
+        "name": "Walmart Inc.",
+        "tradingViewSymbol": "NYSE:WMT",
+        "yahooFinanceSymbol": "WMT",
+        "imageUrl": "https://logo.clearbit.com/walmart.com"
+    },
+    {
+        "name": "Medtronic plc",
+        "tradingViewSymbol": "NYSE:MDT",
+        "yahooFinanceSymbol": "MDT",
+        "imageUrl": "https://logo.clearbit.com/medtronicplc.com"
+    },
+    {
+        "name": "Bristol-Myers Squibb Company",
+        "tradingViewSymbol": "NYSE:BMY",
+        "yahooFinanceSymbol": "BMY",
+        "imageUrl": "https://placeholder.com/currency-bristol-myers-squibb-company.png"
+    },
+    {
+        "name": "Union Pacific Corporation",
+        "tradingViewSymbol": "NYSE:UNP",
+        "yahooFinanceSymbol": "UNP",
+        "imageUrl": "https://logo.clearbit.com/unionpacific.com"
+    },
+    {
+        "name": "Honeywell International Inc.",
+        "tradingViewSymbol": "NASDAQ:HON",
+        "yahooFinanceSymbol": "HON",
+        "imageUrl": "https://placeholder.com/currency-honeywell-international-inc..png"
+    },
+    {
+        "name": "Texas Instruments Incorporated",
+        "tradingViewSymbol": "NASDAQ:TXN",
+        "yahooFinanceSymbol": "TXN",
+        "imageUrl": "https://placeholder.com/currency-texas-instruments-incorporated.png"
+    },
+    {
+        "name": "Goldman Sachs Group, Inc.",
+        "tradingViewSymbol": "NYSE:GS",
+        "yahooFinanceSymbol": "GS",
+        "imageUrl": "https://placeholder.com/currency-goldman-sachs-group,-inc..png"
+    },
+    {
+        "name": "Citigroup Inc.",
+        "tradingViewSymbol": "NYSE:C",
+        "yahooFinanceSymbol": "C",
+        "imageUrl": "https://logo.clearbit.com/citigroup.com"
+    },
+    {
+        "name": "Morgan Stanley",
+        "tradingViewSymbol": "NYSE:MS",
+        "yahooFinanceSymbol": "MS",
+        "imageUrl": "https://logo.clearbit.com/morganstanley.com"
+    },
+    {
+        "name": "American Express Company",
+        "tradingViewSymbol": "NYSE:AXP",
+        "yahooFinanceSymbol": "AXP",
+        "imageUrl": "https://logo.clearbit.com/americanexpress.com"
+    },
+    {
+        "name": "Boeing Company",
+        "tradingViewSymbol": "NYSE:BA",
+        "yahooFinanceSymbol": "BA",
+        "imageUrl": "https://logo.clearbit.com/boeing.com"
+    },
+    {
+        "name": "3M Company",
+        "tradingViewSymbol": "NYSE:MMM",
+        "yahooFinanceSymbol": "MMM",
+        "imageUrl": "https://logo.clearbit.com/3m.com"
+    },
+    {
+        "name": "General Electric Company",
+        "tradingViewSymbol": "NYSE:GE",
+        "yahooFinanceSymbol": "GE",
+        "imageUrl": "https://logo.clearbit.com/generalelectric.com"
+    },
+    {
+        "name": "Target Corporation",
+        "tradingViewSymbol": "NYSE:TGT",
+        "yahooFinanceSymbol": "TGT",
+        "imageUrl": "https://logo.clearbit.com/target.com"
+    },
+    {
+        "name": "Lockheed Martin Corporation",
+        "tradingViewSymbol": "NYSE:LMT",
+        "yahooFinanceSymbol": "LMT",
+        "imageUrl": "https://logo.clearbit.com/lockheedmartin.com"
+    },
+    {
+        "name": "Intel Corporation",
+        "tradingViewSymbol": "NASDAQ:INTC",
+        "yahooFinanceSymbol": "INTC",
+        "imageUrl": "https://logo.clearbit.com/intel.com"
+    },
+    {
+        "name": "Colgate-Palmolive Company",
+        "tradingViewSymbol": "NYSE:CL",
+        "yahooFinanceSymbol": "CL",
+        "imageUrl": "https://placeholder.com/currency-colgate-palmolive-company.png"
+    },
+    {
+        "name": "Kimberly-Clark Corporation",
+        "tradingViewSymbol": "NYSE:KMB",
+        "yahooFinanceSymbol": "KMB",
+        "imageUrl": "https://logo.clearbit.com/kimberly-clark.com"
+    },
+    {
+        "name": "Deere & Company",
+        "tradingViewSymbol": "NYSE:DE",
+        "yahooFinanceSymbol": "DE",
+        "imageUrl": "https://placeholder.com/currency-deere-&-company.png"
+    },
+    {
+        "name": "Dow Inc.",
+        "tradingViewSymbol": "NYSE:DOW",
+        "yahooFinanceSymbol": "DOW",
+        "imageUrl": "https://logo.clearbit.com/dow.com"
+    },
+    {
+        "name": "General Motors Company",
+        "tradingViewSymbol": "NYSE:GM",
+        "yahooFinanceSymbol": "GM",
+        "imageUrl": "https://logo.clearbit.com/generalmotors.com"
+    },
+    {
+        "name": "Ford Motor Company",
+        "tradingViewSymbol": "NYSE:F",
+        "yahooFinanceSymbol": "F",
+        "imageUrl": "https://placeholder.com/currency-ford-motor-company.png"
+    },
+    {
+        "name": "Philip Morris International Inc.",
+        "tradingViewSymbol": "NYSE:PM",
+        "yahooFinanceSymbol": "PM",
+        "imageUrl": "https://logo.clearbit.com/philipmorrisinternational.com"
+    },
+    {
+        "name": "Eli Lilly and Company",
+        "tradingViewSymbol": "NYSE:LLY",
+        "yahooFinanceSymbol": "LLY",
+        "imageUrl": "https://placeholder.com/currency-eli-lilly-and-company.png"
+    },
+    {
+        "name": "Caterpillar Inc.",
+        "tradingViewSymbol": "NYSE:CAT",
+        "yahooFinanceSymbol": "CAT",
+        "imageUrl": "https://logo.clearbit.com/caterpillar.com"
+    },
+    {
+        "name": "Schlumberger Limited",
+        "tradingViewSymbol": "NYSE:SLB",
+        "yahooFinanceSymbol": "SLB",
+        "imageUrl": "https://placeholder.com/currency-schlumberger-limited.png"
+    },
+    {
+        "name": "Koç Holding A.Ş.",
+        "tradingViewSymbol": "KCHOL",
+        "yahooFinanceSymbol": "KCHOL.IS",
+        "imageUrl": "https://placeholder.com/currency-koç-holding-a.ş..png"
+    },
+    {
+        "name": "Sabancı Holding A.Ş.",
+        "tradingViewSymbol": "SAHOL",
+        "yahooFinanceSymbol": "SAHOL.IS",
+        "imageUrl": "https://placeholder.com/currency-sabancı-holding-a.ş..png"
+    },
+    {
+        "name": "Türkiye İş Bankası A.Ş. (C)",
+        "tradingViewSymbol": "ISCTR",
+        "yahooFinanceSymbol": "ISCTR.IS",
+        "imageUrl": "https://placeholder.com/currency-türkiye-i̇ş-bankası-a.ş.-(c).png"
+    },
+    {
+        "name": "Akbank T.A.Ş.",
+        "tradingViewSymbol": "AKBNK",
+        "yahooFinanceSymbol": "AKBNK.IS",
+        "imageUrl": "https://placeholder.com/currency-akbank-t.a.ş..png"
+    },
+    {
+        "name": "Türkiye Garanti Bankası A.Ş.",
+        "tradingViewSymbol": "GARAN",
+        "yahooFinanceSymbol": "GARAN.IS",
+        "imageUrl": "https://placeholder.com/currency-türkiye-garanti-bankası-a.ş..png"
+    },
+    {
+        "name": "Yapı ve Kredi Bankası A.Ş.",
+        "tradingViewSymbol": "YKBNK",
+        "yahooFinanceSymbol": "YKBNK.IS",
+        "imageUrl": "https://placeholder.com/currency-yapı-ve-kredi-bankası-a.ş..png"
+    },
+    {
+        "name": "Türk Hava Yolları A.O.",
+        "tradingViewSymbol": "THYAO",
+        "yahooFinanceSymbol": "THYAO.IS",
+        "imageUrl": "https://placeholder.com/currency-türk-hava-yolları-a.o..png"
+    },
+    {
+        "name": "BİM Birleşik Mağazalar A.Ş.",
+        "tradingViewSymbol": "BIMAS",
+        "yahooFinanceSymbol": "BIMAS.IS",
+        "imageUrl": "https://placeholder.com/currency-bi̇m-birleşik-mağazalar-a.ş..png"
+    },
+    {
+        "name": "Ereğli Demir ve Çelik Fabrikaları T.A.Ş.",
+        "tradingViewSymbol": "EREGL",
+        "yahooFinanceSymbol": "EREGL.IS",
+        "imageUrl": "https://placeholder.com/currency-ereğli-demir-ve-çelik-fabrikaları-t.a.ş..png"
+    },
+    {
+        "name": "Ford Otomotiv Sanayi A.Ş.",
+        "tradingViewSymbol": "FROTO",
+        "yahooFinanceSymbol": "FROTO.IS",
+        "imageUrl": "https://placeholder.com/currency-ford-otomotiv-sanayi-a.ş..png"
+    },
+    {
+        "name": "Tofaş Türk Otomobil Fabrikası A.Ş.",
+        "tradingViewSymbol": "TOASO",
+        "yahooFinanceSymbol": "TOASO.IS",
+        "imageUrl": "https://placeholder.com/currency-tofaş-türk-otomobil-fabrikası-a.ş..png"
+    },
+    {
+        "name": "Arçelik A.Ş.",
+        "tradingViewSymbol": "ARCLK",
+        "yahooFinanceSymbol": "ARCLK.IS",
+        "imageUrl": "https://placeholder.com/currency-arçelik-a.ş..png"
+    },
+    {
+        "name": "Vestel Elektronik Sanayi ve Ticaret A.Ş.",
+        "tradingViewSymbol": "VESTL",
+        "yahooFinanceSymbol": "VESTL.IS",
+        "imageUrl": "https://placeholder.com/currency-vestel-elektronik-sanayi-ve-ticaret-a.ş..png"
+    },
+    {
+        "name": "Turkcell İletişim Hizmetleri A.Ş.",
+        "tradingViewSymbol": "TCELL",
+        "yahooFinanceSymbol": "TCELL.IS",
+        "imageUrl": "https://placeholder.com/currency-turkcell-i̇letişim-hizmetleri-a.ş..png"
+    },
+    {
+        "name": "Türk Telekomünikasyon A.Ş.",
+        "tradingViewSymbol": "TTKOM",
+        "yahooFinanceSymbol": "TTKOM.IS",
+        "imageUrl": "https://placeholder.com/currency-türk-telekomünikasyon-a.ş..png"
+    },
+    {
+        "name": "Petkim Petrokimya Holding A.Ş.",
+        "tradingViewSymbol": "PETKM",
+        "yahooFinanceSymbol": "PETKM.IS",
+        "imageUrl": "https://placeholder.com/currency-petkim-petrokimya-holding-a.ş..png"
+    },
+    {
+        "name": "Tüpraş Türkiye Petrol Rafinerileri A.Ş.",
+        "tradingViewSymbol": "TUPRS",
+        "yahooFinanceSymbol": "TUPRS.IS",
+        "imageUrl": "https://placeholder.com/currency-tüpraş-türkiye-petrol-rafinerileri-a.ş..png"
+    },
+    {
+        "name": "Anadolu Efes Biracılık ve Malt Sanayi A.Ş.",
+        "tradingViewSymbol": "AEFES",
+        "yahooFinanceSymbol": "AEFES.IS",
+        "imageUrl": "https://placeholder.com/currency-anadolu-efes-biracılık-ve-malt-sanayi-a.ş..png"
+    },
+    {
+        "name": "Migros Ticaret A.Ş.",
+        "tradingViewSymbol": "MGROS",
+        "yahooFinanceSymbol": "MGROS.IS",
+        "imageUrl": "https://placeholder.com/currency-migros-ticaret-a.ş..png"
+    },
+    {
+        "name": "Şişecam A.Ş.",
+        "tradingViewSymbol": "SISE",
+        "yahooFinanceSymbol": "SISE.IS",
+        "imageUrl": "https://placeholder.com/currency-şişecam-a.ş..png"
+    },
+    {
+        "name": "Aselsan Elektronik Sanayi ve Ticaret A.Ş.",
+        "tradingViewSymbol": "ASELS",
+        "yahooFinanceSymbol": "ASELS.IS",
+        "imageUrl": "https://placeholder.com/currency-aselsan-elektronik-sanayi-ve-ticaret-a.ş..png"
+    },
+    {
+        "name": "Halkbank T.A.Ş.",
+        "tradingViewSymbol": "HALKB",
+        "yahooFinanceSymbol": "HALKB.IS",
+        "imageUrl": "https://placeholder.com/currency-halkbank-t.a.ş..png"
+    },
+    {
+        "name": "VakıfBank T.A.O.",
+        "tradingViewSymbol": "VAKBN",
+        "yahooFinanceSymbol": "VAKBN.IS",
+        "imageUrl": "https://placeholder.com/currency-vakıfbank-t.a.o..png"
+    },
+    {
+        "name": "Enka İnşaat ve Sanayi A.Ş.",
+        "tradingViewSymbol": "ENKAI",
+        "yahooFinanceSymbol": "ENKAI.IS",
+        "imageUrl": "https://placeholder.com/currency-enka-i̇nşaat-ve-sanayi-a.ş..png"
+    },
+    {
+        "name": "Doğan Şirketler Grubu Holding A.Ş.",
+        "tradingViewSymbol": "DOHOL",
+        "yahooFinanceSymbol": "DOHOL.IS",
+        "imageUrl": "https://placeholder.com/currency-doğan-şirketler-grubu-holding-a.ş..png"
+    },
+    {
+        "name": "Alarko Holding A.Ş.",
+        "tradingViewSymbol": "ALARK",
+        "yahooFinanceSymbol": "ALARK.IS",
+        "imageUrl": "https://placeholder.com/currency-alarko-holding-a.ş..png"
+    },
+    {
+        "name": "Emlak Konut Gayrimenkul Yatırım Ortaklığı A.Ş.",
+        "tradingViewSymbol": "EKGYO",
+        "yahooFinanceSymbol": "EKGYO.IS",
+        "imageUrl": "https://placeholder.com/currency-emlak-konut-gayrimenkul-yatırım-ortaklığı-a.ş..png"
+    },
+    {
+        "name": "Gübre Fabrikaları T.A.Ş.",
+        "tradingViewSymbol": "GUBRF",
+        "yahooFinanceSymbol": "GUBRF.IS",
+        "imageUrl": "https://placeholder.com/currency-gübre-fabrikaları-t.a.ş..png"
+    },
+    {
+        "name": "İhlas Holding A.Ş.",
+        "tradingViewSymbol": "IHLAS",
+        "yahooFinanceSymbol": "IHLAS.IS",
+        "imageUrl": "https://placeholder.com/currency-i̇hlas-holding-a.ş..png"
+    },
+    {
+        "name": "Koza Altın İşletmeleri A.Ş.",
+        "tradingViewSymbol": "KOZAL",
+        "yahooFinanceSymbol": "KOZAL.IS",
+        "imageUrl": "https://placeholder.com/currency-koza-altın-i̇şletmeleri-a.ş..png"
+    },
+    {
+        "name": "Koza Madencilik A.Ş.",
+        "tradingViewSymbol": "KOZAA",
+        "yahooFinanceSymbol": "KOZAA.IS",
+        "imageUrl": "https://placeholder.com/currency-koza-madencilik-a.ş..png"
+    },
+    {
+        "name": "Otokar Otomotiv ve Savunma Sanayi A.Ş.",
+        "tradingViewSymbol": "OTKAR",
+        "yahooFinanceSymbol": "OTKAR.IS",
+        "imageUrl": "https://placeholder.com/currency-otokar-otomotiv-ve-savunma-sanayi-a.ş..png"
+    },
+    {
+        "name": "TAV Havalimanları Holding A.Ş.",
+        "tradingViewSymbol": "TAVHL",
+        "yahooFinanceSymbol": "TAVHL.IS",
+        "imageUrl": "https://placeholder.com/currency-tav-havalimanları-holding-a.ş..png"
+    },
+    {
+        "name": "Tekfen Holding A.Ş.",
+        "tradingViewSymbol": "TKFEN",
+        "yahooFinanceSymbol": "TKFEN.IS",
+        "imageUrl": "https://placeholder.com/currency-tekfen-holding-a.ş..png"
+    },
+    {
+        "name": "Trakya Cam Sanayi A.Ş.",
+        "tradingViewSymbol": "TRKCM",
+        "yahooFinanceSymbol": "TRKCM.IS",
+        "imageUrl": "https://placeholder.com/currency-trakya-cam-sanayi-a.ş..png"
+    },
+    {
+        "name": "Ülker Bisküvi Sanayi A.Ş.",
+        "tradingViewSymbol": "ULKER",
+        "yahooFinanceSymbol": "ULKER.IS",
+        "imageUrl": "https://placeholder.com/currency-ülker-bisküvi-sanayi-a.ş..png"
+    },
+    {
+        "name": "Zorlu Enerji Elektrik Üretim A.Ş.",
+        "tradingViewSymbol": "ZOREN",
+        "yahooFinanceSymbol": "ZOREN.IS",
+        "imageUrl": "https://placeholder.com/currency-zorlu-enerji-elektrik-üretim-a.ş..png"
+    },
+    {
+        "name": "Aksa Enerji Üretim A.Ş.",
+        "tradingViewSymbol": "AKSEN",
+        "yahooFinanceSymbol": "AKSEN.IS",
+        "imageUrl": "https://placeholder.com/currency-aksa-enerji-üretim-a.ş..png"
+    },
+    {
+        "name": "Anadolu Hayat Emeklilik A.Ş.",
+        "tradingViewSymbol": "ANHYT",
+        "yahooFinanceSymbol": "ANHYT.IS",
+        "imageUrl": "https://placeholder.com/currency-anadolu-hayat-emeklilik-a.ş..png"
+    },
+    {
+        "name": "Aygaz A.Ş.",
+        "tradingViewSymbol": "AYGAZ",
+        "yahooFinanceSymbol": "AYGAZ.IS",
+        "imageUrl": "https://placeholder.com/currency-aygaz-a.ş..png"
+    },
+    {
+        "name": "Banvit Bandırma Vitaminli Yem Sanayi A.Ş.",
+        "tradingViewSymbol": "BANVT",
+        "yahooFinanceSymbol": "BANVT.IS",
+        "imageUrl": "https://placeholder.com/currency-banvit-bandırma-vitaminli-yem-sanayi-a.ş..png"
+    },
+    {
+        "name": "Brisa Bridgestone Sabancı Lastik Sanayi ve Ticaret A.Ş.",
+        "tradingViewSymbol": "BRISA",
+        "yahooFinanceSymbol": "BRISA.IS",
+        "imageUrl": "https://placeholder.com/currency-brisa-bridgestone-sabancı-lastik-sanayi-ve-ticaret-a.ş..png"
+    },
+    {
+        "name": "Çelebi Hava Servisi A.Ş.",
+        "tradingViewSymbol": "CLEBI",
+        "yahooFinanceSymbol": "CLEBI.IS",
+        "imageUrl": "https://placeholder.com/currency-çelebi-hava-servisi-a.ş..png"
+    },
+    {
+        "name": "Doğuş Otomotiv Servis ve Ticaret A.Ş.",
+        "tradingViewSymbol": "DOAS",
+        "yahooFinanceSymbol": "DOAS.IS",
+        "imageUrl": "https://placeholder.com/currency-doğuş-otomotiv-servis-ve-ticaret-a.ş..png"
+    },
+    {
+        "name": "Eczacıbaşı İlaç Sanayi ve Ticaret A.Ş.",
+        "tradingViewSymbol": "ECILC",
+        "yahooFinanceSymbol": "ECILC.IS",
+        "imageUrl": "https://placeholder.com/currency-eczacıbaşı-i̇laç-sanayi-ve-ticaret-a.ş..png"
+    },
+    {
+        "name": "Ege Endüstri ve Ticaret A.Ş.",
+        "tradingViewSymbol": "EGEEN",
+        "yahooFinanceSymbol": "EGEEN.IS",
+        "imageUrl": "https://placeholder.com/currency-ege-endüstri-ve-ticaret-a.ş..png"
+    },
+    {
+        "name": "Goodyear Lastikleri T.A.Ş.",
+        "tradingViewSymbol": "GOODY",
+        "yahooFinanceSymbol": "GOODY.IS",
+        "imageUrl": "https://placeholder.com/currency-goodyear-lastikleri-t.a.ş..png"
+    },
+    {
+        "name": "Hektaş Ticaret T.A.Ş.",
+        "tradingViewSymbol": "HEKTS",
+        "yahooFinanceSymbol": "HEKTS.IS",
+        "imageUrl": "https://placeholder.com/currency-hektaş-ticaret-t.a.ş..png"
+    },
+    {
+        "name": "Adidas AG",
+        "tradingViewSymbol": "ADS",
+        "yahooFinanceSymbol": "ADS.DE",
+        "imageUrl": "https://placeholder.com/currency-adidas-ag.png"
+    },
+    {
+        "name": "Airbus SE",
+        "tradingViewSymbol": "AIR",
+        "yahooFinanceSymbol": "AIR.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AIR.png"
+    },
+    {
+        "name": "Allianz SE",
+        "tradingViewSymbol": "ALV",
+        "yahooFinanceSymbol": "ALV.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ALV.png"
+    },
+    {
+        "name": "BASF SE",
+        "tradingViewSymbol": "BAS",
+        "yahooFinanceSymbol": "BAS.DE",
+        "imageUrl": "https://logo.clearbit.com/basfse.com"
+    },
+    {
+        "name": "Bayer AG",
+        "tradingViewSymbol": "BAYN",
+        "yahooFinanceSymbol": "BAYN.DE",
+        "imageUrl": "https://placeholder.com/currency-bayer-ag.png"
+    },
+    {
+        "name": "Beiersdorf AG",
+        "tradingViewSymbol": "BEI",
+        "yahooFinanceSymbol": "BEI.DE",
+        "imageUrl": "https://placeholder.com/currency-beiersdorf-ag.png"
+    },
+    {
+        "name": "BMW AG",
+        "tradingViewSymbol": "BMW",
+        "yahooFinanceSymbol": "BMW.DE",
+        "imageUrl": "https://placeholder.com/currency-bmw-ag.png"
+    },
+    {
+        "name": "Brenntag SE",
+        "tradingViewSymbol": "BNR",
+        "yahooFinanceSymbol": "BNR.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/950745551796.png"
+    },
+    {
+        "name": "Commerzbank AG",
+        "tradingViewSymbol": "CBK",
+        "yahooFinanceSymbol": "CBK.DE",
+        "imageUrl": "https://placeholder.com/currency-commerzbank-ag.png"
+    },
+    {
+        "name": "Continental AG",
+        "tradingViewSymbol": "CON",
+        "yahooFinanceSymbol": "CON.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/950878165386.png"
+    },
+    {
+        "name": "Covestro AG",
+        "tradingViewSymbol": "1COV",
+        "yahooFinanceSymbol": "1COV.DE",
+        "imageUrl": "https://placeholder.com/currency-covestro-ag.png"
+    },
+    {
+        "name": "Daimler Truck Holding AG",
+        "tradingViewSymbol": "DTG",
+        "yahooFinanceSymbol": "DTG.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DTE.png"
+    },
+    {
+        "name": "Deutsche Bank AG",
+        "tradingViewSymbol": "DBK",
+        "yahooFinanceSymbol": "DBK.DE",
+        "imageUrl": "https://placeholder.com/currency-deutsche-bank-ag.png"
+    },
+    {
+        "name": "Deutsche Börse AG",
+        "tradingViewSymbol": "DB1",
+        "yahooFinanceSymbol": "DB1.DE",
+        "imageUrl": "https://placeholder.com/currency-deutsche-börse-ag.png"
+    },
+    {
+        "name": "Deutsche Post AG",
+        "tradingViewSymbol": "DPW",
+        "yahooFinanceSymbol": "DPW.DE",
+        "imageUrl": "https://placeholder.com/currency-deutsche-post-ag.png"
+    },
+    {
+        "name": "Deutsche Telekom AG",
+        "tradingViewSymbol": "DTE",
+        "yahooFinanceSymbol": "DTE.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DTE.png"
+    },
+    {
+        "name": "E.ON SE",
+        "tradingViewSymbol": "EOAN",
+        "yahooFinanceSymbol": "EOAN.DE",
+        "imageUrl": "https://placeholder.com/currency-e.on-se.png"
+    },
+    {
+        "name": "Fresenius Medical Care AG & Co. KGaA",
+        "tradingViewSymbol": "FME",
+        "yahooFinanceSymbol": "FME.DE",
+        "imageUrl": "https://placeholder.com/currency-fresenius-medical-care-ag-&-co.-kgaa.png"
+    },
+    {
+        "name": "Fresenius SE & Co. KGaA",
+        "tradingViewSymbol": "FRE",
+        "yahooFinanceSymbol": "FRE.DE",
+        "imageUrl": "https://placeholder.com/currency-fresenius-se-&-co.-kgaa.png"
+    },
+    {
+        "name": "Hannover Rück SE",
+        "tradingViewSymbol": "HNR1",
+        "yahooFinanceSymbol": "HNR1.DE",
+        "imageUrl": "https://placeholder.com/currency-hannover-rück-se.png"
+    },
+    {
+        "name": "Heidelberg Materials AG",
+        "tradingViewSymbol": "HEI",
+        "yahooFinanceSymbol": "HEI.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/HEI.png"
+    },
+    {
+        "name": "Henkel AG & Co. KGaA",
+        "tradingViewSymbol": "HEN3",
+        "yahooFinanceSymbol": "HEN3.DE",
+        "imageUrl": "https://placeholder.com/currency-henkel-ag-&-co.-kgaa.png"
+    },
+    {
+        "name": "Infineon Technologies AG",
+        "tradingViewSymbol": "IFX",
+        "yahooFinanceSymbol": "IFX.DE",
+        "imageUrl": "https://placeholder.com/currency-infineon-technologies-ag.png"
+    },
+    {
+        "name": "Linde plc",
+        "tradingViewSymbol": "LIN",
+        "yahooFinanceSymbol": "LIN.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/950838588696.png"
+    },
+    {
+        "name": "Mercedes-Benz Group AG",
+        "tradingViewSymbol": "MBG",
+        "yahooFinanceSymbol": "MBG.DE",
+        "imageUrl": "https://placeholder.com/currency-mercedes-benz-group-ag.png"
+    },
+    {
+        "name": "Merck KGaA",
+        "tradingViewSymbol": "MRK",
+        "yahooFinanceSymbol": "MRK.DE",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MRK.png"
+    },
+    {
+        "name": "MTU Aero Engines AG",
+        "tradingViewSymbol": "MTX",
+        "yahooFinanceSymbol": "MTX.DE",
+        "imageUrl": "https://placeholder.com/currency-mtu-aero-engines-ag.png"
+    },
+    {
+        "name": "Münchener Rückversicherungs-Gesellschaft AG",
+        "tradingViewSymbol": "MUV2",
+        "yahooFinanceSymbol": "MUV2.DE",
+        "imageUrl": "https://placeholder.com/currency-münchener-rückversicherungs-gesellschaft-ag.png"
+    },
+    {
+        "name": "Porsche Automobil Holding SE",
+        "tradingViewSymbol": "PAH3",
+        "yahooFinanceSymbol": "PAH3.DE",
+        "imageUrl": "https://placeholder.com/currency-porsche-automobil-holding-se.png"
+    },
+    {
+        "name": "Puma SE",
+        "tradingViewSymbol": "PUM",
+        "yahooFinanceSymbol": "PUM.DE",
+        "imageUrl": "https://placeholder.com/currency-puma-se.png"
+    },
+    {
+        "name": "Qiagen N.V.",
+        "tradingViewSymbol": "QIA",
+        "yahooFinanceSymbol": "QIA.DE",
+        "imageUrl": "https://placeholder.com/currency-qiagen-n.v..png"
+    },
+    {
+        "name": "Rheinmetall AG",
+        "tradingViewSymbol": "RHM",
+        "yahooFinanceSymbol": "RHM.DE",
+        "imageUrl": "https://placeholder.com/currency-rheinmetall-ag.png"
+    },
+    {
+        "name": "SAP SE",
+        "tradingViewSymbol": "SAP",
+        "yahooFinanceSymbol": "SAP.DE",
+        "imageUrl": "https://placeholder.com/currency-sap-se.png"
+    },
+    {
+        "name": "Sartorius AG",
+        "tradingViewSymbol": "SRT3",
+        "yahooFinanceSymbol": "SRT3.DE",
+        "imageUrl": "https://placeholder.com/currency-sartorius-ag.png"
+    },
+    {
+        "name": "Siemens AG",
+        "tradingViewSymbol": "SIE",
+        "yahooFinanceSymbol": "SIE.DE",
+        "imageUrl": "https://placeholder.com/currency-siemens-ag.png"
+    },
+    {
+        "name": "Siemens Energy AG",
+        "tradingViewSymbol": "ENR",
+        "yahooFinanceSymbol": "ENR.DE",
+        "imageUrl": "https://placeholder.com/currency-siemens-energy-ag.png"
+    },
+    {
+        "name": "Siemens Healthineers AG",
+        "tradingViewSymbol": "SHL",
+        "yahooFinanceSymbol": "SHL.DE",
+        "imageUrl": "https://placeholder.com/currency-siemens-healthineers-ag.png"
+    },
+    {
+        "name": "Symrise AG",
+        "tradingViewSymbol": "SY1",
+        "yahooFinanceSymbol": "SY1.DE",
+        "imageUrl": "https://placeholder.com/currency-symrise-ag.png"
+    },
+    {
+        "name": "Volkswagen AG",
+        "tradingViewSymbol": "VOW3",
+        "yahooFinanceSymbol": "VOW3.DE",
+        "imageUrl": "https://logo.clearbit.com/volkswagenag.com"
+    },
+    {
+        "name": "Vonovia SE",
+        "tradingViewSymbol": "VNA",
+        "yahooFinanceSymbol": "VNA.DE",
+        "imageUrl": "https://placeholder.com/currency-vonovia-se.png"
+    },
+    {
+        "name": "Zalando SE",
+        "tradingViewSymbol": "ZAL",
+        "yahooFinanceSymbol": "ZAL.DE",
+        "imageUrl": "https://placeholder.com/currency-zalando-se.png"
+    },
+    {
+        "name": "Euro/US Dollar",
+        "tradingViewSymbol": "EUR/USD",
+        "yahooFinanceSymbol": "EURUSD=X",
+        "imageUrl": "https://placeholder.com/currency-euro-us-dollar.png"
+    },
+    {
+        "name": "US Dollar/Japanese Yen",
+        "tradingViewSymbol": "USD/JPY",
+        "yahooFinanceSymbol": "USDJPY=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-japanese-yen.png"
+    },
+    {
+        "name": "British Pound/US Dollar",
+        "tradingViewSymbol": "GBP/USD",
+        "yahooFinanceSymbol": "GBPUSD=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-us-dollar.png"
+    },
+    {
+        "name": "US Dollar/Swiss Franc",
+        "tradingViewSymbol": "USD/CHF",
+        "yahooFinanceSymbol": "USDCHF=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-swiss-franc.png"
+    },
+    {
+        "name": "Australian Dollar/US Dollar",
+        "tradingViewSymbol": "AUD/USD",
+        "yahooFinanceSymbol": "AUDUSD=X",
+        "imageUrl": "https://placeholder.com/currency-australian-dollar-us-dollar.png"
+    },
+    {
+        "name": "US Dollar/Canadian Dollar",
+        "tradingViewSymbol": "USD/CAD",
+        "yahooFinanceSymbol": "USDCAD=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-canadian-dollar.png"
+    },
+    {
+        "name": "New Zealand Dollar/US Dollar",
+        "tradingViewSymbol": "NZD/USD",
+        "yahooFinanceSymbol": "NZDUSD=X",
+        "imageUrl": "https://placeholder.com/currency-new-zealand-dollar-us-dollar.png"
+    },
+    {
+        "name": "Euro/British Pound",
+        "tradingViewSymbol": "EUR/GBP",
+        "yahooFinanceSymbol": "EURGBP=X",
+        "imageUrl": "https://placeholder.com/currency-euro-british-pound.png"
+    },
+    {
+        "name": "Euro/Swiss Franc",
+        "tradingViewSymbol": "EUR/CHF",
+        "yahooFinanceSymbol": "EURCHF=X",
+        "imageUrl": "https://placeholder.com/currency-euro-swiss-franc.png"
+    },
+    {
+        "name": "Euro/Japanese Yen",
+        "tradingViewSymbol": "EUR/JPY",
+        "yahooFinanceSymbol": "EURJPY=X",
+        "imageUrl": "https://placeholder.com/currency-euro-japanese-yen.png"
+    },
+    {
+        "name": "British Pound/Japanese Yen",
+        "tradingViewSymbol": "GBP/JPY",
+        "yahooFinanceSymbol": "GBPJPY=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-japanese-yen.png"
+    },
+    {
+        "name": "Swiss Franc/Japanese Yen",
+        "tradingViewSymbol": "CHF/JPY",
+        "yahooFinanceSymbol": "CHFJPY=X",
+        "imageUrl": "https://placeholder.com/currency-swiss-franc-japanese-yen.png"
+    },
+    {
+        "name": "Canadian Dollar/Japanese Yen",
+        "tradingViewSymbol": "CAD/JPY",
+        "yahooFinanceSymbol": "CADJPY=X",
+        "imageUrl": "https://placeholder.com/currency-canadian-dollar-japanese-yen.png"
+    },
+    {
+        "name": "Australian Dollar/Japanese Yen",
+        "tradingViewSymbol": "AUD/JPY",
+        "yahooFinanceSymbol": "AUDJPY=X",
+        "imageUrl": "https://placeholder.com/currency-australian-dollar-japanese-yen.png"
+    },
+    {
+        "name": "New Zealand Dollar/Japanese Yen",
+        "tradingViewSymbol": "NZD/JPY",
+        "yahooFinanceSymbol": "NZDJPY=X",
+        "imageUrl": "https://placeholder.com/currency-new-zealand-dollar-japanese-yen.png"
+    },
+    {
+        "name": "British Pound/Swiss Franc",
+        "tradingViewSymbol": "GBP/CHF",
+        "yahooFinanceSymbol": "GBPCHF=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-swiss-franc.png"
+    },
+    {
+        "name": "Euro/Canadian Dollar",
+        "tradingViewSymbol": "EUR/CAD",
+        "yahooFinanceSymbol": "EURCAD=X",
+        "imageUrl": "https://placeholder.com/currency-euro-canadian-dollar.png"
+    },
+    {
+        "name": "Euro/Australian Dollar",
+        "tradingViewSymbol": "EUR/AUD",
+        "yahooFinanceSymbol": "EURAUD=X",
+        "imageUrl": "https://placeholder.com/currency-euro-australian-dollar.png"
+    },
+    {
+        "name": "Euro/New Zealand Dollar",
+        "tradingViewSymbol": "EUR/NZD",
+        "yahooFinanceSymbol": "EURNZD=X",
+        "imageUrl": "https://placeholder.com/currency-euro-new-zealand-dollar.png"
+    },
+    {
+        "name": "British Pound/Canadian Dollar",
+        "tradingViewSymbol": "GBP/CAD",
+        "yahooFinanceSymbol": "GBPCAD=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-canadian-dollar.png"
+    },
+    {
+        "name": "British Pound/Australian Dollar",
+        "tradingViewSymbol": "GBP/AUD",
+        "yahooFinanceSymbol": "GBPAUD=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-australian-dollar.png"
+    },
+    {
+        "name": "British Pound/New Zealand Dollar",
+        "tradingViewSymbol": "GBP/NZD",
+        "yahooFinanceSymbol": "GBPNZD=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-new-zealand-dollar.png"
+    },
+    {
+        "name": "Australian Dollar/Canadian Dollar",
+        "tradingViewSymbol": "AUD/CAD",
+        "yahooFinanceSymbol": "AUDCAD=X",
+        "imageUrl": "https://placeholder.com/currency-australian-dollar-canadian-dollar.png"
+    },
+    {
+        "name": "Australian Dollar/Swiss Franc",
+        "tradingViewSymbol": "AUD/CHF",
+        "yahooFinanceSymbol": "AUDCHF=X",
+        "imageUrl": "https://placeholder.com/currency-australian-dollar-swiss-franc.png"
+    },
+    {
+        "name": "Australian Dollar/New Zealand Dollar",
+        "tradingViewSymbol": "AUD/NZD",
+        "yahooFinanceSymbol": "AUDNZD=X",
+        "imageUrl": "https://placeholder.com/currency-australian-dollar-new-zealand-dollar.png"
+    },
+    {
+        "name": "New Zealand Dollar/Canadian Dollar",
+        "tradingViewSymbol": "NZD/CAD",
+        "yahooFinanceSymbol": "NZDCAD=X",
+        "imageUrl": "https://placeholder.com/currency-new-zealand-dollar-canadian-dollar.png"
+    },
+    {
+        "name": "New Zealand Dollar/Swiss Franc",
+        "tradingViewSymbol": "NZD/CHF",
+        "yahooFinanceSymbol": "NZDCHF=X",
+        "imageUrl": "https://placeholder.com/currency-new-zealand-dollar-swiss-franc.png"
+    },
+    {
+        "name": "Canadian Dollar/Swiss Franc",
+        "tradingViewSymbol": "CAD/CHF",
+        "yahooFinanceSymbol": "CADCHF=X",
+        "imageUrl": "https://placeholder.com/currency-canadian-dollar-swiss-franc.png"
+    },
+    {
+        "name": "US Dollar/South African Rand",
+        "tradingViewSymbol": "USD/ZAR",
+        "yahooFinanceSymbol": "USDZAR=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-south-african-rand.png"
+    },
+    {
+        "name": "US Dollar/Mexican Peso",
+        "tradingViewSymbol": "USD/MXN",
+        "yahooFinanceSymbol": "USDMXN=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-mexican-peso.png"
+    },
+    {
+        "name": "US Dollar/Singapore Dollar",
+        "tradingViewSymbol": "USD/SGD",
+        "yahooFinanceSymbol": "USDSGD=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-singapore-dollar.png"
+    },
+    {
+        "name": "US Dollar/Hong Kong Dollar",
+        "tradingViewSymbol": "USD/HKD",
+        "yahooFinanceSymbol": "USDHKD=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-hong-kong-dollar.png"
+    },
+    {
+        "name": "US Dollar/Norwegian Krone",
+        "tradingViewSymbol": "USD/NOK",
+        "yahooFinanceSymbol": "USDNOK=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-norwegian-krone.png"
+    },
+    {
+        "name": "US Dollar/Swedish Krona",
+        "tradingViewSymbol": "USD/SEK",
+        "yahooFinanceSymbol": "USDSEK=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-swedish-krona.png"
+    },
+    {
+        "name": "US Dollar/Danish Krone",
+        "tradingViewSymbol": "USD/DKK",
+        "yahooFinanceSymbol": "USDDKK=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-danish-krone.png"
+    },
+    {
+        "name": "US Dollar/Polish Zloty",
+        "tradingViewSymbol": "USD/PLN",
+        "yahooFinanceSymbol": "USDPLN=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-polish-zloty.png"
+    },
+    {
+        "name": "US Dollar/Hungarian Forint",
+        "tradingViewSymbol": "USD/HUF",
+        "yahooFinanceSymbol": "USDHUF=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-hungarian-forint.png"
+    },
+    {
+        "name": "US Dollar/Turkish Lira",
+        "tradingViewSymbol": "USD/TRY",
+        "yahooFinanceSymbol": "USDTRY=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-turkish-lira.png"
+    },
+    {
+        "name": "Euro/Turkish Lira",
+        "tradingViewSymbol": "EUR/TRY",
+        "yahooFinanceSymbol": "EURTRY=X",
+        "imageUrl": "https://placeholder.com/currency-euro-turkish-lira.png"
+    },
+    {
+        "name": "British Pound/Turkish Lira",
+        "tradingViewSymbol": "GBP/TRY",
+        "yahooFinanceSymbol": "GBPTRY=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-turkish-lira.png"
+    },
+    {
+        "name": "US Dollar/Chinese Yuan",
+        "tradingViewSymbol": "USD/CNY",
+        "yahooFinanceSymbol": "USDCNY=X",
+        "imageUrl": "https://placeholder.com/currency-us-dollar-chinese-yuan.png"
+    },
+    {
+        "name": "Euro/Chinese Yuan",
+        "tradingViewSymbol": "EUR/CNY",
+        "yahooFinanceSymbol": "EURCNY=X",
+        "imageUrl": "https://placeholder.com/currency-euro-chinese-yuan.png"
+    },
+    {
+        "name": "British Pound/Chinese Yuan",
+        "tradingViewSymbol": "GBP/CNY",
+        "yahooFinanceSymbol": "GBPCNY=X",
+        "imageUrl": "https://placeholder.com/currency-british-pound-chinese-yuan.png"
+    },
+    {
+        "name": "Australian Dollar/Chinese Yuan",
+        "tradingViewSymbol": "AUD/CNY",
+        "yahooFinanceSymbol": "AUDCNY=X",
+        "imageUrl": "https://placeholder.com/currency-australian-dollar-chinese-yuan.png"
+    },
+    {
+        "name": "New Zealand Dollar/Chinese Yuan",
+        "tradingViewSymbol": "NZD/CNY",
+        "yahooFinanceSymbol": "NZDCNY=X",
+        "imageUrl": "https://placeholder.com/currency-new-zealand-dollar-chinese-yuan.png"
+    },
+    {
+        "name": "Canadian Dollar/Chinese Yuan",
+        "tradingViewSymbol": "CAD/CNY",
+        "yahooFinanceSymbol": "CADCNY=X",
+        "imageUrl": "https://placeholder.com/currency-canadian-dollar-chinese-yuan.png"
+    },
+    {
+        "name": "Swiss Franc/Chinese Yuan",
+        "tradingViewSymbol": "CHF/CNY",
+        "yahooFinanceSymbol": "CHFCNY=X",
+        "imageUrl": "https://placeholder.com/currency-swiss-franc-chinese-yuan.png"
+    },
+    {
+        "name": "Japanese Yen/Chinese Yuan",
+        "tradingViewSymbol": "JPY/CNY",
+        "yahooFinanceSymbol": "JPYCNY=X",
+        "imageUrl": "https://placeholder.com/currency-japanese-yen-chinese-yuan.png"
+    },
+    {
+        "name": "Gold",
+        "tradingViewSymbol": "CAPITALCOM:GOLD",
+        "yahooFinanceSymbol": "GC=F",
+        "imageUrl": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ABX.TO.png"
+    },
+    {
+        "name": "Silver",
+        "tradingViewSymbol": "CAPITALCOM:SILVER",
+        "yahooFinanceSymbol": "SI=F",
+        "imageUrl": "https://logo.clearbit.com/silver.com"
+    },
+    {
+        "name": "Platinum",
+        "tradingViewSymbol": "CAPITALCOM:PLATINUM",
+        "yahooFinanceSymbol": "PL=F",
+        "imageUrl": "https://logo.clearbit.com/platinum.com"
+    },
+    {
+        "name": "Palladium",
+        "tradingViewSymbol": "CAPITALCOM:PALLADIUM",
+        "yahooFinanceSymbol": "PA=F",
+        "imageUrl": "https://placeholder.com/currency-palladium.png"
+    },
+    {
+        "name": "Copper",
+        "tradingViewSymbol": "CAPITALCOM:COPPER",
+        "yahooFinanceSymbol": "HG=F",
+        "imageUrl": "https://logo.clearbit.com/copper.com"
+    },
+    {
+        "name": "Crude Oil (WTI)",
+        "tradingViewSymbol": "CAPITALCOM:OIL_CRUDE",
+        "yahooFinanceSymbol": "CL=F",
+        "imageUrl": "https://placeholder.com/currency-crude-oil-(wti).png"
+    },
+    {
+        "name": "Crude Oil (Brent)",
+        "tradingViewSymbol": "BLACKBULL:BRENT",
+        "yahooFinanceSymbol": "BR=F",
+        "imageUrl": "https://placeholder.com/currency-crude-oil-(brent).png"
+    },
+    {
+        "name": "Natural Gas",
+        "tradingViewSymbol": "CAPITALCOM:NATURALGAS",
+        "yahooFinanceSymbol": "NG=F",
+        "imageUrl": "https://placeholder.com/currency-natural-gas.png"
+    },
+    {
+        "name": "Heating Oil",
+        "tradingViewSymbol": "CAPITALCOM:HEATINGOIL",
+        "yahooFinanceSymbol": "HO=F",
+        "imageUrl": "https://logo.clearbit.com/heatingoil.com"
+    },
+    {
+        "name": "Gasoline (RBOB)",
+        "tradingViewSymbol": "CAPITALCOM:GASOLINE",
+        "yahooFinanceSymbol": "RB=F",
+        "imageUrl": "https://placeholder.com/currency-gasoline-(rbob).png"
+    },
+    {
+        "name": "Corn",
+        "tradingViewSymbol": "CAPITALCOM:CORN",
+        "yahooFinanceSymbol": "ZC=F",
+        "imageUrl": "https://placeholder.com/currency-corn.png"
+    },
+    {
+        "name": "Wheat",
+        "tradingViewSymbol": "CAPITALCOM:WHEAT",
+        "yahooFinanceSymbol": "ZW=F",
+        "imageUrl": "https://placeholder.com/currency-wheat.png"
+    },
+    {
+        "name": "Soybeans",
+        "tradingViewSymbol": "CAPITALCOM:SOYBEAN",
+        "yahooFinanceSymbol": "ZS=F",
+        "imageUrl": "https://logo.clearbit.com/soybeans.com"
+    },
+    {
+        "name": "Oats",
+        "tradingViewSymbol": "CAPITALCOM:OATS",
+        "yahooFinanceSymbol": "ZO=F",
+        "imageUrl": "https://placeholder.com/currency-oats.png"
+    },
+    {
+        "name": "Coffee",
+        "tradingViewSymbol": "PEPPERSTONE:COFFEE",
+        "yahooFinanceSymbol": "KC=F",
+        "imageUrl": "https://logo.clearbit.com/coffee.com"
+    },
+    {
+        "name": "Sugar",
+        "tradingViewSymbol": "PEPPERSTONE:SUGAR",
+        "yahooFinanceSymbol": "SB=F",
+        "imageUrl": "https://placeholder.com/currency-sugar.png"
+    },
+    {
+        "name": "Cotton",
+        "tradingViewSymbol": "PEPPERSTONE:COTTON",
+        "yahooFinanceSymbol": "CT=F",
+        "imageUrl": "https://logo.clearbit.com/cotton.com"
+    },
+    {
+        "name": "Aluminum",
+        "tradingViewSymbol": "CAPITALCOM:ALUMINUM",
+        "yahooFinanceSymbol": "ALI=F",
+        "imageUrl": "https://logo.clearbit.com/aluminum.com"
+    },
+    {
+        "name": "S&P 500",
+        "tradingViewSymbol": "SP:SPX",
+        "yahooFinanceSymbol": "^GSPC",
+        "imageUrl": "https://placeholder.com/currency-s&p-500.png"
+    },
+    {
+        "name": "Dow Jones Industrial Average",
+        "tradingViewSymbol": "TVC:DJI",
+        "yahooFinanceSymbol": "^DJI",
+        "imageUrl": "https://placeholder.com/currency-dow-jones-industrial-average.png"
+    },
+    {
+        "name": "NASDAQ Composite",
+        "tradingViewSymbol": "NASDAQ:IXIC",
+        "yahooFinanceSymbol": "^IXIC",
+        "imageUrl": "https://placeholder.com/currency-nasdaq-composite.png"
+    },
+    {
+        "name": "Russell 2000",
+        "tradingViewSymbol": "TVC:RUT",
+        "yahooFinanceSymbol": "^RUT",
+        "imageUrl": "https://logo.clearbit.com/russell2000.com"
+    },
+    {
+        "name": "FTSE 100",
+        "tradingViewSymbol": "SPREADEX:FTSE",
+        "yahooFinanceSymbol": "^FTSE",
+        "imageUrl": "https://placeholder.com/currency-ftse-100.png"
+    },
+    {
+        "name": "DAX 30",
+        "tradingViewSymbol": "XETR:DAX",
+        "yahooFinanceSymbol": "^GDAXI",
+        "imageUrl": "https://placeholder.com/currency-dax-30.png"
+    },
+    {
+        "name": "CAC 40",
+        "tradingViewSymbol": "TVC:CAC40",
+        "yahooFinanceSymbol": "^FCHI",
+        "imageUrl": "https://placeholder.com/currency-cac-40.png"
+    },
+    {
+        "name": "Nikkei 225",
+        "tradingViewSymbol": "TVC:NI225",
+        "yahooFinanceSymbol": "^N225",
+        "imageUrl": "https://placeholder.com/currency-nikkei-225.png"
+    },
+    {
+        "name": "Shanghai Composite",
+        "tradingViewSymbol": "SSE:000001",
+        "yahooFinanceSymbol": "000001.SS",
+        "imageUrl": "https://placeholder.com/currency-shanghai-composite.png"
+    },
+    {
+        "name": "Borsa Istanbul 100",
+        "tradingViewSymbol": "BIST:XU100",
+        "yahooFinanceSymbol": "^XU100.IS",
+        "imageUrl": "https://placeholder.com/currency-borsa-istanbul-100.png"
+    }
+]
